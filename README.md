@@ -1,3 +1,3 @@
-Ana Patrícia da Silva Machado (a111661)
-Carolina Francisca Vieira Dias (a111179)
-Alexandra Cerqueira da Luz das Neves (a110903)
+- Ana Patrícia da Silva Machado (a111661)
+- Carolina Francisca Vieira Dias (a111179)
+- Alexandra Cerqueira da Luz das Neves (a110903)
