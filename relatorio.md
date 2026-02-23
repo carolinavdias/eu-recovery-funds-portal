@@ -20,7 +20,9 @@ Nesta primeira fase do projeto, o foco incide exclusivamente no desenho da inter
 
 ---
 
-## 2. Perfis de UtilizadorO levantamento de requisitos da aplicação foi realizado com base em três perfis de utilizador distintos, concebidos de modo a representar diferentes contextos profissionais e níveis de literacia técnica. Estes perfis constituíram um elemento central no processo de design da interface, contribuindo para o desenvolvimento de uma solução que responde de forma eficaz a necessidades concretas e heterogéneas.
+## 2. Perfis de Utilizador
+
+O levantamento de requisitos da aplicação foi realizado com base em três perfis de utilizador distintos, concebidos de modo a representar diferentes contextos profissionais e níveis de literacia técnica. Estes perfis constituíram um elemento central no processo de design da interface, contribuindo para o desenvolvimento de uma solução que responde de forma eficaz a necessidades concretas e heterogéneas.
 A descrição detalhada de cada perfil encontra-se apresentada nas secções seguintes do presente relatório.
 
 ---
