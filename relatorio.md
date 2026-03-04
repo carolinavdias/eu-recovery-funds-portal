@@ -91,8 +91,35 @@
 
 ### 4.1 Visão Geral da Interface
 
+  A interface do protótipo foi desenvolvida como um portal de transparência e monitorização da execução do Plano de Recuperação e Resiliência (PRR), em conformidade com as diretrizes do Recovery and Resilience Scoreboard da União Europeia. O design adotado enfatiza a clareza e a acessibilidade de dados complexos, estruturando a interface em três áreas funcionais principais:
+
+### 4.1.1. Área de Exploração e Pesquisa
+
+  O topo da interface foi concebido para facilitar a pesquisa e a filtragem rápida da informação, alinhando-se com a heurística de Controlo e Liberdade do Utilizador. Estes mecanismos permitem que os utilizadores adaptem a informação apresentada aos seus objetivos específicos de análise.
+
+  - **Seletor de países e comparação entre Estados-Membros:**
+A inclusão de um seletor de países e de uma funcionalidade de comparação possibilita a navegação regional e a análise comparativa dos dados. Esta funcionalidade responde às necessidades de utilizadores como Marco Rossi, interessado na identificação de padrões de investimento, e Clara Mendes, que procura compreender diferenças regionais.
+
+  - **Barra de pesquisa:**
+A barra de pesquisa foi integrada para permitir o acesso direto a metas, setores e indicadores específicos, facilitando a localização eficiente de informação técnica por parte de utilizadores com necessidades analíticas mais aprofundadas, como Helena Vasconcelos.
+
+### 4.1.2. Painel de Indicadores de Domínio
+
+  A secção central da interface apresenta uma visão sintética do estado global da execução, recorrendo a métricas de alto nível organizadas em cards informativos. Esta organização permite um acesso progressivo a níveis mais detalhados de informação, partindo de indicadores agregados para dados mais específicos.
+
+  - **Investimento e Desembolsos:**
+Esta componente apresenta o montante global de investimento, bem como a informação relativa aos desembolsos efetuados, permitindo uma leitura imediata da execução financeira. Adicionalmente, são disponibilizadas opções de exportação de dados, através de funcionalidades de *download*, de modo a suportar análises externas em formatos editáveis, como JSON ou CSV.
+
+  - **Marcos e Metas:**
+Os *cards* dedicados aos marcos e metas promovem a transparência do processo de execução, evidenciando o progresso associado aos objetivos específicos definidos no âmbito do *Recovery and Resilience Facility*. Esta informação permite acompanhar o cumprimento dos compromissos assumidos pelos Estados-Membros.
+
+  - **Indicadores Comuns:**
+A interface integra ainda a monitorização dos indicadores comuns de reporte obrigatório, essenciais para a avaliação harmonizada do desempenho e para o cumprimento das normas de acompanhamento estabelecidas a nível europeu.
+
+---
 
 ### 4.2 Estrutura e Navegação
 
+---
 
 ## 6. Link para o projeto Figma
