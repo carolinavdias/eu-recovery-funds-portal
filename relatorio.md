@@ -120,6 +120,60 @@ A interface integra ainda a monitorização dos indicadores comuns de reporte ob
 
 ### 4.2 Estrutura e Navegação
 
+Todas as páginas podem ser acedidas através de outras páginas, e no topo de cada página mantém-se uma barra com as páginas principais que o visualizador poderá usar para se orientar.
+
+Os atalhos implementados foram feitos para facilitar a interação entre o visualizador e a interface, respeitando a heurística da flexibilidade e eficiência de uso.
+
+Sempre que o utilizador da interface pretende exportar uma figura, gráfico ou tabela, aparece um guia de exportação rápida para o auxiliar da forma mais eficaz possível.
+
+Para além destas, foram implementadas diversas interações com vista a respeitar as heurísticas de Usabilidade referentes à estrutura e navegação correta de uma interface e a torná-la o mais dinâmica possível.
+
+---
+
+## 5. Adequação da Interface aos Perfis de Utilização
+
+  A interface foi desenhada para responder às necessidades dos 3 perfis referidos no enunciado do projeto (Helena Vasconcelos, Marco Rossi e Clara Mendes). Como tal, as necessidades de cada um foram as diretrizes principais que seguimos no processo de execução desta.
+
+### 5.1 Respostas Implementadas para o Perfil 1 - Helena Vasconcelos
+
+  Todas as figuras, gráficos e tabelas têm um botão de exportação para CSV, JSON e EXCEL correspondente, de forma a permitir que a Helena consiga editar os conjuntos de dados para fins de análise e monitorização.
+
+  Pelo mesmo motivo, são fornecidos relatórios e tabelas com registos para que os planos anteriores possam voltar a ser analisados sempre que preciso, seja para fins de comparação ou para garantia de fidelidade dos dados e da informação disponibilizada.
+
+  Assim, é assegurada a “transparência” que a Helena prioriza quanto a a interfaces.
+
+---
+
+### 5.2 Respostas Implementadas para o Perfil 2 - Marco Rossi
+
+  Relativamente ao Marco Rossi, a sua vertente de empreendedorismo torna certos aspetos de uma interface imprescindíveis, os quais procurámos respeitar. 
+
+  Por exemplo, a página dos Top 100 beneficiários, onde facilmente se conclui quais as empresas/entidades com maior volume de fundos aprovados para o Plano de Recuperação e Resiliência (PRR).
+
+  Outro exemplo é a página de Desembolsos, foi colocada uma tabela com os desembolsos mais recentes e do próximo desembolso previsto, que foram aprovados pela Comissão Europeia, onde se pode observar a data, o ID da transição (que permite facilmente identificar o país que recebeu ou poderá vir a receber esse desembolso), o montante desembolsado,o tipo de apoio (subvenção, empréstimo) e o estado do Desembolso (pago ou pendente).
+
+  Para informações mais detalhadas, foi fornecido um path para cada país, contendo informações  consideradas úteis para empreendedores e investidores como o Marco.
+
+  Nos paths referidos, os setores (pilares do PRR) estão organizados por ordem decrescente do valor total em investimentos feito pelo respetivo país.
+
+  Para além disso, os gráficos de barras fornecem uma visão clara acerca dos setores onde os países investem mais ao longo do tempo (2021 a 2026, período definido para a implementação do PRR), sendo, como já referido, possíveis de exportar e, portanto, de usar em apresetações de pitch para investidores.
+
+  Com estas implementações, conseguiu-se mostrar de forma clara o “fluxo” do dinheiro, dando resposta às necessidades do Marco.
+
+---
+
+### 5.3 Respostas Implementadas para o Perfil 3 - Clara Mendes
+
+  Por último, seguimos as heurísticas de Usabilidade para garantir a acessibilidade, intuitividade e claridade da informação disponibilizada na interface, como requisitado pela Clara Mendes.
+
+  As páginas são organizadas de forma simples e explícita, evitando ter demasiada informação numa única página.
+  
+  As cores são usadas de forma estratégica, tornando intuitivo perceber quais as informações que se encontram em destaque e que poderão ser de maior importância numa “vista geral”, isto é, permitindo, através de uma observação generalizada da informação disponível, tirar conclusões de forma intuitiva, como por exemplo, relativamente à comparação entre países, aos projetos feitos no âmbito do PRR, mais recentes (ex:. renovação de escolas, construção de estradas, apoios à investigação, etc), e às possíveis causas para atrasos nos investimentos em infraestruturas educativas.
+  
+  Todas as páginas usam uma linguagem clara e sucinta, com títulos e subtítulos, permitindo facilmente entender os assuntos tratados pelos gráficos, tabelas e outros.
+  
+  Em suma, a interface foi concebida tendo como foco garantir a perceptibilidade e usabilidade da mesma.
+
 ---
 
 ## 6. Link para o projeto Figma 
