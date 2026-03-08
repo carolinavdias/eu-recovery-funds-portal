@@ -122,4 +122,5 @@ A interface integra ainda a monitorização dos indicadores comuns de reporte ob
 
 ---
 
-## 6. Link para o projeto Figma
+## 6. Link para o projeto Figma 
+- https://www.figma.com/design/tgYwB32hyxl8PHEXoaRci4/IPM?node-id=0-1&p=f&t=updeBZMDUoPbVNrE-0
