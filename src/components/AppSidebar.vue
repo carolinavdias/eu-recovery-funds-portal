@@ -52,14 +52,14 @@ const menu = [
 
 .menu-item:hover {
   background-color: #f0f4ff;
-  color: #2E75B6;
+  color: #d4af37;
 }
 
 .menu-item.ativo {
   background-color: #e8f0fe;
-  color: #2E75B6;
+  color: #d4af37;
   font-weight: 600;
-  border-left: 3px solid #2E75B6;
+  border-left: 3px solid #d4af37;
 }
 
 .menu-icon {

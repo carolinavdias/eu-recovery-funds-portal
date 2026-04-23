@@ -1,37 +1,37 @@
 <template>
   <header class="navbar">
 
-    <!-- logo -->
     <div class="navbar-logo">
-      <RouterLink to="/">
-        <span class="logo-text">RR <span class="logo-accent">Scoreboard</span></span>
+      <RouterLink to="/" class="logo-link">
+        <span class="icon-logo">🏛️</span>
+        <span class="logo-text">PORTAL <span class="logo-accent">PRR</span></span>
       </RouterLink>
     </div>
 
-    <!-- dropdown de país -->
-    <div class="navbar-center">
+    <nav class="nav-links">
+      <RouterLink to="/" class="active">VISÃO GERAL</RouterLink>
+      <RouterLink to="/marcos">MARCOS E METAS</RouterLink>
+      <RouterLink to="/indicadores">INDICADORES COMUNS</RouterLink>
+      <RouterLink to="/desembolsos">DESEMBOLSOS</RouterLink>
+    </nav>
+
+    <div class="navbar-actions">
+
       <select class="pais-select" v-model="paisAtual" @change="appStore.setPais(paisAtual)">
         <option v-for="pais in appStore.paises" :key="pais.code" :value="pais.code">
           {{ pais.nome }}
         </option>
       </select>
-    </div>
 
-    <!-- ações -->
-    <div class="navbar-actions">
-
-      <!-- toggle dark mode -->
       <button class="btn-icon" @click="appStore.toggleDarkMode" :title="appStore.darkMode ? 'Modo claro' : 'Modo escuro'">
         {{ appStore.darkMode ? '☀️' : '🌙' }}
       </button>
 
-      <!-- toggle idioma -->
       <button class="btn-icon" @click="toggleIdioma" :title="'Idioma: ' + appStore.idioma.toUpperCase()">
         {{ appStore.idioma === 'pt' ? '🇵🇹' : '🇬🇧' }}
       </button>
 
-      <!-- botão entrar -->
-      <RouterLink to="/login" class="btn-entrar">Entrar</RouterLink>
+      <RouterLink to="/login" class="btn-entrar">ENTRAR</RouterLink>
 
     </div>
 
@@ -56,74 +56,108 @@ function toggleIdioma() {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 64px;
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  height: 70px;
+  background-color: #931b18; /* VERMELHO PRR */
+  border-bottom: 2px solid #d4af37; /* LINHA DOURADA */
   position: sticky;
   top: 0;
   z-index: 100;
+  color: white;
 }
 
+/* Mantém compatibilidade com Dark Mode mas com tom PRR */
 .dark-mode .navbar {
-  background-color: #16213e;
-  border-bottom: 1px solid #333;
+  background-color: #611110;
+  border-bottom: 2px solid #b3932e;
 }
 
-.navbar-logo a {
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
+}
+
+.icon-logo {
+  font-size: 1.5rem;
 }
 
 .logo-text {
   font-size: 1.2rem;
-  font-weight: 700;
-  color: #1a1a2e;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
 }
 
 .logo-accent {
-  color: #2E75B6;
+  color: white;
 }
 
-.pais-select {
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  font-size: 0.9rem;
-  cursor: pointer;
-  background: #f8f9fa;
+/* Links centrais do teu design */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 5px 0;
+  opacity: 0.8;
+  transition: all 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  opacity: 1;
+  border-bottom: 2px solid #d4af37;
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+}
+
+.pais-select {
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #d4af37;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: #931b18;
+  color: white;
 }
 
 .btn-icon {
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 6px;
+  padding: 0.4rem;
+  border-radius: 50%;
   transition: background 0.2s;
 }
 
 .btn-icon:hover {
-  background: #f0f0f0;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .btn-entrar {
-  padding: 0.4rem 1rem;
-  background-color: #2E75B6;
-  color: white;
-  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  background-color: #d4af37; /* DOURADO */
+  color: #931b18; /* TEXTO VERMELHO */
+  border-radius: 4px;
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background 0.2s;
+  font-size: 0.8rem;
+  font-weight: 800;
+  transition: transform 0.2s;
+  text-transform: uppercase;
 }
 
 .btn-entrar:hover {
-  background-color: #1F4E79;
+  background-color: #f1c40f;
+  transform: scale(1.05);
 }
 </style>

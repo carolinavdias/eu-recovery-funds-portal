@@ -26,7 +26,7 @@
 
 <script setup>
 import { useAppStore } from '@/stores/app'
-import AppNavbar from '@/components/AppNavbar.vue'
+import AppNavbar from '../components/AppNavbar.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 
 const appStore = useAppStore()
@@ -67,4 +67,25 @@ const appStore = useAppStore()
 .dark-mode .app-footer {
   border-top: 1px solid #333;
 }
+
+/* garante que o conteúdo não fica por baixo da barra lateral */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f4f4f4; /* Um cinza claro para o fundo */
+}
+
+/* força os títulos a serem vermelhos */
+h1, h2 {
+  color: #931b18 !important;
+  text-transform: uppercase;
+}
 </style>
+
+:deep(.navbar), :deep(.portal-navbar) {
+  display: flex !important;
+  background-color: #931b18 !important;
+  height: 70px !important;
+  visibility: visible !important;
+  width: 100% !important;
+}
