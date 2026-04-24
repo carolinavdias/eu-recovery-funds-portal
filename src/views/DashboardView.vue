@@ -1,7 +1,6 @@
 <template>
   <div class="portal-container">
 
-    <!-- ✅ MODAL DE EXPORTAÇÃO (movido para aqui) -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -55,7 +54,7 @@
       <h2>O que é o PRR?</h2>
       <p class="intro-text">
         O PRR - Plano de Recuperação e Resiliência é o programa nacional financiado pelo 
-        Mecanismo de Recuperação e Resiliência da União Europeia da União Europeia, destinado a apoiar a 
+        Mecanismo de Recuperação e Resiliência da União Europeia, destinado a apoiar a 
         recuperação económica e a construção de um país mais resiliente.
       </p>
       
@@ -63,7 +62,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -77,7 +75,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -91,7 +88,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -118,7 +114,6 @@
 
       <div class="impacto-conteudo">
         <h2>Resultados e Impacto no Quotidiano</h2>
-
         <div class="impacto-item">
           <div class="impacto-icone">🎓</div>
           <div>
@@ -126,7 +121,6 @@
             <p class="impacto-desc">Modernização digital de escolas e entrega de equipamentos;</p>
           </div>
         </div>
-
         <div class="impacto-item">
           <div class="impacto-icone">🏠</div>
           <div>
@@ -134,7 +128,6 @@
             <p class="impacto-desc">Renovação de infraestruturas e eficiência energética;</p>
           </div>
         </div>
-
         <div class="impacto-item">
           <div class="impacto-icone">🤍</div>
           <div>
@@ -144,6 +137,142 @@
         </div>
       </div>
     </section>
+
+    <section class="pilares">
+      <div class="pilares-header">
+        <h2>Pilares do PRR</h2>
+        <p>Consulte o investimento, acompanhe as metas e veja o impacto direto destes 6 pilares no seu quotidiano.</p>
+      </div>
+
+      <div class="pilares-grid">
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Clima">
+            <div class="pilar-icon-float">🌿</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Transição Climática</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Descarbonização e Eficiência;</p>
+              <p><strong>Investimento:</strong> €16,6 Bilhões;</p>
+              <p><strong>Impacto:</strong> 250 mil edifícios renovados.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="Digital">
+            <div class="pilar-icon-float">💻</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Transição Digital</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Digitalização da Economia;</p>
+              <p><strong>Investimento:</strong> €5,2 Bilhões;</p>
+              <p><strong>Impacto:</strong> 100% dos serviços públicos online.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?w=600" alt="Infra">
+            <div class="pilar-icon-float">🏢</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Infraestruturas</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Modernização Ferroviária e Logística;</p>
+              <p><strong>Investimento:</strong> €4,8 Bilhões alocados;</p>
+              <p><strong>Impacto:</strong> Transportes 20% mais rápidos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600" alt="Educação">
+            <div class="pilar-icon-float">🎓</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Educação e Formação</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Qualificação Geracional;</p>
+              <p><strong>Investimento:</strong> €1,2 Bilhões;</p>
+              <p><strong>Impacto:</strong> 600 mil portáteis entregues a alunos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Coesão">
+            <div class="pilar-icon-float">👥</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Coesão Social</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Habitação Pública e Inclusão;</p>
+              <p><strong>Investimento:</strong> €2,5 Milhões aplicados;</p>
+              <p><strong>Impacto:</strong> 15.000 novas casas acessíveis.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilar-card">
+          <div class="pilar-image">
+            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600" alt="Saúde">
+            <div class="pilar-icon-float">❤️</div>
+          </div>
+          <div class="pilar-info">
+            <div class="pilar-top">
+              <h3>Saúde</h3>
+              <div class="pilar-download" @click="showExportModal = true">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON</span>
+              </div>
+            </div>
+            <div class="pilar-details">
+              <p><strong>Meta:</strong> Digitalização e Reforço do SNS;</p>
+              <p><strong>Investimento:</strong> €1,4 Milhões em tecnologia;</p>
+              <p><strong>Impacto:</strong> 100 Centros de Saúde renovados.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
@@ -186,7 +315,6 @@ function simularDownload(tipo) {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- ESTILOS DO HERO (TOPO) --- */
 .hero-ue {
   background-image: url('https://european-union.europa.eu/sites/default/files/styles/embed_large/public/2021-05/flags_ue.jpg');
   background-size: cover;
@@ -419,7 +547,6 @@ function simularDownload(tipo) {
   color: #222;
 }
 
-/* ✅ ESTILOS DO MODAL (movidos para aqui) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -481,7 +608,6 @@ function simularDownload(tipo) {
 .export-item:hover { background: rgba(255, 255, 255, 0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
 
-/* SECÇÃO IMPACTO */
 .impacto {
   background-color: #fff;
   padding: 80px 5%;
@@ -584,5 +710,119 @@ function simularDownload(tipo) {
   color: #555;
   font-size: 0.85rem;
   line-height: 1.4;
+}
+
+.pilares {
+  padding: 80px 10%;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.pilares-header h2 {
+  color: #931b18;
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.pilares-header p {
+  color: #555;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.pilar-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  text-align: left;
+}
+
+.pilar-card:hover {
+  transform: translateY(-5px);
+}
+
+.pilar-image {
+  position: relative;
+  height: 200px;
+}
+
+.pilar-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pilar-icon-float {
+  position: absolute;
+  bottom: -20px;
+  left: 20px;
+  background: #931b18;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.pilar-info {
+  padding: 30px 20px 20px;
+}
+
+.pilar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.pilar-top h3 {
+  color: #931b18;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pilar-download {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  color: #931b18;
+}
+
+.pilar-download span {
+  font-size: 2rem;
+}
+
+.pilar-download small {
+  font-size: 0.6rem;
+  font-weight: 800;
+  margin-top: -5px;
+}
+
+.pilar-details p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+.pilar-details strong {
+  color: #931b18;
 }
 </style>
