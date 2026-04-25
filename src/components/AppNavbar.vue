@@ -2,12 +2,6 @@
   <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
     <div class="export-card">
       <button class="close-btn" @click="showExportModal = false">✕</button>
-      
-      <div class="export-header">
-        <span class="main-download-icon">📥</span>
-        <h2>Exportação Rápida</h2>
-        <p>Descarregue o conjunto de dados da vista atual para análise offline</p>
-      </div>
 
       <div class="export-options">
         <button class="export-item">

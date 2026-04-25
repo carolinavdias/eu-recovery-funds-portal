@@ -1,6 +1,7 @@
 <template>
   <div class="portal-container">
 
+    <!-- ✅ MODAL DE EXPORTAÇÃO (movido para aqui) -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -54,7 +55,7 @@
       <h2>O que é o PRR?</h2>
       <p class="intro-text">
         O PRR - Plano de Recuperação e Resiliência é o programa nacional financiado pelo 
-        Mecanismo de Recuperação e Resiliência da União Europeia, destinado a apoiar a 
+        Mecanismo de Recuperação e Resiliência da União Europeia da União Europeia, destinado a apoiar a 
         recuperação económica e a construção de um país mais resiliente.
       </p>
       
@@ -62,6 +63,7 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
+            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -75,6 +77,7 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
+            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -88,6 +91,7 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
+            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -114,6 +118,7 @@
 
       <div class="impacto-conteudo">
         <h2>Resultados e Impacto no Quotidiano</h2>
+
         <div class="impacto-item">
           <div class="impacto-icone">🎓</div>
           <div>
@@ -121,6 +126,7 @@
             <p class="impacto-desc">Modernização digital de escolas e entrega de equipamentos;</p>
           </div>
         </div>
+
         <div class="impacto-item">
           <div class="impacto-icone">🏠</div>
           <div>
@@ -128,6 +134,7 @@
             <p class="impacto-desc">Renovação de infraestruturas e eficiência energética;</p>
           </div>
         </div>
+
         <div class="impacto-item">
           <div class="impacto-icone">🤍</div>
           <div>
@@ -272,6 +279,120 @@
         </div>
       </div>
     </section>
+    <section class="dados">
+      <div class="dados-topo">
+        <button class="btn-exportar-tudo" @click="showExportModal = true">Exportar Tudo</button>
+      </div>
+
+      <h2>Dados e Estatísticas</h2>
+      <p class="dados-sub">Explore os dados: do investimento europeu ao impacto direto na sua região.</p>
+
+      <div class="barras-card">
+        <h3>Áreas de Investimento Prioritárias</h3>
+        <div class="barras-grid">
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Transição Climática</span>
+              <span class="barra-valor">37% — €277,5 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 37%"></div><div class="barra-media"></div></div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Educação e Formação</span>
+              <span class="barra-valor">12% — €90 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 12%"></div><div class="barra-media"></div></div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Transição Digital</span>
+              <span class="barra-valor">20% — €150 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 20%"></div><div class="barra-media"></div></div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Saúde</span>
+              <span class="barra-valor">8% — €60 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 8%"></div><div class="barra-media"></div></div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Infraestruturas</span>
+              <span class="barra-valor">18% — €135 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 18%"></div><div class="barra-media"></div></div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-label-row">
+              <span>Coesão Social</span>
+              <span class="barra-valor">5% — €37,5 Mil milhões</span>
+            </div>
+            <div class="barra-bg"><div class="barra-fill" style="width: 5%"></div><div class="barra-media"></div></div>
+          </div>
+        </div>
+        <p class="barras-nota">*As linhas a preto sobre as barras estatísticas correspondem à média da EU.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icone">📈</div>
+          <div class="stat-valor">€750</div>
+          <div class="stat-label">Mil milhões</div>
+          <div class="stat-desc">Investimento total da UE</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icone">👥</div>
+          <div class="stat-valor">27</div>
+          <div class="stat-label">Países</div>
+          <div class="stat-desc">Estados-Membros beneficiários</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icone">🌿</div>
+          <div class="stat-valor">37%</div>
+          <div class="stat-label">Transição Verde</div>
+          <div class="stat-desc">Mínimo de investimento</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icone">⚡</div>
+          <div class="stat-valor">20%</div>
+          <div class="stat-label">Transição Digital</div>
+          <div class="stat-desc">Mínimo de investimento</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Sobre este Trabalho</h4>
+          <p>Trabalho académico sobre o Plano de Recuperação e Resiliência (PRR) da União Europeia, explorando os seus objetivos, pilares e impacto económico.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Links Úteis</h4>
+          <ul>
+            <li><a href="#">Comissão Europeia</a></li>
+            <li><a href="#">PRR Portugal</a></li>
+            <li><a href="#">Next Generation EU</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Informação</h4>
+          <ul class="footer-info">
+            <li><span>📍</span> União Europeia</li>
+            <li><span>✉️</span> info@prr-europa.eu</li>
+            <li><span>📞</span> +351 XXX XXX XXX</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <hr class="footer-divider" />
+        <p>© 2026 Universidade do Minho - PRR. Todos os direitos reservados.</p>
+        <p class="footer-sub">Este é um trabalho académico desenvolvido para fins educacionais.</p>
+      </div>
+    </footer>
 
   </div>
 </template>
@@ -315,6 +436,7 @@ function simularDownload(tipo) {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* mecanismo */
 .hero-ue {
   background-image: url('https://european-union.europa.eu/sites/default/files/styles/embed_large/public/2021-05/flags_ue.jpg');
   background-size: cover;
@@ -403,7 +525,8 @@ function simularDownload(tipo) {
   border-radius: 8px;
   display: flex;
   align-items: center;
-  width: 300px;
+  width: 250px;
+  box-sizing: border-box;
 }
 
 .search-input input {
@@ -430,23 +553,37 @@ function simularDownload(tipo) {
 .country-select {
   background: #1a1a1a;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #333;
   font-weight: bold;
+  font-size: 1.2rem !important;
   cursor: pointer;
+  width: 600px;
+  box-sizing: border-box;
+  height: 43px;
 }
 
 .btn-compare {
   background-color: #d49600 !important;
-  color: white !important;
+  color: rgba(147, 27, 24, 0.88) !important;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 15px;
   border-radius: 8px;
+  font-size: 1.2rem !important;
   font-weight: bold;
   cursor: pointer;
+  width: 250px;
+  box-sizing: border-box;
+  height: 43px;
 }
 
+.btn-compare:hover, .btn-primary:hover {
+  background-color: #e6b800 !important;
+  color: rgba(122, 22, 20, 1) !important;
+}
+
+/* o que é o PRR */
 .intro {
   background-color: #ffffff;
   padding: 80px 10%;
@@ -608,9 +745,10 @@ function simularDownload(tipo) {
 .export-item:hover { background: rgba(255, 255, 255, 0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
 
+/* resultados e impacto no quotidiano */
 .impacto {
   background-color: #fff;
-  padding: 80px 5%;
+  padding: 80px 10%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -682,8 +820,10 @@ function simularDownload(tipo) {
   gap: 15px;
   background: #fdf2f2;
   border-radius: 10px;
-  padding: 25px 16px;
+  padding: 14px 24px;
   margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .impacto-icone {
@@ -712,9 +852,10 @@ function simularDownload(tipo) {
   line-height: 1.4;
 }
 
+/* pilares */
 .pilares {
   padding: 80px 10%;
-  background-color: #f9f9f9;
+  background-color: #fdf2f2;
   text-align: center;
 }
 
@@ -747,9 +888,7 @@ function simularDownload(tipo) {
   text-align: left;
 }
 
-.pilar-card:hover {
-  transform: translateY(-5px);
-}
+.pilar-card:hover { transform: translateY(-5px); }
 
 .pilar-image {
   position: relative;
@@ -779,9 +918,7 @@ function simularDownload(tipo) {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.pilar-info {
-  padding: 30px 20px 20px;
-}
+.pilar-info { padding: 30px 20px 20px; }
 
 .pilar-top {
   display: flex;
@@ -805,14 +942,14 @@ function simularDownload(tipo) {
   color: #931b18;
 }
 
-.pilar-download span {
-  font-size: 2rem;
-}
+.pilar-download .dl-icon { font-size: 1.8rem; }
 
-.pilar-download small {
-  font-size: 0.6rem;
-  font-weight: 800;
-  margin-top: -5px;
+.pilar-download .dl-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #931b18;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 
 .pilar-details p {
@@ -822,7 +959,203 @@ function simularDownload(tipo) {
   line-height: 1.4;
 }
 
-.pilar-details strong {
-  color: #931b18;
+.pilar-details strong { color: #931b18; }
+
+/* dados e estatisticas */
+.dados {
+  background-color: #931b18;
+  padding: 60px 8%;
+  text-align: center;
+  color: white;
 }
+
+.dados-topo {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+}
+
+.btn-exportar-tudo {
+  background-color: #FFD700;
+  color: #931b18;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-exportar-tudo:hover { background-color: #e6b800; }
+
+.dados h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.dados-sub {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 40px;
+}
+
+.barras-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 30px 35px;
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.barras-card h3 {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.barras-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 50px;
+}
+
+.barra-item { display: flex; flex-direction: column; gap: 6px; }
+
+.barra-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.barra-valor { opacity: 0.7; font-size: 0.78rem; }
+
+.barra-bg {
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+  height: 8px;
+  width: 100%;
+  position: relative;
+}
+
+.barra-fill {
+  background: #FFD700;
+  height: 100%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.barra-media {
+  position: absolute;
+  left: 0;
+  width: 25%;
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.barras-nota {
+  font-size: 0.72rem;
+  opacity: 0.5;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+.stat-icone { font-size: 1.8rem; margin-bottom: 10px; }
+.stat-valor { font-size: 2rem; font-weight: 800; color: #FFD700; }
+.stat-label { font-size: 0.85rem; font-weight: 600; margin: 4px 0; }
+.stat-desc { font-size: 0.78rem; opacity: 0.7; }
+
+/* footer */
+.footer {
+  background-color: #7a1614;
+  color: white;
+  padding: 50px 8% 30px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 30px;
+}
+
+.footer-col h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.footer-col p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: opacity 0.2s;
+}
+
+.footer-col ul li a:hover { opacity: 1; color: white; }
+
+.footer-info li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+.footer-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 20px;
+}
+
+.footer-bottom {
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  margin: 4px 0;
+}
+
+.footer-sub { opacity: 0.5 !important; font-size: 0.75rem !important; }
 </style>
