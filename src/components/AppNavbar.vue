@@ -36,7 +36,6 @@
     </nav>
 
     <div class="navbar-actions">
-      <!-- 🔴 REMOVIDO: botão de exportação da navbar -->
 
       <select class="pais-select" v-model="paisAtual" @change="appStore.setPais(paisAtual)">
         <option v-for="pais in appStore.paises" :key="pais.code" :value="pais.code">
@@ -131,6 +130,11 @@ defineExpose({ openExportModal })
   font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.btn-entrar:hover, .btn-primary:hover {
+  background-color: #e6b800 !important;
+  color: rgba(122, 22, 20, 1) !important;
 }
 
 /* MODAL OVERLAY */

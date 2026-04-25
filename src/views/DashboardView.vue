@@ -112,11 +112,11 @@
     <section class="impacto">
       <div class="impacto-imagens">
         <div class="img-card img-topo">
-          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400" alt="Educação Digital" />
+          <img src="https://ctrlplay.com.br/wp-content/uploads/2020/04/ctrlplay_ctrlplay_image_223.jpeg" alt="Educação Digital" />
           <span class="img-label">Educação Digital</span>
         </div>
         <div class="img-card img-baixo">
-          <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=400" alt="Saúde Moderna" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexNOIYL7Ap9dVYQbKcrkmDCkP47AoPYYg6g&s" alt="Saúde Moderna" />
           <span class="img-label">Saúde Moderna</span>
         </div>
       </div>
@@ -201,7 +201,7 @@
 
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?w=600" alt="Infra">
+            <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" alt="Infra">
             <div class="pilar-icon-float">🏢</div>
           </div>
           <div class="pilar-info">
@@ -222,7 +222,7 @@
 
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600" alt="Educação">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" alt="Educação">
             <div class="pilar-icon-float">🎓</div>
           </div>
           <div class="pilar-info">
@@ -264,7 +264,7 @@
 
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600" alt="Saúde">
+            <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" alt="Saúde">
             <div class="pilar-icon-float">❤️</div>
           </div>
           <div class="pilar-info">
@@ -443,7 +443,7 @@ function simularDownload(tipo) {
 
 /* MECANISMO */
 .hero-ue {
-  background-image: url('https://images.unsplash.com/photo-1569974498991-d3c12a504f95?w=1600');
+  background-image: url('https://www.shutterstock.com/shutterstock/videos/3981582317/thumb/1.jpg?ip=x480');
   background-size: cover;
   background-position: center;
   min-height: 85vh;
@@ -451,7 +451,7 @@ function simularDownload(tipo) {
 }
 
 .overlay {
-  background-color: rgba(147, 27, 24, 0.9);
+  background-color: rgba(147, 27, 24, 0.92);
   min-height: 85vh;
   width: 100%;
   display: flex;
@@ -781,11 +781,11 @@ function simularDownload(tipo) {
 }
 
 .img-topo {
-  width: 55%;
+  width: 62%;
   height: 190px;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 1;
 }
 
 .img-baixo {
@@ -793,7 +793,7 @@ function simularDownload(tipo) {
   height: 210px;
   bottom: 0;
   right: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .img-label {
