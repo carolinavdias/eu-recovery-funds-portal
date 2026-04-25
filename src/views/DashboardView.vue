@@ -1,7 +1,7 @@
 <template>
   <div class="portal-container">
 
-    <!-- ✅ MODAL DE EXPORTAÇÃO (movido para aqui) -->
+    <!-- MODAL DE EXPORTAÇÃO -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -44,7 +44,15 @@
             <input type="text" placeholder="Pesquisar setor, meta ou indicador">
           </div>
           <select class="country-select">
-            <option>País: Portugal ▾</option>
+            <option value="slct" selected>País: Portugal ▾</option>
+            <option value="pt">Portugal</option>
+            <option value="es">Espanha</option>
+            <option value="fr">França</option>
+            <option value="it">Itália</option>
+            <option value="de">Alemanha</option>
+            <option value="gr">Grécia</option>
+            <option value="hr">Croácia</option>
+            <option value="ro">Roménia</option>
           </select>
           <button class="btn-compare">Comparar Países</button>
         </div>
@@ -63,7 +71,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -77,7 +84,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -91,7 +97,6 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
-            <!-- ✅ @click adicionado -->
             <div class="download-container" @click="showExportModal = true">
               <span class="download-icon">📥</span>
               <span class="download-text">CSV | JSON</span>
@@ -436,9 +441,9 @@ function simularDownload(tipo) {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* mecanismo */
+/* MECANISMO */
 .hero-ue {
-  background-image: url('https://european-union.europa.eu/sites/default/files/styles/embed_large/public/2021-05/flags_ue.jpg');
+  background-image: url('https://images.unsplash.com/photo-1569974498991-d3c12a504f95?w=1600');
   background-size: cover;
   background-position: center;
   min-height: 85vh;
@@ -446,7 +451,7 @@ function simularDownload(tipo) {
 }
 
 .overlay {
-  background-color: rgba(147, 27, 24, 0.88);
+  background-color: rgba(147, 27, 24, 0.9);
   min-height: 85vh;
   width: 100%;
   display: flex;
@@ -475,7 +480,7 @@ function simularDownload(tipo) {
 
 .btn-yellow, .btn-primary {
   background-color: #FFD700 !important;
-  color: rgba(147, 27, 24, 0.88) !important;
+  color: rgba(122, 22, 20, 1) !important;
   font-size: 1.0rem !important;
   font-weight: 900 !important;
   border: none !important;
@@ -525,7 +530,7 @@ function simularDownload(tipo) {
   border-radius: 8px;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 275px;
   box-sizing: border-box;
 }
 
@@ -557,23 +562,23 @@ function simularDownload(tipo) {
   border-radius: 8px;
   border: 1px solid #333;
   font-weight: bold;
-  font-size: 1.2rem !important;
+  font-size: 1rem !important;
   cursor: pointer;
-  width: 600px;
+  width: 275px;
   box-sizing: border-box;
   height: 43px;
 }
 
 .btn-compare {
   background-color: #d49600 !important;
-  color: rgba(147, 27, 24, 0.88) !important;
+  color: rgba(122, 22, 20, 1) !important;
   border: none;
   padding: 10px 15px;
   border-radius: 8px;
-  font-size: 1.2rem !important;
   font-weight: bold;
+  font-size: 1.2rem !important;
   cursor: pointer;
-  width: 250px;
+  width: 275px;
   box-sizing: border-box;
   height: 43px;
 }
@@ -583,7 +588,6 @@ function simularDownload(tipo) {
   color: rgba(122, 22, 20, 1) !important;
 }
 
-/* o que é o PRR */
 .intro {
   background-color: #ffffff;
   padding: 80px 10%;
@@ -684,6 +688,7 @@ function simularDownload(tipo) {
   color: #222;
 }
 
+/* ESTILOS DO MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -745,7 +750,7 @@ function simularDownload(tipo) {
 .export-item:hover { background: rgba(255, 255, 255, 0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
 
-/* resultados e impacto no quotidiano */
+/* SECÇÃO IMPACTO */
 .impacto {
   background-color: #fff;
   padding: 80px 10%;
@@ -809,7 +814,7 @@ function simularDownload(tipo) {
 
 .impacto-conteudo h2 {
   color: #931b18;
-  font-size: 1.8rem;
+  font-size: 2.25rem;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -820,7 +825,7 @@ function simularDownload(tipo) {
   gap: 15px;
   background: #fdf2f2;
   border-radius: 10px;
-  padding: 14px 24px;
+  padding: 22px 24px;
   margin-bottom: 10px;
   width: 100%;
   box-sizing: border-box;
@@ -852,7 +857,7 @@ function simularDownload(tipo) {
   line-height: 1.4;
 }
 
-/* pilares */
+/* PILARES */
 .pilares {
   padding: 80px 10%;
   background-color: #fdf2f2;
@@ -961,7 +966,7 @@ function simularDownload(tipo) {
 
 .pilar-details strong { color: #931b18; }
 
-/* dados e estatisticas */
+/* DADOS E ESTATÍSTICAS */
 .dados {
   background-color: #931b18;
   padding: 60px 8%;
@@ -1054,7 +1059,7 @@ function simularDownload(tipo) {
   position: absolute;
   left: 0;
   width: 25%;
-  height: 3px;
+  height: 2px;
   background: #1a1a1a;
   border-radius: 2px;
   top: 50%;
@@ -1087,7 +1092,7 @@ function simularDownload(tipo) {
 .stat-label { font-size: 0.85rem; font-weight: 600; margin: 4px 0; }
 .stat-desc { font-size: 0.78rem; opacity: 0.7; }
 
-/* footer */
+/* FOOTER */
 .footer {
   background-color: #7a1614;
   color: white;
