@@ -34,8 +34,8 @@
         
         <div class="button-group-main">
           <button class="btn-outline">Explorar por País</button>
-          <button class="btn-yellow">Saber Mais</button>
-          <button class="btn-outline">Ver Pilares</button>
+          <a href="#sobre"><button class="btn-yellow">Saber Mais</button></a>
+          <a href="#pilares"><button class="btn-outline">Ver Pilares</button></a>
         </div>
 
         <div class="search-bar-container">
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="intro">
+    <section id="sobre" class="intro">
       <h2>O que é o PRR?</h2>
       <p class="intro-text">
         O PRR - Plano de Recuperação e Resiliência é o programa nacional financiado pelo 
@@ -150,7 +150,7 @@
       </div>
     </section>
 
-    <section class="pilares">
+    <section id="pilares" class="pilares">
       <div class="pilares-header">
         <h2>Pilares do PRR</h2>
         <p>Consulte o investimento, acompanhe as metas e veja o impacto direto destes 6 pilares no seu quotidiano.</p>
@@ -546,7 +546,7 @@ function simularDownload(tipo) {
 }
 
 .search-input input:focus {
-  animation: piscar-cursor 0.5s step-end infinite;
+  animation: piscar-cursor 0.85s step-end infinite;
   caret-color: white;
 }
 
@@ -782,7 +782,7 @@ function simularDownload(tipo) {
 
 .img-topo {
   width: 62%;
-  height: 190px;
+  height: 210px;
   top: 0;
   left: 0;
   z-index: 1;
