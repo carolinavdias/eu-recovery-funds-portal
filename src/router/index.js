@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AppLayout from '@/layouts/AppLayout.vue' 
+import AppLayout from '@/layouts/AppLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      component: AppLayout, 
+      component: AppLayout,
       children: [
         {
-          path: '', // Página inicial (Visão Geral)
+          path: '',
           name: 'home',
           component: () => import('@/views/DashboardView.vue'),
         },
@@ -27,7 +27,22 @@ const router = createRouter({
           path: 'indicadores',
           name: 'indicadores',
           component: () => import('@/views/IndicadoresView.vue'),
-        }
+        },
+        {
+          path: 'paises',
+          name: 'paises',
+          component: () => import('@/views/PaisesView.vue'),
+        },
+        {
+          path: 'paises/comparar',
+          name: 'comparar',
+          component: () => import('@/views/CompararView.vue'),
+        },
+        {
+          path: 'paises/:id',
+          name: 'pais-detalhe',
+          component: () => import('@/views/PaisDetalheView.vue'),
+        },
       ],
     },
     {
