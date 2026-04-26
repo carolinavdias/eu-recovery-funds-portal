@@ -79,6 +79,18 @@
       </div>
     </div>
 
+    <!-- LOADING -->
+    <div v-if="loading" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>A carregar dados...</p>
+    </div>
+
+    <!-- ERRO -->
+    <div v-if="erro" class="erro-state">
+      <span>⚠️</span>
+      <p>{{ erro }}</p>
+    </div>    
+
     <!-- HERO -->
     <section class="hero">
       <div class="hero-overlay">
@@ -295,6 +307,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
+import { getMarcos } from '@/services/api.js'
 
 Chart.register(...registerables)
 const appStore = useAppStore()
@@ -328,18 +341,9 @@ const filtrosActivos = computed(() => {
   return n
 })
 
-const marcos = ref([
-  { id: 1, titulo: 'Digitalização dos Serviços Públicos', descricao: 'Migração de 100% dos serviços públicos para plataformas digitais acessíveis a todos os cidadãos portugueses.', pais: 'Portugal', paisCode: 'PT', setor: 'digital', setorLabel: '💻 Digital', estado: 'em_curso', prazo: 'Jun 2025', progresso: 65, imagem: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600', investimento: '€2,3 Mil Milhões', beneficiarios: '10,3 milhões de cidadãos', indicadorSucesso: '100% dos serviços públicos disponíveis online com autenticação digital segura', entidade: 'AMA — Agência para a Modernização Administrativa' },
-  { id: 2, titulo: 'Renovação de Edifícios Públicos', descricao: 'Eficiência energética em 250 mil edifícios públicos e privados em todo o território nacional.', pais: 'Portugal', paisCode: 'PT', setor: 'clima', setorLabel: '🌿 Clima', estado: 'em_curso', prazo: 'Dez 2025', progresso: 48, imagem: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600', investimento: '€1,7 Mil Milhões', beneficiarios: '250 mil edifícios renovados', indicadorSucesso: 'Redução de 30% no consumo energético dos edifícios intervencionados', entidade: 'ADENE — Agência para a Energia' },
-  { id: 3, titulo: 'Modernização do SNS', descricao: 'Digitalização e reforço do Serviço Nacional de Saúde com novos centros de saúde digitais em todo o país.', pais: 'Portugal', paisCode: 'PT', setor: 'saude', setorLabel: '❤️ Saúde', estado: 'concluido', prazo: 'Mar 2024', progresso: 100, imagem: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600', investimento: '€1,4 Mil Milhões', beneficiarios: '10,3 milhões de utentes do SNS', indicadorSucesso: '100 novos Centros de Saúde digitais operacionais e plataforma SNS 24 reformulada', entidade: 'Ministério da Saúde / SPMS' },
-  { id: 4, titulo: 'Portáteis para Alunos', descricao: 'Entrega de 600 mil portáteis a alunos do ensino público para combater a exclusão digital nas escolas.', pais: 'Portugal', paisCode: 'PT', setor: 'educacao', setorLabel: '🎓 Educação', estado: 'concluido', prazo: 'Set 2023', progresso: 100, imagem: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600', investimento: '€290 Milhões', beneficiarios: '600 mil alunos do ensino público', indicadorSucesso: '600.000 dispositivos entregues e ativados com conectividade garantida', entidade: 'Ministério da Educação / DGEstE' },
-  { id: 5, titulo: 'Habitação Acessível', descricao: 'Construção e reabilitação de 15.000 habitações acessíveis para famílias em situação de vulnerabilidade económica.', pais: 'Portugal', paisCode: 'PT', setor: 'coesao', setorLabel: '👥 Coesão', estado: 'em_atraso', prazo: 'Jun 2024', progresso: 30, imagem: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600', investimento: '€1,2 Mil Milhões', beneficiarios: '15.000 famílias vulneráveis', indicadorSucesso: '15.000 habitações entregues com renda acessível e condições de habitabilidade', entidade: 'IHRU — Instituto da Habitação e Reabilitação Urbana' },
-  { id: 6, titulo: 'Modernização Ferroviária', descricao: 'Renovação e expansão das redes ferroviárias nacionais para reduzir tempos de viagem em 20%.', pais: 'Portugal', paisCode: 'PT', setor: 'infraestrutura', setorLabel: '🏢 Infraestrutura', estado: 'em_curso', prazo: 'Dez 2026', progresso: 22, imagem: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600', investimento: '€4,8 Mil Milhões', beneficiarios: '5 milhões de passageiros/ano', indicadorSucesso: 'Redução de 20% nos tempos de viagem nas principais linhas ferroviárias nacionais', entidade: 'IP — Infraestruturas de Portugal' },
-  { id: 7, titulo: 'Transição Verde Industrial', descricao: 'Descarbonização progressiva do setor industrial espanhol através da adoção de energias renováveis.', pais: 'Espanha', paisCode: 'ES', setor: 'clima', setorLabel: '🌿 Clima', estado: 'em_curso', prazo: 'Jun 2025', progresso: 55, imagem: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600', investimento: '€6,2 Mil Milhões', beneficiarios: '12.000 empresas industriais', indicadorSucesso: 'Redução de 55% nas emissões do setor industrial face a 2020', entidade: 'Ministerio para la Transición Ecológica' },
-  { id: 8, titulo: 'França Digital 2025', descricao: 'Acesso universal à internet de alta velocidade em todas as zonas rurais e semi-rurais francesas.', pais: 'França', paisCode: 'FR', setor: 'digital', setorLabel: '💻 Digital', estado: 'concluido', prazo: 'Dez 2024', progresso: 100, imagem: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600', investimento: '€3,5 Mil Milhões', beneficiarios: '8 milhões de habitantes em zonas rurais', indicadorSucesso: '100% das zonas rurais com cobertura de fibra ótica ou 5G de alta velocidade', entidade: 'Agence Nationale de la Cohésion des Territoires' },
-  { id: 9, titulo: 'Reforma Hospitalar Italiana', descricao: 'Renovação e modernização tecnológica de 100 hospitais públicos italianos com equipamento de última geração.', pais: 'Itália', paisCode: 'IT', setor: 'saude', setorLabel: '❤️ Saúde', estado: 'em_atraso', prazo: 'Mar 2024', progresso: 18, imagem: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600', investimento: '€1,4 Mil Milhões', beneficiarios: '60 milhões de utentes do SSN', indicadorSucesso: '100 hospitais renovados com sistemas digitais de gestão clínica integrados', entidade: 'Ministero della Salute' },
-  { id: 10, titulo: 'Energia Solar Grega', descricao: 'Instalação de painéis fotovoltaicos em 50.000 edifícios públicos gregos para transição para energia limpa.', pais: 'Grécia', paisCode: 'GR', setor: 'clima', setorLabel: '🌿 Clima', estado: 'em_curso', prazo: 'Set 2025', progresso: 40, imagem: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600', investimento: '€850 Milhões', beneficiarios: '50.000 edifícios públicos', indicadorSucesso: '500 MW de capacidade solar instalada em edifícios públicos', entidade: 'Υπουργείο Περιβάλλοντος και Ενέργειας' },
-])
+const marcos = ref([])
+const loading = ref(true)
+const erro = ref(null)
 
 const marcosFiltrados = computed(() => marcos.value.filter(m => {
   const paisMatch = filtroPais.value === 'todos' || m.paisCode === filtroPais.value
@@ -520,15 +524,24 @@ function exportarDados(tipo) {
   showExportModal.value = false
 }
 
-onMounted(() => {
+onMounted(async () => {
+  try {
+    marcos.value = await getMarcos()
+    erro.value = null
+  } catch (e) {
+    erro.value = 'Não foi possível carregar os dados. Verifica se o servidor está ligado.'
+  } finally {
+    loading.value = false
+  }
+
   setTimeout(() => {
-    heroVisible.value = true
-    animarContador(contadorTotal, marcos.value.length)
-    animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
-    animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
-    animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
-  }, 100)
-  criarGraficos()
+      heroVisible.value = true
+      animarContador(contadorTotal, marcos.value.length)
+      animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
+      animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
+      animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
+      criarGraficos()
+    }, 100)
 })
 
 watch(marcosFiltrados, () => criarGraficos())
@@ -727,4 +740,8 @@ watch(marcosFiltrados, () => criarGraficos())
 .export-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 15px 20px; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; }
 .export-item:hover { background: rgba(255,255,255,0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
+.loading-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px; gap: 16px; color: #888; font-size: 0.9rem; }
+.loading-spinner { width: 40px; height: 40px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.erro-state { background: #fdf2f2; border: 1px solid #f8d7da; border-radius: 16px; padding: 20px 30px; margin: 20px 10%; display: flex; align-items: center; gap: 12px; color: #721c24; font-size: 0.9rem; }
 </style>
