@@ -13,9 +13,6 @@
             <h1>Indicadores Comuns</h1>
             <p>Acompanhamento detalhado do reporte semestral dos 14 indicadores de reporte obrigatório do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
           </div>
-          <button class="btn-metodologia">
-            <span>❓</span> Guia de Metodologia
-          </button>
         </div>
 
         <!-- FILTROS -->
@@ -68,7 +65,7 @@
         </div>
 
         <!-- OUTROS INDICADORES -->
-        <div class="section-header" style="margin-top: 30px;">
+        <div class="section-header" style="margin-top: 70px;">
           <div class="section-bar"></div>
           <h2>Outros Indicadores Obrigatórios</h2>
         </div>
@@ -89,33 +86,37 @@
       <!-- COLUNA DIREITA (painel fixo) -->
       <div class="col-direita">
 
+        <button class="btn-guia">
+          <span class="icon-circle">?</span> Guia de Metodologia
+        </button>
+
         <div class="exportar-box">
           <div class="exportar-header">
-            <span class="export-icone">📥</span>
+            <span class="icon-download">📥</span>
             <div>
-              <p class="exportar-titulo">Exportar Dados</p>
-              <p class="exportar-desc">Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
+              <h3>Exportar Dados</h3>
+              <p>Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
             </div>
           </div>
 
-          <button class="btn-export csv" @click="exportar('csv')">
-            <span class="btn-export-icon">📄</span>
-            <span>Descarregar CSV</span>
-          </button>
-          <button class="btn-export pdf" @click="exportar('pdf')">
-            <span class="btn-export-icon">📑</span>
-            <span>Relatório PDF</span>
+          <button class="btn-action csv">
+            <span class="btn-icon">📄</span> Descarregar CSV
           </button>
 
-          <div class="sync-box">
+          <button class="btn-action pdf">
+            <span class="btn-icon">📑</span> Relatório PDF
+          </button>
+
+          <hr class="inner-divider">
+
+          <div class="sync-status">
             <p class="sync-label">ESTADO DE SINCRONIZAÇÃO</p>
-            <div class="sync-info">
-              <span class="sync-check">✅</span>
+            <div class="sync-time">
+              <span class="check-circle">✔</span>
               <span>Atualizado hoje, 09:42</span>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -175,7 +176,7 @@ const indicadores = ref([
 const outrosIndicadores = ref([
   { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '18% Redução' },
   { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '120 novas rotas' },
-  { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€840M' },
+  { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€540M' },
 ])
 
 function corBarra(pct) {
@@ -202,10 +203,10 @@ function exportar(tipo) {
 * { box-sizing: border-box; }
 
 .indicadores-container {
-  margin: -2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f5f5;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; 
 }
 
 /* LAYOUT PRINCIPAL */
@@ -238,14 +239,14 @@ function exportar(tipo) {
   font-size: 2.2rem;
   font-weight: 800;
   color: #931b18;
-  margin-bottom: 8px;
+  margin-bottom: 40px;
 }
 
 .header-left p {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: #666;
-  max-width: 520px;
-  line-height: 1.6;
+  max-width: 700px;
+  line-height: 1.8;
 }
 
 .btn-metodologia {
@@ -262,16 +263,20 @@ function exportar(tipo) {
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.3s ease;
 }
 
-.btn-metodologia:hover { background: #7a1614; }
+.btn-metodologia:hover { 
+  background: #7a1614; 
+  transform: translateY(-3px);
+}
 
 /* FILTROS */
 .filtros-row {
   display: flex;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-top: 50px;
+  margin-bottom: 70px;
   padding-bottom: 25px;
   border-bottom: 1px solid #eee;
 }
@@ -297,7 +302,7 @@ function exportar(tipo) {
   color: #333;
   background: white;
   cursor: pointer;
-  min-width: 200px;
+  min-width: 250px;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -309,41 +314,52 @@ function exportar(tipo) {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 60px;
 }
 
 .section-bar {
   width: 4px;
-  height: 22px;
+  height: 28px;
   background: #d4af37;
   border-radius: 2px;
   flex-shrink: 0;
 }
 
 .section-header h2 {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: #931b18;
   margin: 0;
+  text-transform: none;
 }
 
 /* CARDS */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: #e8e8e8;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  overflow: hidden;
+  gap: 25px;
+  background: transparent;
+  border: none;
+  padding: 10px 0;
 }
 
 .indicador-card {
   background: white;
-  padding: 20px;
+  padding: 24px;
   display: flex;
+  border-radius: 16px;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.indicador-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); 
+  border-color: #d4af37; 
 }
 
 .card-top {
@@ -353,7 +369,10 @@ function exportar(tipo) {
   margin-bottom: 8px;
 }
 
-.card-icon { font-size: 1.3rem; color: #931b18; }
+.card-icon { 
+  font-size: 1.3rem; 
+  color: #931b18; 
+}
 
 .card-categoria {
   font-size: 0.62rem;
@@ -412,38 +431,47 @@ function exportar(tipo) {
 }
 
 .btn-saber {
+  margin-top: auto; /* Empurra o botão sempre para o fundo do card */
   background: #931b18;
   color: white;
   border: none;
-  padding: 9px 0;
-  border-radius: 5px;
-  font-size: 0.78rem;
+  padding: 12px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  width: 100%;
-  text-align: center;
   transition: background 0.2s;
 }
 
-.btn-saber:hover { background: #7a1614; }
+.btn-saber:hover {
+  background: #7a1614;
+}
 
 /* OUTROS INDICADORES */
 .outros-lista {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  background: transparent;
+  border: none;
 }
 
 .outro-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 20px 25px;
   background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.outro-item:last-child { border-bottom: none; }
+.outro-item:hover {
+  transform: translateX(8px); /* Em vez de subir, este desliza para o lado */
+  border-color: #d4af37;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
 
 .outro-esq {
   display: flex;
@@ -452,7 +480,9 @@ function exportar(tipo) {
   flex: 1;
 }
 
-.outro-icone { font-size: 1.1rem; }
+.outro-icone { 
+  font-size: 1.1rem; 
+}
 
 .outro-nome {
   font-size: 0.88rem;
@@ -460,56 +490,165 @@ function exportar(tipo) {
 }
 
 .outro-valor {
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   color: #d4af37;
-  min-width: 140px;
-  text-align: center;
+  margin: 0 25px;
 }
 
 .btn-exportar-outro {
-  background: transparent;
-  border: 1px solid #931b18;
-  color: #931b18;
-  padding: 6px 14px;
-  border-radius: 5px;
-  font-size: 0.78rem;
+  background: #931b18;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 
 .btn-exportar-outro:hover {
-  background: #931b18;
-  color: white;
+  background: #7a1614;
 }
 
 /* COLUNA DIREITA */
 .col-direita {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  position: sticky; 
+  top: 20px;
+}
+
+.btn-guia {
+  background: #931b18;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-guia .icon-circle {
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.btn-guia:hover {
+  background-color: #7a1614;   
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
 }
 
 .exportar-box {
   background: white;
-  border-radius: 10px;
-  padding: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  position: sticky;
-  top: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.exportar-header {
+.exportar-header h3 {
+  color: #931b18 !important;
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+}
+
+.exportar-header p {
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
-  align-items: flex-start;
+  transition: 0.3s;
 }
 
-.export-icone { font-size: 1.4rem; color: #931b18; }
+.btn-action.csv {
+  background: #931b18;
+  color: white;
+  border: none;
+}
+
+.btn-action.csv:hover {
+  background: #7a1614; 
+}
+
+.btn-action.pdf {
+  background: white;
+  color: #931b18 !important;
+  border: 2px solid #931b18;
+}
+
+.btn-action.pdf:hover {
+  background: #fdf2f2; 
+  border-color: #7a1614; 
+}
+
+/* Sincronização */
+.inner-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.sync-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #999;
+  letter-spacing: 1px;
+}
+
+.sync-time {
+  color: #931b18 !important;;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.check-circle {
+  color: #ffcc00;
+  border: 2px solid #ffcc00;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.export-icone { 
+  font-size: 1.4rem; 
+  color: #931b18; 
+}
 
 .exportar-titulo {
   font-weight: 700;
@@ -534,10 +673,13 @@ function exportar(tipo) {
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.3s ease;
 }
 
-.btn-export:hover { opacity: 0.85; }
+.btn-export:hover { 
+  opacity: 0.85; 
+  transform: translateY(-3px); 
+}
 
 .btn-export.csv {
   background: #931b18;
@@ -551,7 +693,9 @@ function exportar(tipo) {
   border: 2px solid #931b18;
 }
 
-.btn-export-icon { font-size: 1rem; }
+.btn-export-icon { 
+  font-size: 1rem; 
+  }
 
 .sync-box {
   padding-top: 10px;
@@ -579,44 +723,74 @@ function exportar(tipo) {
 /* FOOTER */
 .ind-footer {
   background: #931b18;
+  width: 100%;
   color: white;
-  padding: 40px 5% 20px;
-  margin-top: 20px;
+  padding: 100px 5% 80px;
+  margin-top: 50px;
+  border-top: 7px solid #d4af37;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
+  gap: 100px;
   margin-bottom: 30px;
 }
 
 .footer-logo {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 40px; 
+  color: #d4af37;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .footer-brand p {
-  font-size: 0.82rem;
-  opacity: 0.8;
-  line-height: 1.6;
-  margin-bottom: 15px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.8;
+  margin-bottom: 45px;
+  max-width: 420px;
 }
 
 .footer-icons {
   display: flex;
-  gap: 12px;
+  gap: 20px;
   font-size: 1.2rem;
   cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+
+.footer-icons span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s ease; 
+}
+
+.footer-icons span:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  opacity: 1;
 }
 
 .footer-col-titulo {
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 900;
   letter-spacing: 1px;
   opacity: 0.6;
-  margin-bottom: 12px;
+  margin-bottom: 25px;
+  color: #d4af37; 
+  opacity: 1;
 }
 
 .footer-col ul {
@@ -625,7 +799,7 @@ function exportar(tipo) {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .footer-col ul li {
@@ -635,16 +809,28 @@ function exportar(tipo) {
   transition: opacity 0.2s;
 }
 
-.footer-col ul li:hover { opacity: 1; }
+.footer-col ul li:hover { 
+  opacity: 1; 
+  transform: translateX(3px);
+}
 
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  font-size: 0.75rem;
-  opacity: 0.7;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); 
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 1100px) {
+  .main-layout {
+    grid-template-columns: 1fr; /* Em tablets, a coluna da direita vai para baixo */
+  }
+  .col-direita {
+    width: 100%;
+  }
 }
 
 .footer-status {
