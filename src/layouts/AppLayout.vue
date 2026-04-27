@@ -7,10 +7,10 @@
     <div class="app-body">
 
       <!-- sidebar esquerda -->
-      <AppSidebar />
+      <AppSidebar v-model:collapsed="sidebarCollapsed"/>
 
       <!-- conteúdo principal — cada página aparece aqui -->
-      <main class="app-content">
+      <main class="app-content" :class="{ collapsed: sidebarCollapsed }">
         <RouterView />
       </main>
 
@@ -25,11 +25,13 @@
 </template>
 
 <script setup>
+import { ref } from 'vue' 
 import { useAppStore } from '@/stores/app'
 import AppNavbar from '../components/AppNavbar.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 
 const appStore = useAppStore()
+const sidebarCollapsed = ref(false)
 </script>
 
 <style scoped>
@@ -49,6 +51,12 @@ const appStore = useAppStore()
   padding: 2rem;
   background-color: #f8f9fa;
   overflow-y: auto;
+  margin-left: 220px;
+  transition: margin-left 0.25s ease;
+}
+
+.app-content.collapsed {
+  margin-left: 56px;
 }
 
 .dark-mode .app-content {
@@ -80,7 +88,6 @@ h1, h2 {
   color: #931b18 !important;
   text-transform: uppercase;
 }
-</style>
 
 :deep(.navbar), :deep(.portal-navbar) {
   display: flex !important;
@@ -89,3 +96,5 @@ h1, h2 {
   visibility: visible !important;
   width: 100% !important;
 }
+</style>
+
