@@ -24,7 +24,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const collapsed = ref(false)
+const collapsed = defineModel('collapsed')
 
 const menu = [
   { rota: '/', icon: '⊞', label: 'Dashboard' },
@@ -36,14 +36,18 @@ const menu = [
 </script>
 
 <style scoped>
+
 .sidebar {
   width: 220px;
-  min-height: 100%;
+  height: calc(100vh - 70px);
   background-color: #fff;
   border-right: 1px solid #e0e0e0;
   padding: 1.5rem 0;
   transition: width 0.25s ease;
-  position: relative;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  z-index: 10;
   flex-shrink: 0;
 }
 
