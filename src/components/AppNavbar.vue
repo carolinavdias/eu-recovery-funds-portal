@@ -28,13 +28,6 @@
       </RouterLink>
     </div>
 
-    <nav class="nav-links">
-      <RouterLink to="/" class="active">VISÃO GERAL</RouterLink>
-      <RouterLink to="/marcos">MARCOS E METAS</RouterLink>
-      <RouterLink to="/indicadores">INDICADORES COMUNS</RouterLink>
-      <RouterLink to="/desembolsos">DESEMBOLSOS</RouterLink>
-    </nav>
-
     <div class="navbar-actions">
 
       <select class="pais-select" v-model="paisAtual" @change="appStore.setPais(paisAtual)">
@@ -91,14 +84,49 @@ defineExpose({ openExportModal })
   color: white;
 }
 
-.logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-.logo-text { font-size: 1.2rem; font-weight: 800; color: white; letter-spacing: 1px; }
-.icon-logo { font-size: 1.5rem; }
-.nav-links { display: flex; gap: 15px; }
-.nav-links a { color: white; text-decoration: none; font-size: 0.7rem; font-weight: 600; padding: 5px 0; opacity: 0.8; transition: all 0.3s; }
-.nav-links a:hover, .nav-links a.active { opacity: 1; border-bottom: 2px solid #d4af37; }
+.logo-link {
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  text-decoration: none; 
+}
 
-.navbar-actions { display: flex; align-items: center; gap: 0.5rem; }
+.logo-text { 
+  font-size: 1.2rem; 
+  font-weight: 800; 
+  color: white;
+  letter-spacing: 1px; 
+}
+
+.icon-logo { 
+  font-size: 1.5rem; 
+}
+
+.nav-links { 
+  display: flex; 
+  gap: 15px; 
+}
+
+.nav-links a { 
+  color: white; 
+  text-decoration: none; 
+  font-size: 0.7rem; 
+  font-weight: 600; 
+  padding: 5px 0; 
+  opacity: 0.8; 
+  transition: all 0.3s; 
+}
+
+.nav-links a:hover, .nav-links a.active { 
+  opacity: 1; 
+  border-bottom: 2px solid #d4af37; 
+}
+
+.navbar-actions { 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+}
 
 .pais-select {
   padding: 0.3rem 0.5rem;
@@ -130,11 +158,15 @@ defineExpose({ openExportModal })
   font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
+  display: inline-block; 
+  transition: all 0.3s ease;
 }
 
 .btn-entrar:hover, .btn-primary:hover {
   background-color: #e6b800 !important;
   color: rgba(122, 22, 20, 1) !important;
+  transform: translateY(-3px); 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* MODAL OVERLAY */
@@ -175,13 +207,32 @@ defineExpose({ openExportModal })
   opacity: 0.8;
 }
 
-.close-btn:hover { opacity: 1; }
+.close-btn:hover { 
+  opacity: 1; 
+}
 
-.main-download-icon { font-size: 3.5rem; display: block; margin-bottom: 10px; }
-.export-header h2 { font-size: 1.8rem; margin-bottom: 8px; }
-.export-header p { font-size: 0.95rem; margin-bottom: 30px; opacity: 0.9; }
+.main-download-icon { 
+  font-size: 3.5rem; 
+  display: block; 
+  margin-bottom: 10px; 
+}
 
-.export-options { display: flex; flex-direction: column; gap: 12px; }
+.export-header h2 { 
+  font-size: 1.8rem; 
+  margin-bottom: 8px; 
+}
+
+.export-header p { 
+  font-size: 0.95rem; 
+  margin-bottom: 30px; 
+  opacity: 0.9; 
+}
+
+.export-options { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
 
 .export-item {
   background: rgba(255, 255, 255, 0.1);
@@ -196,6 +247,13 @@ defineExpose({ openExportModal })
   transition: 0.3s;
 }
 
-.export-item:hover { background: rgba(255, 255, 255, 0.2); }
-.export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
+.export-item:hover { 
+  background: rgba(255, 255, 255, 0.2); 
+}
+
+.export-item .ext { 
+  opacity: 0.5; 
+  font-family: monospace; 
+  font-size: 0.85rem; 
+}
 </style>

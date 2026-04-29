@@ -63,11 +63,9 @@ const menu = [
   color: #444;
   cursor: pointer;
   font-size: 1.2rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin: 0 1rem 1rem auto;
   padding: 0 1.5rem;
 }

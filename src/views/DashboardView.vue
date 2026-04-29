@@ -52,9 +52,13 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
-            <div class="download-container" @click="showExportModal = true">
+            <div class="download-container" @click="prepararExportacao('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões')">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON</span>
+              <span class="download-text">
+                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'csv')">CSV</small> | 
+                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'json')">JSON</small> |
+                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'pdf')">PDF</small>
+              </span>
             </div>
           </div>
           <h3>Investimento</h3>
@@ -386,33 +390,69 @@
 
 <script setup>
 import { ref } from 'vue'
+
 const showExportModal = ref(false)
 
-function simularDownload(tipo) {
-  const conteudos = {
-    csv: 'id,nome,valor\n1,Investimento,16600000000\n2,Objetivos,341\n3,Crescimento,2026',
-    json: JSON.stringify([
-      { id: 1, nome: 'Investimento', valor: 16600000000 },
-      { id: 2, nome: 'Objetivos', valor: 341 },
-      { id: 3, nome: 'Crescimento', prazo: 2026 }
-    ], null, 2),
-    pdf: 'Sumário PRR - Simulação de exportação PDF'
+// Esta variável vai guardar os dados do card que clicaste
+const cardSelecionado = ref({
+  titulo: '',
+  descricao: '',
+  valor: ''
+})
+
+// 1. Função para abrir o modal já com os dados do card certo
+function prepararExportacao(titulo, descricao, valor) {
+  cardSelecionado.value = { titulo, descricao, valor };
+  showExportModal.value = true;
+}
+
+// 2. Função que gera o ficheiro usando os dados guardados
+function executarDownload(formato) {
+  const { titulo, descricao, valor } = cardSelecionado.value;
+  const dataGeracao = new Date().toLocaleDateString('pt-PT');
+  let conteudo = '';
+  let mimeType = '';
+
+  if (formato === 'csv') {
+    conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`;
+    mimeType = 'text/csv';
+  } 
+  else if (formato === 'json') {
+    conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2);
+    mimeType = 'application/json';
+  } 
+  else if (formato === 'pdf') {
+    gerarPDF(titulo, descricao, valor, dataGeracao);
+    showExportModal.value = false;
+    return;
   }
 
-  const mimeTypes = {
-    csv: 'text/csv',
-    json: 'application/json',
-    pdf: 'text/plain'
-  }
+  const blob = new Blob([conteudo], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showExportModal.value = false;
+}
 
-  const blob = new Blob([conteudos[tipo]], { type: mimeTypes[tipo] })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `prr-export.${tipo}`
-  a.click()
-  URL.revokeObjectURL(url)
-  showExportModal.value = false
+// Função para o Sumário PDF
+function gerarPDF(t, d, v, data) {
+  const win = window.open('', '', 'width=800,height=600');
+  win.document.write(`
+    <html>
+      <body style="font-family:sans-serif; padding:40px;">
+        <h1 style="color:#931b18;">Relatório PRR: ${t}</h1>
+        <p><strong>Descrição:</strong> ${d}</p>
+        <p><strong>Estado Atual:</strong> ${v}</p>
+        <hr>
+        <small>Gerado em ${data} - Portal de Transparência</small>
+      </body>
+    </html>
+  `);
+  win.document.close();
+  win.print();
 }
 </script>
 
@@ -519,6 +559,7 @@ function simularDownload(tipo) {
 
 .cards-grid {
   display: flex;
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   justify-content: center;
 }
@@ -801,12 +842,23 @@ function simularDownload(tipo) {
   text-align: center;
 }
 
-.pilares-header h2 { color: #931b18; font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; }
-.pilares-header p { color: #555; font-size: 1.1rem; max-width: 700px; margin: 0 auto 50px; }
+.pilares-header h2 { 
+  color: #931b18; 
+  font-size: 2.8rem; 
+  font-weight: 800; 
+  margin-bottom: 10px; 
+}
+
+.pilares-header p { 
+  color: #555; 
+  font-size: 1.1rem; 
+  max-width: 700px; 
+  margin: 0 auto 50px; 
+}
 
 .pilares-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
 }
 

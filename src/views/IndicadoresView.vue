@@ -1,126 +1,138 @@
 <template>
-  <div class="indicadores-container">
+  <div>
 
-    <!-- LAYOUT PRINCIPAL: esquerda + painel direito -->
-    <div class="main-layout">
+    <div class="indicadores-container">
 
-      <!-- COLUNA ESQUERDA -->
-      <div class="col-esquerda">
+      <!-- LAYOUT PRINCIPAL: esquerda + painel direito -->
+      <div class="main-layout">
 
-        <!-- HEADER -->
-        <div class="page-header">
-          <div class="header-left">
-            <h1>Indicadores Comuns</h1>
-            <p>Acompanhamento detalhado do reporte semestral dos 14 indicadores de reporte obrigatório do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
-          </div>
-        </div>
+        <!-- COLUNA ESQUERDA -->
+        <div class="col-esquerda">
 
-        <!-- FILTROS -->
-        <div class="filtros-row">
-          <div class="filtro-group">
-            <label>PAÍS</label>
-            <div class="select-wrapper">
-              <select v-model="paisSelecionado">
-                <option value="pt">Portugal</option>
-                <option value="es">Espanha</option>
-                <option value="fr">França</option>
-              </select>
-            </div>
-          </div>
-          <div class="filtro-group">
-            <label>PERÍODO DE REPORTE</label>
-            <div class="select-wrapper">
-              <select v-model="periodoSelecionado">
-                <option value="s1-2024">1º Semestre 2024</option>
-                <option value="s2-2023">2º Semestre 2023</option>
-                <option value="s1-2023">1º Semestre 2023</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECÇÃO INDICADORES -->
-        <div class="section-header">
-          <div class="section-bar"></div>
-          <h2>Indicadores de Performance</h2>
-        </div>
-
-        <div class="cards-grid">
-          <div class="indicador-card" v-for="ind in indicadores" :key="ind.id">
-            <div class="card-top">
-              <span class="card-icon">{{ ind.icone }}</span>
-              <span class="card-categoria">{{ ind.categoria }}</span>
-            </div>
-            <p class="card-nome">{{ ind.nome }}</p>
-            <p class="card-valor">{{ ind.valor }}</p>
-            <div class="progresso-row">
-              <span class="prog-label">PROGRESSO META</span>
-              <span class="prog-pct">{{ ind.progresso }}%</span>
-            </div>
-            <div class="barra-bg">
-              <div class="barra-fill" :style="{ width: ind.progresso + '%', background: corBarra(ind.progresso) }"></div>
-            </div>
-            <button class="btn-saber">Saber Mais →</button>
-          </div>
-        </div>
-
-        <!-- OUTROS INDICADORES -->
-        <div class="section-header" style="margin-top: 70px;">
-          <div class="section-bar"></div>
-          <h2>Outros Indicadores Obrigatórios</h2>
-        </div>
-
-        <div class="outros-lista">
-          <div class="outro-item" v-for="outro in outrosIndicadores" :key="outro.id">
-            <div class="outro-esq">
-              <span class="outro-icone">{{ outro.icone }}</span>
-              <span class="outro-nome">{{ outro.nome }}</span>
-            </div>
-            <span class="outro-valor">{{ outro.valor }}</span>
-            <button class="btn-exportar-outro" @click="exportar('csv')">Exportar</button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- COLUNA DIREITA (painel fixo) -->
-      <div class="col-direita">
-
-        <button class="btn-guia">
-          <span class="icon-circle">?</span> Guia de Metodologia
-        </button>
-
-        <div class="exportar-box">
-          <div class="exportar-header">
-            <span class="icon-download">📥</span>
-            <div>
-              <h3>Exportar Dados</h3>
-              <p>Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
+          <!-- HEADER -->
+          <div class="page-header">
+            <div class="header-left">
+              <h1>Indicadores Comuns</h1>
+              <p>Acompanhamento detalhado do reporte semestral dos 14 indicadores de reporte obrigatório do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
             </div>
           </div>
 
-          <button class="btn-action csv">
-            <span class="btn-icon">📄</span> Descarregar CSV
+          <!-- FILTROS -->
+          <div class="filtros-row">
+            <div class="filtro-group">
+              <label>PAÍS</label>
+              <div class="select-wrapper">
+                <select v-model="paisSelecionado">
+                  <option value="pt">Portugal</option>
+                  <option value="es">Espanha</option>
+                  <option value="fr">França</option>
+                  <option value="it">Itália</option>
+                  <option value="al">Alemanha</option>
+                  <option value="gr">Grécia</option>
+                  <option value="cr">Croácia</option>
+                  <option value="rmn">Roménia</option>
+                </select>
+              </div>
+            </div>
+            <div class="filtro-group">
+              <label>PERÍODO DE REPORTE</label>
+              <div class="select-wrapper">
+                <select v-model="periodoSelecionado">
+                  <option value="s2-2025">2º Semestre 2025</option>
+                  <option value="s1-2025">1º Semestre 2025</option>
+                  <option value="s2-2024">2º Semestre 2024</option>
+                  <option value="s1-2024">1º Semestre 2024</option>
+                  <option value="s2-2023">2º Semestre 2023</option>
+                  <option value="s1-2023">1º Semestre 2023</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECÇÃO INDICADORES -->
+          <div class="section-header">
+            <div class="section-bar"></div>
+            <h2>Indicadores de Performance</h2>
+          </div>
+
+          <div class="cards-grid">
+            <div class="indicador-card" v-for="ind in indicadores" :key="ind.id">
+              <div class="card-top">
+                <span class="card-icon">{{ ind.icone }}</span>
+                <span class="card-categoria">{{ ind.categoria }}</span>
+              </div>
+              <p class="card-nome">{{ ind.nome }}</p>
+              <p class="card-valor">{{ ind.valor }}</p>
+              <div class="progresso-row">
+                <span class="prog-label">PROGRESSO META</span>
+                <span class="prog-pct">{{ ind.progresso }}%</span>
+              </div>
+              <div class="barra-bg">
+                <div class="barra-fill" :style="{ width: ind.progresso + '%', background: corBarra(ind.progresso) }"></div>
+              </div>
+              <button class="btn-saber">Saber Mais →</button>
+            </div>
+          </div>
+
+          <!-- OUTROS INDICADORES -->
+          <div class="section-header" style="margin-top: 70px;">
+            <div class="section-bar"></div>
+            <h2>Outros Indicadores Obrigatórios</h2>
+          </div>
+
+          <div class="outros-lista">
+            <div class="outro-item" v-for="outro in outrosIndicadores" :key="outro.id">
+              <div class="outro-esq">
+                <span class="outro-icone">{{ outro.icone }}</span>
+                <span class="outro-nome">{{ outro.nome }}</span>
+              </div>
+              <span class="outro-valor">{{ outro.valor }}</span>
+              <button class="btn-exportar-outro" @click="exportar('csv')">Exportar</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLUNA DIREITA (painel fixo) -->
+        <div class="col-direita">
+
+          <button class="btn-guia">
+            <span class="icon-circle">?</span> Guia de Metodologia
           </button>
 
-          <button class="btn-action pdf">
-            <span class="btn-icon">📑</span> Relatório PDF
-          </button>
+          <div class="exportar-box">
+            <div class="exportar-header">
+              <span class="icon-download">📥</span>
+              <div>
+                <h3>Exportar Dados</h3>
+                <p>Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
+              </div>
+            </div>
 
-          <hr class="inner-divider">
+            <button class="btn-action csv">
+              <span class="btn-icon">📄</span> Descarregar CSV
+            </button>
 
-          <div class="sync-status">
-            <p class="sync-label">ESTADO DE SINCRONIZAÇÃO</p>
-            <div class="sync-time">
-              <span class="check-circle">✔</span>
-              <span>Atualizado hoje, 09:42</span>
+            <button class="btn-action pdf">
+              <span class="btn-icon">📑</span> Relatório PDF
+            </button>
+
+            <hr class="inner-divider">
+
+            <div class="sync-status">
+              <p class="sync-label">ESTADO DE SINCRONIZAÇÃO</p>
+              <div class="sync-time">
+                <span class="check-circle">✔</span>
+                <span>Atualizado hoje, 09:42</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
-    <!-- FOOTER -->
+    <!-- FOOTER: fora do indicadores-container -->
     <footer class="ind-footer">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -162,7 +174,7 @@
 import { ref } from 'vue'
 
 const paisSelecionado = ref('pt')
-const periodoSelecionado = ref('s1-2024')
+const periodoSelecionado = ref('s1-2025')
 
 const indicadores = ref([
   { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '452.890', progresso: 68 },
@@ -206,7 +218,7 @@ function exportar(tipo) {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden; 
+  overflow-x: hidden !important;
 }
 
 /* LAYOUT PRINCIPAL */
@@ -214,7 +226,7 @@ function exportar(tipo) {
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 30px;
-  padding: 30px 4%;
+  padding: 30px 4% 0 4%;
   width: 100%;
 }
 
@@ -431,7 +443,7 @@ function exportar(tipo) {
 }
 
 .btn-saber {
-  margin-top: auto; /* Empurra o botão sempre para o fundo do card */
+  margin-top: auto; 
   background: #931b18;
   color: white;
   border: none;
@@ -468,7 +480,7 @@ function exportar(tipo) {
 }
 
 .outro-item:hover {
-  transform: translateX(8px); /* Em vez de subir, este desliza para o lado */
+  transform: translateX(8px); 
   border-color: #d4af37;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -610,6 +622,7 @@ function exportar(tipo) {
   border-color: #7a1614; 
 }
 
+
 /* Sincronização */
 .inner-divider {
   border: none;
@@ -718,30 +731,43 @@ function exportar(tipo) {
   color: #333;
 }
 
-.sync-check { font-size: 1rem; }
+.sync-check { 
+  font-size: 1rem; 
+}
 
 /* FOOTER */
 .ind-footer {
-  background: #931b18;
-  width: 100%;
   color: white;
-  padding: 100px 5% 80px;
-  margin-top: 50px;
-  border-top: 7px solid #d4af37;
+  width: 100%;
+  background: linear-gradient(to bottom, #d4af37 7px, #931b18 7px);
+  box-shadow: 0 400px 0 400px #931b18;
+  margin-top: 100px;
+  padding: 80px 8% 15px;
+  padding-bottom: 10px !important;
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 100px;
-  margin-bottom: 30px;
+  display: flex !important;
+  justify-content: space-between !important;
+  max-width: 95% !important; 
+  width: 95% !important;
+  margin: 0 auto 30px !important;
+  padding: 0 !important;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Garante que o container do título não aperta o texto */
+  width: auto !important; 
+  min-width: 500px; /* Dá espaço suficiente para a frase toda */
 }
 
 .footer-logo {
+  /* ... tuas cores ... */
+  white-space: nowrap; /* FORÇA O TEXTO A FICAR NUMA LINHA SÓ */
   font-size: 1.7rem;
-  font-weight: 800;
-  margin-bottom: 40px; 
-  color: #d4af37;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -751,7 +777,7 @@ function exportar(tipo) {
   font-size: 1.1rem;
   opacity: 0.9;
   line-height: 1.8;
-  margin-bottom: 45px;
+  margin-bottom: 20px !important;
   max-width: 420px;
 }
 
@@ -760,8 +786,8 @@ function exportar(tipo) {
   gap: 20px;
   font-size: 1.2rem;
   cursor: pointer;
-  margin-top: 20px;
-  margin-bottom: 60px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .footer-icons span {
@@ -815,18 +841,18 @@ function exportar(tipo) {
 }
 
 .footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2); 
-  font-size: 0.85rem;
-  opacity: 0.8;
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 20px !important;
+  padding-top: 15px !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 @media (max-width: 1100px) {
   .main-layout {
-    grid-template-columns: 1fr; /* Em tablets, a coluna da direita vai para baixo */
+    grid-template-columns: 1fr; 
   }
   .col-direita {
     width: 100%;
@@ -846,4 +872,5 @@ function exportar(tipo) {
   background: #d4af37;
   border-radius: 50%;
 }
-</style>
+</style> 
+
