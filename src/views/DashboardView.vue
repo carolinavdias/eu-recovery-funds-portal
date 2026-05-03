@@ -1,7 +1,7 @@
 <template>
   <div class="portal-container">
 
-    <!-- MODAL DE EXPORTAÇÃO PARA CARDS SUPERIORES (Investimento, Objetivos, Crescimento) -->
+    <!-- ================= MODAL CARDS SUPERIORES ================= -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -27,12 +27,12 @@
       </div>
     </div>
 
-    <!-- MODAL DE EXPORTAÇÃO PARA PILARES (NOVO) -->
+    <!-- ================= MODAL PILARES ================= -->
     <div v-if="showPilarModal" class="modal-overlay" @click.self="showPilarModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showPilarModal = false">✕</button>
         <div class="export-header">
-          <span class="main-download-icon">📊</span>
+          <span class="main-download-icon">📥</span>
           <h2>Exportar Dados do Pilar</h2>
           <p>{{ pilarSelecionado.titulo }}</p>
         </div>
@@ -58,11 +58,37 @@
       </div>
     </div>
 
+    <!-- ================= MODAL ESTATÍSTICAS (NOVO) ================= -->
+    <div v-if="showStatsModal" class="modal-overlay" @click.self="showStatsModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showStatsModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📥</span>
+          <h2>Exportar Dados Estatísticos</h2>
+          <p>Investimentos e indicadores‑chave do PRR</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarEstatisticas('csv')">
+            <span>Exportar como CSV</span>
+            <span class="ext">.csv</span>
+          </button>
+          <button class="export-item" @click="exportarEstatisticas('json')">
+            <span>Feed de Dados (JSON)</span>
+            <span class="ext">.json</span>
+          </button>
+          <button class="export-item" @click="exportarEstatisticas('pdf')">
+            <span>Sumário em PDF</span>
+            <span class="ext">.pdf</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= HERO ================= -->
     <section class="hero-ue">
       <div class="overlay">
         <h1>Mecanismo de Recuperação e Resiliência da EU</h1>
         <p>Monitorize o impacto real dos fundos europeus na sua região e quotidiano.</p>
-        
         <div class="button-group-main">
           <RouterLink to="/paises"><button class="btn-outline">Explorar por País</button></RouterLink>
           <a href="#sobre"><button class="btn-yellow">Saber Mais</button></a>
@@ -71,14 +97,14 @@
       </div>
     </section>
 
+    <!-- ================= INTRO ================= -->
     <section id="sobre" class="intro">
       <h2>O que é o PRR?</h2>
       <p class="intro-text">
         O PRR - Plano de Recuperação e Resiliência é o programa nacional financiado pelo 
-        Mecanismo de Recuperação e Resiliência da União Europeia da União Europeia, destinado a apoiar a 
+        Mecanismo de Recuperação e Resiliência da União Europeia, destinado a apoiar a 
         recuperação económica e a construção de um país mais resiliente.
       </p>
-      
       <div class="cards-grid">
         <div class="info-card">
           <div class="card-header">
@@ -92,7 +118,6 @@
           <p>Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.</p>
           <p class="card-highlight">Montante Total: <span>€16,6 Bilhões</span></p>
         </div>
-
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
@@ -105,7 +130,6 @@
           <p>Acompanhamento de Marcos e Metas: objetivos específicos com prazos e estados de execução detalhados.</p>
           <p class="card-highlight">Marcos Totais: <span>341 objetivos</span></p>
         </div>
-
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
@@ -121,6 +145,7 @@
       </div>
     </section>
 
+    <!-- ================= IMPACTO ================= -->
     <section class="impacto">
       <div class="impacto-imagens">
         <div class="img-card img-topo">
@@ -132,10 +157,8 @@
           <span class="img-label">Saúde Moderna</span>
         </div>
       </div>
-
       <div class="impacto-conteudo">
         <h2>Resultados e Impacto no Quotidiano</h2>
-
         <div class="impacto-item">
           <div class="impacto-icone">🎓</div>
           <div>
@@ -143,7 +166,6 @@
             <p class="impacto-desc">Modernização digital de escolas e entrega de equipamentos;</p>
           </div>
         </div>
-
         <div class="impacto-item">
           <div class="impacto-icone">🏠</div>
           <div>
@@ -151,7 +173,6 @@
             <p class="impacto-desc">Renovação de infraestruturas e eficiência energética;</p>
           </div>
         </div>
-
         <div class="impacto-item">
           <div class="impacto-icone">🤍</div>
           <div>
@@ -162,14 +183,13 @@
       </div>
     </section>
 
+    <!-- ================= PILARES ================= -->
     <section id="pilares" class="pilares">
       <div class="pilares-header">
         <h2>Pilares do PRR</h2>
         <p>Consulte o investimento, acompanhe as metas e veja o impacto direto destes 6 pilares no seu quotidiano.</p>
       </div>
-
       <div class="pilares-grid">
-        <!-- Pilar 1: Transição Climática -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Clima">
@@ -190,8 +210,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Pilar 2: Transição Digital -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="Digital">
@@ -212,8 +230,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Pilar 3: Infraestruturas -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" alt="Infra">
@@ -234,8 +250,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Pilar 4: Educação e Formação -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" alt="Educação">
@@ -256,8 +270,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Pilar 5: Coesão Social -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Coesão">
@@ -278,8 +290,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Pilar 6: Saúde -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" alt="Saúde">
@@ -303,91 +313,42 @@
       </div>
     </section>
 
+    <!-- ================= DADOS E ESTATÍSTICAS ================= -->
     <section class="dados">
       <div class="dados-topo">
-        <button class="btn-exportar-tudo" @click="showExportModal = true">Exportar Tudo</button>
+        <button class="btn-exportar-tudo" @click="abrirModalEstatisticas">Exportar Tudo</button>
       </div>
-
       <h2>Dados e Estatísticas</h2>
       <p class="dados-sub">Explore os dados: do investimento europeu ao impacto direto na sua região.</p>
 
       <div class="barras-card">
         <h3>Áreas de Investimento Prioritárias</h3>
         <div class="barras-grid">
-          <div class="barra-item">
+          <div class="barra-item" v-for="barra in dadosBarras" :key="barra.nome">
             <div class="barra-label-row">
-              <span>Transição Climática</span>
-              <span class="barra-valor">37% — €277,5 Mil milhões</span>
+              <span>{{ barra.nome }}</span>
+              <span class="barra-valor">{{ barra.percentagem }}% — {{ barra.valor }}</span>
             </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 37%"></div><div class="barra-media"></div></div>
-          </div>
-          <div class="barra-item">
-            <div class="barra-label-row">
-              <span>Educação e Formação</span>
-              <span class="barra-valor">12% — €90 Mil milhões</span>
+            <div class="barra-bg">
+              <div class="barra-fill" :style="{ width: barra.percentagem + '%' }"></div>
+              <div class="barra-media"></div>
             </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 12%"></div><div class="barra-media"></div></div>
-          </div>
-          <div class="barra-item">
-            <div class="barra-label-row">
-              <span>Transição Digital</span>
-              <span class="barra-valor">20% — €150 Mil milhões</span>
-            </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 20%"></div><div class="barra-media"></div></div>
-          </div>
-          <div class="barra-item">
-            <div class="barra-label-row">
-              <span>Saúde</span>
-              <span class="barra-valor">8% — €60 Mil milhões</span>
-            </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 8%"></div><div class="barra-media"></div></div>
-          </div>
-          <div class="barra-item">
-            <div class="barra-label-row">
-              <span>Infraestruturas</span>
-              <span class="barra-valor">18% — €135 Mil milhões</span>
-            </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 18%"></div><div class="barra-media"></div></div>
-          </div>
-          <div class="barra-item">
-            <div class="barra-label-row">
-              <span>Coesão Social</span>
-              <span class="barra-valor">5% — €37,5 Mil milhões</span>
-            </div>
-            <div class="barra-bg"><div class="barra-fill" style="width: 5%"></div><div class="barra-media"></div></div>
           </div>
         </div>
         <p class="barras-nota">*As linhas a preto sobre as barras estatísticas correspondem à média da EU.</p>
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icone">📈</div>
-          <div class="stat-valor">€750</div>
-          <div class="stat-label">Mil milhões</div>
-          <div class="stat-desc">Investimento total da UE</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icone">👥</div>
-          <div class="stat-valor">27</div>
-          <div class="stat-label">Países</div>
-          <div class="stat-desc">Estados-Membros beneficiários</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icone">🌿</div>
-          <div class="stat-valor">37%</div>
-          <div class="stat-label">Transição Verde</div>
-          <div class="stat-desc">Mínimo de investimento</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icone">⚡</div>
-          <div class="stat-valor">20%</div>
-          <div class="stat-label">Transição Digital</div>
-          <div class="stat-desc">Mínimo de investimento</div>
+        <div class="stat-card" v-for="stat in dadosStats" :key="stat.label">
+          <div class="stat-icone">{{ stat.icone }}</div>
+          <div class="stat-valor">{{ stat.valor }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-desc">{{ stat.desc }}</div>
         </div>
       </div>
     </section>
 
+    <!-- ================= FOOTER ================= -->
     <footer class="footer">
       <div class="footer-grid">
         <div class="footer-col">
@@ -424,18 +385,19 @@
 <script setup>
 import { ref } from 'vue'
 
-// Estado dos modais
-const showExportModal = ref(false)      // modal dos cards superiores
-const showPilarModal = ref(false)       // modal dos pilares
+// ---- ESTADOS DOS MODAIS ----
+const showExportModal = ref(false)    // cards superiores
+const showPilarModal = ref(false)     // pilares
+const showStatsModal = ref(false)     // estatísticas
 
-// Dados do card superior selecionado
+// ---- DADOS DOS CARDS SUPERIORES ----
 const cardSelecionado = ref({
   titulo: '',
   descricao: '',
   valor: ''
 })
 
-// Dados do pilar selecionado
+// ---- DADOS DOS PILARES ----
 const pilarSelecionado = ref({
   titulo: '',
   meta: '',
@@ -443,35 +405,42 @@ const pilarSelecionado = ref({
   impacto: ''
 })
 
-// Abrir modal para cards superiores
+// ---- DADOS DAS ESTATÍSTICAS (BARRAS + STATS) ----
+const dadosBarras = ref([
+  { nome: 'Transição Climática', percentagem: 37, valor: '€277,5 Mil milhões' },
+  { nome: 'Educação e Formação', percentagem: 12, valor: '€90 Mil milhões' },
+  { nome: 'Transição Digital', percentagem: 20, valor: '€150 Mil milhões' },
+  { nome: 'Saúde', percentagem: 8, valor: '€60 Mil milhões' },
+  { nome: 'Infraestruturas', percentagem: 18, valor: '€135 Mil milhões' },
+  { nome: 'Coesão Social', percentagem: 5, valor: '€37,5 Mil milhões' }
+])
+
+const dadosStats = ref([
+  { icone: '📈', valor: '€750', label: 'Mil milhões', desc: 'Investimento total da UE' },
+  { icone: '👥', valor: '27', label: 'Países', desc: 'Estados-Membros beneficiários' },
+  { icone: '🌿', valor: '37%', label: 'Transição Verde', desc: 'Mínimo de investimento' },
+  { icone: '⚡', valor: '20%', label: 'Transição Digital', desc: 'Mínimo de investimento' }
+])
+
+// ---- FUNÇÕES PARA CARDS SUPERIORES ----
 function abrirModalExportacao(titulo, descricao, valor) {
   cardSelecionado.value = { titulo, descricao, valor }
   showExportModal.value = true
 }
 
-// Abrir modal para pilares
-function abrirModalPilar(titulo, meta, investimento, impacto) {
-  pilarSelecionado.value = { titulo, meta, investimento, impacto }
-  showPilarModal.value = true
-}
-
-// Exportar dados dos cards superiores (CSV, JSON, PDF)
 function executarDownload(formato) {
   const { titulo, descricao, valor } = cardSelecionado.value
   const dataGeracao = new Date().toLocaleDateString('pt-PT')
-  
   let conteudo = ''
   let mimeType = ''
 
   if (formato === 'csv') {
     conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`
     mimeType = 'text/csv;charset=utf-8'
-  } 
-  else if (formato === 'json') {
+  } else if (formato === 'json') {
     conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2)
     mimeType = 'application/json'
-  } 
-  else if (formato === 'pdf') {
+  } else if (formato === 'pdf') {
     gerarPDF(titulo, descricao, valor, dataGeracao)
     showExportModal.value = false
     return
@@ -489,7 +458,6 @@ function executarDownload(formato) {
   showExportModal.value = false
 }
 
-// Função auxiliar para gerar PDF dos cards superiores
 function gerarPDF(t, d, v, data) {
   const win = window.open('', '_blank')
   win.document.write(`
@@ -507,11 +475,16 @@ function gerarPDF(t, d, v, data) {
   win.print()
 }
 
-// Exportar dados dos pilares (CSV, JSON, PDF)
+// ---- FUNÇÕES PARA PILARES ----
+function abrirModalPilar(titulo, meta, investimento, impacto) {
+  pilarSelecionado.value = { titulo, meta, investimento, impacto }
+  showPilarModal.value = true
+}
+
 function executarDownloadPilar(formato) {
   const { titulo, meta, investimento, impacto } = pilarSelecionado.value
   const dataGeracao = new Date().toLocaleDateString('pt-PT')
-  
+
   if (formato === 'csv') {
     const conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`
     const blob = new Blob([conteudo], { type: 'text/csv;charset=utf-8' })
@@ -523,8 +496,7 @@ function executarDownloadPilar(formato) {
     link.click()
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
-  } 
-  else if (formato === 'json') {
+  } else if (formato === 'json') {
     const dados = { titulo, meta, investimento, impacto, data: dataGeracao }
     const conteudo = JSON.stringify(dados, null, 2)
     const blob = new Blob([conteudo], { type: 'application/json' })
@@ -536,8 +508,7 @@ function executarDownloadPilar(formato) {
     link.click()
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
-  } 
-  else if (formato === 'pdf') {
+  } else if (formato === 'pdf') {
     const win = window.open('', '_blank')
     win.document.write(`
       <html>
@@ -554,12 +525,91 @@ function executarDownloadPilar(formato) {
     win.document.close()
     win.print()
   }
-
   showPilarModal.value = false
+}
+
+// ---- FUNÇÕES PARA ESTATÍSTICAS (NOVO) ----
+function abrirModalEstatisticas() {
+  showStatsModal.value = true
+}
+
+function exportarEstatisticas(formato) {
+  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const dadosCompletos = {
+    dataGeracao,
+    areasInvestimento: dadosBarras.value,
+    indicadoresChave: dadosStats.value
+  }
+
+  if (formato === 'csv') {
+    // CSV: primeiro as áreas de investimento, depois os indicadores
+    let linhas = []
+    linhas.push('Seção;Nome;Percentagem;Valor;Descrição')
+    dadosBarras.value.forEach(b => {
+      linhas.push(`Área de Investimento;${b.nome};${b.percentagem};${b.valor};-`)
+    })
+    dadosStats.value.forEach(s => {
+      linhas.push(`Indicador-Chave;${s.label};-;${s.valor};${s.desc}`)
+    })
+    const conteudo = linhas.join('\n')
+    const blob = new Blob([conteudo], { type: 'text/csv;charset=utf-8' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } 
+  else if (formato === 'json') {
+    const conteudo = JSON.stringify(dadosCompletos, null, 2)
+    const blob = new Blob([conteudo], { type: 'application/json' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  }
+  else if (formato === 'pdf') {
+    // Gera uma página HTML com os dados e chama print()
+    const win = window.open('', '_blank')
+    win.document.write(`
+      <html>
+        <head><title>Estatísticas PRR</title></head>
+        <body style="font-family:sans-serif; padding:40px;">
+          <h1 style="color:#931b18;">Dados Estatísticos - PRR</h1>
+          <p>Gerado em ${dataGeracao}</p>
+          <h2>Áreas de Investimento Prioritárias</h2>
+          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white">
+              <th>Área</th><th>Percentagem</th><th>Valor</th>
+            </tr>
+            ${dadosBarras.value.map(b => `<tr><td>${b.nome}</td><td>${b.percentagem}%</td><td>${b.valor}</td></tr>`).join('')}
+          </table>
+          <h2>Indicadores-Chave</h2>
+          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white">
+              <th>Indicador</th><th>Valor</th><th>Descrição</th>
+            </tr>
+            ${dadosStats.value.map(s => `<tr><td>${s.label}</td><td>${s.valor}</td><td>${s.desc}</td></tr>`).join('')}
+          </table>
+        </body>
+      </html>
+    `)
+    win.document.close()
+    win.print()
+  }
+
+  showStatsModal.value = false
 }
 </script>
 
 <style scoped>
+/* ========== TODO O SEU CSS ORIGINAL AQUI (MANTENHA EXATAMENTE IGUAL) ========== */
 .portal-container {
   margin: -2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -830,7 +880,6 @@ function executarDownloadPilar(formato) {
   font-size: 0.85rem; 
 }
 
-/* Estilos adicionais para o modal dos pilares */
 .pilar-detalhes-modal {
   background: rgba(255,255,255,0.15);
   border-radius: 12px;
