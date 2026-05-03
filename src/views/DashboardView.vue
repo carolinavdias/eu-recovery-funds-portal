@@ -1,7 +1,7 @@
 <template>
   <div class="portal-container">
 
-    <!-- MODAL DE EXPORTAÇÃO -->
+    <!-- MODAL DE EXPORTAÇÃO PARA CARDS SUPERIORES (Investimento, Objetivos, Crescimento) -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -20,6 +20,37 @@
             <span class="ext">.json</span>
           </button>
           <button class="export-item" @click="executarDownload('pdf')">
+            <span>Sumário em PDF</span>
+            <span class="ext">.pdf</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE EXPORTAÇÃO PARA PILARES (NOVO) -->
+    <div v-if="showPilarModal" class="modal-overlay" @click.self="showPilarModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showPilarModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📊</span>
+          <h2>Exportar Dados do Pilar</h2>
+          <p>{{ pilarSelecionado.titulo }}</p>
+        </div>
+        <div class="pilar-detalhes-modal">
+          <p><strong>Meta:</strong> {{ pilarSelecionado.meta }}</p>
+          <p><strong>Investimento:</strong> {{ pilarSelecionado.investimento }}</p>
+          <p><strong>Impacto:</strong> {{ pilarSelecionado.impacto }}</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="executarDownloadPilar('csv')">
+            <span>Exportar como CSV</span>
+            <span class="ext">.csv</span>
+          </button>
+          <button class="export-item" @click="executarDownloadPilar('json')">
+            <span>Feed de Dados (JSON)</span>
+            <span class="ext">.json</span>
+          </button>
+          <button class="export-item" @click="executarDownloadPilar('pdf')">
             <span>Sumário em PDF</span>
             <span class="ext">.pdf</span>
           </button>
@@ -138,6 +169,7 @@
       </div>
 
       <div class="pilares-grid">
+        <!-- Pilar 1: Transição Climática -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Clima">
@@ -146,10 +178,10 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Transição Climática</h3>
-              <div class="pilar-download" @click="abrirModalExportacao('Transição Climática', 'Descarbonização e Eficiência Energética', '250 mil edifícios renovados')">
-              <span class="dl-icon">📥</span>
-              <span class="dl-text">CSV | JSON | PDF</span>
-            </div>
+              <div class="pilar-download" @click="abrirModalPilar('Transição Climática', 'Descarbonização e Eficiência', '€16,6 Bilhões', '250 mil edifícios renovados')">
+                <span class="dl-icon">📥</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
+              </div>
             </div>
             <div class="pilar-details">
               <p><strong>Meta:</strong> Descarbonização e Eficiência;</p>
@@ -159,6 +191,7 @@
           </div>
         </div>
 
+        <!-- Pilar 2: Transição Digital -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="Digital">
@@ -167,7 +200,7 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Transição Digital</h3>
-              <div class="pilar-download" @click="showExportModal = true">
+              <div class="pilar-download" @click="abrirModalPilar('Transição Digital', 'Digitalização da Economia', '€5,2 Bilhões', '100% dos serviços públicos online')">
                 <span class="dl-icon">📥</span>
                 <span class="dl-text">CSV | JSON | PDF</span>
               </div>
@@ -180,6 +213,7 @@
           </div>
         </div>
 
+        <!-- Pilar 3: Infraestruturas -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" alt="Infra">
@@ -188,7 +222,7 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Infraestruturas</h3>
-              <div class="pilar-download" @click="showExportModal = true">
+              <div class="pilar-download" @click="abrirModalPilar('Infraestruturas', 'Modernização Ferroviária e Logística', '€4,8 Bilhões', 'Transportes 20% mais rápidos')">
                 <span class="dl-icon">📥</span>
                 <span class="dl-text">CSV | JSON | PDF</span>
               </div>
@@ -201,6 +235,7 @@
           </div>
         </div>
 
+        <!-- Pilar 4: Educação e Formação -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" alt="Educação">
@@ -209,7 +244,7 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Educação e Formação</h3>
-              <div class="pilar-download" @click="showExportModal = true">
+              <div class="pilar-download" @click="abrirModalPilar('Educação e Formação', 'Qualificação Geracional', '€1,2 Bilhões', '600 mil portáteis entregues a alunos')">
                 <span class="dl-icon">📥</span>
                 <span class="dl-text">CSV | JSON | PDF</span>
               </div>
@@ -222,6 +257,7 @@
           </div>
         </div>
 
+        <!-- Pilar 5: Coesão Social -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Coesão">
@@ -230,7 +266,7 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Coesão Social</h3>
-              <div class="pilar-download" @click="showExportModal = true">
+              <div class="pilar-download" @click="abrirModalPilar('Coesão Social', 'Habitação Pública e Inclusão', '€2,5 Milhões', '15.000 novas casas acessíveis')">
                 <span class="dl-icon">📥</span>
                 <span class="dl-text">CSV | JSON | PDF</span>
               </div>
@@ -243,6 +279,7 @@
           </div>
         </div>
 
+        <!-- Pilar 6: Saúde -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" alt="Saúde">
@@ -251,7 +288,7 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Saúde</h3>
-              <div class="pilar-download" @click="showExportModal = true">
+              <div class="pilar-download" @click="abrirModalPilar('Saúde', 'Digitalização e Reforço do SNS', '€1,4 Milhões', '100 Centros de Saúde renovados')">
                 <span class="dl-icon">📥</span>
                 <span class="dl-text">CSV | JSON | PDF</span>
               </div>
@@ -387,66 +424,74 @@
 <script setup>
 import { ref } from 'vue'
 
-const showExportModal = ref(false)
+// Estado dos modais
+const showExportModal = ref(false)      // modal dos cards superiores
+const showPilarModal = ref(false)       // modal dos pilares
 
-// Guarda os dados do card selecionado
+// Dados do card superior selecionado
 const cardSelecionado = ref({
   titulo: '',
   descricao: '',
   valor: ''
 })
 
-// Abre o modal e preenche os dados
+// Dados do pilar selecionado
+const pilarSelecionado = ref({
+  titulo: '',
+  meta: '',
+  investimento: '',
+  impacto: ''
+})
+
+// Abrir modal para cards superiores
 function abrirModalExportacao(titulo, descricao, valor) {
-  cardSelecionado.value = { titulo, descricao, valor };
-  showExportModal.value = true;
+  cardSelecionado.value = { titulo, descricao, valor }
+  showExportModal.value = true
 }
 
+// Abrir modal para pilares
+function abrirModalPilar(titulo, meta, investimento, impacto) {
+  pilarSelecionado.value = { titulo, meta, investimento, impacto }
+  showPilarModal.value = true
+}
+
+// Exportar dados dos cards superiores (CSV, JSON, PDF)
 function executarDownload(formato) {
-  const { titulo, descricao, valor } = cardSelecionado.value;
-  const dataGeracao = new Date().toLocaleDateString('pt-PT');
+  const { titulo, descricao, valor } = cardSelecionado.value
+  const dataGeracao = new Date().toLocaleDateString('pt-PT')
   
-  let conteudo = '';
-  let mimeType = '';
+  let conteudo = ''
+  let mimeType = ''
 
   if (formato === 'csv') {
-    // Formato CSV simples
-    conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`;
-    mimeType = 'text/csv;charset=utf-8';
+    conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`
+    mimeType = 'text/csv;charset=utf-8'
   } 
   else if (formato === 'json') {
-    // Formato JSON
-    conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2);
-    mimeType = 'application/json';
+    conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2)
+    mimeType = 'application/json'
   } 
   else if (formato === 'pdf') {
-    gerarPDF(titulo, descricao, valor, dataGeracao);
-    showExportModal.value = false;
-    return;
+    gerarPDF(titulo, descricao, valor, dataGeracao)
+    showExportModal.value = false
+    return
   }
 
-  // CRIAÇÃO DO DOWNLOAD 
-  const blob = new Blob([conteudo], { type: mimeType });
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  
-  link.href = url;
-  // Define o nome do ficheiro 
-  link.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`;
-  
-  // Força o clique
-  document.body.appendChild(link);
-  link.click();
-  
-  // Limpeza
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
-  
-  showExportModal.value = false;
+  const blob = new Blob([conteudo], { type: mimeType })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  window.URL.revokeObjectURL(url)
+  showExportModal.value = false
 }
 
+// Função auxiliar para gerar PDF dos cards superiores
 function gerarPDF(t, d, v, data) {
-  const win = window.open('', '_blank');
+  const win = window.open('', '_blank')
   win.document.write(`
     <html>
       <body style="font-family:sans-serif; padding:40px;">
@@ -457,54 +502,60 @@ function gerarPDF(t, d, v, data) {
         <p>Gerado em ${data}</p>
       </body>
     </html>
-  `);
-  win.document.close();
-  win.print();
+  `)
+  win.document.close()
+  win.print()
 }
 
-// Variável nova apenas para os Pilares
-const pilarSelecionado = ref({
-  titulo: '',
-  meta: '',
-  investimento: '',
-  impacto: ''
-})
-
-const showPilarModal = ref(false)
-
-// FUNÇÃO NOVA: Apenas para abrir o modal dos Pilares
-function abrirModalPilar(titulo, meta, investimento, impacto) {
-  pilarSelecionado.value = { titulo, meta, investimento, impacto };
-  showPilarModal.value = true;
-}
-
-// FUNÇÃO NOVA: Apenas para exportar os dados dos Pilares
+// Exportar dados dos pilares (CSV, JSON, PDF)
 function executarDownloadPilar(formato) {
-  const { titulo, meta, investimento, impacto } = pilarSelecionado.value;
-  const dataGeracao = new Date().toLocaleDateString('pt-PT');
-  let conteudo = '';
-  let mimeType = '';
-
+  const { titulo, meta, investimento, impacto } = pilarSelecionado.value
+  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  
   if (formato === 'csv') {
-    conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`;
-    mimeType = 'text/csv;charset=utf-8';
+    const conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`
+    const blob = new Blob([conteudo], { type: 'text/csv;charset=utf-8' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
   } 
   else if (formato === 'json') {
-    conteudo = JSON.stringify({ ...pilarSelecionado.value, data: dataGeracao }, null, 2);
-    mimeType = 'application/json';
+    const dados = { titulo, meta, investimento, impacto, data: dataGeracao }
+    const conteudo = JSON.stringify(dados, null, 2)
+    const blob = new Blob([conteudo], { type: 'application/json' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } 
+  else if (formato === 'pdf') {
+    const win = window.open('', '_blank')
+    win.document.write(`
+      <html>
+        <body style="font-family:sans-serif; padding:40px;">
+          <h1 style="color:#931b18;">Pilar PRR: ${titulo}</h1>
+          <p><strong>Meta:</strong> ${meta}</p>
+          <p><strong>Investimento:</strong> ${investimento}</p>
+          <p><strong>Impacto:</strong> ${impacto}</p>
+          <hr>
+          <p>Gerado em ${dataGeracao}</p>
+        </body>
+      </html>
+    `)
+    win.document.close()
+    win.print()
   }
 
-  const blob = new Blob([conteudo], { type: mimeType });
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.${formato}`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
-  
-  showPilarModal.value = false;
+  showPilarModal.value = false
 }
 </script>
 
@@ -777,6 +828,20 @@ function executarDownloadPilar(formato) {
   opacity: 0.5; 
   font-family: monospace; 
   font-size: 0.85rem; 
+}
+
+/* Estilos adicionais para o modal dos pilares */
+.pilar-detalhes-modal {
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.pilar-detalhes-modal p {
+  margin: 8px 0;
 }
 
 .impacto {
@@ -1133,8 +1198,8 @@ function executarDownloadPilar(formato) {
 }
 
 .stat-card:hover {
-  transform: translateY(-6px); /* ← adiciona */
-  background: rgba(255,255,255,0.18); /* ← fundo ligeiramente mais claro */
+  transform: translateY(-6px); 
+  background: rgba(255,255,255,0.18); 
 }
 
 .stat-icone { 
