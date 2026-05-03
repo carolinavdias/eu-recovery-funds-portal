@@ -358,9 +358,9 @@
         <div class="footer-col">
           <h4>Links Úteis</h4>
           <ul>
-            <li><a href="#">Comissão Europeia</a></li>
-            <li><a href="#">PRR Portugal</a></li>
-            <li><a href="#">Next Generation EU</a></li>
+            <li><a href="https://commission.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">Comissão Europeia</a></li>
+            <li><a href="https://recuperarportugal.gov.pt/" target="_blank" rel="noopener noreferrer">PRR Portugal</a></li>
+            <li><a href="https://next-generation-eu.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">Next Generation EU</a></li>
           </ul>
         </div>
         <div class="footer-col">
