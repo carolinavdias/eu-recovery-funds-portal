@@ -109,11 +109,11 @@
               </div>
             </div>
 
-            <button class="btn-action csv">
+            <button class="btn-action csv" @click="exportar('csv')">
               <span class="btn-icon">📄</span> Descarregar CSV
             </button>
 
-            <button class="btn-action pdf">
+            <button class="btn-action pdf" @click="exportar('pdf')">
               <span class="btn-icon">📑</span> Relatório PDF
             </button>
 
@@ -136,11 +136,15 @@
     <footer class="ind-footer">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo">🏛️ Portal de Transparência PRR</div>
+          <span class="footer-logo">🏛️ Portal de Transparência PRR</span>
           <p>Monitorização oficial dos Indicadores Comuns do Plano de Recuperação e Resiliência em Portugal. Garantindo total transparência e rigor.</p>
           <div class="footer-icons">
-            <span>🔗</span>
-            <span>✉️</span>
+            <button type="button" class="icon-btn" @click="copiarLinkSimples">
+              <span>🔗</span>
+            </button>
+            <button type="button" class="icon-btn" @click="abrirEmailSimples">
+              <span>✉️</span>
+            </button>
           </div>
         </div>
         <div class="footer-col">
@@ -209,10 +213,117 @@ function exportar(tipo) {
   a.click()
   URL.revokeObjectURL(url)
 }
+
+// --- Funções corrigidas para o footer ---
+function copiarLinkSimples() {
+  const url = window.location.href;
+  // Método mais universal
+  const input = document.createElement('input');
+  input.value = url;
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999); // para mobile
+  try {
+    document.execCommand('copy');
+    alert('✅ Link copiado: ' + url);
+  } catch (err) {
+    alert('❌ Não foi possível copiar. Copie manualmente: ' + url);
+  }
+  document.body.removeChild(input);
+}
+
+function abrirEmailSimples() {
+  console.log('Botão clicado!');
+  window.location.href = 'mailto:info@prr-europa.eu';
+  // Fallback caso não abra
+  setTimeout(() => {
+    alert('Se o email não abriu, envie manualmente para info@prr-europa.eu');
+  }, 500);
+}
+
+function fallbackCopy(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.left = "-9999px";
+  textArea.style.top = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      mostrarNotificacao("🔗 Link copiado (fallback)");
+    } else {
+      mostrarNotificacao("❌ Erro ao copiar. Copie manualmente: " + text);
+    }
+  } catch (err) {
+    console.error('Fallback error:', err);
+    mostrarNotificacao("❌ Erro ao copiar link.");
+  }
+  document.body.removeChild(textArea);
+}
+
+function abrirEmail() {
+  window.location.href = "mailto:info@prr-europa.eu";
+}
+
+function mostrarNotificacao(mensagem) {
+  // Remove notificação existente se houver
+  const existing = document.querySelector('.custom-notification');
+  if (existing) existing.remove();
+
+  const notificacao = document.createElement('div');
+  notificacao.className = 'custom-notification';
+  notificacao.textContent = mensagem;
+  notificacao.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #931b18;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    animation: notificacaoEntrada 0.3s ease;
+  `;
+  document.body.appendChild(notificacao);
+  setTimeout(() => {
+    notificacao.style.animation = 'notificacaoSaida 0.3s ease';
+    setTimeout(() => notificacao.remove(), 300);
+  }, 3000);
+}
+// -----------------------------------------
 </script>
 
 <style scoped>
 * { box-sizing: border-box; }
+
+/* Animações para notificações */
+@keyframes notificacaoEntrada {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notificacaoSaida {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
 
 .indicadores-container {
   margin: 0;
@@ -759,14 +870,20 @@ function exportar(tipo) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* Garante que o container do título não aperta o texto */
   width: auto !important; 
-  min-width: 500px; /* Dá espaço suficiente para a frase toda */
+  min-width: 500px; 
+}
+
+.footer-brand .footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #d4af37;        
+  margin-bottom: 30px;  
+  display: block;       
 }
 
 .footer-logo {
-  /* ... tuas cores ... */
-  white-space: nowrap; /* FORÇA O TEXTO A FICAR NUMA LINHA SÓ */
+  white-space: nowrap;
   font-size: 1.7rem;
   display: flex;
   align-items: center;
@@ -777,7 +894,7 @@ function exportar(tipo) {
   font-size: 1.1rem;
   opacity: 0.9;
   line-height: 1.8;
-  margin-bottom: 20px !important;
+  margin-bottom: 50px !important;
   max-width: 420px;
 }
 
@@ -787,7 +904,8 @@ function exportar(tipo) {
   font-size: 1.2rem;
   cursor: pointer;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
+  z-index: 999;
 }
 
 .footer-icons span {
@@ -807,6 +925,33 @@ function exportar(tipo) {
   transform: translateY(-5px); 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   opacity: 1;
+}
+
+.icon-btn {
+  cursor: pointer !important;
+  pointer-events: auto !important; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-right: 12px;
+  background: rgba(255, 255, 255, 0.2); 
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2); /* Brilha um pouco ao passar o rato */
+  transform: translateY(-2px);
+}
+
+.icon-btn span {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .footer-col-titulo {
@@ -872,5 +1017,4 @@ function exportar(tipo) {
   background: #d4af37;
   border-radius: 50%;
 }
-</style> 
-
+</style>
