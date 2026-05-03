@@ -11,15 +11,15 @@
           <p>Descarregue o conjunto de dados da vista atual para análise offline</p>
         </div>
         <div class="export-options">
-          <button class="export-item" @click="simularDownload('csv')">
+          <button class="export-item" @click="executarDownload('csv')">
             <span>Exportar como CSV</span>
             <span class="ext">.csv</span>
           </button>
-          <button class="export-item" @click="simularDownload('json')">
+          <button class="export-item" @click="executarDownload('json')">
             <span>Feed de Dados (JSON)</span>
             <span class="ext">.json</span>
           </button>
-          <button class="export-item" @click="simularDownload('pdf')">
+          <button class="export-item" @click="executarDownload('pdf')">
             <span>Sumário em PDF</span>
             <span class="ext">.pdf</span>
           </button>
@@ -52,13 +52,9 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
-            <div class="download-container" @click="prepararExportacao('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões')">
+            <div class="download-container" @click="abrirModalExportacao('Investimento', 'Gestão e execução de pagamentos efetuados pela EU', '€16,6 Bilhões')">
               <span class="download-icon">📥</span>
-              <span class="download-text">
-                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'csv')">CSV</small> | 
-                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'json')">JSON</small> |
-                <small @click="exportarConteudo('Investimento', 'Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.', '€16,6 Bilhões', 'pdf')">PDF</small>
-              </span>
+              <span class="download-text">CSV | JSON | PDF</span>
             </div>
           </div>
           <h3>Investimento</h3>
@@ -69,9 +65,9 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
-            <div class="download-container" @click="showExportModal = true">
+            <div class="download-container" @click="abrirModalExportacao('Objetivos PRR', 'Acompanhamento de Marcos e Metas: objetivos específicos com prazos e estados de execução.', '341 objetivos')">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON</span>
+              <span class="download-text">CSV | JSON | PDF</span>
             </div>
           </div>
           <h3>Objetivos</h3>
@@ -82,9 +78,9 @@
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
-            <div class="download-container" @click="showExportModal = true">
+            <div class="download-container" @click="abrirModalExportacao('Crescimento e Indicadores', 'Monitorização semestral de 14 indicadores de reporte obrigatório.', 'Prazo Final: 2026')">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON</span>
+              <span class="download-text">CSV | JSON | PDF</span>
             </div>
           </div>
           <h3>Crescimento</h3>
@@ -150,10 +146,10 @@
           <div class="pilar-info">
             <div class="pilar-top">
               <h3>Transição Climática</h3>
-              <div class="pilar-download" @click="showExportModal = true">
-                <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
-              </div>
+              <div class="pilar-download" @click="abrirModalExportacao('Transição Climática', 'Descarbonização e Eficiência Energética', '250 mil edifícios renovados')">
+              <span class="dl-icon">📥</span>
+              <span class="dl-text">CSV | JSON | PDF</span>
+            </div>
             </div>
             <div class="pilar-details">
               <p><strong>Meta:</strong> Descarbonização e Eficiência;</p>
@@ -173,7 +169,7 @@
               <h3>Transição Digital</h3>
               <div class="pilar-download" @click="showExportModal = true">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
               </div>
             </div>
             <div class="pilar-details">
@@ -194,7 +190,7 @@
               <h3>Infraestruturas</h3>
               <div class="pilar-download" @click="showExportModal = true">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
               </div>
             </div>
             <div class="pilar-details">
@@ -215,7 +211,7 @@
               <h3>Educação e Formação</h3>
               <div class="pilar-download" @click="showExportModal = true">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
               </div>
             </div>
             <div class="pilar-details">
@@ -236,7 +232,7 @@
               <h3>Coesão Social</h3>
               <div class="pilar-download" @click="showExportModal = true">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
               </div>
             </div>
             <div class="pilar-details">
@@ -257,7 +253,7 @@
               <h3>Saúde</h3>
               <div class="pilar-download" @click="showExportModal = true">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON</span>
+                <span class="dl-text">CSV | JSON | PDF</span>
               </div>
             </div>
             <div class="pilar-details">
@@ -393,31 +389,33 @@ import { ref } from 'vue'
 
 const showExportModal = ref(false)
 
-// Esta variável vai guardar os dados do card que clicaste
+// Guarda os dados do card selecionado
 const cardSelecionado = ref({
   titulo: '',
   descricao: '',
   valor: ''
 })
 
-// 1. Função para abrir o modal já com os dados do card certo
-function prepararExportacao(titulo, descricao, valor) {
+// Abre o modal e preenche os dados
+function abrirModalExportacao(titulo, descricao, valor) {
   cardSelecionado.value = { titulo, descricao, valor };
   showExportModal.value = true;
 }
 
-// 2. Função que gera o ficheiro usando os dados guardados
 function executarDownload(formato) {
   const { titulo, descricao, valor } = cardSelecionado.value;
   const dataGeracao = new Date().toLocaleDateString('pt-PT');
+  
   let conteudo = '';
   let mimeType = '';
 
   if (formato === 'csv') {
+    // Formato CSV simples
     conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`;
-    mimeType = 'text/csv';
+    mimeType = 'text/csv;charset=utf-8';
   } 
   else if (formato === 'json') {
+    // Formato JSON
     conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2);
     mimeType = 'application/json';
   } 
@@ -427,32 +425,86 @@ function executarDownload(formato) {
     return;
   }
 
+  // CRIAÇÃO DO DOWNLOAD 
   const blob = new Blob([conteudo], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  
+  link.href = url;
+  // Define o nome do ficheiro 
+  link.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`;
+  
+  // Força o clique
+  document.body.appendChild(link);
+  link.click();
+  
+  // Limpeza
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+  
   showExportModal.value = false;
 }
 
-// Função para o Sumário PDF
 function gerarPDF(t, d, v, data) {
-  const win = window.open('', '', 'width=800,height=600');
+  const win = window.open('', '_blank');
   win.document.write(`
     <html>
       <body style="font-family:sans-serif; padding:40px;">
         <h1 style="color:#931b18;">Relatório PRR: ${t}</h1>
         <p><strong>Descrição:</strong> ${d}</p>
-        <p><strong>Estado Atual:</strong> ${v}</p>
+        <p><strong>Valor/Estado:</strong> ${v}</p>
         <hr>
-        <small>Gerado em ${data} - Portal de Transparência</small>
+        <p>Gerado em ${data}</p>
       </body>
     </html>
   `);
   win.document.close();
   win.print();
+}
+
+// Variável nova apenas para os Pilares
+const pilarSelecionado = ref({
+  titulo: '',
+  meta: '',
+  investimento: '',
+  impacto: ''
+})
+
+const showPilarModal = ref(false)
+
+// FUNÇÃO NOVA: Apenas para abrir o modal dos Pilares
+function abrirModalPilar(titulo, meta, investimento, impacto) {
+  pilarSelecionado.value = { titulo, meta, investimento, impacto };
+  showPilarModal.value = true;
+}
+
+// FUNÇÃO NOVA: Apenas para exportar os dados dos Pilares
+function executarDownloadPilar(formato) {
+  const { titulo, meta, investimento, impacto } = pilarSelecionado.value;
+  const dataGeracao = new Date().toLocaleDateString('pt-PT');
+  let conteudo = '';
+  let mimeType = '';
+
+  if (formato === 'csv') {
+    conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`;
+    mimeType = 'text/csv;charset=utf-8';
+  } 
+  else if (formato === 'json') {
+    conteudo = JSON.stringify({ ...pilarSelecionado.value, data: dataGeracao }, null, 2);
+    mimeType = 'application/json';
+  }
+
+  const blob = new Blob([conteudo], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.${formato}`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+  
+  showPilarModal.value = false;
 }
 </script>
 
