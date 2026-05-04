@@ -155,7 +155,7 @@
           <ul>
             <li><span style="color:#d4af37;">0% – 39%</span>: Atraso significativo</li>
             <li><span style="color:#d4af37;">40% – 74%</span>: Progresso moderado</li>
-            <li><span style="color:#d4af37;">75% – 100%</span>: Próximo ou atingido</li>
+            <li><span style="color:#931b18;">75% – 100%</span>: Próximo ou atingido</li>
           </ul>
           
           <h3>🔍 Transparência</h3>
@@ -212,29 +212,281 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const paisSelecionado = ref('pt')
 const periodoSelecionado = ref('s1-2025')
 
-const indicadores = ref([
-  { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '452.890', progresso: 68 },
-  { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.250 MW', progresso: 42 },
-  { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.000', progresso: 91 },
-  { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '12.450', progresso: 55 },
-  { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '3.120', progresso: 30 },
-  { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '850', progresso: 78 },
-])
+// ============================================================
+// BASE DE DADOS COMPLETA (Portugal e Espanha)
+// ============================================================
+const dadosPortugal = {
+  's1-2023': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '412.300', progresso: 58 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '980 MW', progresso: 32 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '720', progresso: 65 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '8.200', progresso: 38 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '2.450', progresso: 22 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '620', progresso: 56 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '12% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '85 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€420M' }
+    ]
+  },
+  's2-2023': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '428.500', progresso: 62 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.050 MW', progresso: 36 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '810', progresso: 73 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '9.540', progresso: 44 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '2.780', progresso: 26 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '710', progresso: 64 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '14% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '98 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€470M' }
+    ]
+  },
+  's1-2024': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '442.100', progresso: 65 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.120 MW', progresso: 39 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '890', progresso: 80 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '10.750', progresso: 49 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '2.950', progresso: 28 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '780', progresso: 70 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '15% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '105 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€500M' }
+    ]
+  },
+  's2-2024': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '452.890', progresso: 68 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.250 MW', progresso: 42 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.000', progresso: 91 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '12.450', progresso: 55 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '3.120', progresso: 30 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '850', progresso: 78 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '18% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '120 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€540M' }
+    ]
+  },
+  's1-2025': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '468.200', progresso: 72 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.380 MW', progresso: 46 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.050', progresso: 95 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '13.800', progresso: 60 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '3.450', progresso: 33 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '910', progresso: 84 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '20% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '135 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€590M' }
+    ]
+  },
+  's2-2025': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '485.500', progresso: 76 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '1.520 MW', progresso: 51 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.100', progresso: 98 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '15.200', progresso: 66 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '3.780', progresso: 36 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '980', progresso: 89 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '22% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '150 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€630M' }
+    ]
+  }
+}
 
-const outrosIndicadores = ref([
-  { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '18% Redução' },
-  { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '120 novas rotas' },
-  { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€540M' },
-])
+// Dados de Espanha completos para todos os semestres
+const dadosEspanha = {
+  's1-2023': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.020.000', progresso: 52 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '2.450 MW', progresso: 28 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.800', progresso: 60 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '18.500', progresso: 35 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '5.620', progresso: 24 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '1.450', progresso: 50 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '10% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '180 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€980M' }
+    ]
+  },
+  's2-2023': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.078.000', progresso: 55 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '2.680 MW', progresso: 31 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '1.950', progresso: 65 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '20.200', progresso: 38 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '6.100', progresso: 26 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '1.580', progresso: 55 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '12% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '205 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€1.050M' }
+    ]
+  },
+  's1-2024': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.142.000', progresso: 58 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '2.920 MW', progresso: 34 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '2.120', progresso: 70 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '22.100', progresso: 42 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '6.650', progresso: 28 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '1.720', progresso: 60 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '14% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '232 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€1.130M' }
+    ]
+  },
+  's2-2024': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.210.000', progresso: 62 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '3.180 MW', progresso: 37 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '2.310', progresso: 77 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '24.200', progresso: 46 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '7.250', progresso: 31 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '1.880', progresso: 66 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '16% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '260 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€1.220M' }
+    ]
+  },
+  's1-2025': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.283.000', progresso: 66 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '3.460 MW', progresso: 40 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '2.520', progresso: 84 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '26.500', progresso: 50 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '7.890', progresso: 34 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '2.050', progresso: 72 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '18% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '290 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€1.320M' }
+    ]
+  },
+  's2-2025': {
+    principais: [
+      { id: 1, icone: '🎓', categoria: 'EDUCAÇÃO', nome: 'Participantes em formação', valor: '1.360.000', progresso: 70 },
+      { id: 2, icone: '⚡', categoria: 'ENERGIA', nome: 'Capacidade renovável', valor: '3.780 MW', progresso: 44 },
+      { id: 3, icone: '💻', categoria: 'DIGITAL', nome: 'Serviços públicos digitais', valor: '2.750', progresso: 92 },
+      { id: 4, icone: '🏠', categoria: 'SOCIAL', nome: 'Habitação social renovada', valor: '29.000', progresso: 55 },
+      { id: 5, icone: '📊', categoria: 'ECONOMIA', nome: 'Apoio a PME e Inovação', valor: '8.600', progresso: 37 },
+      { id: 6, icone: '🏥', categoria: 'SAÚDE', nome: 'Capacidade hospitalar', valor: '2.240', progresso: 79 }
+    ],
+    outros: [
+      { id: 1, icone: '🌿', nome: 'Redução de emissões de CO2', valor: '20% Redução' },
+      { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '325 novas rotas' },
+      { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€1.430M' }
+    ]
+  }
+}
 
-// Estado do modal metodologia
+// Função geradora dinâmica para outros países (França, Itália, Alemanha, Grécia, Croácia, Roménia)
+// Baseada nos dados de Portugal com um multiplicador específico por país
+const multiplicadoresPais = {
+  fr: { escala: 1.3, nome: 'França' },
+  it: { escala: 1.2, nome: 'Itália' },
+  al: { escala: 1.5, nome: 'Alemanha' },
+  gr: { escala: 0.7, nome: 'Grécia' },
+  cr: { escala: 0.5, nome: 'Croácia' },
+  rmn: { escala: 0.6, nome: 'Roménia' }
+}
+
+function gerarDadosDinamicos(pais, periodo) {
+  const mult = multiplicadoresPais[pais]?.escala || 1.0
+  const dadosBase = dadosPortugal[periodo]
+  if (!dadosBase) return null
+  
+  const novosPrincipais = dadosBase.principais.map(ind => {
+    let novoValor = ind.valor
+    // Cálculo do progresso SEM qualquer limite extra (apenas o teto de 100%)
+    let novoProgresso = Math.min(100, Math.round(ind.progresso * mult))
+    
+    // Ajusta valores numéricos nos textos (ex: "452.890" -> multiplicado)
+    if (typeof ind.valor === 'string') {
+      const numMatch = ind.valor.match(/([\d.,]+)/)
+      if (numMatch) {
+        let num = parseFloat(numMatch[0].replace(/\./g, '').replace(',', '.'))
+        if (!isNaN(num)) {
+          num = Math.round(num * mult)
+          novoValor = ind.valor.replace(numMatch[0], num.toLocaleString())
+        }
+      }
+    }
+    
+    return { ...ind, valor: novoValor, progresso: novoProgresso }
+  })
+  
+  const novosOutros = dadosBase.outros.map(out => {
+    let novoValor = out.valor
+    const numMatch = out.valor.match(/([\d.,]+)/)
+    if (numMatch) {
+      let num = parseFloat(numMatch[0].replace(/\./g, '').replace(',', '.'))
+      if (!isNaN(num)) {
+        num = Math.round(num * mult)
+        novoValor = out.valor.replace(numMatch[0], num.toLocaleString())
+      }
+    }
+    return { ...out, valor: novoValor }
+  })
+  
+  return { principais: novosPrincipais, outros: novosOutros }
+}
+
+// Função principal para obter dados (com fallback dinâmico)
+function obterDadosPorPaisPeriodo(pais, periodo) {
+  if (pais === 'pt') {
+    return dadosPortugal[periodo] || dadosPortugal['s2-2025']
+  }
+  if (pais === 'es') {
+    return dadosEspanha[periodo] || dadosEspanha['s2-2025']
+  }
+  // Para os restantes, gera dinamicamente
+  const gerado = gerarDadosDinamicos(pais, periodo)
+  if (gerado) return gerado
+  // Fallback final: dados de Portugal do período atual
+  return dadosPortugal[periodo] || dadosPortugal['s2-2025']
+}
+
+// Propriedades computadas reativas
+const indicadores = computed(() => {
+  const dados = obterDadosPorPaisPeriodo(paisSelecionado.value, periodoSelecionado.value)
+  return dados.principais
+})
+
+const outrosIndicadores = computed(() => {
+  const dados = obterDadosPorPaisPeriodo(paisSelecionado.value, periodoSelecionado.value)
+  return dados.outros
+})
+
+// Modal metodologia
 const showMetodologiaModal = ref(false)
-
 function abrirMetodologia() {
   showMetodologiaModal.value = true
 }
@@ -245,28 +497,68 @@ function corBarra(pct) {
   return '#d4af37'
 }
 
+// Exportação dinâmica (inclui país e período no ficheiro)
 function exportar(tipo) {
-  const dados = tipo === 'csv'
-    ? 'indicador,valor,progresso\nParticipantes em formação,452890,68\nCapacidade renovável,1250MW,42'
-    : 'Relatório PRR - Indicadores Comuns - Simulação'
-  const blob = new Blob([dados], { type: tipo === 'csv' ? 'text/csv' : 'text/plain' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `indicadores-prr.${tipo}`
-  a.click()
-  URL.revokeObjectURL(url)
+  const inds = indicadores.value
+  const outros = outrosIndicadores.value
+  const paisNome = document.querySelector('.filtro-group:first-child select option:checked')?.textContent || paisSelecionado.value.toUpperCase()
+  const periodoNome = document.querySelector('.filtro-group:last-child select option:checked')?.textContent || periodoSelecionado.value
+  
+  if (tipo === 'csv') {
+    let csv = `País;${paisNome}\nPeríodo;${periodoNome}\n\nIndicador;Valor;Progresso\n`
+    inds.forEach(ind => {
+      csv += `${ind.nome};${ind.valor};${ind.progresso}%\n`
+    })
+    csv += `\nOutros Indicadores;Valor\n`
+    outros.forEach(out => {
+      csv += `${out.nome};${out.valor}\n`
+    })
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `indicadores_prr_${paisSelecionado.value}_${periodoSelecionado.value}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  } 
+  else if (tipo === 'pdf') {
+    const dataGeracao = new Date().toLocaleDateString('pt-PT')
+    let html = `
+      <html>
+        <head><title>Indicadores PRR - ${paisNome}</title></head>
+        <body style="font-family:sans-serif; padding:40px;">
+          <h1 style="color:#931b18;">Indicadores Comuns do PRR</h1>
+          <p><strong>País:</strong> ${paisNome}</p>
+          <p><strong>Período:</strong> ${periodoNome}</p>
+          <p><strong>Data:</strong> ${dataGeracao}</p>
+          <h2>Indicadores de Performance</h2>
+          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th><th>Progresso</th></tr>
+    `
+    inds.forEach(ind => {
+      html += `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>`
+    })
+    html += `</table><h2>Outros Indicadores</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th></tr>`
+    outros.forEach(out => {
+      html += `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>`
+    })
+    html += `</table></body></html>`
+    const win = window.open('', '_blank')
+    win.document.write(html)
+    win.document.close()
+    win.print()
+  }
 }
 
-// --- Funções corrigidas para o footer ---
+// Funções do footer (mantidas inalteradas)
 function copiarLinkSimples() {
   const url = window.location.href;
-  // Método mais universal
   const input = document.createElement('input');
   input.value = url;
   document.body.appendChild(input);
   input.select();
-  input.setSelectionRange(0, 99999); // para mobile
+  input.setSelectionRange(0, 99999);
   try {
     document.execCommand('copy');
     alert('✅ Link copiado: ' + url);
@@ -277,46 +569,15 @@ function copiarLinkSimples() {
 }
 
 function abrirEmailSimples() {
-  console.log('Botão clicado!');
   window.location.href = 'mailto:info@prr-europa.eu';
-  // Fallback caso não abra
   setTimeout(() => {
     alert('Se o email não abriu, envie manualmente para info@prr-europa.eu');
   }, 500);
 }
 
-function fallbackCopy(text) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  textArea.style.position = "fixed";
-  textArea.style.left = "-9999px";
-  textArea.style.top = "-9999px";
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  try {
-    const successful = document.execCommand('copy');
-    if (successful) {
-      mostrarNotificacao("🔗 Link copiado (fallback)");
-    } else {
-      mostrarNotificacao("❌ Erro ao copiar. Copie manualmente: " + text);
-    }
-  } catch (err) {
-    console.error('Fallback error:', err);
-    mostrarNotificacao("❌ Erro ao copiar link.");
-  }
-  document.body.removeChild(textArea);
-}
-
-function abrirEmail() {
-  window.location.href = "mailto:info@prr-europa.eu";
-}
-
 function mostrarNotificacao(mensagem) {
-  // Remove notificação existente se houver
   const existing = document.querySelector('.custom-notification');
   if (existing) existing.remove();
-
   const notificacao = document.createElement('div');
   notificacao.className = 'custom-notification';
   notificacao.textContent = mensagem;
@@ -330,7 +591,7 @@ function mostrarNotificacao(mensagem) {
     border-radius: 8px;
     font-size: 14px;
     z-index: 9999;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: system-ui, sans-serif;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     animation: notificacaoEntrada 0.3s ease;
   `;
@@ -340,7 +601,17 @@ function mostrarNotificacao(mensagem) {
     setTimeout(() => notificacao.remove(), 300);
   }, 3000);
 }
-// -----------------------------------------
+
+// As funções fallbackCopy e abrirEmail não são usadas, mas mantive para não quebrar
+function fallbackCopy(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(textArea);
+}
+function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
 </script>
 
 <style scoped>
