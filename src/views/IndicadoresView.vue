@@ -96,7 +96,7 @@
         <!-- COLUNA DIREITA (painel fixo) -->
         <div class="col-direita">
 
-          <button class="btn-guia">
+          <button class="btn-guia" @click="abrirMetodologia">
             <span class="icon-circle">?</span> Guia de Metodologia
           </button>
 
@@ -130,6 +130,43 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- MODAL METODOLOGIA (NOVO) -->
+    <div v-if="showMetodologiaModal" class="modal-overlay" @click.self="showMetodologiaModal = false">
+      <div class="export-card metodologia-card">
+        <button class="close-btn" @click="showMetodologiaModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📘</span>
+          <h2>Guia de Metodologia</h2>
+          <p>Como os indicadores são calculados e reportados</p>
+        </div>
+        <div class="metodologia-content">
+          <h3>📊 Fontes de Dados</h3>
+          <p>Os dados são recolhidos junto das entidades gestoras do PRR, com validação pela Comissão Europeia e Auditoria Interna.</p>
+          
+          <h3>🔄 Periodicidade</h3>
+          <p>Reporte semestral (Janeiro e Julho) com atualização dos marcos e metas alcançados.</p>
+          
+          <h3>⚙️ Metodologia de Cálculo</h3>
+          <p>O progresso de cada indicador é calculado com base no rácio entre o valor realizado e a meta estabelecida no plano original, expresso em percentagem.</p>
+          
+          <h3>✅ Níveis de Progresso</h3>
+          <ul>
+            <li><span style="color:#d4af37;">0% – 39%</span>: Atraso significativo</li>
+            <li><span style="color:#d4af37;">40% – 74%</span>: Progresso moderado</li>
+            <li><span style="color:#d4af37;">75% – 100%</span>: Próximo ou atingido</li>
+          </ul>
+          
+          <h3>🔍 Transparência</h3>
+          <p>Todos os dados são públicos e podem ser exportados nos formatos CSV, JSON e PDF através do painel lateral.</p>
+        </div>
+        <div class="export-options" style="margin-top: 20px;">
+          <button class="export-item" @click="showMetodologiaModal = false">
+            <span>Fechar</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- FOOTER: fora do indicadores-container -->
@@ -194,6 +231,13 @@ const outrosIndicadores = ref([
   { id: 2, icone: '🚌', nome: 'Mobilidade sustentável urbana', valor: '120 novas rotas' },
   { id: 3, icone: '🔬', nome: 'Investimento em I&D', valor: '€540M' },
 ])
+
+// Estado do modal metodologia
+const showMetodologiaModal = ref(false)
+
+function abrirMetodologia() {
+  showMetodologiaModal.value = true
+}
 
 function corBarra(pct) {
   if (pct >= 75) return '#931b18'
@@ -846,6 +890,123 @@ function mostrarNotificacao(mensagem) {
   font-size: 1rem; 
 }
 
+/* ========== ESTILOS EXCLUSIVOS DO MODAL METODOLOGIA ========== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.export-card {
+  background-color: #931b18;
+  width: 90%;
+  max-width: 550px;
+  padding: 40px;
+  border-radius: 15px;
+  position: relative;
+  color: white;
+  text-align: center;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px; right: 20px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.close-btn:hover { 
+  opacity: 1; 
+}
+
+.main-download-icon { 
+  font-size: 3rem; 
+  display: block; 
+  margin-bottom: 10px; 
+}
+
+.export-header h2 { 
+  font-size: 1.8rem; 
+  margin-bottom: 8px; 
+  color: #FFD700; /* Título principal amarelo */
+}
+
+.export-header p { 
+  font-size: 0.95rem;
+  margin-bottom: 20px; 
+  opacity: 0.9; 
+}
+
+.export-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.export-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 12px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.export-item:hover { 
+  background: rgba(255, 255, 255, 0.2); 
+}
+.export-item .ext { 
+  opacity: 0.6; 
+  font-family: monospace; 
+}
+
+/* Conteúdo do modal metodologia */
+.metodologia-card {
+  max-width: 600px;
+  text-align: left;
+}
+
+.metodologia-content {
+  margin: 20px 0;
+}
+
+.metodologia-content h3 {
+  color: white;          /* títulos das secções a branco */
+  font-weight: bold;
+  margin: 15px 0 8px;
+  font-size: 1.2rem;
+}
+
+.metodologia-content p, 
+.metodologia-content ul {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 5px 0 10px;
+  color: rgba(255,255,255,0.9);
+}
+
+.metodologia-content ul {
+  padding-left: 20px;
+}
+.metodologia-content li {
+  margin: 5px 0;
+}
+/* ========== FIM ESTILOS METODOLOGIA ========== */
+
 /* FOOTER */
 .ind-footer {
   color: white;
@@ -934,7 +1095,7 @@ function mostrarNotificacao(mensagem) {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  margin-right: 12px;
+  margin-right: 5px;
   background: rgba(255, 255, 255, 0.2); 
   width: 55px;
   height: 55px;
