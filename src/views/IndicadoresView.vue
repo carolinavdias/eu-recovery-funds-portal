@@ -68,9 +68,9 @@
                 <span class="prog-pct">{{ ind.progresso }}%</span>
               </div>
               <div class="barra-bg">
-                <div class="barra-fill" :style="{ width: ind.progresso + '%', background: corBarra(ind.progresso) }"></div>
+                <div class="barra-fill" :style="{ width: ind.progresso + '%', background: corBarraCard(ind.progresso) }"></div>
               </div>
-              <button class="btn-saber">Saber Mais →</button>
+              <button class="btn-saber" @click="abrirSaberMais(ind)">Saber Mais →</button>
             </div>
           </div>
 
@@ -87,7 +87,7 @@
                 <span class="outro-nome">{{ outro.nome }}</span>
               </div>
               <span class="outro-valor">{{ outro.valor }}</span>
-              <button class="btn-exportar-outro" @click="exportar('csv')">Exportar</button>
+              <button class="btn-exportar-outro" @click="exportarOutroIndividual(outro)">Exportar</button>
             </div>
           </div>
 
@@ -132,7 +132,7 @@
 
     </div>
 
-    <!-- MODAL METODOLOGIA (NOVO) -->
+    <!-- MODAL METODOLOGIA -->
     <div v-if="showMetodologiaModal" class="modal-overlay" @click.self="showMetodologiaModal = false">
       <div class="export-card metodologia-card">
         <button class="close-btn" @click="showMetodologiaModal = false">✕</button>
@@ -162,14 +162,89 @@
           <p>Todos os dados são públicos e podem ser exportados nos formatos CSV, JSON e PDF através do painel lateral.</p>
         </div>
         <div class="export-options" style="margin-top: 20px;">
-          <button class="export-item" @click="showMetodologiaModal = false">
-            <span>Fechar</span>
+          <button class="export-item" @click="showMetodologiaModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL SABER MAIS (detalhes do indicador) -->
+    <div v-if="showSaberMaisModal" class="modal-overlay" @click.self="showSaberMaisModal = false">
+      <div class="export-card saber-mais-card">
+        <button class="close-btn" @click="showSaberMaisModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">{{ indicadorSelecionado?.icone }}</span>
+          <h2>{{ indicadorSelecionado?.nome }}</h2>
+          <p>{{ indicadorSelecionado?.categoria }}</p>
+        </div>
+        <div class="saber-mais-content">
+          <p><strong>Valor atual:</strong> {{ indicadorSelecionado?.valor }}</p>
+          <p><strong>Progresso:</strong> {{ indicadorSelecionado?.progresso }}%</p>
+          <div class="barra-bg-saber">
+            <div class="barra-fill-saber" :style="{ width: indicadorSelecionado?.progresso + '%', background: corBarraModal(indicadorSelecionado?.progresso) }"></div>
+          </div>
+          <!-- País e período selecionados -->
+          <div style="background: rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; margin: 10px 0; text-align: center;">
+            📍 {{ nomePaisAtual }} | 📅 {{ nomePeriodoAtual }}
+          </div>
+          <hr>
+          <h3>🔍 Sobre este indicador</h3>
+          <p><strong>Descrição:</strong> 
+            <span v-if="indicadorSelecionado?.id === 1">Número de participantes que concluíram ações de formação financiadas pelo PRR nas áreas de qualificação e requalificação profissional.</span>
+            <span v-else-if="indicadorSelecionado?.id === 2">Capacidade instalada de energias renováveis (MW) com apoio do PRR.</span>
+            <span v-else-if="indicadorSelecionado?.id === 3">Número de serviços públicos digitais disponibilizados à população.</span>
+            <span v-else-if="indicadorSelecionado?.id === 4">Habitações renovadas ou construídas ao abrigo do programa de habitação social.</span>
+            <span v-else-if="indicadorSelecionado?.id === 5">Número de pequenas e médias empresas apoiadas para inovação e digitalização.</span>
+            <span v-else-if="indicadorSelecionado?.id === 6">Incremento de camas ou equipamentos no Serviço Nacional de Saúde.</span>
+          </p>
+          <p><strong>Meta nacional:</strong> 
+            <span v-if="indicadorSelecionado?.id === 1">650.000 participantes</span>
+            <span v-else-if="indicadorSelecionado?.id === 2">2.500 MW</span>
+            <span v-else-if="indicadorSelecionado?.id === 3">1.500 serviços</span>
+            <span v-else-if="indicadorSelecionado?.id === 4">25.000 habitações</span>
+            <span v-else-if="indicadorSelecionado?.id === 5">8.000 PME</span>
+            <span v-else-if="indicadorSelecionado?.id === 6">1.200 camas</span>
+          </p>
+          <p><strong>Fonte:</strong> Comissão Europeia / PRR Relatório Semestral</p>
+          <p><strong>Última atualização:</strong> {{ new Date().toLocaleDateString('pt-PT') }}</p>
+        </div>
+        <div class="export-options" style="margin-top: 20px;">
+          <button class="export-item" @click="showSaberMaisModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL EXPORTAÇÃO OUTROS INDICADORES (individual) -->
+    <div v-if="showExportOutroModal" class="modal-overlay" @click.self="showExportOutroModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showExportOutroModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📤</span>
+          <h2>Exportar Indicador</h2>
+          <p>{{ outroSelecionado?.nome }}</p>
+        </div>
+        <div class="outro-detalhes-modal">
+          <p><strong>Valor atual:</strong> {{ outroSelecionado?.valor }}</p>
+          <p><strong>País:</strong> {{ nomePaisAtual }}</p>
+          <p><strong>Período:</strong> {{ nomePeriodoAtual }}</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarOutroIndividualAcao('csv')">
+            <span>Exportar como CSV</span>
+            <span class="ext">.csv</span>
+          </button>
+          <button class="export-item" @click="exportarOutroIndividualAcao('json')">
+            <span>Feed de Dados (JSON)</span>
+            <span class="ext">.json</span>
+          </button>
+          <button class="export-item" @click="exportarOutroIndividualAcao('pdf')">
+            <span>Sumário em PDF</span>
+            <span class="ext">.pdf</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER: fora do indicadores-container -->
+    <!-- FOOTER -->
     <footer class="ind-footer">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -407,8 +482,7 @@ const dadosEspanha = {
   }
 }
 
-// Função geradora dinâmica para outros países (França, Itália, Alemanha, Grécia, Croácia, Roménia)
-// Baseada nos dados de Portugal com um multiplicador específico por país
+// Multiplicadores para países dinâmicos
 const multiplicadoresPais = {
   fr: { escala: 1.3, nome: 'França' },
   it: { escala: 1.2, nome: 'Itália' },
@@ -425,10 +499,7 @@ function gerarDadosDinamicos(pais, periodo) {
   
   const novosPrincipais = dadosBase.principais.map(ind => {
     let novoValor = ind.valor
-    // Cálculo do progresso SEM qualquer limite extra (apenas o teto de 100%)
     let novoProgresso = Math.min(100, Math.round(ind.progresso * mult))
-    
-    // Ajusta valores numéricos nos textos (ex: "452.890" -> multiplicado)
     if (typeof ind.valor === 'string') {
       const numMatch = ind.valor.match(/([\d.,]+)/)
       if (numMatch) {
@@ -439,7 +510,6 @@ function gerarDadosDinamicos(pais, periodo) {
         }
       }
     }
-    
     return { ...ind, valor: novoValor, progresso: novoProgresso }
   })
   
@@ -459,22 +529,14 @@ function gerarDadosDinamicos(pais, periodo) {
   return { principais: novosPrincipais, outros: novosOutros }
 }
 
-// Função principal para obter dados (com fallback dinâmico)
 function obterDadosPorPaisPeriodo(pais, periodo) {
-  if (pais === 'pt') {
-    return dadosPortugal[periodo] || dadosPortugal['s2-2025']
-  }
-  if (pais === 'es') {
-    return dadosEspanha[periodo] || dadosEspanha['s2-2025']
-  }
-  // Para os restantes, gera dinamicamente
+  if (pais === 'pt') return dadosPortugal[periodo] || dadosPortugal['s2-2025']
+  if (pais === 'es') return dadosEspanha[periodo] || dadosEspanha['s2-2025']
   const gerado = gerarDadosDinamicos(pais, periodo)
-  if (gerado) return gerado
-  // Fallback final: dados de Portugal do período atual
-  return dadosPortugal[periodo] || dadosPortugal['s2-2025']
+  return gerado || dadosPortugal[periodo] || dadosPortugal['s2-2025']
 }
 
-// Propriedades computadas reativas
+// Propriedades computadas
 const indicadores = computed(() => {
   const dados = obterDadosPorPaisPeriodo(paisSelecionado.value, periodoSelecionado.value)
   return dados.principais
@@ -485,34 +547,98 @@ const outrosIndicadores = computed(() => {
   return dados.outros
 })
 
-// Modal metodologia
+// Nomes legíveis
+const nomePaisAtual = computed(() => {
+  const map = { pt: 'Portugal', es: 'Espanha', fr: 'França', it: 'Itália', al: 'Alemanha', gr: 'Grécia', cr: 'Croácia', rmn: 'Roménia' }
+  return map[paisSelecionado.value] || paisSelecionado.value.toUpperCase()
+})
+
+const nomePeriodoAtual = computed(() => {
+  const map = {
+    's1-2023': '1º Semestre 2023', 's2-2023': '2º Semestre 2023',
+    's1-2024': '1º Semestre 2024', 's2-2024': '2º Semestre 2024',
+    's1-2025': '1º Semestre 2025', 's2-2025': '2º Semestre 2025'
+  }
+  return map[periodoSelecionado.value] || periodoSelecionado.value
+})
+
+// Estados dos modais
 const showMetodologiaModal = ref(false)
-function abrirMetodologia() {
-  showMetodologiaModal.value = true
+const showSaberMaisModal = ref(false)
+const showExportOutroModal = ref(false)
+const indicadorSelecionado = ref(null)
+const outroSelecionado = ref(null)
+
+function abrirMetodologia() { showMetodologiaModal.value = true }
+function abrirSaberMais(ind) { indicadorSelecionado.value = ind; showSaberMaisModal.value = true }
+function exportarOutroIndividual(outro) { outroSelecionado.value = outro; showExportOutroModal.value = true }
+
+function exportarOutroIndividualAcao(formato) {
+  const outro = outroSelecionado.value
+  if (!outro) return
+  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const nomeLimpo = outro.nome.replace(/\s+/g, '_').toLowerCase()
+  if (formato === 'csv') {
+    const csv = `Indicador;${outro.nome}\nValor;${outro.valor}\nPaís;${nomePaisAtual.value}\nPeríodo;${nomePeriodoAtual.value}\nData;${dataGeracao}`
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${nomeLimpo}_${paisSelecionado.value}_${periodoSelecionado.value}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  } else if (formato === 'json') {
+    const dados = { indicador: outro.nome, valor: outro.valor, pais: nomePaisAtual.value, periodo: nomePeriodoAtual.value, dataExportacao: dataGeracao }
+    const json = JSON.stringify(dados, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${nomeLimpo}_${paisSelecionado.value}_${periodoSelecionado.value}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  } else if (formato === 'pdf') {
+    const win = window.open('', '_blank')
+    win.document.write(`
+      <html>
+        <head><title>${outro.nome} - PRR</title></head>
+        <body style="font-family:sans-serif; padding:40px;">
+          <h1 style="color:#931b18;">${outro.nome}</h1>
+          <p><strong>Valor:</strong> ${outro.valor}</p>
+          <p><strong>País:</strong> ${nomePaisAtual.value}</p>
+          <p><strong>Período:</strong> ${nomePeriodoAtual.value}</p>
+          <p><strong>Data:</strong> ${dataGeracao}</p>
+        </body>
+      </html>
+    `)
+    win.document.close()
+    win.print()
+  }
+  showExportOutroModal.value = false
 }
 
-function corBarra(pct) {
-  if (pct >= 75) return '#931b18'
-  if (pct >= 40) return '#d4af37'
+// Cores das barras: cards principais (fundo branco) vs modal (fundo vermelho)
+function corBarraCard(pct) {
+  if (pct >= 75) return '#931b18'   // vermelho escuro (contrasta com branco)
+  return '#d4af37'
+}
+function corBarraModal(pct) {
+  if (pct >= 75) return '#ff6b6b'   // vermelho claro (visível no fundo vermelho escuro)
   return '#d4af37'
 }
 
-// Exportação dinâmica (inclui país e período no ficheiro)
+// Exportação global (todos os indicadores)
 function exportar(tipo) {
   const inds = indicadores.value
   const outros = outrosIndicadores.value
-  const paisNome = document.querySelector('.filtro-group:first-child select option:checked')?.textContent || paisSelecionado.value.toUpperCase()
-  const periodoNome = document.querySelector('.filtro-group:last-child select option:checked')?.textContent || periodoSelecionado.value
+  const paisNome = nomePaisAtual.value
+  const periodoNome = nomePeriodoAtual.value
   
   if (tipo === 'csv') {
     let csv = `País;${paisNome}\nPeríodo;${periodoNome}\n\nIndicador;Valor;Progresso\n`
-    inds.forEach(ind => {
-      csv += `${ind.nome};${ind.valor};${ind.progresso}%\n`
-    })
+    inds.forEach(ind => { csv += `${ind.nome};${ind.valor};${ind.progresso}%\n` })
     csv += `\nOutros Indicadores;Valor\n`
-    outros.forEach(out => {
-      csv += `${out.nome};${out.valor}\n`
-    })
+    outros.forEach(out => { csv += `${out.nome};${out.valor}\n` })
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -520,30 +646,13 @@ function exportar(tipo) {
     a.download = `indicadores_prr_${paisSelecionado.value}_${periodoSelecionado.value}.csv`
     a.click()
     URL.revokeObjectURL(url)
-  } 
-  else if (tipo === 'pdf') {
+  } else if (tipo === 'pdf') {
     const dataGeracao = new Date().toLocaleDateString('pt-PT')
-    let html = `
-      <html>
-        <head><title>Indicadores PRR - ${paisNome}</title></head>
-        <body style="font-family:sans-serif; padding:40px;">
-          <h1 style="color:#931b18;">Indicadores Comuns do PRR</h1>
-          <p><strong>País:</strong> ${paisNome}</p>
-          <p><strong>Período:</strong> ${periodoNome}</p>
-          <p><strong>Data:</strong> ${dataGeracao}</p>
-          <h2>Indicadores de Performance</h2>
-          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
-            <tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th><th>Progresso</th></tr>
-    `
-    inds.forEach(ind => {
-      html += `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>`
-    })
-    html += `</table><h2>Outros Indicadores</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
-            <tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th></tr>`
-    outros.forEach(out => {
-      html += `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>`
-    })
-    html += `</table></body></html>`
+    let html = `<html><body style="font-family:sans-serif; padding:40px;"><h1 style="color:#931b18;">Indicadores Comuns do PRR</h1><p><strong>País:</strong> ${paisNome}</p><p><strong>Período:</strong> ${periodoNome}</p><p><strong>Data:</strong> ${dataGeracao}</p><h2>Indicadores de Performance</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%"><tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th><th>Progresso</th></tr>`
+    inds.forEach(ind => { html += `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>` })
+    html += `</table><h2>Outros Indicadores</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%"><tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th></tr>`
+    outros.forEach(out => { html += `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>` })
+    html += `｜｜DSML｜｜</body></html>`
     const win = window.open('', '_blank')
     win.document.write(html)
     win.document.close()
@@ -551,93 +660,35 @@ function exportar(tipo) {
   }
 }
 
-// Funções do footer (mantidas inalteradas)
+// Funções do footer
 function copiarLinkSimples() {
   const url = window.location.href;
   const input = document.createElement('input');
   input.value = url;
   document.body.appendChild(input);
   input.select();
-  input.setSelectionRange(0, 99999);
-  try {
-    document.execCommand('copy');
-    alert('✅ Link copiado: ' + url);
-  } catch (err) {
-    alert('❌ Não foi possível copiar. Copie manualmente: ' + url);
-  }
+  try { document.execCommand('copy'); alert('✅ Link copiado: ' + url); } catch(e) { alert('❌ Não foi possível copiar.'); }
   document.body.removeChild(input);
 }
 
 function abrirEmailSimples() {
   window.location.href = 'mailto:info@prr-europa.eu';
-  setTimeout(() => {
-    alert('Se o email não abriu, envie manualmente para info@prr-europa.eu');
-  }, 500);
+  setTimeout(() => { alert('Se o email não abriu, envie para info@prr-europa.eu'); }, 500);
 }
-
-function mostrarNotificacao(mensagem) {
-  const existing = document.querySelector('.custom-notification');
-  if (existing) existing.remove();
-  const notificacao = document.createElement('div');
-  notificacao.className = 'custom-notification';
-  notificacao.textContent = mensagem;
-  notificacao.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #931b18;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    z-index: 9999;
-    font-family: system-ui, sans-serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    animation: notificacaoEntrada 0.3s ease;
-  `;
-  document.body.appendChild(notificacao);
-  setTimeout(() => {
-    notificacao.style.animation = 'notificacaoSaida 0.3s ease';
-    setTimeout(() => notificacao.remove(), 300);
-  }, 3000);
-}
-
-// As funções fallbackCopy e abrirEmail não são usadas, mas mantive para não quebrar
-function fallbackCopy(text) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.select();
-  try { document.execCommand('copy'); } catch(e) {}
-  document.body.removeChild(textArea);
-}
-function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
 </script>
 
 <style scoped>
+/* ========== TODO O SEU CSS ORIGINAL (MANTENHA) ========== */
 * { box-sizing: border-box; }
 
 /* Animações para notificações */
 @keyframes notificacaoEntrada {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
-
 @keyframes notificacaoSaida {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
 }
 
 .indicadores-container {
@@ -647,7 +698,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   overflow-x: hidden !important;
 }
 
-/* LAYOUT PRINCIPAL */
 .main-layout {
   display: grid;
   grid-template-columns: 1fr 280px;
@@ -656,7 +706,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   width: 100%;
 }
 
-/* COLUNA ESQUERDA */
 .col-esquerda {
   background: white;
   border-radius: 10px;
@@ -664,7 +713,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
 
-/* HEADER */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -687,29 +735,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   line-height: 1.8;
 }
 
-.btn-metodologia {
-  background: #931b18;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  transition: background 0.2s, transform 0.3s ease;
-}
-
-.btn-metodologia:hover { 
-  background: #7a1614; 
-  transform: translateY(-3px);
-}
-
-/* FILTROS */
 .filtros-row {
   display: flex;
   gap: 20px;
@@ -747,7 +772,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   background-position: right 12px center;
 }
 
-/* SECTION HEADER */
 .section-header {
   display: flex;
   align-items: center;
@@ -769,16 +793,12 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   font-weight: 800;
   color: #931b18;
   margin: 0;
-  text-transform: none;
 }
 
-/* CARDS */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  background: transparent;
-  border: none;
   padding: 10px 0;
 }
 
@@ -786,18 +806,18 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   background: white;
   padding: 24px;
   display: flex;
-  border-radius: 16px;
   flex-direction: column;
   gap: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #f0f0f0;
 }
 
 .indicador-card:hover {
-  transform: translateY(-5px); 
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); 
-  border-color: #d4af37; 
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  border-color: #d4af37;
 }
 
 .card-top {
@@ -807,18 +827,13 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   margin-bottom: 8px;
 }
 
-.card-icon { 
-  font-size: 1.3rem; 
-  color: #931b18; 
-}
-
+.card-icon { font-size: 1.3rem; color: #931b18; }
 .card-categoria {
   font-size: 0.62rem;
   font-weight: 700;
   color: #aaa;
   letter-spacing: 1px;
 }
-
 .card-nome {
   font-size: 0.88rem;
   font-weight: 700;
@@ -826,7 +841,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   line-height: 1.3;
   margin-bottom: 4px;
 }
-
 .card-valor {
   font-size: 1.9rem;
   font-weight: 800;
@@ -834,27 +848,21 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   line-height: 1;
   margin-bottom: 10px;
 }
-
 .progresso-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 4px;
 }
-
 .prog-label {
   font-size: 0.62rem;
   color: #aaa;
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
-
 .prog-pct {
   font-size: 0.75rem;
   font-weight: 700;
   color: #555;
 }
-
 .barra-bg {
   height: 5px;
   background: #f0f0f0;
@@ -862,14 +870,12 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   overflow: hidden;
   margin-bottom: 14px;
 }
-
 .barra-fill {
   height: 100%;
   border-radius: 3px;
 }
-
 .btn-saber {
-  margin-top: auto; 
+  margin-top: auto;
   background: #931b18;
   color: white;
   border: none;
@@ -879,20 +885,13 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   cursor: pointer;
   transition: background 0.2s;
 }
+.btn-saber:hover { background: #7a1614; }
 
-.btn-saber:hover {
-  background: #7a1614;
-}
-
-/* OUTROS INDICADORES */
 .outros-lista {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
-  background: transparent;
-  border: none;
+  gap: 16px;
 }
-
 .outro-item {
   display: flex;
   align-items: center;
@@ -900,62 +899,43 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   padding: 20px 25px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   border: 1px solid #f0f0f0;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
-
 .outro-item:hover {
-  transform: translateX(8px); 
+  transform: translateX(8px);
   border-color: #d4af37;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
-
 .outro-esq {
   display: flex;
   align-items: center;
   gap: 12px;
   flex: 1;
 }
-
-.outro-icone { 
-  font-size: 1.1rem; 
-}
-
-.outro-nome {
-  font-size: 0.88rem;
-  color: #333;
-}
-
+.outro-icone { font-size: 1.1rem; }
+.outro-nome { font-size: 0.88rem; color: #333; }
 .outro-valor {
   font-size: 1rem;
   font-weight: 800;
   color: #d4af37;
   margin: 0 25px;
 }
-
 .btn-exportar-outro {
   background: #931b18;
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
 }
+.btn-exportar-outro:hover { background: #7a1614; }
 
-.btn-exportar-outro:hover {
-  background: #7a1614;
-}
-
-/* COLUNA DIREITA */
 .col-direita {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: sticky; 
+  position: sticky;
   top: 20px;
 }
 
@@ -974,7 +954,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .btn-guia .icon-circle {
   border: 2px solid white;
   border-radius: 50%;
@@ -985,11 +964,9 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   justify-content: center;
   font-size: 12px;
 }
-
 .btn-guia:hover {
-  background-color: #7a1614;   
+  background: #7a1614;
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
 }
 
 .exportar-box {
@@ -999,20 +976,16 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-
 .exportar-header h3 {
-  color: #931b18 !important;
-  margin: 0 0 5px 0;
+  color: #931b18;
+  margin: 0 0 5px;
   font-size: 1.2rem;
 }
-
 .exportar-header p {
   color: #666;
   font-size: 0.85rem;
-  line-height: 1.4;
   margin-bottom: 20px;
 }
-
 .btn-action {
   width: 100%;
   padding: 12px;
@@ -1024,54 +997,38 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: 0.3s;
 }
-
 .btn-action.csv {
   background: #931b18;
   color: white;
   border: none;
 }
-
-.btn-action.csv:hover {
-  background: #7a1614; 
-}
-
+.btn-action.csv:hover { background: #7a1614; }
 .btn-action.pdf {
   background: white;
-  color: #931b18 !important;
+  color: #931b18;
   border: 2px solid #931b18;
 }
-
-.btn-action.pdf:hover {
-  background: #fdf2f2; 
-  border-color: #7a1614; 
-}
-
-
-/* Sincronização */
+.btn-action.pdf:hover { background: #fdf2f2; }
 .inner-divider {
   border: none;
   border-top: 1px solid #eee;
   margin: 20px 0;
 }
-
 .sync-label {
   font-size: 0.7rem;
   font-weight: bold;
   color: #999;
   letter-spacing: 1px;
 }
-
 .sync-time {
-  color: #931b18 !important;;
+  color: #931b18;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
 }
-
 .check-circle {
   color: #ffcc00;
   border: 2px solid #ffcc00;
@@ -1084,97 +1041,19 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   font-size: 10px;
 }
 
-.export-icone { 
-  font-size: 1.4rem; 
-  color: #931b18; 
-}
-
-.exportar-titulo {
-  font-weight: 700;
-  color: #931b18;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.exportar-desc {
-  font-size: 0.78rem;
-  color: #666;
-  line-height: 1.5;
-}
-
-.btn-export {
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: opacity 0.2s, transform 0.3s ease;
-}
-
-.btn-export:hover { 
-  opacity: 0.85; 
-  transform: translateY(-3px); 
-}
-
-.btn-export.csv {
-  background: #931b18;
-  color: white;
-  border: none;
-}
-
-.btn-export.pdf {
-  background: white;
-  color: #931b18;
-  border: 2px solid #931b18;
-}
-
-.btn-export-icon { 
-  font-size: 1rem; 
-  }
-
-.sync-box {
-  padding-top: 10px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.sync-label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: #aaa;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-.sync-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  color: #333;
-}
-
-.sync-check { 
-  font-size: 1rem; 
-}
-
-/* ========== ESTILOS EXCLUSIVOS DO MODAL METODOLOGIA ========== */
+/* ========== MODAIS ========== */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0,0,0,0.75);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 3000;
 }
-
 .export-card {
-  background-color: #931b18;
+  background: #931b18;
   width: 90%;
   max-width: 550px;
   padding: 40px;
@@ -1184,7 +1063,6 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   text-align: center;
   box-shadow: 0 15px 50px rgba(0,0,0,0.6);
 }
-
 .close-btn {
   position: absolute;
   top: 15px; right: 20px;
@@ -1193,40 +1071,26 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   color: white;
   font-size: 1.6rem;
   cursor: pointer;
-  opacity: 0.8;
 }
-
-.close-btn:hover { 
-  opacity: 1; 
+.main-download-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+.export-header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #FFD700;
 }
-
-.main-download-icon { 
-  font-size: 3rem; 
-  display: block; 
-  margin-bottom: 10px; 
-}
-
-.export-header h2 { 
-  font-size: 1.8rem; 
-  margin-bottom: 8px; 
-  color: #FFD700; /* Título principal amarelo */
-}
-
-.export-header p { 
+.export-header p {
   font-size: 0.95rem;
-  margin-bottom: 20px; 
-  opacity: 0.9; 
+  margin-bottom: 20px;
+  opacity: 0.9;
 }
-
 .export-options {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-
 .export-item {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 10px;
   padding: 12px 20px;
   color: white;
@@ -1236,166 +1100,146 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   cursor: pointer;
   transition: 0.3s;
 }
+.export-item:hover { background: rgba(255,255,255,0.2); }
+.export-item .ext { opacity: 0.6; font-family: monospace; }
 
-.export-item:hover { 
-  background: rgba(255, 255, 255, 0.2); 
-}
-.export-item .ext { 
-  opacity: 0.6; 
-  font-family: monospace; 
-}
-
-/* Conteúdo do modal metodologia */
-.metodologia-card {
-  max-width: 600px;
-  text-align: left;
-}
-
-.metodologia-content {
-  margin: 20px 0;
-}
-
+/* Modal Metodologia */
+.metodologia-card { max-width: 600px; text-align: left; }
+.metodologia-content { margin: 20px 0; }
 .metodologia-content h3 {
-  color: white;          /* títulos das secções a branco */
+  color: white;
   font-weight: bold;
   margin: 15px 0 8px;
   font-size: 1.2rem;
 }
-
-.metodologia-content p, 
-.metodologia-content ul {
+.metodologia-content p, .metodologia-content ul {
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 5px 0 10px;
   color: rgba(255,255,255,0.9);
 }
+.metodologia-content ul { padding-left: 20px; }
+.metodologia-content li { margin: 5px 0; }
 
-.metodologia-content ul {
-  padding-left: 20px;
+/* Modal Saber Mais */
+.saber-mais-card { max-width: 600px; text-align: left; }
+.saber-mais-content { margin: 20px 0; }
+.saber-mais-content h3 {
+  color: #FFD700;
+  margin: 15px 0 8px;
+  font-size: 1.1rem;
 }
-.metodologia-content li {
-  margin: 5px 0;
+.saber-mais-content p { font-size: 0.9rem; line-height: 1.5; margin: 8px 0; }
+.barra-bg-saber {
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0;
 }
-/* ========== FIM ESTILOS METODOLOGIA ========== */
+.barra-fill-saber { height: 100%; border-radius: 4px; }
+
+/* Outros detalhes modais */
+.outro-detalhes-modal {
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.outro-detalhes-modal p { margin: 8px 0; }
 
 /* FOOTER */
+/* FOOTER - VERSÃO ORIGINAL COM LINHA AMARELA CORRIGIDA */
 .ind-footer {
   color: white;
   width: 100%;
   background: linear-gradient(to bottom, #d4af37 7px, #931b18 7px);
-  box-shadow: 0 400px 0 400px #931b18;
+  box-shadow: 0 400px 0 400px #931b18;  /* ← restaurar o fundo vermelho enorme */
   margin-top: 100px;
   padding: 80px 8% 15px;
   padding-bottom: 10px !important;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Linha amarela a tocar nas bordas (ignora o padding) */
+.ind-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 7px;
+  background-color: #d4af37;
+  pointer-events: none;
+  transform: translateX(-50%);
+  margin-left: 50%;
+}
+
+/* Garante que o conteúdo fique acima da linha */
+.footer-grid, .footer-bottom {
+  position: relative;
+  z-index: 1;
 }
 
 .footer-grid {
-  display: flex !important;
-  justify-content: space-between !important;
-  max-width: 95% !important; 
-  width: 95% !important;
-  margin: 0 auto 30px !important;
-  padding: 0 !important;
+  display: flex;
+  justify-content: space-between;
+  max-width: 95%;
+  width: 95%;
+  margin: 0 auto 30px;
+  position: relative;
+  z-index: 1;
 }
-
 .footer-brand {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: auto !important; 
-  min-width: 500px; 
+  min-width: 500px;
 }
-
-.footer-brand .footer-logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #d4af37;        
-  margin-bottom: 30px;  
-  display: block;       
-}
-
 .footer-logo {
-  white-space: nowrap;
   font-size: 1.7rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-weight: 800;
+  color: #d4af37;
+  white-space: nowrap;
+  margin-bottom: 30px;
 }
-
 .footer-brand p {
   font-size: 1.1rem;
-  opacity: 0.9;
   line-height: 1.8;
-  margin-bottom: 50px !important;
+  margin-bottom: 50px;
   max-width: 420px;
 }
-
 .footer-icons {
   display: flex;
   gap: 20px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  margin-top: 10px;
   margin-bottom: 80px;
-  z-index: 999;
 }
-
-.footer-icons span {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: all 0.3s ease; 
-}
-
-.footer-icons span:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-5px); 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  opacity: 1;
-}
-
 .icon-btn {
-  cursor: pointer !important;
-  pointer-events: auto !important; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  margin-right: 5px;
-  background: rgba(255, 255, 255, 0.2); 
+  background: rgba(255,255,255,0.2);
   width: 55px;
   height: 55px;
   border-radius: 10px;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
 }
-
+.icon-btn span { font-size: 1.4rem; }
 .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.2); /* Brilha um pouco ao passar o rato */
-  transform: translateY(-2px);
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-3px);
 }
-
-.icon-btn span {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
 .footer-col-titulo {
   font-size: 0.75rem;
   font-weight: 900;
   letter-spacing: 1px;
-  opacity: 0.6;
   margin-bottom: 25px;
-  color: #d4af37; 
-  opacity: 1;
+  color: #d4af37;
 }
-
 .footer-col ul {
   list-style: none;
   padding: 0;
@@ -1404,49 +1248,35 @@ function abrirEmail() { window.location.href = "mailto:info@prr-europa.eu"; }
   flex-direction: column;
   gap: 10px;
 }
-
 .footer-col ul li {
   font-size: 0.82rem;
   opacity: 0.85;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
-
-.footer-col ul li:hover { 
-  opacity: 1; 
-  transform: translateX(3px);
-}
-
+.footer-col ul li:hover { opacity: 1; transform: translateX(3px); }
 .footer-bottom {
-  display: flex !important;
-  justify-content: space-between !important;
-  margin-top: 20px !important;
-  padding-top: 15px !important;
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  position: relative;
+  z-index: 1;
 }
-
-@media (max-width: 1100px) {
-  .main-layout {
-    grid-template-columns: 1fr; 
-  }
-  .col-direita {
-    width: 100%;
-  }
-}
-
 .footer-status {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .sync-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
   background: #d4af37;
   border-radius: 50%;
+}
+@media (max-width: 1100px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .col-direita { width: 100%; }
 }
 </style>
