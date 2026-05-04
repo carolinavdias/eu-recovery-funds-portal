@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <!-- ================= MODAL ESTATÍSTICAS (NOVO) ================= -->
+    <!-- ================= MODAL ESTATÍSTICAS ================= -->
     <div v-if="showStatsModal" class="modal-overlay" @click.self="showStatsModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showStatsModal = false">✕</button>
@@ -528,7 +528,7 @@ function executarDownloadPilar(formato) {
   showPilarModal.value = false
 }
 
-// ---- FUNÇÕES PARA ESTATÍSTICAS (NOVO) ----
+// ---- FUNÇÕES PARA ESTATÍSTICAS ----
 function abrirModalEstatisticas() {
   showStatsModal.value = true
 }
@@ -542,7 +542,6 @@ function exportarEstatisticas(formato) {
   }
 
   if (formato === 'csv') {
-    // CSV: primeiro as áreas de investimento, depois os indicadores
     let linhas = []
     linhas.push('Seção;Nome;Percentagem;Valor;Descrição')
     dadosBarras.value.forEach(b => {
@@ -575,7 +574,6 @@ function exportarEstatisticas(formato) {
     window.URL.revokeObjectURL(url)
   }
   else if (formato === 'pdf') {
-    // Gera uma página HTML com os dados e chama print()
     const win = window.open('', '_blank')
     win.document.write(`
       <html>
@@ -609,7 +607,6 @@ function exportarEstatisticas(formato) {
 </script>
 
 <style scoped>
-/* ========== TODO O SEU CSS ORIGINAL AQUI (MANTENHA EXATAMENTE IGUAL) ========== */
 .portal-container {
   margin: -2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

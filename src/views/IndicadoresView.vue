@@ -167,6 +167,126 @@
       </div>
     </div>
 
+    <!-- MODAL DADOS ABERTOS -->
+    <div v-if="showDadosAbertosModal" class="modal-overlay" @click.self="showDadosAbertosModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showDadosAbertosModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📂</span>
+          <h2>Dados Abertos</h2>
+          <p>Acesso a conjuntos de dados públicos do PRR</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p>Os dados utilizados neste portal são públicos e podem ser acedidos através de:</p>
+          <ul style="margin-top:10px; padding-left:20px;">
+            <li><a href="https://recuperarportugal.gov.pt/" target="_blank" style="color:#FFD700;">Portal do PRR Portugal</a></li>
+            <li><a href="https://ec.europa.eu/eurostat" target="_blank" style="color:#FFD700;">Eurostat</a></li>
+            <li><a href="https://data.europa.eu/" target="_blank" style="color:#FFD700;">Data Europa</a></li>
+          </ul>
+          <p style="margin-top:15px;">Os ficheiros exportados (CSV, JSON, PDF) podem ser reutilizados livremente para fins académicos e de investigação.</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showDadosAbertosModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAQ -->
+    <div v-if="showFAQModal" class="modal-overlay" @click.self="showFAQModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showFAQModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">❓</span>
+          <h2>Perguntas Frequentes</h2>
+          <p>FAQ – Plano de Recuperação e Resiliência</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p><strong>1. O que é o PRR?</strong><br>É o Plano de Recuperação e Resiliência de Portugal, financiado pela UE.</p>
+          <p><strong>2. Como são atualizados os indicadores?</strong><br>Reporte semestral oficial.</p>
+          <p><strong>3. Posso exportar os dados?</strong><br>Sim, através dos botões de exportação (CSV, JSON, PDF).</p>
+          <p><strong>4. Onde posso obter mais informações?</strong><br>No site oficial recuperarportugal.gov.pt.</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showFAQModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL CONTACTOS -->
+    <div v-if="showContactosModal" class="modal-overlay" @click.self="showContactosModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showContactosModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📞</span>
+          <h2>Contactos</h2>
+          <p>Fale connosco</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p><strong>Email:</strong> <a href="mailto:info@prr-europa.eu" style="color:#FFD700;">info@prr-europa.eu</a></p>
+          <p><strong>Telefone:</strong> +351 XXX XXX XXX</p>
+          <p><strong>Morada:</strong> União Europeia</p>
+          <p><strong>Horário:</strong> Segunda a Sexta, 9h00 – 18h00</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showContactosModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL PRIVACIDADE -->
+    <div v-if="showPrivacidadeModal" class="modal-overlay" @click.self="showPrivacidadeModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showPrivacidadeModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">🔒</span>
+          <h2>Política de Privacidade</h2>
+          <p>Como os seus dados são protegidos</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p>Este site não recolhe dados pessoais sem consentimento. Os dados de navegação são anónimos. Para mais informações, contacte o nosso Encarregado de Proteção de Dados.</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showPrivacidadeModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TERMOS E CONDIÇÕES -->
+    <div v-if="showTermosModal" class="modal-overlay" @click.self="showTermosModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showTermosModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">⚖️</span>
+          <h2>Termos e Condições</h2>
+          <p>Utilização do portal</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p>Todo o conteúdo é disponibilizado para fins académicos e informativos. É permitida a reprodução parcial desde que citada a fonte.</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showTermosModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL COOKIES -->
+    <div v-if="showCookiesModal" class="modal-overlay" @click.self="showCookiesModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showCookiesModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">🍪</span>
+          <h2>Política de Cookies</h2>
+          <p>Como utilizamos cookies</p>
+        </div>
+        <div style="text-align:left; margin:20px 0;">
+          <p>Este site utiliza cookies apenas para funcionalidades essenciais (não rastreia utilizadores). Não são utilizados cookies de terceiros.</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="showCookiesModal = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- MODAL SABER MAIS (detalhes do indicador) -->
     <div v-if="showSaberMaisModal" class="modal-overlay" @click.self="showSaberMaisModal = false">
       <div class="export-card saber-mais-card">
@@ -262,18 +382,18 @@
         <div class="footer-col">
           <p class="footer-col-titulo">ACESSO RÁPIDO</p>
           <ul>
-            <li>Metodologia</li>
-            <li>Dados Abertos</li>
-            <li>FAQ</li>
-            <li>Contactos</li>
+            <li><a @click="abrirMetodologia" style="cursor: pointer;">Metodologia</a></li>
+            <li><a @click="abrirDadosAbertos" style="cursor: pointer;">Dados Abertos</a></li>
+            <li><a @click="abrirFAQ" style="cursor: pointer;">FAQ</a></li>
+            <li><a @click="abrirContactos" style="cursor: pointer;">Contactos</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <p class="footer-col-titulo">INFORMAÇÃO LEGAL</p>
           <ul>
-            <li>Privacidade</li>
-            <li>Termos e Condições</li>
-            <li>Cookies</li>
+            <li><a @click="abrirPrivacidade" style="cursor: pointer;">Privacidade</a></li>
+            <li><a @click="abrirTermos" style="cursor: pointer;">Termos e Condições</a></li>
+            <li><a @click="abrirCookies" style="cursor: pointer;">Cookies</a></li>
           </ul>
         </div>
       </div>
@@ -562,8 +682,14 @@ const nomePeriodoAtual = computed(() => {
   return map[periodoSelecionado.value] || periodoSelecionado.value
 })
 
-// Estados dos modais
+// Estados dos modais (incluindo novos)
 const showMetodologiaModal = ref(false)
+const showDadosAbertosModal = ref(false)
+const showFAQModal = ref(false)
+const showContactosModal = ref(false)
+const showPrivacidadeModal = ref(false)
+const showTermosModal = ref(false)
+const showCookiesModal = ref(false)
 const showSaberMaisModal = ref(false)
 const showExportOutroModal = ref(false)
 const indicadorIdSelecionado = ref(null)
@@ -575,7 +701,15 @@ const indicadorAtual = computed(() => {
   return indicadores.value.find(ind => ind.id === indicadorIdSelecionado.value)
 })
 
+// Funções para abrir modais (acesso rápido e info legal)
 function abrirMetodologia() { showMetodologiaModal.value = true }
+function abrirDadosAbertos() { showDadosAbertosModal.value = true }
+function abrirFAQ() { showFAQModal.value = true }
+function abrirContactos() { showContactosModal.value = true }
+function abrirPrivacidade() { showPrivacidadeModal.value = true }
+function abrirTermos() { showTermosModal.value = true }
+function abrirCookies() { showCookiesModal.value = true }
+
 function abrirSaberMais(id) { 
   indicadorIdSelecionado.value = id
   showSaberMaisModal.value = true
@@ -750,6 +884,7 @@ function abrirEmailSimples() {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
 @keyframes notificacaoSaida {
   from { transform: translateX(0); opacity: 1; }
   to { transform: translateX(100%); opacity: 0; }
@@ -891,13 +1026,18 @@ function abrirEmailSimples() {
   margin-bottom: 8px;
 }
 
-.card-icon { font-size: 1.3rem; color: #931b18; }
+.card-icon { 
+  font-size: 1.3rem; 
+  color: #931b18; 
+}
+
 .card-categoria {
   font-size: 0.62rem;
   font-weight: 700;
   color: #aaa;
   letter-spacing: 1px;
 }
+
 .card-nome {
   font-size: 0.88rem;
   font-weight: 700;
@@ -905,6 +1045,7 @@ function abrirEmailSimples() {
   line-height: 1.3;
   margin-bottom: 4px;
 }
+
 .card-valor {
   font-size: 1.9rem;
   font-weight: 800;
@@ -912,21 +1053,25 @@ function abrirEmailSimples() {
   line-height: 1;
   margin-bottom: 10px;
 }
+
 .progresso-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
 }
+
 .prog-label {
   font-size: 0.62rem;
   color: #aaa;
   font-weight: 700;
 }
+
 .prog-pct {
   font-size: 0.75rem;
   font-weight: 700;
   color: #555;
 }
+
 .barra-bg {
   height: 5px;
   background: #f0f0f0;
@@ -934,10 +1079,12 @@ function abrirEmailSimples() {
   overflow: hidden;
   margin-bottom: 14px;
 }
+
 .barra-fill {
   height: 100%;
   border-radius: 3px;
 }
+
 .btn-saber {
   margin-top: auto;
   background: #931b18;
@@ -949,13 +1096,17 @@ function abrirEmailSimples() {
   cursor: pointer;
   transition: background 0.2s;
 }
-.btn-saber:hover { background: #7a1614; }
+
+.btn-saber:hover { 
+  background: #7a1614; 
+}
 
 .outros-lista {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
+
 .outro-item {
   display: flex;
   align-items: center;
@@ -967,24 +1118,35 @@ function abrirEmailSimples() {
   border: 1px solid #f0f0f0;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
+
 .outro-item:hover {
   transform: translateX(8px);
   border-color: #d4af37;
 }
+
 .outro-esq {
   display: flex;
   align-items: center;
   gap: 12px;
   flex: 1;
 }
-.outro-icone { font-size: 1.1rem; }
-.outro-nome { font-size: 0.88rem; color: #333; }
+
+.outro-icone { 
+  font-size: 1.1rem; 
+}
+
+.outro-nome { 
+  font-size: 0.88rem; 
+  color: #333; 
+}
+
 .outro-valor {
   font-size: 1rem;
   font-weight: 800;
   color: #d4af37;
   margin: 0 25px;
 }
+
 .btn-exportar-outro {
   background: #931b18;
   color: white;
@@ -993,7 +1155,10 @@ function abrirEmailSimples() {
   border-radius: 6px;
   cursor: pointer;
 }
-.btn-exportar-outro:hover { background: #7a1614; }
+
+.btn-exportar-outro:hover { 
+  background: #7a1614; 
+}
 
 .col-direita {
   display: flex;
@@ -1018,6 +1183,7 @@ function abrirEmailSimples() {
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
 .btn-guia .icon-circle {
   border: 2px solid white;
   border-radius: 50%;
@@ -1028,6 +1194,7 @@ function abrirEmailSimples() {
   justify-content: center;
   font-size: 12px;
 }
+
 .btn-guia:hover {
   background: #7a1614;
   transform: translateY(-5px);
@@ -1040,16 +1207,19 @@ function abrirEmailSimples() {
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
+
 .exportar-header h3 {
   color: #931b18;
   margin: 0 0 5px;
   font-size: 1.2rem;
 }
+
 .exportar-header p {
   color: #666;
   font-size: 0.85rem;
   margin-bottom: 20px;
 }
+
 .btn-action {
   width: 100%;
   padding: 12px;
@@ -1062,29 +1232,40 @@ function abrirEmailSimples() {
   justify-content: center;
   gap: 10px;
 }
+
 .btn-action.csv {
   background: #931b18;
   color: white;
   border: none;
 }
-.btn-action.csv:hover { background: #7a1614; }
+
+.btn-action.csv:hover { 
+  background: #7a1614; 
+}
+
 .btn-action.pdf {
   background: white;
   color: #931b18;
   border: 2px solid #931b18;
 }
-.btn-action.pdf:hover { background: #fdf2f2; }
+
+.btn-action.pdf:hover { 
+  background: #fdf2f2; 
+}
+
 .inner-divider {
   border: none;
   border-top: 1px solid #eee;
   margin: 20px 0;
 }
+
 .sync-label {
   font-size: 0.7rem;
   font-weight: bold;
   color: #999;
   letter-spacing: 1px;
 }
+
 .sync-time {
   color: #931b18;
   font-weight: bold;
@@ -1093,6 +1274,7 @@ function abrirEmailSimples() {
   gap: 8px;
   font-size: 0.9rem;
 }
+
 .check-circle {
   color: #ffcc00;
   border: 2px solid #ffcc00;
@@ -1116,6 +1298,7 @@ function abrirEmailSimples() {
   align-items: center;
   z-index: 3000;
 }
+
 .export-card {
   background: #931b18;
   width: 90%;
@@ -1143,22 +1326,30 @@ function abrirEmailSimples() {
   opacity: 1; 
 }
 
-.main-download-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+.main-download-icon { 
+  font-size: 3rem; 
+  display: block; 
+  margin-bottom: 10px; 
+}
+
 .export-header h2 {
   font-size: 1.8rem;
   margin-bottom: 8px;
   color: #FFD700;
 }
+
 .export-header p {
   font-size: 0.95rem;
   margin-bottom: 20px;
   opacity: 0.9;
 }
+
 .export-options {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .export-item {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.3);
@@ -1171,36 +1362,70 @@ function abrirEmailSimples() {
   cursor: pointer;
   transition: 0.3s;
 }
-.export-item:hover { background: rgba(255,255,255,0.2); }
-.export-item .ext { opacity: 0.6; font-family: monospace; }
+
+.export-item:hover { 
+  background: rgba(255,255,255,0.2); 
+}
+
+.export-item .ext { 
+  opacity: 0.6; 
+  font-family: monospace; 
+}
 
 /* Modal Metodologia */
-.metodologia-card { max-width: 600px; text-align: left; }
-.metodologia-content { margin: 20px 0; }
+.metodologia-card { 
+  max-width: 600px; 
+  text-align: left; 
+}
+
+.metodologia-content { 
+  margin: 20px 0; 
+}
+
 .metodologia-content h3 {
   color: white;
   font-weight: bold;
   margin: 15px 0 8px;
   font-size: 1.2rem;
 }
+
 .metodologia-content p, .metodologia-content ul {
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 5px 0 10px;
   color: rgba(255,255,255,0.9);
 }
-.metodologia-content ul { padding-left: 20px; }
-.metodologia-content li { margin: 5px 0; }
+
+.metodologia-content ul { 
+  padding-left: 20px; 
+}
+
+.metodologia-content li { 
+  margin: 5px 0; 
+}
 
 /* Modal Saber Mais */
-.saber-mais-card { max-width: 600px; text-align: left; }
-.saber-mais-content { margin: 20px 0; }
+.saber-mais-card { 
+  max-width: 600px; 
+  text-align: left; 
+}
+
+.saber-mais-content { 
+  margin: 20px 0; 
+}
+
 .saber-mais-content h3 {
   color: #FFD700;
   margin: 15px 0 8px;
   font-size: 1.1rem;
 }
-.saber-mais-content p { font-size: 0.9rem; line-height: 1.5; margin: 8px 0; }
+
+.saber-mais-content p { 
+  font-size: 0.9rem; 
+  line-height: 1.5; 
+  margin: 8px 0; 
+}
+
 .barra-bg-saber {
   height: 8px;
   background: rgba(255,255,255,0.2);
@@ -1208,7 +1433,11 @@ function abrirEmailSimples() {
   overflow: hidden;
   margin: 10px 0;
 }
-.barra-fill-saber { height: 100%; border-radius: 4px; }
+
+.barra-fill-saber { 
+  height: 100%; 
+  border-radius: 4px; 
+}
 
 /* Outros detalhes modais */
 .outro-detalhes-modal {
@@ -1219,15 +1448,17 @@ function abrirEmailSimples() {
   text-align: left;
   font-size: 0.9rem;
 }
-.outro-detalhes-modal p { margin: 8px 0; }
+
+.outro-detalhes-modal p { 
+  margin: 8px 0; 
+}
 
 /* FOOTER */
-/* FOOTER - VERSÃO ORIGINAL COM LINHA AMARELA CORRIGIDA */
 .ind-footer {
   color: white;
   width: 100%;
   background: linear-gradient(to bottom, #d4af37 7px, #931b18 7px);
-  box-shadow: 0 400px 0 400px #931b18;  /* ← restaurar o fundo vermelho enorme */
+  box-shadow: 0 400px 0 400px #931b18;
   margin-top: 100px;
   padding: 80px 8% 15px;
   padding-bottom: 10px !important;
@@ -1235,7 +1466,6 @@ function abrirEmailSimples() {
   overflow-x: hidden;
 }
 
-/* Linha amarela a tocar nas bordas (ignora o padding) */
 .ind-footer::before {
   content: '';
   position: absolute;
@@ -1249,7 +1479,6 @@ function abrirEmailSimples() {
   margin-left: 50%;
 }
 
-/* Garante que o conteúdo fique acima da linha */
 .footer-grid, .footer-bottom {
   position: relative;
   z-index: 1;
@@ -1261,15 +1490,15 @@ function abrirEmailSimples() {
   max-width: 95%;
   width: 95%;
   margin: 0 auto 30px;
-  position: relative;
-  z-index: 1;
 }
+
 .footer-brand {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 500px;
 }
+
 .footer-logo {
   font-size: 1.7rem;
   font-weight: 800;
@@ -1277,17 +1506,20 @@ function abrirEmailSimples() {
   white-space: nowrap;
   margin-bottom: 30px;
 }
+
 .footer-brand p {
   font-size: 1.1rem;
   line-height: 1.8;
   margin-bottom: 50px;
   max-width: 420px;
 }
+
 .footer-icons {
   display: flex;
   gap: 20px;
   margin-bottom: 80px;
 }
+
 .icon-btn {
   background: rgba(255,255,255,0.2);
   width: 55px;
@@ -1299,11 +1531,16 @@ function abrirEmailSimples() {
   cursor: pointer;
   border: none;
 }
-.icon-btn span { font-size: 1.4rem; }
+
+.icon-btn span { 
+  font-size: 1.4rem; 
+}
+
 .icon-btn:hover {
   background: rgba(255,255,255,0.3);
   transform: translateY(-3px);
 }
+
 .footer-col-titulo {
   font-size: 0.75rem;
   font-weight: 900;
@@ -1311,6 +1548,7 @@ function abrirEmailSimples() {
   margin-bottom: 25px;
   color: #d4af37;
 }
+
 .footer-col ul {
   list-style: none;
   padding: 0;
@@ -1319,26 +1557,39 @@ function abrirEmailSimples() {
   flex-direction: column;
   gap: 10px;
 }
+
 .footer-col ul li {
   font-size: 0.82rem;
   opacity: 0.85;
   cursor: pointer;
 }
-.footer-col ul li:hover { opacity: 1; transform: translateX(3px); }
+
+.footer-col ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: opacity 0.2s;
+}
+
+.footer-col ul li:hover { 
+  opacity: 1; 
+  transform: translateX(3px); 
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
   padding-top: 15px;
   border-top: 1px solid rgba(255,255,255,0.2);
-  position: relative;
-  z-index: 1;
 }
+
 .footer-status {
   display: flex;
   align-items: center;
   gap: 6px;
 }
+
 .sync-dot {
   display: inline-block;
   width: 8px;
@@ -1346,6 +1597,7 @@ function abrirEmailSimples() {
   background: #d4af37;
   border-radius: 50%;
 }
+
 @media (max-width: 1100px) {
   .main-layout { grid-template-columns: 1fr; }
   .col-direita { width: 100%; }
