@@ -70,7 +70,7 @@
               <div class="barra-bg">
                 <div class="barra-fill" :style="{ width: ind.progresso + '%', background: corBarraCard(ind.progresso) }"></div>
               </div>
-              <button class="btn-saber" @click="abrirSaberMais(ind)">Saber Mais →</button>
+              <button class="btn-saber" @click="abrirSaberMais(ind.id)">Saber Mais →</button>
             </div>
           </div>
 
@@ -172,15 +172,15 @@
       <div class="export-card saber-mais-card">
         <button class="close-btn" @click="showSaberMaisModal = false">✕</button>
         <div class="export-header">
-          <span class="main-download-icon">{{ indicadorSelecionado?.icone }}</span>
-          <h2>{{ indicadorSelecionado?.nome }}</h2>
-          <p>{{ indicadorSelecionado?.categoria }}</p>
+          <span class="main-download-icon">{{ indicadorAtual?.icone }}</span>
+          <h2>{{ indicadorAtual?.nome }}</h2>
+          <p>{{ indicadorAtual?.categoria }}</p>
         </div>
         <div class="saber-mais-content">
-          <p><strong>Valor atual:</strong> {{ indicadorSelecionado?.valor }}</p>
-          <p><strong>Progresso:</strong> {{ indicadorSelecionado?.progresso }}%</p>
+          <p><strong>Valor atual:</strong> {{ indicadorAtual?.valor }}</p>
+          <p><strong>Progresso:</strong> {{ indicadorAtual?.progresso }}%</p>
           <div class="barra-bg-saber">
-            <div class="barra-fill-saber" :style="{ width: indicadorSelecionado?.progresso + '%', background: corBarraModal(indicadorSelecionado?.progresso) }"></div>
+            <div class="barra-fill-saber" :style="{ width: indicadorAtual?.progresso + '%', background: corBarraModal(indicadorAtual?.progresso) }"></div>
           </div>
           <!-- País e período selecionados -->
           <div style="background: rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; margin: 10px 0; text-align: center;">
@@ -189,20 +189,20 @@
           <hr>
           <h3>🔍 Sobre este indicador</h3>
           <p><strong>Descrição:</strong> 
-            <span v-if="indicadorSelecionado?.id === 1">Número de participantes que concluíram ações de formação financiadas pelo PRR nas áreas de qualificação e requalificação profissional.</span>
-            <span v-else-if="indicadorSelecionado?.id === 2">Capacidade instalada de energias renováveis (MW) com apoio do PRR.</span>
-            <span v-else-if="indicadorSelecionado?.id === 3">Número de serviços públicos digitais disponibilizados à população.</span>
-            <span v-else-if="indicadorSelecionado?.id === 4">Habitações renovadas ou construídas ao abrigo do programa de habitação social.</span>
-            <span v-else-if="indicadorSelecionado?.id === 5">Número de pequenas e médias empresas apoiadas para inovação e digitalização.</span>
-            <span v-else-if="indicadorSelecionado?.id === 6">Incremento de camas ou equipamentos no Serviço Nacional de Saúde.</span>
+            <span v-if="indicadorAtual?.id === 1">Número de participantes que concluíram ações de formação financiadas pelo PRR nas áreas de qualificação e requalificação profissional.</span>
+            <span v-else-if="indicadorAtual?.id === 2">Capacidade instalada de energias renováveis (MW) com apoio do PRR.</span>
+            <span v-else-if="indicadorAtual?.id === 3">Número de serviços públicos digitais disponibilizados à população.</span>
+            <span v-else-if="indicadorAtual?.id === 4">Habitações renovadas ou construídas ao abrigo do programa de habitação social.</span>
+            <span v-else-if="indicadorAtual?.id === 5">Número de pequenas e médias empresas apoiadas para inovação e digitalização.</span>
+            <span v-else-if="indicadorAtual?.id === 6">Incremento de camas ou equipamentos no Serviço Nacional de Saúde.</span>
           </p>
           <p><strong>Meta nacional:</strong> 
-            <span v-if="indicadorSelecionado?.id === 1">650.000 participantes</span>
-            <span v-else-if="indicadorSelecionado?.id === 2">2.500 MW</span>
-            <span v-else-if="indicadorSelecionado?.id === 3">1.500 serviços</span>
-            <span v-else-if="indicadorSelecionado?.id === 4">25.000 habitações</span>
-            <span v-else-if="indicadorSelecionado?.id === 5">8.000 PME</span>
-            <span v-else-if="indicadorSelecionado?.id === 6">1.200 camas</span>
+            <span v-if="indicadorAtual?.id === 1">650.000 participantes</span>
+            <span v-else-if="indicadorAtual?.id === 2">2.500 MW</span>
+            <span v-else-if="indicadorAtual?.id === 3">1.500 serviços</span>
+            <span v-else-if="indicadorAtual?.id === 4">25.000 habitações</span>
+            <span v-else-if="indicadorAtual?.id === 5">8.000 PME</span>
+            <span v-else-if="indicadorAtual?.id === 6">1.200 camas</span>
           </p>
           <p><strong>Fonte:</strong> Comissão Europeia / PRR Relatório Semestral</p>
           <p><strong>Última atualização:</strong> {{ new Date().toLocaleDateString('pt-PT') }}</p>
@@ -287,7 +287,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const paisSelecionado = ref('pt')
 const periodoSelecionado = ref('s1-2025')
@@ -566,38 +566,72 @@ const nomePeriodoAtual = computed(() => {
 const showMetodologiaModal = ref(false)
 const showSaberMaisModal = ref(false)
 const showExportOutroModal = ref(false)
-const indicadorSelecionado = ref(null)
+const indicadorIdSelecionado = ref(null)
 const outroSelecionado = ref(null)
 
+// Computed que busca o indicador atualizado na lista reativa
+const indicadorAtual = computed(() => {
+  if (!indicadorIdSelecionado.value) return null
+  return indicadores.value.find(ind => ind.id === indicadorIdSelecionado.value)
+})
+
 function abrirMetodologia() { showMetodologiaModal.value = true }
-function abrirSaberMais(ind) { indicadorSelecionado.value = ind; showSaberMaisModal.value = true }
-function exportarOutroIndividual(outro) { outroSelecionado.value = outro; showExportOutroModal.value = true }
+function abrirSaberMais(id) { 
+  indicadorIdSelecionado.value = id
+  showSaberMaisModal.value = true
+}
+function exportarOutroIndividual(outro) { 
+  outroSelecionado.value = outro
+  showExportOutroModal.value = true
+}
+
+// Fechar o modal Saber Mais se os filtros mudarem (evita dados inconsistentes)
+watch([paisSelecionado, periodoSelecionado], () => {
+  if (showSaberMaisModal.value) {
+    showSaberMaisModal.value = false
+  }
+})
 
 function exportarOutroIndividualAcao(formato) {
   const outro = outroSelecionado.value
   if (!outro) return
   const dataGeracao = new Date().toLocaleDateString('pt-PT')
   const nomeLimpo = outro.nome.replace(/\s+/g, '_').toLowerCase()
+  const pais = nomePaisAtual.value
+  const periodo = nomePeriodoAtual.value
+  const codigoPais = paisSelecionado.value
+  const codigoPeriodo = periodoSelecionado.value
+
   if (formato === 'csv') {
-    const csv = `Indicador;${outro.nome}\nValor;${outro.valor}\nPaís;${nomePaisAtual.value}\nPeríodo;${nomePeriodoAtual.value}\nData;${dataGeracao}`
+    const csv = `Indicador;${outro.nome}\nValor;${outro.valor}\nPaís;${pais}\nPeríodo;${periodo}\nData de exportação;${dataGeracao}`
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${nomeLimpo}_${paisSelecionado.value}_${periodoSelecionado.value}.csv`
+    a.download = `${nomeLimpo}_${codigoPais}_${codigoPeriodo}.csv`
     a.click()
     URL.revokeObjectURL(url)
-  } else if (formato === 'json') {
-    const dados = { indicador: outro.nome, valor: outro.valor, pais: nomePaisAtual.value, periodo: nomePeriodoAtual.value, dataExportacao: dataGeracao }
+  } 
+  else if (formato === 'json') {
+    const dados = {
+      indicador: outro.nome,
+      valor: outro.valor,
+      pais: pais,
+      periodo: periodo,
+      dataExportacao: dataGeracao,
+      codigoPais: codigoPais,
+      codigoPeriodo: codigoPeriodo
+    }
     const json = JSON.stringify(dados, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${nomeLimpo}_${paisSelecionado.value}_${periodoSelecionado.value}.json`
+    a.download = `${nomeLimpo}_${codigoPais}_${codigoPeriodo}.json`
     a.click()
     URL.revokeObjectURL(url)
-  } else if (formato === 'pdf') {
+  } 
+  else if (formato === 'pdf') {
     const win = window.open('', '_blank')
     win.document.write(`
       <html>
@@ -605,9 +639,9 @@ function exportarOutroIndividualAcao(formato) {
         <body style="font-family:sans-serif; padding:40px;">
           <h1 style="color:#931b18;">${outro.nome}</h1>
           <p><strong>Valor:</strong> ${outro.valor}</p>
-          <p><strong>País:</strong> ${nomePaisAtual.value}</p>
-          <p><strong>Período:</strong> ${nomePeriodoAtual.value}</p>
-          <p><strong>Data:</strong> ${dataGeracao}</p>
+          <p><strong>País:</strong> ${pais}</p>
+          <p><strong>Período:</strong> ${periodo}</p>
+          <p><strong>Data de exportação:</strong> ${dataGeracao}</p>
         </body>
       </html>
     `)
@@ -629,30 +663,60 @@ function corBarraModal(pct) {
 
 // Exportação global (todos os indicadores)
 function exportar(tipo) {
-  const inds = indicadores.value
-  const outros = outrosIndicadores.value
-  const paisNome = nomePaisAtual.value
-  const periodoNome = nomePeriodoAtual.value
-  
+  // Busca os valores mais recentes das computed properties
+  const inds = [...indicadores.value]      // cópia atual dos 6 indicadores
+  const outros = [...outrosIndicadores.value]  // cópia atual dos 3 outros
+  const pais = nomePaisAtual.value
+  const periodo = nomePeriodoAtual.value
+  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const codigoPais = paisSelecionado.value
+  const codigoPeriodo = periodoSelecionado.value
+
   if (tipo === 'csv') {
-    let csv = `País;${paisNome}\nPeríodo;${periodoNome}\n\nIndicador;Valor;Progresso\n`
-    inds.forEach(ind => { csv += `${ind.nome};${ind.valor};${ind.progresso}%\n` })
-    csv += `\nOutros Indicadores;Valor\n`
-    outros.forEach(out => { csv += `${out.nome};${out.valor}\n` })
+    let csv = `Relatório de Indicadores PRR\n`
+    csv += `País;${pais}\n`
+    csv += `Período;${periodo}\n`
+    csv += `Data de geração;${dataGeracao}\n\n`
+    csv += `INDICADORES DE PERFORMANCE\n`
+    csv += `Indicador;Valor;Progresso (%)\n`
+    inds.forEach(ind => {
+      csv += `${ind.nome};${ind.valor};${ind.progresso}\n`
+    })
+    csv += `\nOUTROS INDICADORES OBRIGATÓRIOS\n`
+    csv += `Indicador;Valor\n`
+    outros.forEach(out => {
+      csv += `${out.nome};${out.valor}\n`
+    })
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `indicadores_prr_${paisSelecionado.value}_${periodoSelecionado.value}.csv`
+    a.download = `indicadores_prr_${codigoPais}_${codigoPeriodo}.csv`
     a.click()
     URL.revokeObjectURL(url)
-  } else if (tipo === 'pdf') {
-    const dataGeracao = new Date().toLocaleDateString('pt-PT')
-    let html = `<html><body style="font-family:sans-serif; padding:40px;"><h1 style="color:#931b18;">Indicadores Comuns do PRR</h1><p><strong>País:</strong> ${paisNome}</p><p><strong>Período:</strong> ${periodoNome}</p><p><strong>Data:</strong> ${dataGeracao}</p><h2>Indicadores de Performance</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%"><tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th><th>Progresso</th></tr>`
-    inds.forEach(ind => { html += `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>` })
-    html += `</table><h2>Outros Indicadores</h2><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%"><tr style="background:#931b18; color:white"><th>Indicador</th><th>Valor</th></tr>`
-    outros.forEach(out => { html += `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>` })
-    html += `｜｜DSML｜｜</body></html>`
+  } 
+  else if (tipo === 'pdf') {
+    let html = `
+      <html>
+        <head><title>Indicadores PRR - ${pais} (${periodo})</title></head>
+        <body style="font-family:sans-serif; padding:40px;">
+          <h1 style="color:#931b18;">Indicadores Comuns do PRR</h1>
+          <p><strong>País:</strong> ${pais}</p>
+          <p><strong>Período:</strong> ${periodo}</p>
+          <p><strong>Data:</strong> ${dataGeracao}</p>
+          <h2>Indicadores de Performance</h2>
+          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white;"><th>Indicador</th><th>Valor</th><th>Progresso (%)</th></tr>
+            ${inds.map(ind => `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}</td></tr>`).join('')}
+          </table>
+          <h2>Outros Indicadores Obrigatórios</h2>
+          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+            <tr style="background:#931b18; color:white;"><th>Indicador</th><th>Valor</th></tr>
+            ${outros.map(out => `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>`).join('')}
+          </table>
+        </body>
+      </html>
+    `
     const win = window.open('', '_blank')
     win.document.write(html)
     win.document.close()
@@ -1063,6 +1127,7 @@ function abrirEmailSimples() {
   text-align: center;
   box-shadow: 0 15px 50px rgba(0,0,0,0.6);
 }
+
 .close-btn {
   position: absolute;
   top: 15px; right: 20px;
@@ -1071,7 +1136,13 @@ function abrirEmailSimples() {
   color: white;
   font-size: 1.6rem;
   cursor: pointer;
+  opacity: 0.8;
 }
+
+.close-btn:hover { 
+  opacity: 1; 
+}
+
 .main-download-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
 .export-header h2 {
   font-size: 1.8rem;

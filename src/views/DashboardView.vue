@@ -7,7 +7,7 @@
         <button class="close-btn" @click="showExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2>Exportação Rápida</h2>
+          <h2 class="modal-title-yellow">Exportação Rápida</h2>
           <p>Descarregue o conjunto de dados da vista atual para análise offline</p>
         </div>
         <div class="export-options">
@@ -33,7 +33,7 @@
         <button class="close-btn" @click="showPilarModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2>Exportar Dados do Pilar</h2>
+          <h2 class="modal-title-yellow">Exportar Dados do Pilar</h2>
           <p>{{ pilarSelecionado.titulo }}</p>
         </div>
         <div class="pilar-detalhes-modal">
@@ -64,7 +64,7 @@
         <button class="close-btn" @click="showStatsModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2>Exportar Dados Estatísticos</h2>
+          <h2 class="modal-title-yellow">Exportar Dados Estatísticos</h2>
           <p>Investimentos e indicadores‑chave do PRR</p>
         </div>
         <div class="export-options">
@@ -762,6 +762,13 @@ function exportarEstatisticas(formato) {
   font-size: 2rem !important;
   margin-bottom: 5px;
   cursor: pointer;
+}
+
+.modal-title-yellow {
+  color: #FFD700 !important; /* Cor Amarela/Dourada */
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.8rem;
 }
 
 .download-text {
