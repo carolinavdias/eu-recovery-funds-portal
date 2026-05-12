@@ -1,0 +1,113 @@
+/* ================================================
+   PORTAL PRR — ESTILOS GLOBAIS
+   ================================================ */
+
+/* Reset e base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ================================================
+   DARK MODE GLOBAL — versão conservadora
+   Só altera o que é garantidamente seguro alterar
+   sem ir página a página. O conteúdo das views
+   mantém-se (cores hardcoded) para não criar
+   conflitos visuais.
+   ================================================ */
+
+body.dark-mode {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* Área de conteúdo principal (fundo da app entre secções) */
+body.dark-mode .app-content {
+  background-color: #0f172a;
+}
+
+/* Footer */
+body.dark-mode .app-footer {
+  background-color: #1e293b;
+  color: #94a3b8;
+  border-top-color: #334155;
+}
+
+/* Sidebar — complemento ao que já tem no scoped */
+body.dark-mode .sidebar {
+  background-color: #1e293b;
+  border-right-color: #334155;
+}
+
+/* ---- Tabelas (elementos HTML padrão, seguros de alterar) ---- */
+body.dark-mode table {
+  background-color: #1e293b;
+}
+
+body.dark-mode thead tr,
+body.dark-mode th {
+  background-color: #334155 !important;
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode tbody tr {
+  background-color: #1e293b;
+  border-bottom-color: #334155;
+}
+
+body.dark-mode tbody tr:nth-child(even) {
+  background-color: #1a2535;
+}
+
+body.dark-mode tbody tr:hover {
+  background-color: #253346 !important;
+}
+
+body.dark-mode td {
+  color: #e2e8f0;
+  border-bottom-color: #334155;
+}
+
+/* ---- Inputs e selects (filtros, formulários) ---- */
+body.dark-mode select,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="search"],
+body.dark-mode input[type="number"],
+body.dark-mode textarea {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-mode option {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+/* ---- Modal overlay ---- */
+body.dark-mode .modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* ---- Scrollbar cosmético ---- */
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}

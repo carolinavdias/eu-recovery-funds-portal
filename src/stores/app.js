@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   const paisSelecionado = ref('todos')
-  const darkMode = ref(false)
-  const idioma = ref('pt')
+
+  // Persistência do dark mode entre sessões
+  const darkMode = ref(localStorage.getItem('prr-dark-mode') === 'true')
 
   const paises = [
     { code: 'todos', nome: 'Todos os países' },
@@ -18,9 +19,15 @@ export const useAppStore = defineStore('app', () => {
     { code: 'RO', nome: 'Roménia' },
   ]
 
+  // Aplica o modo guardado antes de qualquer render
+  if (darkMode.value) {
+    document.body.classList.add('dark-mode')
+  }
+
   function toggleDarkMode() {
     darkMode.value = !darkMode.value
     document.body.classList.toggle('dark-mode', darkMode.value)
+    localStorage.setItem('prr-dark-mode', String(darkMode.value))
   }
 
   function setPais(code) {
@@ -30,7 +37,6 @@ export const useAppStore = defineStore('app', () => {
   return {
     paisSelecionado,
     darkMode,
-    idioma,
     paises,
     toggleDarkMode,
     setPais,
