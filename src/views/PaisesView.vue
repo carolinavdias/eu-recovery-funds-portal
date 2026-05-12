@@ -10,8 +10,7 @@
           <p>Explore os dados de execução de cada país participante no Mecanismo de Recuperação e Resiliência da EU.</p>
           <div class="hero-actions">
             <button class="btn-hero-primary" @click="scrollSmooth('mapa-section')">🗺️ Ver Mapa Interativo</button>
-            <RouterLink to="/paises/comparar"><button class="btn-hero-outline">⚖️ Comparar Países</button></RouterLink>
-          </div>
+            <RouterLink to="/paises/comparar" class="btn-hero-outline">⚖️ Comparar Países</RouterLink>          </div>
         </div>
         <div class="hero-stats" :class="{ 'animate-in': heroVisible }">
           <div class="hsc"><div class="hsc-icon">🌍</div><span class="hsc-val">{{ contadorPaises }}</span><span class="hsc-label">Países</span></div>
