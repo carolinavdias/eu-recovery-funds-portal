@@ -90,7 +90,7 @@
         <h1>Mecanismo de Recuperação e Resiliência da EU</h1>
         <p>Monitorize o impacto real dos fundos europeus na sua região e quotidiano.</p>
         <div class="button-group-main">
-          <RouterLink to="/paises"><button class="btn-outline">Explorar por País</button></RouterLink>
+        <RouterLink to="/paises" class="btn-outline">Explorar por País</RouterLink>
           <a href="#sobre"><button class="btn-yellow">Saber Mais</button></a>
           <a href="#pilares"><button class="btn-outline">Ver Pilares</button></a>
         </div>
