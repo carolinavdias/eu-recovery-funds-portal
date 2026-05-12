@@ -364,47 +364,6 @@
       </div>
     </div>
   </div>
-  <!-- Linha amarela -->
-  <div class="linha-amarela-footer"></div>
-
-    <!-- FOOTER -->
-    <footer class="ind-footer">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <span class="footer-logo">🏛️ Portal de Transparência PRR</span>
-          <p>Monitorização oficial dos Indicadores Comuns do Plano de Recuperação e Resiliência em Portugal. Garantindo total transparência e rigor.</p>
-          <div class="footer-icons">
-            <button type="button" class="icon-btn" @click="copiarLinkSimples">
-              <span>🔗</span>
-            </button>
-            <button type="button" class="icon-btn" @click="abrirEmailSimples">
-              <span>✉️</span>
-            </button>
-          </div>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-titulo">ACESSO RÁPIDO</p>
-          <ul>
-            <li><a @click="abrirMetodologia" style="cursor: pointer;">Metodologia</a></li>
-            <li><a @click="abrirDadosAbertos" style="cursor: pointer;">Dados Abertos</a></li>
-            <li><a @click="abrirFAQ" style="cursor: pointer;">FAQ</a></li>
-            <li><a @click="abrirContactos" style="cursor: pointer;">Contactos</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-titulo">INFORMAÇÃO LEGAL</p>
-          <ul>
-            <li><a @click="abrirPrivacidade" style="cursor: pointer;">Privacidade</a></li>
-            <li><a @click="abrirTermos" style="cursor: pointer;">Termos e Condições</a></li>
-            <li><a @click="abrirCookies" style="cursor: pointer;">Cookies</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2025 Plano de Recuperação e Resiliência. Todos os direitos reservados.</span>
-        <span class="footer-status"><span class="sync-dot"></span> Portugal | Reporte Semestral</span>
-      </div>
-    </footer>
 </template>
 
 <script setup>

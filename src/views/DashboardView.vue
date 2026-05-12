@@ -349,35 +349,6 @@
     </section>
 
     <!-- ================= FOOTER ================= -->
-    <footer class="footer">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h4>Sobre este Trabalho</h4>
-          <p>Trabalho académico sobre o Plano de Recuperação e Resiliência (PRR) da União Europeia, explorando os seus objetivos, pilares e impacto económico.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Links Úteis</h4>
-          <ul>
-            <li><a href="https://commission.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">Comissão Europeia</a></li>
-            <li><a href="https://recuperarportugal.gov.pt/" target="_blank" rel="noopener noreferrer">PRR Portugal</a></li>
-            <li><a href="https://next-generation-eu.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">Next Generation EU</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Informação</h4>
-          <ul class="footer-info">
-            <li><span>📍</span> União Europeia</li>
-            <li><span>✉️</span> info@prr-europa.eu</li>
-            <li><span>📞</span> +351 XXX XXX XXX</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <hr class="footer-divider" />
-        <p>© 2026 Universidade do Minho - PRR. Todos os direitos reservados.</p>
-        <p class="footer-sub">Este é um trabalho académico desenvolvido para fins educacionais.</p>
-      </div>
-    </footer>
 
   </div>
 </template>
