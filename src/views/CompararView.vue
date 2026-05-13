@@ -18,6 +18,12 @@
       </div>
     </section>
 
+    <!-- ERRO API -->
+    <div v-if="erroAPI" class="erro-state">
+      <span>⚠️</span>
+      <p>{{ erroAPI }}</p>
+    </div>
+
     <!-- SELETORES -->
     <section class="seletores-section">
       <div class="seletores-titulo">
@@ -72,7 +78,13 @@
         </div>
       </div>
 
-      <div class="paises-picker">
+      <!-- LOADING MARCOS -->
+      <div v-if="loadingMarcos" class="loading-marcos">
+        <div class="loading-spinner"></div>
+        <p>A carregar marcos dos países...</p>
+      </div>
+
+      <div v-else class="paises-picker">
         <div
           v-for="p in paises"
           :key="p.code"
@@ -270,6 +282,8 @@ const revealProgresso = ref(false)
 const revealScore = ref(false)
 const revealVencedor = ref(false)
 const revealMarcos = ref(false)
+const loadingMarcos = ref(false)
+const erroAPI = ref(null)
 
 const paisA = computed(() => paises.value.find(p => p.code === codigoA.value) || null)
 const paisB = computed(() => paises.value.find(p => p.code === codigoB.value) || null)
@@ -323,9 +337,25 @@ const vencedor = computed(() => { if (!paisA.value || !paisB.value) return null;
 const scoreVencedor = computed(() => { if (!vencedor.value) return 0; return vencedor.value.code === codigoA.value ? scoreA.value : scoreB.value })
 
 watch([codigoA, codigoB], async ([newA, newB]) => {
-  revealProgresso.value = false; revealScore.value = false; revealVencedor.value = false; revealMarcos.value = false
-  if (newA) { try { marcosA.value = await getMarcosByPais(newA) } catch { marcosA.value = [] } } else { marcosA.value = [] }
-  if (newB) { try { marcosB.value = await getMarcosByPais(newB) } catch { marcosB.value = [] } } else { marcosB.value = [] }
+  revealProgresso.value = false
+  revealScore.value = false
+  revealVencedor.value = false
+  revealMarcos.value = false
+  erroAPI.value = null
+
+  if (newA || newB) loadingMarcos.value = true
+
+  try {
+    if (newA) { marcosA.value = await getMarcosByPais(newA) } else { marcosA.value = [] }
+    if (newB) { marcosB.value = await getMarcosByPais(newB) } else { marcosB.value = [] }
+  } catch {
+    erroAPI.value = 'Não foi possível carregar os marcos. Verifica se o servidor está ligado (porta 3001).'
+    marcosA.value = []
+    marcosB.value = []
+  } finally {
+    loadingMarcos.value = false
+  }
+
   if (newA && newB) {
     await nextTick()
     setTimeout(() => { revealProgresso.value = true }, 200)
@@ -337,12 +367,22 @@ watch([codigoA, codigoB], async ([newA, newB]) => {
 
 onMounted(async () => {
   setTimeout(() => { heroVisible.value = true }, 100)
-  try { paises.value = await getPaises() } catch {}
+  try {
+    paises.value = await getPaises()
+  } catch {
+    erroAPI.value = 'Não foi possível carregar os países. Verifica se o servidor está ligado (porta 3001).'
+  }
 })
 </script>
 
 <style scoped>
 .comparar-container { margin: -2rem; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+
+/* LOADING E ERRO */
+.loading-marcos { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 24px; color: #888; font-size: 0.9rem; }
+.loading-spinner { width: 28px; height: 28px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.erro-state { background: #fdf2f2; border: 1px solid #f8d7da; border-radius: 16px; padding: 16px 24px; margin: 16px 10%; display: flex; align-items: center; gap: 12px; color: #721c24; font-size: 0.9rem; }
 
 /* HERO */
 .hero { background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 50vh; }
@@ -370,7 +410,6 @@ onMounted(async () => {
 .seletores-titulo { text-align: center; margin-bottom: 32px; }
 .seletores-titulo h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
 .seletores-titulo p { font-size: 0.88rem; color: #888; }
-
 .selecionados-wrap { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin-bottom: 32px; }
 .slot { height: 140px; border-radius: 18px; overflow: hidden; position: relative; cursor: pointer; border: 3px solid transparent; transition: all 0.3s; }
 .slot:not(.preenchido) { border: 3px dashed #d8d8dc; cursor: default; }
@@ -394,14 +433,12 @@ onMounted(async () => {
 .azul-vazio { color: #2e6bbf; background: rgba(46,107,191,0.04); }
 .vermelho-vazio { color: #931b18; background: rgba(147,27,24,0.04); }
 .slot-num-vazio { font-size: 2rem; font-weight: 900; opacity: 0.3; }
-
 .vs-central { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .vs-ring { width: 56px; height: 56px; border-radius: 50%; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 900; color: #ccc; border: 3px solid #f0f0f0; transition: all 0.4s; }
 .vs-ring.ativo { color: #931b18; border-color: #931b18; animation: pulse-vs 2s ease infinite; }
 @keyframes pulse-vs { 0%,100% { box-shadow: 0 4px 20px rgba(147,27,24,0.2); } 50% { box-shadow: 0 4px 30px rgba(147,27,24,0.45); } }
 .vs-trocar { background: #931b18; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .vs-trocar:hover { background: #6b1210; transform: scale(1.05); }
-
 .paises-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
 .picker-card { position: relative; height: 130px; border-radius: 16px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: all 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .picker-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); }
@@ -443,7 +480,6 @@ onMounted(async () => {
 .sc-titulo.reveal { opacity: 1; transform: translateY(0); }
 .sc-titulo h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
 .sc-titulo p { font-size: 0.85rem; color: #888; }
-
 .sc-legenda { display: flex; justify-content: center; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; opacity: 0; transform: translateY(10px); transition: all 0.6s ease 0.1s; }
 .sc-legenda.reveal { opacity: 1; transform: translateY(0); }
 .leg-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: #666; font-weight: 600; }
@@ -453,7 +489,6 @@ onMounted(async () => {
 .leg-empate { width: 18px; height: 18px; border-radius: 4px; background: #f0f0f0; color: #888; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; }
 .leg-bar { width: 30px; height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; display: block; }
 .leg-bar-fill { display: block; width: 70%; height: 100%; background: linear-gradient(90deg, #2e6bbf, #931b18); }
-
 .scorecard-grid { display: grid; grid-template-columns: 1fr 160px 1fr; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); opacity: 0; transform: translateY(30px); transition: all 0.7s ease 0.2s; }
 .scorecard-grid.reveal { opacity: 1; transform: translateY(0); }
 .sc-col-header { display: flex; align-items: center; gap: 10px; padding: 18px 22px; color: white; font-weight: 700; }
@@ -463,12 +498,10 @@ onMounted(async () => {
 .sch-flag { font-size: 1.5rem; }
 .sch-nome { font-size: 0.9rem; flex: 1; }
 .sch-score { background: rgba(255,255,255,0.22); padding: 4px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 800; }
-
 .sc-val-cell { padding: 16px 22px; border-bottom: 1px solid #f5f5f5; display: flex; flex-direction: column; justify-content: center; gap: 8px; transition: background 0.2s; }
 .sc-val-cell.vence { background: linear-gradient(90deg, rgba(46,107,191,0.08), transparent); }
 .sc-val-cell.right { align-items: flex-end; }
 .sc-val-cell.right.vence { background: linear-gradient(270deg, rgba(147,27,24,0.08), transparent); }
-
 .scv-top { display: flex; align-items: center; gap: 8px; }
 .scv-num { font-size: 1.15rem; font-weight: 800; color: #555; transition: all 0.3s; }
 .sc-val-cell.vence .scv-num { color: #1a4e9a; font-size: 1.3rem; }
@@ -481,7 +514,6 @@ onMounted(async () => {
 .scv-bar { height: 5px; border-radius: 99px; transition: width 1s ease; }
 .azul-bar { background: linear-gradient(90deg, #1a3a6b, #2e6bbf); }
 .vermelho-bar { background: linear-gradient(90deg, #6b1210, #931b18); }
-
 .sc-metric-label { padding: 14px 12px; border-bottom: 1px solid #f5f5f5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: #fafafa; }
 .sml-text { font-size: 0.78rem; font-weight: 700; color: #333; text-align: center; line-height: 1.3; }
 .sml-status { display: flex; align-items: center; justify-content: center; }
