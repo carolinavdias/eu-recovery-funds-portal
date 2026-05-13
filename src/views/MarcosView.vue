@@ -78,6 +78,29 @@
             <button class="btn-export-detalhe" @click="showExportModal = true; marcoDetalhe = null">📥 Exportar dados</button>
             <button class="btn-fechar-detalhe" @click="marcoDetalhe = null">Fechar</button>
           </div>
+
+          <!-- HISTÓRICO DE REVISÕES -->
+          <div v-if="marcoDetalhe.revisoes && marcoDetalhe.revisoes.length" class="historico-wrap">
+            <div class="historico-titulo">📋 Histórico de Revisões</div>
+            <div class="historico-timeline">
+              <div
+                v-for="(rev, i) in marcoDetalhe.revisoes"
+                :key="i"
+                class="historico-item"
+                :class="rev.tipo"
+              >
+                <div class="hist-dot"></div>
+                <div class="hist-conteudo">
+                  <div class="hist-meta">
+                    <span class="hist-data">{{ rev.data }}</span>
+                    <span class="hist-tipo">{{ tipoLabel(rev.tipo) }}</span>
+                  </div>
+                  <p class="hist-desc">{{ rev.descricao }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -386,6 +409,16 @@ function animarContador(ref, target, duration = 1500) {
     if (progress < 1) requestAnimationFrame(update)
   }
   requestAnimationFrame(update)
+}
+
+function tipoLabel(tipo) {
+  const map = {
+    aprovacao: '✅ Aprovação',
+    atualizacao: '🔄 Atualização',
+    atraso: '⚠️ Atraso',
+    conclusao: '🏁 Conclusão'
+  }
+  return map[tipo] || tipo
 }
 
 function estadoLabel(e) {
@@ -761,4 +794,25 @@ watch(marcosFiltrados, () => criarGraficos())
 .loading-spinner { width: 40px; height: 40px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .erro-state { background: #fdf2f2; border: 1px solid #f8d7da; border-radius: 16px; padding: 20px 30px; margin: 20px 10%; display: flex; align-items: center; gap: 12px; color: #721c24; font-size: 0.9rem; }
+
+/* HISTÓRICO DE REVISÕES */
+.historico-wrap { margin-top: 8px; border-top: 1px solid #f0f0f0; padding-top: 20px; }
+.historico-titulo { font-size: 0.78rem; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+.historico-timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+.historico-timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: #f0f0f0; }
+.historico-item { display: flex; gap: 14px; align-items: flex-start; padding: 8px 0; position: relative; }
+.hist-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #e0e0e0; background: white; flex-shrink: 0; margin-top: 2px; position: relative; z-index: 1; }
+.historico-item.aprovacao .hist-dot { border-color: #1a7a4a; background: #1a7a4a; }
+.historico-item.atualizacao .hist-dot { border-color: #2e6bbf; background: #2e6bbf; }
+.historico-item.atraso .hist-dot { border-color: #e6a817; background: #e6a817; }
+.historico-item.conclusao .hist-dot { border-color: #d4af37; background: #d4af37; }
+.hist-conteudo { flex: 1; }
+.hist-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.hist-data { font-size: 0.75rem; font-weight: 700; color: #888; }
+.hist-tipo { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #f5f5f7; color: #666; }
+.historico-item.aprovacao .hist-tipo { background: #d4edda; color: #155724; }
+.historico-item.atualizacao .hist-tipo { background: #dce8f8; color: #1a4e9a; }
+.historico-item.atraso .hist-tipo { background: #fff3cd; color: #856404; }
+.historico-item.conclusao .hist-tipo { background: #fef9e7; color: #7d6608; }
+.hist-desc { font-size: 0.82rem; color: #555; line-height: 1.5; }
 </style>
