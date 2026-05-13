@@ -5,10 +5,10 @@
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-content" :class="{ 'animate-in': heroVisible }">
-          <div class="hero-badge">❓ Apoio ao Utilizador</div>
-          <h1>Perguntas<br><span class="hero-accent">Frequentes</span></h1>
-          <p>Encontre respostas sobre o Portal PRR, as funcionalidades disponíveis e os dados do Mecanismo de Recuperação e Resiliência da UE.</p>
-          <RouterLink to="/" class="btn-voltar">← Voltar ao início</RouterLink>
+          <div class="hero-badge">{{ appStore.t.faq_badge }}</div>
+          <h1>{{ appStore.t.faq_titulo }}<br><span class="hero-accent">{{ appStore.t.faq_accent }}</span></h1>
+          <p>{{ appStore.t.faq_sub }}</p>
+          <RouterLink to="/" class="btn-voltar">{{ appStore.t.faq_voltar }}</RouterLink>
         </div>
         <div class="hero-deco" :class="{ 'animate-in': heroVisible }">
           <div class="deco-circle c1"></div>
@@ -82,6 +82,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { watch } from 'vue'
+import { useAppStore } from '@/stores/app'
+
+const appStore = useAppStore()
 
 const heroVisible = ref(false)
 const categoriaActiva = ref('geral')
@@ -100,7 +104,7 @@ const perguntas = [
     categoria: 'geral',
     pergunta: 'O que é o Portal PRR?',
     resposta: [
-      'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard, onde o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
+      'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard — o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
       'Permite analisar e interpretar dados complexos sobre a execução de marcos e metas, os pagamentos efetuados e a alocação de fundos, facilitando a extração de informação objetiva sobre o progresso dos Planos Nacionais de Recuperação.',
       'Este portal foi desenvolvido como trabalho académico na UC de Interface Pessoa-Máquina (IPM) da Universidade do Minho, 2025/26.',
     ],
@@ -109,9 +113,9 @@ const perguntas = [
     categoria: 'geral',
     pergunta: 'O que é o Mecanismo de Recuperação e Resiliência da UE?',
     resposta: [
-      'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE, NextGenerationEU, com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
+      'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE — NextGenerationEU — com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
       'Os fundos são distribuídos sob a forma de subvenções e empréstimos, condicionados ao cumprimento de marcos e metas acordados com a Comissão Europeia.',
-      'Portugal, através do PRR (Plano de Recuperação e Resiliência) tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
+      'Portugal, através do PRR — Plano de Recuperação e Resiliência — tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
     ],
   },
   {
@@ -207,7 +211,7 @@ const perguntas = [
     pergunta: 'Como exportar dados em CSV ou JSON?',
     resposta: [
       'Na página de Marcos e Metas, clique em "Exportar Dados" no hero ou nos botões "⬇ CSV" / "⬇ JSON" da tabela completa.',
-      'A exportação aplica os filtros activos: se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
+      'A exportação aplica os filtros activos — se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
       'O formato CSV é ideal para abrir no Excel ou Google Sheets. O formato JSON é adequado para análise programática ou integração com outras ferramentas.',
     ],
     link: { rota: '/marcos', texto: 'Ir para Marcos e Metas' },
@@ -245,7 +249,6 @@ function toggle(i) {
 }
 
 // Reset abertos quando muda categoria
-import { watch } from 'vue'
 watch(categoriaActiva, () => {
   abertos.value = [0]
 })

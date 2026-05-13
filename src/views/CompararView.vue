@@ -4,10 +4,10 @@
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-content" :class="{ 'animate-in': heroVisible }">
-          <div class="hero-badge">⚖️ Análise Comparativa</div>
-          <h1>Comparar<br><span class="hero-accent">Países</span></h1>
-          <p>Selecione dois países e explore uma análise detalhada lado a lado do seu desempenho no PRR.</p>
-          <RouterLink to="/paises" class="btn-voltar">← Voltar aos Países</RouterLink>
+          <div class="hero-badge">{{ appStore.t.comparar_badge }}</div>
+          <h1>{{ appStore.t.comparar_titulo }}<br><span class="hero-accent">{{ appStore.t.comparar_accent }}</span></h1>
+          <p>{{ appStore.t.comparar_sub }}</p>
+          <RouterLink to="/paises" class="btn-voltar">{{ appStore.t.comparar_voltar }}</RouterLink>
         </div>
         <div class="hero-deco" :class="{ 'animate-in': heroVisible }">
           <div class="deco-circle c1"></div>
@@ -271,6 +271,9 @@
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { getPaises, getMarcosByPais } from '@/services/api.js'
+import { useAppStore } from '@/stores/app'
+
+const appStore = useAppStore()
 
 const paises = ref([])
 const codigoA = ref('')

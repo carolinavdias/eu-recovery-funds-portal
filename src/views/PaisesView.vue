@@ -5,18 +5,19 @@
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-content" :class="{ 'animate-in': heroVisible }">
-          <div class="hero-badge">🌍 Estados-Membros Beneficiários</div>
-          <h1>Países<br><span class="hero-accent">do PRR</span></h1>
-          <p>Explore os dados de execução de cada país participante no Mecanismo de Recuperação e Resiliência da EU.</p>
+          <div class="hero-badge">{{ appStore.t.paises_badge }}</div>
+          <h1>{{ appStore.t.paises_titulo }}<br><span class="hero-accent">{{ appStore.t.paises_accent }}</span></h1>
+          <p>{{ appStore.t.paises_sub }}</p>
           <div class="hero-actions">
-            <button class="btn-hero-primary" @click="scrollSmooth('mapa-section')">🗺️ Ver Mapa Interativo</button>
-            <RouterLink to="/paises/comparar" class="btn-hero-outline">⚖️ Comparar Países</RouterLink>          </div>
+            <button class="btn-hero-primary" @click="scrollSmooth('mapa-section')">{{ appStore.t.paises_btn_mapa }}</button>
+            <RouterLink to="/paises/comparar" class="btn-hero-outline">{{ appStore.t.paises_btn_comparar }}</RouterLink>
+          </div>
         </div>
         <div class="hero-stats" :class="{ 'animate-in': heroVisible }">
-          <div class="hsc"><div class="hsc-icon">🌍</div><span class="hsc-val">{{ contadorPaises }}</span><span class="hsc-label">Países</span></div>
-          <div class="hsc"><div class="hsc-icon">💶</div><span class="hsc-val">€750B</span><span class="hsc-label">Total UE</span></div>
-          <div class="hsc"><div class="hsc-icon">🎯</div><span class="hsc-val">{{ totalMarcos }}</span><span class="hsc-label">Marcos</span></div>
-          <div class="hsc"><div class="hsc-icon">✅</div><span class="hsc-val">{{ totalConcluidos }}</span><span class="hsc-label">Concluídos</span></div>
+          <div class="hsc"><div class="hsc-icon">🌍</div><span class="hsc-val">{{ contadorPaises }}</span><span class="hsc-label">{{ appStore.idioma === 'pt' ? 'Países' : 'Countries' }}</span></div>
+          <div class="hsc"><div class="hsc-icon">💶</div><span class="hsc-val">€750B</span><span class="hsc-label">{{ appStore.idioma === 'pt' ? 'Total UE' : 'EU Total' }}</span></div>
+          <div class="hsc"><div class="hsc-icon">🎯</div><span class="hsc-val">{{ totalMarcos }}</span><span class="hsc-label">{{ appStore.idioma === 'pt' ? 'Marcos' : 'Milestones' }}</span></div>
+          <div class="hsc"><div class="hsc-icon">✅</div><span class="hsc-val">{{ totalConcluidos }}</span><span class="hsc-label">{{ appStore.idioma === 'pt' ? 'Concluídos' : 'Completed' }}</span></div>
         </div>
       </div>
     </section>
@@ -24,7 +25,7 @@
     <!-- LOADING -->
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner"></div>
-      <p>A carregar dados dos países...</p>
+      <p>{{ appStore.idioma === 'pt' ? 'A carregar dados dos países...' : 'Loading country data...' }}</p>
     </div>
 
     <!-- ERRO -->
@@ -39,10 +40,10 @@
     <section class="grid-section" id="grid-paises" v-if="!loading">
       <div class="grid-header">
         <div>
-          <h2>Estados-Membros</h2>
-          <p class="grid-sub">{{ paises.length }} países beneficiários · clique num país para ver detalhes</p>
+          <h2>{{ appStore.idioma === 'pt' ? 'Estados-Membros' : 'Member States' }}</h2>
+          <p class="grid-sub">{{ paises.length }} {{ appStore.idioma === 'pt' ? 'países beneficiários · clique num país para ver detalhes' : 'beneficiary countries · click a country to view details' }}</p>
         </div>
-        <RouterLink to="/paises/comparar" class="btn-comparar">⚖️ Comparar Países</RouterLink>
+        <RouterLink to="/paises/comparar" class="btn-comparar">{{ appStore.t.paises_btn_comparar }}</RouterLink>
       </div>
 
       <div class="paises-grid">
@@ -71,7 +72,7 @@
             </div>
             <div class="pais-progresso-wrap">
               <div class="pais-progresso-header">
-                <span>Progresso geral</span>
+                <span>{{ appStore.idioma === 'pt' ? 'Progresso geral' : 'Overall progress' }}</span>
                 <strong :style="{ color: corProgresso(pais.progresso) }">{{ pais.progresso }}%</strong>
               </div>
               <div class="pais-progresso-bg">
@@ -81,21 +82,21 @@
             <div class="pais-stats">
               <div class="pais-stat">
                 <span class="pais-stat-val">{{ pais.marcosTotal }}</span>
-                <span class="pais-stat-label">Marcos</span>
+                <span class="pais-stat-label">{{ appStore.idioma === 'pt' ? 'Marcos' : 'Milestones' }}</span>
               </div>
               <div class="pais-stat-divider"></div>
               <div class="pais-stat">
                 <span class="pais-stat-val" style="color:#1a7a4a">{{ pais.marcosConcluidos }}</span>
-                <span class="pais-stat-label">Concluídos</span>
+                <span class="pais-stat-label">{{ appStore.idioma === 'pt' ? 'Concluídos' : 'Completed' }}</span>
               </div>
               <div class="pais-stat-divider"></div>
               <div class="pais-stat">
                 <span class="pais-stat-val" style="color:#931b18">{{ pais.marcosTotal - pais.marcosConcluidos }}</span>
-                <span class="pais-stat-label">Em curso</span>
+                <span class="pais-stat-label">{{ appStore.idioma === 'pt' ? 'Em curso' : 'In progress' }}</span>
               </div>
             </div>
             <div class="pais-card-footer">
-              <span class="btn-ver-mais">Ver detalhes completos →</span>
+              <span class="btn-ver-mais">{{ appStore.idioma === 'pt' ? 'Ver detalhes completos →' : 'View full details →' }}</span>
             </div>
           </div>
         </div>
@@ -109,7 +110,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { getPaises } from '@/services/api.js'
 import MapaEuropa from '@/components/MapaEuropa.vue'
+import { useAppStore } from '@/stores/app'
 
+const appStore = useAppStore()
 const paises = ref([])
 const loading = ref(true)
 const erro = ref(null)
@@ -146,7 +149,9 @@ onMounted(async () => {
   try {
     paises.value = await getPaises()
   } catch (e) {
-    erro.value = 'Não foi possível carregar os dados dos países.'
+    erro.value = appStore.idioma === 'pt'
+      ? 'Não foi possível carregar os dados dos países.'
+      : 'Could not load country data.'
   } finally {
     loading.value = false
   }
@@ -160,7 +165,6 @@ onMounted(async () => {
 <style scoped>
 .paises-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
-/* HERO — tema vermelho igual ao Marcos */
 .hero {
   background-image: url('https://images.unsplash.com/photo-1485081669829-bacb8c7bb1f3?w=1600');
   background-size: cover;
@@ -185,7 +189,7 @@ onMounted(async () => {
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn-hero-primary { background: linear-gradient(135deg, #d4af37, #c49a28); color: #5a0f0f; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 0.92rem; cursor: pointer; transition: all 0.3s; }
 .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212,175,55,0.4); }
-.btn-hero-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.6); padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: all 0.3s; }
+.btn-hero-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.6); padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; }
 .btn-hero-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
 .hsc { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 22px 18px; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 120px; transition: transform 0.3s; }
 .hsc:hover { transform: translateY(-4px); }
@@ -198,7 +202,6 @@ onMounted(async () => {
 @keyframes spin { to { transform: rotate(360deg); } }
 .erro-state { background: #fdf2f2; border: 1px solid #f8d7da; border-radius: 16px; padding: 20px 30px; margin: 20px 10%; display: flex; align-items: center; gap: 12px; color: #721c24; }
 
-/* GRID */
 .grid-section { padding: 60px 10%; background: #f5f5f7; }
 .grid-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 35px; flex-wrap: wrap; gap: 15px; }
 .grid-header h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 5px; }

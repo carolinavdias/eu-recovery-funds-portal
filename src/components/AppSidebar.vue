@@ -23,35 +23,37 @@
       </RouterLink>
     </nav>
 
-    <!-- Separador e FAQ no fundo -->
     <div class="sidebar-footer">
       <div class="separador" v-if="!collapsed"></div>
       <RouterLink
         to="/faq"
         class="menu-item faq-item"
         :class="{ ativo: isActive('/faq') }"
-        :title="collapsed ? 'Ajuda / FAQ' : ''"
+        :title="collapsed ? appStore.t.nav_faq : ''"
       >
         <span class="menu-icon">❓</span>
-        <span v-if="!collapsed" class="menu-label">Ajuda / FAQ</span>
+        <span v-if="!collapsed" class="menu-label">{{ appStore.t.nav_faq }}</span>
       </RouterLink>
     </div>
   </aside>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
 const collapsed = defineModel('collapsed')
+const appStore = useAppStore()
 
-const menu = [
-  { rota: '/', icon: '⊞', label: 'Dashboard' },
-  { rota: '/marcos', icon: '◎', label: 'Marcos e Metas' },
-  { rota: '/desembolsos', icon: '€', label: 'Desembolsos' },
-  { rota: '/indicadores', icon: '≡', label: 'Indicadores Comuns' },
-  { rota: '/paises', icon: '⊕', label: 'Países' },
-]
+const menu = computed(() => [
+  { rota: '/', icon: '⊞', label: appStore.t.nav_dashboard },
+  { rota: '/marcos', icon: '◎', label: appStore.t.nav_marcos },
+  { rota: '/desembolsos', icon: '€', label: appStore.t.nav_desembolsos },
+  { rota: '/indicadores', icon: '≡', label: appStore.t.nav_indicadores },
+  { rota: '/paises', icon: '⊕', label: appStore.t.nav_paises },
+])
 
 function isActive(rota) {
   if (rota === '/') return route.path === '/'
@@ -76,9 +78,7 @@ function isActive(rota) {
   flex-direction: column;
 }
 
-.sidebar.collapsed {
-  width: 56px;
-}
+.sidebar.collapsed { width: 56px; }
 
 .toggle-btn {
   width: 40px;
@@ -97,18 +97,11 @@ function isActive(rota) {
   border-radius: 6px;
 }
 
-.sidebar.collapsed .toggle-btn {
-  margin: 0 auto 1rem auto;
-}
+.sidebar.collapsed .toggle-btn { margin: 0 auto 1rem auto; }
 
-.toggle-btn:hover {
-  color: #931b18;
-  background: #fdf2f2;
-}
+.toggle-btn:hover { color: #931b18; background: #fdf2f2; }
 
-nav {
-  flex: 1;
-}
+nav { flex: 1; }
 
 .menu-item {
   display: flex;
@@ -123,15 +116,9 @@ nav {
   white-space: nowrap;
 }
 
-.sidebar.collapsed .menu-item {
-  justify-content: center;
-  padding: 0.75rem 0;
-}
+.sidebar.collapsed .menu-item { justify-content: center; padding: 0.75rem 0; }
 
-.menu-item:hover {
-  background-color: #fdf2f2;
-  color: #931b18;
-}
+.menu-item:hover { background-color: #fdf2f2; color: #931b18; }
 
 .menu-item.ativo {
   background-color: #fef5e7;
@@ -140,35 +127,13 @@ nav {
   border-left: 3px solid #d4af37;
 }
 
-.menu-icon {
-  font-size: 1.2rem;
-}
+.menu-icon { font-size: 1.2rem; }
 
-/* FAQ no fundo da sidebar */
-.sidebar-footer {
-  margin-top: auto;
-  padding-bottom: 0.5rem;
-}
+.sidebar-footer { margin-top: auto; padding-bottom: 0.5rem; }
 
-.separador {
-  height: 1px;
-  background: #f0f0f0;
-  margin: 0.5rem 1.5rem 0.5rem 1.5rem;
-}
+.separador { height: 1px; background: #f0f0f0; margin: 0.5rem 1.5rem; }
 
-.faq-item {
-  color: #888;
-  font-size: 0.85rem;
-}
-
-.faq-item:hover {
-  background-color: #f0f8ff;
-  color: #2e6bbf;
-}
-
-.faq-item.ativo {
-  background-color: #e8f4ff;
-  color: #2e6bbf;
-  border-left: 3px solid #2e6bbf;
-}
+.faq-item { color: #888; font-size: 0.85rem; }
+.faq-item:hover { background-color: #f0f8ff; color: #2e6bbf; }
+.faq-item.ativo { background-color: #e8f4ff; color: #2e6bbf; border-left: 3px solid #2e6bbf; }
 </style>

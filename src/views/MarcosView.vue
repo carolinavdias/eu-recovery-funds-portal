@@ -121,19 +121,19 @@
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-left" :class="{ 'animate-in': heroVisible }">
-          <div class="hero-badge">🎯 Monitorização em Tempo Real</div>
-          <h1>Marcos<br><span class="hero-accent">e Metas</span></h1>
-          <p>Acompanhe o progresso dos objetivos definidos para cada país no âmbito do Mecanismo de Recuperação e Resiliência da EU.</p>
+          <div class="hero-badge">{{ appStore.t.marcos_badge }}</div>
+          <h1>{{ appStore.t.marcos_titulo }}<br><span class="hero-accent">{{ appStore.t.marcos_accent }}</span></h1>
+          <p>{{ appStore.t.marcos_sub }}</p>
           <div class="hero-actions">
-            <button class="btn-hero-primary" @click="showExportModal = true">📥 Exportar Dados</button>
-            <button class="btn-hero-outline" @click="scrollSmooth('tabela-marcos')">Ver Tabela Completa</button>
+            <button class="btn-hero-primary" @click="showExportModal = true">{{ appStore.t.marcos_btn_export }}</button>
+            <button class="btn-hero-outline" @click="scrollSmooth('tabela-marcos')">{{ appStore.t.marcos_btn_tabela }}</button>
           </div>
         </div>
         <div class="hero-stats" :class="{ 'animate-in': heroVisible }">
-          <div class="hsc total"><div class="hsc-icon-wrap">🎯</div><span class="hsc-val">{{ contadorTotal }}</span><span class="hsc-label">Marcos Totais</span></div>
-          <div class="hsc verde"><div class="hsc-icon-wrap">✅</div><span class="hsc-val">{{ contadorConcluidos }}</span><span class="hsc-label">Concluídos</span></div>
-          <div class="hsc amarelo"><div class="hsc-icon-wrap">⏳</div><span class="hsc-val">{{ contadorEmCurso }}</span><span class="hsc-label">Em Curso</span></div>
-          <div class="hsc vermelho"><div class="hsc-icon-wrap">⚠️</div><span class="hsc-val">{{ contadorEmAtraso }}</span><span class="hsc-label">Em Atraso</span></div>
+          <div class="hsc total"><div class="hsc-icon-wrap">🎯</div><span class="hsc-val">{{ contadorTotal }}</span><span class="hsc-label">{{ appStore.t.marcos_totais }}</span></div>
+          <div class="hsc verde"><div class="hsc-icon-wrap">✅</div><span class="hsc-val">{{ contadorConcluidos }}</span><span class="hsc-label">{{ appStore.t.marcos_concluidos }}</span></div>
+          <div class="hsc amarelo"><div class="hsc-icon-wrap">⏳</div><span class="hsc-val">{{ contadorEmCurso }}</span><span class="hsc-label">{{ appStore.t.marcos_em_curso }}</span></div>
+          <div class="hsc vermelho"><div class="hsc-icon-wrap">⚠️</div><span class="hsc-val">{{ contadorEmAtraso }}</span><span class="hsc-label">{{ appStore.t.marcos_em_atraso }}</span></div>
         </div>
       </div>
     </section>
