@@ -35,11 +35,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
-const paisAtual = ref(appStore.paisSelecionado)
+const paisAtual = computed({
+  get: () => appStore.paisSelecionado,
+  set: (val) => appStore.setPais(val)
+})
 </script>
 
 <style scoped>
