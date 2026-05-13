@@ -22,6 +22,20 @@
         <span v-if="!collapsed" class="menu-label">{{ item.label }}</span>
       </RouterLink>
     </nav>
+
+    <!-- Separador e FAQ no fundo -->
+    <div class="sidebar-footer">
+      <div class="separador" v-if="!collapsed"></div>
+      <RouterLink
+        to="/faq"
+        class="menu-item faq-item"
+        :class="{ ativo: isActive('/faq') }"
+        :title="collapsed ? 'Ajuda / FAQ' : ''"
+      >
+        <span class="menu-icon">❓</span>
+        <span v-if="!collapsed" class="menu-label">Ajuda / FAQ</span>
+      </RouterLink>
+    </div>
   </aside>
 </template>
 
@@ -39,9 +53,6 @@ const menu = [
   { rota: '/paises', icon: '⊕', label: 'Países' },
 ]
 
-// Sub-rotas também ativam o item correspondente.
-// Ex: /paises/PT e /paises/comparar mantêm "Países" destacado.
-// A raiz "/" é match exacto para não ficar sempre activa.
 function isActive(rota) {
   if (rota === '/') return route.path === '/'
   return route.path === rota || route.path.startsWith(rota + '/')
@@ -61,6 +72,8 @@ function isActive(rota) {
   left: 0;
   z-index: 10;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.collapsed {
@@ -91,6 +104,10 @@ function isActive(rota) {
 .toggle-btn:hover {
   color: #931b18;
   background: #fdf2f2;
+}
+
+nav {
+  flex: 1;
 }
 
 .menu-item {
@@ -125,5 +142,33 @@ function isActive(rota) {
 
 .menu-icon {
   font-size: 1.2rem;
+}
+
+/* FAQ no fundo da sidebar */
+.sidebar-footer {
+  margin-top: auto;
+  padding-bottom: 0.5rem;
+}
+
+.separador {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+.faq-item {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.faq-item:hover {
+  background-color: #f0f8ff;
+  color: #2e6bbf;
+}
+
+.faq-item.ativo {
+  background-color: #e8f4ff;
+  color: #2e6bbf;
+  border-left: 3px solid #2e6bbf;
 }
 </style>

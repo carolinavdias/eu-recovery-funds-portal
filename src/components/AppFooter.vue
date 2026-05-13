@@ -26,6 +26,7 @@
           <li><RouterLink to="/indicadores">Indicadores Comuns</RouterLink></li>
           <li><RouterLink to="/desembolsos">Desembolsos</RouterLink></li>
           <li><RouterLink to="/paises">Países</RouterLink></li>
+          <li><RouterLink to="/faq">❓ Ajuda / FAQ</RouterLink></li>
         </ul>
       </div>
 
