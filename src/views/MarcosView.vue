@@ -1,6 +1,9 @@
 <template>
   <div class="marcos-container">
 
+    <!-- TOAST DE EXPORTAÇÃO -->
+    <div v-if="toastMsg" class="toast-exportar">{{ toastMsg }}</div>
+
     <!-- MODAL DE EXPORTAÇÃO -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
@@ -117,7 +120,6 @@
       <div class="filtros-inner">
         <div class="filtros-left">
           <span class="filtros-titulo">🔍 Filtrar</span>
-          <!-- INDICADOR DE FILTROS ACTIVOS -->
           <div v-if="filtrosActivos > 0" class="filtros-activos-badge">
             {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} activo{{ filtrosActivos > 1 ? 's' : '' }}
             · {{ marcosFiltrados.length }} resultado{{ marcosFiltrados.length !== 1 ? 's' : '' }}
@@ -314,6 +316,7 @@ const appStore = useAppStore()
 
 const showExportModal = ref(false)
 const marcoDetalhe = ref(null)
+const toastMsg = ref(null)
 const filtroSetor = ref('todos')
 const filtroEstado = ref('todos')
 const heroVisible = ref(false)
@@ -408,7 +411,6 @@ function limparFiltros() {
   filtroEstado.value = 'todos'
 }
 
-// SCROLL SUAVE
 function scrollSmooth(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
@@ -422,7 +424,6 @@ function criarGraficos() {
     return Math.round(lst.reduce((a, m) => a + m.progresso, 0) / lst.length)
   })
 
-  // plugin para fundo branco ao exportar PNG
   const whiteBgPlugin = {
     id: 'whiteBg',
     beforeDraw(chart) {
@@ -476,11 +477,11 @@ function criarGraficos() {
       data: {
         labels: ['Concluído', 'Em Curso', 'Em Atraso'],
         datasets: [{
-        data: [
-          marcosFiltrados.value.filter(m => m.estado === 'concluido').length,
-          marcosFiltrados.value.filter(m => m.estado === 'em_curso').length,
-          marcosFiltrados.value.filter(m => m.estado === 'em_atraso').length,
-        ],
+          data: [
+            marcosFiltrados.value.filter(m => m.estado === 'concluido').length,
+            marcosFiltrados.value.filter(m => m.estado === 'em_curso').length,
+            marcosFiltrados.value.filter(m => m.estado === 'em_atraso').length,
+          ],
           backgroundColor: ['#1a7a4a', '#e6a817', '#931b18'],
           borderWidth: 3, borderColor: '#fff', hoverOffset: 8,
         }]
@@ -522,6 +523,10 @@ function exportarDados(tipo) {
   a.href = url; a.download = `marcos-metas.${extensao}`; a.click()
   URL.revokeObjectURL(url)
   showExportModal.value = false
+
+  // Toast de confirmação
+  toastMsg.value = tipo === 'csv' ? '✓ Ficheiro CSV exportado com sucesso!' : '✓ Ficheiro JSON exportado com sucesso!'
+  setTimeout(() => { toastMsg.value = null }, 3000)
 }
 
 onMounted(async () => {
@@ -535,13 +540,13 @@ onMounted(async () => {
   }
 
   setTimeout(() => {
-      heroVisible.value = true
-      animarContador(contadorTotal, marcos.value.length)
-      animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
-      animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
-      animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
-      criarGraficos()
-    }, 100)
+    heroVisible.value = true
+    animarContador(contadorTotal, marcos.value.length)
+    animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
+    animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
+    animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
+    criarGraficos()
+  }, 100)
 })
 
 watch(marcosFiltrados, () => criarGraficos())
@@ -549,6 +554,26 @@ watch(marcosFiltrados, () => criarGraficos())
 
 <style scoped>
 .marcos-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+
+/* TOAST */
+.toast-exportar {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #1a7a4a;
+  color: white;
+  padding: 0.9rem 1.6rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 9999;
+  animation: slideInToast 0.3s ease;
+}
+@keyframes slideInToast {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .hero { background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 70vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(100,15,13,0.95) 0%, rgba(147,27,24,0.85) 100%); min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 70px 10%; gap: 50px; flex-wrap: wrap; }
@@ -575,7 +600,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .hsc-val { font-size: 2.5rem; font-weight: 900; color: #d4af37; line-height: 1; }
 .hsc-label { font-size: 0.72rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.06em; }
 
-/* FILTROS */
 .filtros-section { background: white; padding: 16px 10%; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: sticky; top: 70px; z-index: 50; border-bottom: 1px solid #f0f0f0; }
 .filtros-inner { display: flex; flex-direction: column; gap: 10px; }
 .filtros-left { display: flex; align-items: center; gap: 12px; }
@@ -592,7 +616,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-limpar:hover { border-color: #931b18; color: #931b18; }
 .btn-limpar-activo { border-color: #931b18; color: #931b18; background: #fdf2f2; }
 
-/* GRÁFICOS */
 .graficos-section { padding: 60px 10%; background: #f5f5f7; }
 .graficos-titulo-area { text-align: center; margin-bottom: 35px; }
 .graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
@@ -619,7 +642,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .leg-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #931b18; border-radius: 10px; color: white; font-size: 0.84rem; font-weight: 600; }
 .leg-total strong { font-size: 1rem; }
 
-/* LISTA */
 .lista-section { padding: 50px 10%; background: #f5f5f7; }
 .lista-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
 .lista-header h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 5px; }
@@ -631,14 +653,12 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-export-lista { background: #931b18; color: white; border: none; padding: 11px 22px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-export-lista:hover { background: #6b1210; transform: translateY(-2px); }
 
-/* EMPTY */
 .empty-state { text-align: center; padding: 80px 20px; background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .empty-icon { font-size: 4rem; display: block; margin-bottom: 20px; }
 .empty-state h3 { font-size: 1.4rem; color: #333; margin-bottom: 10px; font-weight: 700; }
 .empty-state p { color: #888; margin-bottom: 25px; }
 .btn-limpar-empty { background: #931b18; color: white; border: none; padding: 12px 28px; border-radius: 10px; cursor: pointer; font-weight: 700; }
 
-/* CARDS */
 .marcos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 24px; }
 .marco-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.35s ease, box-shadow 0.35s ease; animation: fadeInUp 0.6s ease both; }
 .marco-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.14); }
@@ -671,7 +691,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .dl-icon { font-size: 1.4rem; }
 .marco-dl small { font-size: 0.6rem; font-weight: 800; }
 
-/* TABELA */
 .tabela-section { padding: 50px 10%; background: white; }
 .tabela-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
 .tabela-header h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
@@ -702,7 +721,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .tab-prog-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
 .tabela-nota { font-size: 0.78rem; color: #bbb; padding: 12px 18px; }
 
-/* MODAL DETALHE */
 .detalhe-card { background: white; width: 90%; max-width: 580px; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: fadeInUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
 .close-btn-detalhe { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.4); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
 .close-btn-detalhe:hover { background: rgba(0,0,0,0.7); }
@@ -728,7 +746,6 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-fechar-detalhe { background: #f5f5f7; color: #666; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
 .btn-fechar-detalhe:hover { background: #e8e8e8; }
 
-/* MODAL EXPORTAÇÃO */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
 .export-card { background-color: #931b18; width: 90%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.6rem; cursor: pointer; opacity: 0.8; }
