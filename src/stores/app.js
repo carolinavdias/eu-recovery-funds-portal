@@ -6,17 +6,20 @@ export const useAppStore = defineStore('app', () => {
   const darkMode = ref(localStorage.getItem('prr-dark-mode') === 'true')
   const idioma = ref(localStorage.getItem('prr-idioma') || 'pt')
 
-  const paises = [
-    { code: 'todos', nome: idioma.value === 'pt' ? 'Todos os países' : 'All countries' },
+  const paises = computed(() => {
+  const pt = idioma.value === 'pt'
+  return [
+    { code: 'todos', nome: pt ? 'Todos os países' : 'All countries' },
     { code: 'PT', nome: 'Portugal' },
-    { code: 'ES', nome: idioma.value === 'pt' ? 'Espanha' : 'Spain' },
-    { code: 'FR', nome: idioma.value === 'pt' ? 'França' : 'France' },
-    { code: 'IT', nome: idioma.value === 'pt' ? 'Itália' : 'Italy' },
-    { code: 'DE', nome: idioma.value === 'pt' ? 'Alemanha' : 'Germany' },
-    { code: 'GR', nome: idioma.value === 'pt' ? 'Grécia' : 'Greece' },
-    { code: 'HR', nome: idioma.value === 'pt' ? 'Croácia' : 'Croatia' },
-    { code: 'RO', nome: idioma.value === 'pt' ? 'Roménia' : 'Romania' },
+    { code: 'ES', nome: pt ? 'Espanha' : 'Spain' },
+    { code: 'FR', nome: pt ? 'França' : 'France' },
+    { code: 'IT', nome: pt ? 'Itália' : 'Italy' },
+    { code: 'DE', nome: pt ? 'Alemanha' : 'Germany' },
+    { code: 'GR', nome: pt ? 'Grécia' : 'Greece' },
+    { code: 'HR', nome: pt ? 'Croácia' : 'Croatia' },
+    { code: 'RO', nome: pt ? 'Roménia' : 'Romania' },
   ]
+})
 
   // Aplica estados guardados antes do primeiro render
   if (darkMode.value) document.body.classList.add('dark-mode')
