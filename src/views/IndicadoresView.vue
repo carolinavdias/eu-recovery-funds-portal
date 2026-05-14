@@ -23,14 +23,15 @@
               <label>PAÍS</label>
               <div class="select-wrapper">
                 <select v-model="paisSelecionado">
-                  <option value="pt">Portugal</option>
-                  <option value="es">Espanha</option>
-                  <option value="fr">França</option>
-                  <option value="it">Itália</option>
-                  <option value="al">Alemanha</option>
-                  <option value="gr">Grécia</option>
-                  <option value="cr">Croácia</option>
-                  <option value="rmn">Roménia</option>
+                  <option value="todos">Todos os países</option>
+                  <option value="PT">Portugal</option>
+                  <option value="ES">Espanha</option>
+                  <option value="FR">França</option>
+                  <option value="IT">Itália</option>
+                  <option value="DE">Alemanha</option>
+                  <option value="GR">Grécia</option>
+                  <option value="HR">Croácia</option>
+                  <option value="RO">Roménia</option>
                 </select>
               </div>
             </div>
@@ -368,8 +369,14 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useAppStore } from '../stores/app'
 
-const paisSelecionado = ref('pt')
+const appStore = useAppStore()
+
+const paisSelecionado = computed({ 
+  get: () => appStore.paisSelecionado, 
+  set: (v) => appStore.setPais(v) 
+})
 const periodoSelecionado = ref('s1-2025')
 
 // ============================================================
@@ -610,8 +617,11 @@ function gerarDadosDinamicos(pais, periodo) {
 }
 
 function obterDadosPorPaisPeriodo(pais, periodo) {
-  if (pais === 'pt') return dadosPortugal[periodo] || dadosPortugal['s2-2025']
-  if (pais === 'es') return dadosEspanha[periodo] || dadosEspanha['s2-2025']
+  if (pais === 'todos') {
+    pais = 'PT' 
+  }
+  if (pais === 'PT') return dadosPortugal[periodo] || dadosPortugal['s2-2025']
+  if (pais === 'ES') return dadosEspanha[periodo] || dadosEspanha['s2-2025']
   const gerado = gerarDadosDinamicos(pais, periodo)
   return gerado || dadosPortugal[periodo] || dadosPortugal['s2-2025']
 }

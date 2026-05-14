@@ -1,15 +1,167 @@
 {
   "marcos": [
-    { "id": 1, "titulo": "Digitalização dos Serviços Públicos", "descricao": "Migração de 100% dos serviços públicos para plataformas digitais acessíveis a todos os cidadãos portugueses.", "pais": "Portugal", "paisCode": "PT", "setor": "digital", "setorLabel": "💻 Digital", "estado": "em_curso", "prazo": "Jun 2025", "progresso": 65, "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600", "investimento": "€2,3 Mil Milhões", "beneficiarios": "10,3 milhões de cidadãos", "indicadorSucesso": "100% dos serviços públicos disponíveis online com autenticação digital segura", "entidade": "AMA — Agência para a Modernização Administrativa" },
-    { "id": 2, "titulo": "Renovação de Edifícios Públicos", "descricao": "Eficiência energética em 250 mil edifícios públicos e privados em todo o território nacional.", "pais": "Portugal", "paisCode": "PT", "setor": "clima", "setorLabel": "🌿 Clima", "estado": "em_curso", "prazo": "Dez 2025", "progresso": 48, "imagem": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600", "investimento": "€1,7 Mil Milhões", "beneficiarios": "250 mil edifícios renovados", "indicadorSucesso": "Redução de 30% no consumo energético dos edifícios intervencionados", "entidade": "ADENE — Agência para a Energia" },
-    { "id": 3, "titulo": "Modernização do SNS", "descricao": "Digitalização e reforço do Serviço Nacional de Saúde com novos centros de saúde digitais em todo o país.", "pais": "Portugal", "paisCode": "PT", "setor": "saude", "setorLabel": "❤️ Saúde", "estado": "concluido", "prazo": "Mar 2024", "progresso": 100, "imagem": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600", "investimento": "€1,4 Mil Milhões", "beneficiarios": "10,3 milhões de utentes do SNS", "indicadorSucesso": "100 novos Centros de Saúde digitais operacionais", "entidade": "Ministério da Saúde / SPMS" },
-    { "id": 4, "titulo": "Portáteis para Alunos", "descricao": "Entrega de 600 mil portáteis a alunos do ensino público para combater a exclusão digital nas escolas.", "pais": "Portugal", "paisCode": "PT", "setor": "educacao", "setorLabel": "🎓 Educação", "estado": "concluido", "prazo": "Set 2023", "progresso": 100, "imagem": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", "investimento": "€290 Milhões", "beneficiarios": "600 mil alunos do ensino público", "indicadorSucesso": "600.000 dispositivos entregues e ativados", "entidade": "Ministério da Educação / DGEstE" },
-    { "id": 5, "titulo": "Habitação Acessível", "descricao": "Construção e reabilitação de 15.000 habitações acessíveis para famílias em situação de vulnerabilidade económica.", "pais": "Portugal", "paisCode": "PT", "setor": "coesao", "setorLabel": "👥 Coesão", "estado": "em_atraso", "prazo": "Jun 2024", "progresso": 30, "imagem": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600", "investimento": "€1,2 Mil Milhões", "beneficiarios": "15.000 famílias vulneráveis", "indicadorSucesso": "15.000 habitações entregues com renda acessível", "entidade": "IHRU — Instituto da Habitação e Reabilitação Urbana" },
-    { "id": 6, "titulo": "Modernização Ferroviária", "descricao": "Renovação e expansão das redes ferroviárias nacionais para reduzir tempos de viagem em 20%.", "pais": "Portugal", "paisCode": "PT", "setor": "infraestrutura", "setorLabel": "🏢 Infraestrutura", "estado": "em_curso", "prazo": "Dez 2026", "progresso": 22, "imagem": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600", "investimento": "€4,8 Mil Milhões", "beneficiarios": "5 milhões de passageiros/ano", "indicadorSucesso": "Redução de 20% nos tempos de viagem nas principais linhas", "entidade": "IP — Infraestruturas de Portugal" },
-    { "id": 7, "titulo": "Transição Verde Industrial", "descricao": "Descarbonização progressiva do setor industrial espanhol através da adoção de energias renováveis.", "pais": "Espanha", "paisCode": "ES", "setor": "clima", "setorLabel": "🌿 Clima", "estado": "em_curso", "prazo": "Jun 2025", "progresso": 55, "imagem": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600", "investimento": "€6,2 Mil Milhões", "beneficiarios": "12.000 empresas industriais", "indicadorSucesso": "Redução de 55% nas emissões do setor industrial face a 2020", "entidade": "Ministerio para la Transición Ecológica" },
-    { "id": 8, "titulo": "França Digital 2025", "descricao": "Acesso universal à internet de alta velocidade em todas as zonas rurais francesas.", "pais": "França", "paisCode": "FR", "setor": "digital", "setorLabel": "💻 Digital", "estado": "concluido", "prazo": "Dez 2024", "progresso": 100, "imagem": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600", "investimento": "€3,5 Mil Milhões", "beneficiarios": "8 milhões de habitantes em zonas rurais", "indicadorSucesso": "100% das zonas rurais com cobertura de fibra ótica ou 5G", "entidade": "Agence Nationale de la Cohésion des Territoires" },
-    { "id": 9, "titulo": "Reforma Hospitalar Italiana", "descricao": "Renovação e modernização tecnológica de 100 hospitais públicos italianos.", "pais": "Itália", "paisCode": "IT", "setor": "saude", "setorLabel": "❤️ Saúde", "estado": "em_atraso", "prazo": "Mar 2024", "progresso": 18, "imagem": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600", "investimento": "€1,4 Mil Milhões", "beneficiarios": "60 milhões de utentes do SSN", "indicadorSucesso": "100 hospitais renovados com sistemas digitais integrados", "entidade": "Ministero della Salute" },
-    { "id": 10, "titulo": "Energia Solar Grega", "descricao": "Instalação de painéis fotovoltaicos em 50.000 edifícios públicos gregos.", "pais": "Grécia", "paisCode": "GR", "setor": "clima", "setorLabel": "🌿 Clima", "estado": "em_curso", "prazo": "Set 2025", "progresso": 40, "imagem": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600", "investimento": "€850 Milhões", "beneficiarios": "50.000 edifícios públicos", "indicadorSucesso": "500 MW de capacidade solar instalada em edifícios públicos", "entidade": "Υπουργείο Περιβάλλοντος και Ενέργειας" }
+    {
+      "id": 1,
+      "titulo": "Digitalização dos Serviços Públicos",
+      "descricao": "Migração de 100% dos serviços públicos para plataformas digitais acessíveis a todos os cidadãos portugueses.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "digital", "setorLabel": "💻 Digital",
+      "estado": "em_curso", "prazo": "Jun 2025", "progresso": 65,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento": "€2,3 Mil Milhões", "beneficiarios": "10,3 milhões de cidadãos",
+      "indicadorSucesso": "100% dos serviços públicos disponíveis online com autenticação digital segura",
+      "entidade": "AMA — Agência para a Modernização Administrativa",
+      "revisoes": [
+        { "data": "Jan 2021", "tipo": "aprovacao", "descricao": "Marco aprovado pelo Conselho de Ministros e integrado no PRR nacional." },
+        { "data": "Jun 2022", "tipo": "atualizacao", "descricao": "35% dos serviços migrados para plataforma digital. Prazo original mantido." },
+        { "data": "Fev 2023", "tipo": "atualizacao", "descricao": "Expansão do programa a mais 120 serviços. Progresso atualizado para 52%." },
+        { "data": "Set 2024", "tipo": "atualizacao", "descricao": "65% dos serviços migrados com autenticação segura. Prazo Jun 2025 confirmado." }
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "Renovação de Edifícios Públicos",
+      "descricao": "Eficiência energética em 250 mil edifícios públicos e privados em todo o território nacional.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "clima", "setorLabel": "🌿 Clima",
+      "estado": "em_curso", "prazo": "Dez 2025", "progresso": 48,
+      "imagem": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600",
+      "investimento": "€1,7 Mil Milhões", "beneficiarios": "250 mil edifícios renovados",
+      "indicadorSucesso": "Redução de 30% no consumo energético dos edifícios intervencionados",
+      "entidade": "ADENE — Agência para a Energia",
+      "revisoes": [
+        { "data": "Mar 2021", "tipo": "aprovacao", "descricao": "Programa de eficiência energética aprovado e lançado a nível nacional." },
+        { "data": "Nov 2022", "tipo": "atualizacao", "descricao": "Primeiros 45.000 edifícios intervencionados. Progresso: 18%." },
+        { "data": "Abr 2024", "tipo": "atualizacao", "descricao": "120.000 edifícios concluídos. Progresso revisto para 48%." }
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "Modernização do SNS",
+      "descricao": "Digitalização e reforço do Serviço Nacional de Saúde com novos centros de saúde digitais em todo o país.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "saude", "setorLabel": "❤️ Saúde",
+      "estado": "concluido", "prazo": "Mar 2024", "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600",
+      "investimento": "€1,4 Mil Milhões", "beneficiarios": "10,3 milhões de utentes do SNS",
+      "indicadorSucesso": "100 novos Centros de Saúde digitais operacionais",
+      "entidade": "Ministério da Saúde / SPMS",
+      "revisoes": [
+        { "data": "Fev 2021", "tipo": "aprovacao", "descricao": "Marco aprovado e incluído no PRR sob coordenação da SPMS." },
+        { "data": "Jun 2022", "tipo": "atualizacao", "descricao": "50 Centros de Saúde digitais operacionais. Meta a 50%." },
+        { "data": "Out 2023", "tipo": "atualizacao", "descricao": "80 centros concluídos. Progresso: 80%. Prazo mantido." },
+        { "data": "Mar 2024", "tipo": "conclusao", "descricao": "100 Centros de Saúde digitais operacionais. Marco concluído e validado pela CE." }
+      ]
+    },
+    {
+      "id": 4,
+      "titulo": "Portáteis para Alunos",
+      "descricao": "Entrega de 600 mil portáteis a alunos do ensino público para combater a exclusão digital nas escolas.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "educacao", "setorLabel": "🎓 Educação",
+      "estado": "concluido", "prazo": "Set 2023", "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600",
+      "investimento": "€290 Milhões", "beneficiarios": "600 mil alunos do ensino público",
+      "indicadorSucesso": "600.000 dispositivos entregues e ativados",
+      "entidade": "Ministério da Educação / DGEstE",
+      "revisoes": [
+        { "data": "Abr 2021", "tipo": "aprovacao", "descricao": "Marco aprovado. Concurso público lançado para aquisição dos equipamentos." },
+        { "data": "Jan 2023", "tipo": "atualizacao", "descricao": "350.000 portáteis entregues. Distribuição em curso nas restantes escolas." },
+        { "data": "Set 2023", "tipo": "conclusao", "descricao": "600.000 dispositivos entregues e ativados. Marco concluído dentro do prazo." }
+      ]
+    },
+    {
+      "id": 5,
+      "titulo": "Habitação Acessível",
+      "descricao": "Construção e reabilitação de 15.000 habitações acessíveis para famílias em situação de vulnerabilidade económica.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "coesao", "setorLabel": "👥 Coesão",
+      "estado": "em_atraso", "prazo": "Jun 2024", "progresso": 30,
+      "imagem": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600",
+      "investimento": "€1,2 Mil Milhões", "beneficiarios": "15.000 famílias vulneráveis",
+      "indicadorSucesso": "15.000 habitações entregues com renda acessível",
+      "entidade": "IHRU — Instituto da Habitação e Reabilitação Urbana",
+      "revisoes": [
+        { "data": "Mai 2021", "tipo": "aprovacao", "descricao": "Marco aprovado com meta de 15.000 habitações acessíveis até Jun 2024." },
+        { "data": "Jan 2023", "tipo": "atualizacao", "descricao": "2.500 habitações concluídas. Progresso abaixo do esperado devido a atrasos em licenciamentos." },
+        { "data": "Jul 2024", "tipo": "atraso", "descricao": "Prazo não cumprido — apenas 30% da meta alcançada. Revisão do calendário em negociação com a CE." }
+      ]
+    },
+    {
+      "id": 6,
+      "titulo": "Modernização Ferroviária",
+      "descricao": "Renovação e expansão das redes ferroviárias nacionais para reduzir tempos de viagem em 20%.",
+      "pais": "Portugal", "paisCode": "PT", "setor": "infraestrutura", "setorLabel": "🏢 Infraestrutura",
+      "estado": "em_curso", "prazo": "Dez 2026", "progresso": 22,
+      "imagem": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600",
+      "investimento": "€4,8 Mil Milhões", "beneficiarios": "5 milhões de passageiros/ano",
+      "indicadorSucesso": "Redução de 20% nos tempos de viagem nas principais linhas",
+      "entidade": "IP — Infraestruturas de Portugal",
+      "revisoes": [
+        { "data": "Jun 2021", "tipo": "aprovacao", "descricao": "Marco aprovado. Estudos de viabilidade e projetos de execução iniciados." },
+        { "data": "Mar 2023", "tipo": "atualizacao", "descricao": "Adjudicação dos primeiros contratos de empreitada. Progresso: 8%." },
+        { "data": "Out 2024", "tipo": "atualizacao", "descricao": "Obras em curso em 3 linhas ferroviárias. Progresso atualizado para 22%." }
+      ]
+    },
+    {
+      "id": 7,
+      "titulo": "Transição Verde Industrial",
+      "descricao": "Descarbonização progressiva do setor industrial espanhol através da adoção de energias renováveis.",
+      "pais": "Espanha", "paisCode": "ES", "setor": "clima", "setorLabel": "🌿 Clima",
+      "estado": "em_curso", "prazo": "Jun 2025", "progresso": 55,
+      "imagem": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+      "investimento": "€6,2 Mil Milhões", "beneficiarios": "12.000 empresas industriais",
+      "indicadorSucesso": "Redução de 55% nas emissões do setor industrial face a 2020",
+      "entidade": "Ministerio para la Transición Ecológica",
+      "revisoes": [
+        { "data": "Ago 2021", "tipo": "aprovacao", "descricao": "Marco incluído no PRTR espanhol e aprovado pela Comissão Europeia." },
+        { "data": "Dez 2022", "tipo": "atualizacao", "descricao": "6.000 empresas industriais com planos de descarbonização aprovados. Progresso: 25%." },
+        { "data": "Jun 2024", "tipo": "atualizacao", "descricao": "12.000 empresas em transição energética ativa. Progresso revisto para 55%." }
+      ]
+    },
+    {
+      "id": 8,
+      "titulo": "França Digital 2025",
+      "descricao": "Acesso universal à internet de alta velocidade em todas as zonas rurais francesas.",
+      "pais": "França", "paisCode": "FR", "setor": "digital", "setorLabel": "💻 Digital",
+      "estado": "concluido", "prazo": "Dez 2024", "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600",
+      "investimento": "€3,5 Mil Milhões", "beneficiarios": "8 milhões de habitantes em zonas rurais",
+      "indicadorSucesso": "100% das zonas rurais com cobertura de fibra ótica ou 5G",
+      "entidade": "Agence Nationale de la Cohésion des Territoires",
+      "revisoes": [
+        { "data": "Ago 2021", "tipo": "aprovacao", "descricao": "Marco aprovado no âmbito do France Relance. Infraestrutura de fibra iniciada." },
+        { "data": "Jun 2023", "tipo": "atualizacao", "descricao": "4 milhões de habitantes cobertos com fibra ótica. Progresso: 50%." },
+        { "data": "Dez 2024", "tipo": "conclusao", "descricao": "100% das zonas rurais com cobertura de fibra ótica ou 5G. Marco concluído antes do prazo." }
+      ]
+    },
+    {
+      "id": 9,
+      "titulo": "Reforma Hospitalar Italiana",
+      "descricao": "Renovação e modernização tecnológica de 100 hospitais públicos italianos.",
+      "pais": "Itália", "paisCode": "IT", "setor": "saude", "setorLabel": "❤️ Saúde",
+      "estado": "em_atraso", "prazo": "Mar 2024", "progresso": 18,
+      "imagem": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600",
+      "investimento": "€1,4 Mil Milhões", "beneficiarios": "60 milhões de utentes do SSN",
+      "indicadorSucesso": "100 hospitais renovados com sistemas digitais integrados",
+      "entidade": "Ministero della Salute",
+      "revisoes": [
+        { "data": "Ago 2021", "tipo": "aprovacao", "descricao": "Marco aprovado no PNRR italiano sob coordenação do Ministero della Salute." },
+        { "data": "Set 2022", "tipo": "atualizacao", "descricao": "Adjudicação de contratos para renovação de 30 hospitais. Progresso: 5%." },
+        { "data": "Abr 2024", "tipo": "atraso", "descricao": "Apenas 18 hospitais renovados por atrasos em concursos públicos. Revisão do prazo solicitada à CE." }
+      ]
+    },
+    {
+      "id": 10,
+      "titulo": "Energia Solar Grega",
+      "descricao": "Instalação de painéis fotovoltaicos em 50.000 edifícios públicos gregos.",
+      "pais": "Grécia", "paisCode": "GR", "setor": "clima", "setorLabel": "🌿 Clima",
+      "estado": "em_curso", "prazo": "Set 2025", "progresso": 40,
+      "imagem": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+      "investimento": "€850 Milhões", "beneficiarios": "50.000 edifícios públicos",
+      "indicadorSucesso": "500 MW de capacidade solar instalada em edifícios públicos",
+      "entidade": "Υπουργείο Περιβάλλοντος και Ενέργειας",
+      "revisoes": [
+        { "data": "Ago 2021", "tipo": "aprovacao", "descricao": "Marco aprovado no plano grego de recuperação. Programa de instalação solar lançado." },
+        { "data": "Mai 2023", "tipo": "atualizacao", "descricao": "15.000 edifícios com painéis instalados. 150MW gerados. Progresso: 30%." },
+        { "data": "Jan 2025", "tipo": "atualizacao", "descricao": "20.000 edifícios cobertos. 200MW de capacidade instalada. Progresso revisto para 40%." }
+      ]
+    }
   ],
   "paises": [
     { "id": 1, "code": "PT", "nome": "Portugal", "bandeira": "🇵🇹", "totalFundos": "€16,6B", "marcosTotal": 6, "marcosConcluidos": 2, "progresso": 58, "populacao": "10,3M", "capital": "Lisboa", "imagem": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=600" },

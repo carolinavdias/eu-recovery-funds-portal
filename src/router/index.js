@@ -3,6 +3,9 @@ import AppLayout from '@/layouts/AppLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    return { top: 0, behavior: 'smooth' }
+  },
   routes: [
     {
       path: '/',
@@ -38,15 +41,20 @@ const router = createRouter({
           name: 'comparar',
           component: () => import('@/views/CompararView.vue'),
         },
-        {
+       {
           path: 'paises/:id',
           name: 'pais-detalhe',
           component: () => import('@/views/PaisDetalheView.vue'),
         },
-      ],
+        {
+          path: 'faq',          // ← adicionar aqui
+          name: 'faq',
+          component: () => import('@/views/FAQView.vue'),
+        },
+      ],                        // fecha children
     },
     {
-      path: '/:pathMatch(.*)*',
+      path: '/:pathMatch(.*)*', // 404 mantém-se
       name: 'not-found',
       component: () => import('@/views/NotFoundView.vue'),
     },
