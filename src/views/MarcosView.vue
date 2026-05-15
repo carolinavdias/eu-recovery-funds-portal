@@ -378,14 +378,58 @@ const marcosFiltrados = computed(() => marcos.value.filter(m => {
   return paisMatch && setorMatch && estadoMatch
 }))
 
+// Ordem semântica dos estados (concluído → em curso → em atraso)
+const ESTADO_ORDEM = { concluido: 0, em_curso: 1, em_atraso: 2 }
+
 const marcosOrdenados = computed(() => {
   return [...marcosFiltrados.value].sort((a, b) => {
     let valA = a[sortCol.value]
     let valB = b[sortCol.value]
-    if (typeof valA === 'string') valA = valA.toLowerCase()
-    if (typeof valB === 'string') valB = valB.toLowerCase()
-    if (valA < valB) return sortDir.value === 'asc' ? -1 : 1
-    if (valA > valB) return sortDir.value === 'asc' ? 1 : -1
+
+    // Estado: concluído → em curso → em atraso (e inverso)
+    if (sortCol.value === 'estado') {
+      const oA = ESTADO_ORDEM[valA] ?? 99
+      const oB = ESTADO_ORDEM[valB] ?? 99
+      return sortDir.value === 'asc' ? oA - oB : oB - oA
+    }
+
+    // Progresso: numérico
+    if (sortCol.value === 'progresso') {
+      const nA = Number(valA) || 0
+      const nB = Number(valB) || 0
+      return sortDir.value === 'asc' ? nA - nB : nB - nA
+    }
+
+    // Prazo: parse de data ("Q1 2023", "2023-Q1", "31/12/2023", ISO)
+    if (sortCol.value === 'prazo') {
+      const parseData = (s) => {
+        if (!s) return 0
+        // "Q1 2023" ou "1T 2023"
+        const q = s.match(/[QqTt](\d)\s*(\d{4})|(\d{4})\s*[QqTt](\d)/)
+        if (q) {
+          const ano = q[2] || q[3]
+          const trim = q[1] || q[4]
+          return parseInt(ano) * 10 + parseInt(trim)
+        }
+        // "31/12/2023"
+        const br = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)
+        if (br) return new Date(br[3], br[2] - 1, br[1]).getTime()
+        // ISO ou qualquer coisa que o Date entenda
+        const d = new Date(s)
+        if (!isNaN(d)) return d.getTime()
+        return s
+      }
+      const dA = parseData(valA)
+      const dB = parseData(valB)
+      if (typeof dA === 'number' && typeof dB === 'number')
+        return sortDir.value === 'asc' ? dA - dB : dB - dA
+    }
+
+    // Texto (ID, Designação, País): alfabético
+    const sA = String(valA ?? '').toLowerCase()
+    const sB = String(valB ?? '').toLowerCase()
+    if (sA < sB) return sortDir.value === 'asc' ? -1 : 1
+    if (sA > sB) return sortDir.value === 'asc' ? 1 : -1
     return 0
   })
 })
