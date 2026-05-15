@@ -1,113 +1,833 @@
-/* ================================================
-   PORTAL PRR — ESTILOS GLOBAIS
-   ================================================ */
+/* PORTAL PRR — ESTILOS GLOBAIS */
 
-/* Reset e base */
+/* RESET */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* VARIAVEIS CSS */
+:root {
+  --prr-vermelho: #931b18;
+  --prr-vermelho-hover: #6b1210;
+  --prr-dourado: #d4af37;
+  --prr-dourado-hover: #c49a28;
+
+  --bg-base: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-section: #f5f5f7;
+  --bg-neutral: #f0f0f0;
+  --bg-neutral-2: #e0e0e0;
+  --bg-error: #fdf2f2;
+  --bg-error-border: #f8d7da;
+  --bg-success: #d4edda;
+  --bg-success-border: #c3e6cb;
+  --bg-warning: #fff3cd;
+  --bg-warning-border: #ffeaa7;
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --text-placeholder: #aaa;
+  --text-faint: #ccc;
+
+  --border: #e0e0e0;
+  --border-light: #f0f0f0;
+
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.07);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+  --color-success: #1a7a4a;
+  --color-error: #721c24;
+  --color-warning: #856404;
+  --color-info: #1a3a6b;
+  --color-blue: #2e6bbf;
+
+  --chart-text: #666666;
+  --chart-grid: #e0e0e0;
+}
+
+/* DARK MODE — VARIAVEIS */
+body.dark-mode {
+  --bg-base: #0f172a;
+  --bg-card: #1e293b;
+  --bg-section: #162032;
+  --bg-neutral: #253346;
+  --bg-neutral-2: #334155;
+  --bg-error: #3b0a0a;
+  --bg-error-border: #7f1d1d;
+  --bg-success: #052e16;
+  --bg-success-border: #166534;
+  --bg-warning: #451a03;
+  --bg-warning-border: #92400e;
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-placeholder: #475569;
+  --text-faint: #334155;
+
+  --border: #334155;
+  --border-light: #253346;
+
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.7);
+
+  --color-success: #4ade80;
+  --color-error: #f87171;
+  --color-warning: #fbbf24;
+  --color-info: #60a5fa;
+  --color-blue: #60a5fa;
+
+  --chart-text: #94a3b8;
+  --chart-grid: #334155;
+}
+
+/* BASE */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ================================================
-   DARK MODE GLOBAL — versão conservadora
-   Só altera o que é garantidamente seguro alterar
-   sem ir página a página. O conteúdo das views
-   mantém-se (cores hardcoded) para não criar
-   conflitos visuais.
-   ================================================ */
-
-body.dark-mode {
-  background-color: #0f172a;
-  color: #e2e8f0;
-}
-
-/* Área de conteúdo principal (fundo da app entre secções) */
+/* DARK MODE — LAYOUT */
 body.dark-mode .app-content {
-  background-color: #0f172a;
+  background-color: var(--bg-base);
 }
-
-/* Footer */
 body.dark-mode .app-footer {
   background-color: #1e293b;
   color: #94a3b8;
   border-top-color: #334155;
 }
-
-/* Sidebar — complemento ao que já tem no scoped */
 body.dark-mode .sidebar {
   background-color: #1e293b;
   border-right-color: #334155;
 }
 
-/* ---- Tabelas (elementos HTML padrão, seguros de alterar) ---- */
-body.dark-mode table {
-  background-color: #1e293b;
+/* DARK MODE — SECTIONS */
+body.dark-mode [class$="-section"]:not([class*="hero"]):not([class*="nav"]):not([class*="toast"]),
+body.dark-mode [class^="section-"]:not([class*="hero"]) {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .grid-section {
+  background-color: var(--bg-base) !important;
 }
 
+/* DARK MODE — CARDS */
+body.dark-mode [class*="-card"],
+body.dark-mode [class*="card-"],
+body.dark-mode [class$="card"] {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+body.dark-mode [class*="-card"] h2,
+body.dark-mode [class*="-card"] h3,
+body.dark-mode [class*="-card"] h4,
+body.dark-mode [class*="card-"] h2,
+body.dark-mode [class*="card-"] h3,
+body.dark-mode [class*="card-"] h4 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="-card"] p,
+body.dark-mode [class*="card-"] p {
+  color: var(--text-secondary) !important;
+}
+
+/* DARK MODE — TIPOGRAFIA */
+body.dark-mode [class*="grid-header"] h1,
+body.dark-mode [class*="grid-header"] h2,
+body.dark-mode [class*="grid-header"] h3,
+body.dark-mode [class*="page-header"] h1,
+body.dark-mode [class*="page-header"] h2,
+body.dark-mode [class*="section-header"] h2,
+body.dark-mode [class*="section-title"],
+body.dark-mode [class*="-title"]:not([class*="hero"]):not([class*="badge"]) {
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="grid-sub"],
+body.dark-mode [class*="-sub"]:not([class*="hero"]):not([class*="nav"]),
+body.dark-mode [class*="subtitle"]:not([class*="hero"]),
+body.dark-mode [class*="-desc"]:not([class*="hero"]),
+body.dark-mode [class*="-meta"],
+body.dark-mode [class*="-period"],
+body.dark-mode [class*="-date"] {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode [class*="filter-label"],
+body.dark-mode [class*="-label"]:not([class*="hero"]):not([class*="badge"]):not([class*="stat"]) {
+  color: var(--text-muted) !important;
+}
+body.dark-mode label:not([class*="hero"]) {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode li {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode span {
+  color: inherit;
+}
+body.dark-mode [class*="hero-content"] h1,
+body.dark-mode [class*="hero-content"] h2,
+body.dark-mode [class*="hero-content"] h3,
+body.dark-mode [class*="hero-content"] p,
+body.dark-mode [class*="hero-section"] h1,
+body.dark-mode [class*="hero-section"] h2,
+body.dark-mode [class*="hero-section"] p,
+body.dark-mode [class*="hero-"] h1,
+body.dark-mode [class*="hero-"] h2,
+body.dark-mode [class*="hero-"] p {
+  color: inherit !important;
+}
+body.dark-mode button,
+body.dark-mode [class*="btn"],
+body.dark-mode [class*="badge"],
+body.dark-mode [class*="tag-"] {
+  color: inherit !important;
+}
+
+/* DARK MODE — ESTADOS DE LOADING E ERRO */
+body.dark-mode [class*="loading-state"],
+body.dark-mode [class*="-loading"] {
+  color: var(--text-muted) !important;
+}
+body.dark-mode [class*="loading-spinner"],
+body.dark-mode [class*="-spinner"] {
+  border-color: var(--bg-neutral-2) !important;
+  border-top-color: var(--prr-vermelho) !important;
+}
+body.dark-mode [class*="empty-state"],
+body.dark-mode [class*="-empty"] {
+  color: var(--text-muted) !important;
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode [class*="erro-state"],
+body.dark-mode [class*="error-state"],
+body.dark-mode [class*="-error"]:not(input):not(button) {
+  background-color: var(--bg-error) !important;
+  border-color: var(--bg-error-border) !important;
+  color: var(--color-error) !important;
+}
+body.dark-mode [class*="success-state"],
+body.dark-mode [class*="-success"]:not(button) {
+  background-color: var(--bg-success) !important;
+  border-color: var(--bg-success-border) !important;
+  color: var(--color-success) !important;
+}
+body.dark-mode [class*="warning-state"],
+body.dark-mode [class*="-warning"]:not(button) {
+  background-color: var(--bg-warning) !important;
+  border-color: var(--bg-warning-border) !important;
+  color: var(--color-warning) !important;
+}
+
+/* DARK MODE — BADGES DE ESTADO */
+body.dark-mode .tabela-badge.concluido,
+body.dark-mode [class*="badge-concluido"],
+body.dark-mode [class*="estado-concluido"],
+body.dark-mode .estado-pill.concluido {
+  background-color: #166534 !important;
+  color: #86efac !important;
+  border-color: #166534 !important;
+}
+body.dark-mode .tabela-badge.em_curso,
+body.dark-mode [class*="badge-em_curso"],
+body.dark-mode [class*="badge-curso"],
+body.dark-mode .estado-pill.em_curso {
+  background-color: #854d0e !important;
+  color: #fde68a !important;
+  border-color: #854d0e !important;
+}
+body.dark-mode .tabela-badge.em_atraso,
+body.dark-mode [class*="badge-atraso"],
+body.dark-mode [class*="badge-em_atraso"],
+body.dark-mode .estado-pill.em_atraso {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+  border-color: #7f1d1d !important;
+}
+body.dark-mode .tabela-badge.planeado,
+body.dark-mode .estado-pill.planeado {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+  border: 1px solid #334155 !important;
+}
+
+/* DARK MODE — TABELAS */
+body.dark-mode table {
+  background-color: var(--bg-card);
+}
 body.dark-mode thead tr,
 body.dark-mode th {
-  background-color: #334155 !important;
-  color: #e2e8f0 !important;
-  border-color: #475569 !important;
+  background-color: var(--bg-neutral-2) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
 }
-
 body.dark-mode tbody tr {
-  background-color: #1e293b;
-  border-bottom-color: #334155;
+  background-color: var(--bg-card);
+  border-bottom-color: var(--border);
 }
-
 body.dark-mode tbody tr:nth-child(even) {
-  background-color: #1a2535;
+  background-color: var(--bg-section);
 }
-
 body.dark-mode tbody tr:hover {
-  background-color: #253346 !important;
+  background-color: var(--bg-neutral) !important;
 }
-
 body.dark-mode td {
-  color: #e2e8f0;
-  border-bottom-color: #334155;
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border);
 }
 
-/* ---- Inputs e selects (filtros, formulários) ---- */
+/* DARK MODE — FORMULARIOS */
 body.dark-mode select,
 body.dark-mode input[type="text"],
 body.dark-mode input[type="search"],
 body.dark-mode input[type="number"],
 body.dark-mode textarea {
-  background-color: #1e293b !important;
-  color: #e2e8f0 !important;
-  border-color: #334155 !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
 }
-
+body.dark-mode select:focus,
+body.dark-mode input:focus,
+body.dark-mode textarea:focus {
+  border-color: var(--prr-vermelho) !important;
+  outline: none;
+}
 body.dark-mode option {
-  background-color: #1e293b;
-  color: #e2e8f0;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
 }
 
-/* ---- Modal overlay ---- */
+/* DARK MODE — MODAIS */
 body.dark-mode .modal-overlay {
   background: rgba(0, 0, 0, 0.85);
 }
+body.dark-mode [class*="modal-content"],
+body.dark-mode [class*="modal-panel"],
+body.dark-mode [class*="modal-box"],
+body.dark-mode [class*="-modal"]:not(.modal-overlay) {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-modal) !important;
+}
+body.dark-mode [class*="modal-header"],
+body.dark-mode [class*="modal-footer"] {
+  background-color: var(--bg-section) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="modal-title"],
+body.dark-mode [class*="modal-header"] h2,
+body.dark-mode [class*="modal-header"] h3 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="modal-body"] p,
+body.dark-mode [class*="modal-body"] span,
+body.dark-mode [class*="modal-body"] li {
+  color: var(--text-secondary) !important;
+}
 
-/* ---- Scrollbar cosmético ---- */
+/* DARK MODE — TABS E FILTROS */
+body.dark-mode [class*="-tabs"],
+body.dark-mode [class*="tabs-"],
+body.dark-mode [class*="tab-bar"],
+body.dark-mode [class*="filter-bar"],
+body.dark-mode [class*="-filters"] {
+  background-color: var(--bg-section) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode [class*="tab-item"]:not([class*="active"]):not([class*="hero"]),
+body.dark-mode [class*="-tab"]:not([class*="active"]):not([class*="hero"]) {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode [class*="tab-item"]:hover,
+body.dark-mode [class*="-tab"]:hover {
+  background-color: var(--bg-neutral) !important;
+}
+
+/* DARK MODE — TOOLTIPS E DROPDOWNS */
+body.dark-mode [class*="tooltip"],
+body.dark-mode [class*="-tooltip"] {
+  background-color: #1e293b !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-modal) !important;
+}
+body.dark-mode [class*="dropdown-menu"],
+body.dark-mode [class*="dropdown-content"],
+body.dark-mode [class*="-dropdown"] {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-modal) !important;
+}
+body.dark-mode [class*="dropdown-item"],
+body.dark-mode [class*="menu-item"] {
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="dropdown-item"]:hover,
+body.dark-mode [class*="menu-item"]:hover {
+  background-color: var(--bg-neutral) !important;
+}
+
+/* DARK MODE — TOASTS */
+body.dark-mode [class*="toast-success"],
+body.dark-mode [class*="toast"][class*="success"] {
+  background-color: #052e16 !important;
+  color: #4ade80 !important;
+  border-color: #166534 !important;
+}
+body.dark-mode [class*="toast-error"],
+body.dark-mode [class*="toast-danger"],
+body.dark-mode [class*="toast"][class*="error"] {
+  background-color: #3b0a0a !important;
+  color: #f87171 !important;
+  border-color: #7f1d1d !important;
+}
+body.dark-mode [class*="toast-info"],
+body.dark-mode [class*="toast"][class*="info"] {
+  background-color: #0c1a3b !important;
+  color: #60a5fa !important;
+  border-color: #1e3a8a !important;
+}
+
+/* DARK MODE — MISC */
+body.dark-mode hr {
+  border-color: var(--border);
+}
+body.dark-mode [class*="stat-val"][style*="color:#1a7a4a"],
+body.dark-mode [class*="stat-val"][style*="color: #1a7a4a"] {
+  color: var(--color-success) !important;
+}
+body.dark-mode [class*="stat-val"][style*="color:#2e6bbf"],
+body.dark-mode [class*="stat-val"][style*="color: #2e6bbf"] {
+  color: var(--color-blue) !important;
+}
+body.dark-mode [class*="progresso-bar"],
+body.dark-mode [class*="-progress-bar"],
+body.dark-mode [class*="progress-track"] {
+  background-color: var(--bg-neutral-2) !important;
+}
 body.dark-mode ::-webkit-scrollbar-track {
   background: #1e293b;
 }
-
 body.dark-mode ::-webkit-scrollbar-thumb {
   background: #334155;
   border-radius: 4px;
 }
-
 body.dark-mode ::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+/* DARK MODE — MAPA D3 */
+body.dark-mode [class*="mapa"],
+body.dark-mode [class*="map-container"],
+body.dark-mode [class*="-map"] {
+  background-color: var(--bg-card) !important;
+}
+body.dark-mode svg text {
+  fill: var(--text-primary) !important;
+}
+body.dark-mode svg .graticule,
+body.dark-mode svg .sphere {
+  fill: var(--bg-section) !important;
+  stroke: var(--border) !important;
+}
+
+/* COMPONENTE — DASHBOARD */
+body.dark-mode .intro {
+  background-color: var(--bg-base) !important;
+}
+body.dark-mode .intro-text {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .info-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+}
+body.dark-mode .info-card p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .card-highlight span {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .download-text {
+  color: var(--prr-vermelho) !important;
+}
+body.dark-mode .impacto {
+  background-color: var(--bg-base) !important;
+}
+body.dark-mode .impacto-item {
+  background-color: var(--bg-card) !important;
+}
+body.dark-mode .impacto-icone {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .impacto-desc {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .pilares {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .pilares-header p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .pilar-card {
+  background-color: var(--bg-card) !important;
+}
+body.dark-mode .pilar-details p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .pilar-icon-float {
+  border-color: var(--bg-card) !important;
+}
+body.dark-mode .pilar-download,
+body.dark-mode .pilar-download .dl-text {
+  color: var(--prr-vermelho) !important;
+}
+
+/* COMPONENTE — INDICADORES */
+body.dark-mode .col-esquerda {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+}
+body.dark-mode .header-left p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .filtros-row {
+  border-bottom-color: var(--border) !important;
+}
+body.dark-mode .select-wrapper select {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .indicador-card {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .card-categoria {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .card-valor {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .prog-label {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .prog-pct {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .barra-bg {
+  background-color: var(--bg-neutral-2) !important;
+}
+body.dark-mode .outro-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .outro-nome {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .exportar-box {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .exportar-header p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .btn-action.pdf {
+  background-color: var(--bg-section) !important;
+  color: var(--prr-vermelho) !important;
+  border-color: var(--prr-vermelho) !important;
+}
+body.dark-mode .inner-divider {
+  border-top-color: var(--border) !important;
+}
+body.dark-mode .sync-label {
+  color: var(--text-muted) !important;
+}
+
+/* COMPONENTE — FAQ */
+body.dark-mode .faq-section {
+  background-color: var(--bg-base) !important;
+}
+body.dark-mode .cat-btn {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .cat-btn:hover {
+  border-color: var(--prr-vermelho) !important;
+  color: var(--prr-vermelho) !important;
+  background-color: var(--bg-neutral) !important;
+}
+body.dark-mode .faq-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .faq-item.aberto {
+  border-color: var(--prr-dourado) !important;
+}
+body.dark-mode .faq-pergunta:hover,
+body.dark-mode .faq-item.aberto .faq-pergunta {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .faq-q-texto {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .faq-resposta p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .contacto-card {
+  background-color: var(--bg-card) !important;
+  border-left-color: var(--prr-dourado) !important;
+}
+body.dark-mode .contacto-texto h3 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .contacto-texto p {
+  color: var(--text-secondary) !important;
+}
+
+/* COMPONENTE — COMPARAR */
+body.dark-mode .seletores-section,
+body.dark-mode .scorecard-section {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .progresso-section {
+  background-color: var(--bg-card) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.dark-mode .seletores-titulo h2,
+body.dark-mode .sc-titulo h2 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .seletores-titulo p,
+body.dark-mode .sc-titulo p {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .prog-nome {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .leg-item {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .azul-num {
+  background-color: var(--bg-section) !important;
+  color: var(--color-blue) !important;
+}
+
+/* COMPONENTE — MARCOS E METAS */
+body.dark-mode .tabela-section {
+  background-color: var(--bg-base) !important;
+}
+body.dark-mode .tabela-header h2 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .tabela-wrap {
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+body.dark-mode .tabela-row-clicavel:hover {
+  background-color: var(--bg-neutral) !important;
+}
+body.dark-mode .tab-prog-bg {
+  background-color: var(--bg-neutral-2) !important;
+}
+body.dark-mode .tabela-section td,
+body.dark-mode .tabela-section .td-id,
+body.dark-mode .tabela-section .td-titulo {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .btn-detalhe {
+  background-color: var(--prr-vermelho) !important;
+  color: white !important;
+  border: none !important;
+}
+body.dark-mode .btn-detalhe:hover {
+  background-color: var(--prr-vermelho-hover) !important;
+}
+body.dark-mode .btn-export-grafico {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+}
+body.dark-mode .btn-export-grafico:hover {
+  background-color: var(--bg-neutral) !important;
+}
+body.dark-mode .grafico-legenda-texto {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .grafico-card,
+body.dark-mode [class*="grafico-"] {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* COMPONENTE — DESEMBOLSOS */
+body.dark-mode .btn-export-detalhe {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+}
+body.dark-mode [class*="pais-badge"]:not([class*="hero"]),
+body.dark-mode [class*="badge-pais"] {
+  background-color: var(--bg-neutral) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .marco-setor-pill {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+}
+body.dark-mode .marco-pais-badge {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+}
+body.dark-mode .estado-pill,
+body.dark-mode .destaque-badge {
+  filter: brightness(1.3) saturate(0.8);
+}
+body.dark-mode .historico-scroll {
+  background-color: var(--bg-base) !important;
+}
+body.dark-mode .historico-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .historico-item * {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .historico-item strong {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .historico-item .hist-valor {
+  color: var(--prr-dourado) !important;
+}
+body.dark-mode .historico-item .hist-icon {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .historico-item .hist-setor {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .historico-item .tabela-badge {
+  color: inherit !important;
+}
+body.dark-mode .detalhe-tranche-card,
+body.dark-mode .detalhe-tranche-body {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .detalhe-tranche-titulo {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .detalhe-tranche-desc {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .campo-label {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .campo-valor-num {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .ben-prog-valor {
+  color: var(--text-primary) !important;
+}
+body.dark-mode [class*="btn-ver"],
+body.dark-mode [class*="btn-mais"],
+body.dark-mode [class*="ver-mais"] {
+  background-color: var(--prr-vermelho) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* COMPONENTE — PAIS DETALHE */
+body.dark-mode .progresso-global {
+  background-color: var(--bg-card) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.dark-mode .pg-info {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .pg-bar-bg {
+  background-color: var(--bg-neutral-2) !important;
+}
+body.dark-mode .marcos-section {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .section-header h2 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .section-sub {
+  color: var(--text-secondary) !important;
+}
+body.dark-mode .marco-body h3 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .marco-meta {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .progresso-header {
+  color: var(--text-muted) !important;
+}
+body.dark-mode .prog-bg {
+  background-color: var(--bg-neutral-2) !important;
+}
+body.dark-mode .empty-state {
+  background-color: var(--bg-card) !important;
+}
+body.dark-mode .empty-state h3 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .desembolsos-section {
+  background-color: var(--bg-card) !important;
+}
+body.dark-mode .tipo-badge {
+  background-color: rgba(96, 165, 250, 0.15) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(96, 165, 250, 0.3) !important;
+}
+body.dark-mode .montante {
+  color: var(--color-success) !important;
+}
+body.dark-mode .acoes-section {
+  background-color: var(--bg-section) !important;
+}
+body.dark-mode .btn-acao-outline {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+body.dark-mode .btn-acao-outline:hover {
+  border-color: var(--color-blue) !important;
+  color: var(--color-blue) !important;
+}
+body.dark-mode .btn-voltar {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+body.dark-mode .btn-voltar:hover {
+  color: white !important;
+}
+body.dark-mode .btn-ver-todos {
+  background-color: var(--prr-vermelho) !important;
+  color: white !important;
+}
+body.dark-mode .btn-ver-todos:hover {
+  background-color: var(--prr-vermelho-hover) !important;
 }

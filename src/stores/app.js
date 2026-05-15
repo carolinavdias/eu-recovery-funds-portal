@@ -7,19 +7,19 @@ export const useAppStore = defineStore('app', () => {
   const idioma = ref(localStorage.getItem('prr-idioma') || 'pt')
 
   const paises = computed(() => {
-  const pt = idioma.value === 'pt'
-  return [
-    { code: 'todos', nome: pt ? 'Todos os países' : 'All countries' },
-    { code: 'PT', nome: 'Portugal' },
-    { code: 'ES', nome: pt ? 'Espanha' : 'Spain' },
-    { code: 'FR', nome: pt ? 'França' : 'France' },
-    { code: 'IT', nome: pt ? 'Itália' : 'Italy' },
-    { code: 'DE', nome: pt ? 'Alemanha' : 'Germany' },
-    { code: 'GR', nome: pt ? 'Grécia' : 'Greece' },
-    { code: 'HR', nome: pt ? 'Croácia' : 'Croatia' },
-    { code: 'RO', nome: pt ? 'Roménia' : 'Romania' },
-  ]
-})
+    const pt = idioma.value === 'pt'
+    return [
+      { code: 'todos', nome: pt ? 'Todos os países' : 'All countries' },
+      { code: 'PT', nome: 'Portugal' },
+      { code: 'ES', nome: pt ? 'Espanha' : 'Spain' },
+      { code: 'FR', nome: pt ? 'França' : 'France' },
+      { code: 'IT', nome: pt ? 'Itália' : 'Italy' },
+      { code: 'DE', nome: pt ? 'Alemanha' : 'Germany' },
+      { code: 'GR', nome: pt ? 'Grécia' : 'Greece' },
+      { code: 'HR', nome: pt ? 'Croácia' : 'Croatia' },
+      { code: 'RO', nome: pt ? 'Roménia' : 'Romania' },
+    ]
+  })
 
   // Aplica estados guardados antes do primeiro render
   if (darkMode.value) document.body.classList.add('dark-mode')
@@ -147,6 +147,17 @@ export const useAppStore = defineStore('app', () => {
     darkMode.value = !darkMode.value
     document.body.classList.toggle('dark-mode', darkMode.value)
     localStorage.setItem('prr-dark-mode', String(darkMode.value))
+
+    // Actualiza os defaults globais do Chart.js (se carregado)
+    // e notifica todos os componentes com gráficos para re-renderizar
+    import('chart.js').then(({ Chart }) => {
+      Chart.defaults.color = darkMode.value ? '#94a3b8' : '#666666'
+      Chart.defaults.borderColor = darkMode.value ? '#334155' : '#e0e0e0'
+    }).catch(() => { /* Chart.js não disponível */ })
+
+    window.dispatchEvent(new CustomEvent('prr-theme-changed', {
+      detail: { dark: darkMode.value }
+    }))
   }
 
   function toggleIdioma() {
