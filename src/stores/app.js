@@ -34,7 +34,7 @@ export const useAppStore = defineStore('app', () => {
       nav_idioma: 'Mudar idioma',
 
       // Sidebar
-      nav_dashboard: 'Dashboard',
+      nav_dashboard: 'Início',
       nav_marcos: 'Marcos e Metas',
       nav_desembolsos: 'Desembolsos',
       nav_indicadores: 'Indicadores Comuns',

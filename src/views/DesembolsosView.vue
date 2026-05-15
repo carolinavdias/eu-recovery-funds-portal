@@ -18,11 +18,26 @@
       </div>
     </div>
 
-    <!-- ==================== MODAL DETALHE TRANCHE ==================== -->
+    <!-- ==================== MODAL DE EXPORTAÇÃO INDIVIDUAL (CARD) ==================== -->
+    <div v-if="showCardExportModal" class="modal-overlay" @click.self="showCardExportModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showCardExportModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📥</span>
+          <h2>Exportar Desembolso</h2>
+          <p>{{ cardExportTranche?.nome || 'Tranche selecionada' }}</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarTrancheIndividual('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarTrancheIndividual('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarTrancheIndividual('pdf')"><span>Comprovativo PDF</span><span class="ext">.pdf</span></button>
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== MODAL DETALHE TRANCHE (novo design) ==================== -->
     <div v-if="trancheDetalhe" class="modal-overlay" @click.self="trancheDetalhe = null">
       <div class="detalhe-tranche-card">
-        <!-- Cabeçalho com imagem e badges -->
         <div class="detalhe-tranche-img-wrap">
           <img :src="trancheDetalhe.raw?.imagem || trancheDetalhe.imagem || ''" :alt="trancheDetalhe.titulo || trancheDetalhe.nome" class="detalhe-tranche-img" />
           <div class="detalhe-tranche-overlay" :style="{ background: overlayGradienteDesembolsos(trancheDetalhe.setor || 'Transversal') }"></div>
@@ -32,19 +47,31 @@
           </div>
           <div class="marco-pais-badge">{{ bandeiraPaisObj(trancheDetalhe.paisCode || trancheDetalhe.raw?.paisCode) }} {{ trancheDetalhe.pais || trancheDetalhe.raw?.pais }}</div>
         </div>
-
-        <!-- Corpo -->
         <div class="detalhe-tranche-body">
           <h2 class="detalhe-tranche-titulo">{{ trancheDetalhe.titulo || trancheDetalhe.nome }}</h2>
-          <p class="detalhe-tranche-desc">{{ trancheDetalhe.descricao || trancheDetalhe.desc || 'Sem descrição detalhada.' }}</p>
-
-          <div class="detalhe-tranche-meta">
-            <div class="meta-item">💰 <strong>{{ formatMoney(trancheDetalhe.montante || trancheDetalhe.valorNum) }}</strong></div>
-            <div class="meta-item">📅 <strong>{{ trancheDetalhe.data || formatDate(trancheDetalhe.dataObj) }}</strong></div>
-            <div class="meta-item">👥 <strong>{{ trancheDetalhe.beneficiario || 'Não especificado' }}</strong></div>
+          <p class="detalhe-tranche-desc">{{ trancheDetalhe.descricaoCurta || trancheDetalhe.descCurta || trancheDetalhe.raw?.descricaoCurta || 'Sem descrição detalhada.' }}</p>
+          
+          <!-- Campos fixos com título em cima e valor em baixo -->
+          <div class="detalhe-tranche-campos">
+            <div class="campo-item campo-valor">
+              <div class="campo-titulo">💰 Valor</div>
+              <div class="campo-valor-num">{{ formatMoney(trancheDetalhe.montante || trancheDetalhe.valorNum) }}</div>
+            </div>
+            <div class="campo-item campo-data">
+              <div class="campo-titulo">📅 Data</div>
+              <div class="campo-valor-num">{{ trancheDetalhe.data || formatDate(trancheDetalhe.dataObj) }}</div>
+            </div>
+            <div class="campo-item campo-beneficiario-full">
+              <div class="campo-titulo">👥 Beneficiário</div>
+              <div class="campo-valor-num">
+                {{ trancheDetalhe.beneficiario || trancheDetalhe.raw?.beneficiario || 'Não especificado' }}
+                <span v-if="getMedalIcon(getBeneficiarioRank(trancheDetalhe.beneficiario || trancheDetalhe.raw?.beneficiario, trancheDetalhe.paisCode || trancheDetalhe.raw?.paisCode))" style="margin-left: 8px;">
+                  {{ getMedalIcon(getBeneficiarioRank(trancheDetalhe.beneficiario || trancheDetalhe.raw?.beneficiario, trancheDetalhe.paisCode || trancheDetalhe.raw?.paisCode)) }}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <!-- Barra de progresso (percentagem face ao total alocado do país) -->
           <div class="progresso-wrapper">
             <div class="progresso-header">
               <span>Peso no total do país ({{ nomePaisAtual }})</span>
@@ -54,15 +81,12 @@
               <div class="progresso-fill" :style="{ width: percentagemTranche + '%', background: '#931b18' }"></div>
             </div>
           </div>
-
-          <!-- Ações -->
           <div class="detalhe-tranche-actions">
             <button class="btn-export-detalhe" @click="exportarTranchePDF(trancheDetalhe)">📄 Comprovativo PDF</button>
             <button class="btn-export-detalhe" @click="showExportModal = true; trancheDetalhe = null">📥 Exportar dados</button>
             <button class="btn-fechar-detalhe" @click="trancheDetalhe = null">Fechar</button>
           </div>
         </div>
-
         <button class="close-btn-detalhe" @click="trancheDetalhe = null">✕</button>
       </div>
     </div>
@@ -97,16 +121,6 @@
       </div>
     </div>
 
-    <!-- ==================== LOADING & ERRO ==================== -->
-    <div v-if="loading" class="loading-state">
-      <div class="loading-spinner"></div>
-      <p>A carregar dados financeiros...</p>
-    </div>
-    <div v-if="erro" class="erro-state">
-      <span>⚠️</span>
-      <p>{{ erro }}</p>
-    </div>
-
     <!-- ==================== MINI BAR STICKY ==================== -->
     <div class="sticky-mini-bar" :class="{ visible: showStickyBar }">
       <div class="mini-item"><span class="mini-label">Total Alocado</span><span class="mini-value">{{ formatMoneyReduzido(totalAlocadoReal) }}</span></div>
@@ -114,6 +128,8 @@
       <div class="mini-item"><span class="mini-label">Desembolsado</span><span class="mini-value">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span></div>
       <div class="mini-divider"></div>
       <div class="mini-item"><span class="mini-label">Execução</span><span class="mini-value highlight">{{ taxaExecucaoReal }}%</span></div>
+      <div class="mini-divider"></div>
+      <div class="mini-item"><span class="mini-label">Próx. Tranche</span><span class="mini-value">{{ proximaTrancheData }}</span></div>
     </div>
 
     <!-- ==================== HERO SECTION ==================== -->
@@ -125,7 +141,7 @@
           <p>Acompanhe a execução financeira do PRR: transferências, alocações por pilar e estado dos pedidos de pagamento.</p>
           <div class="hero-actions">
             <button class="btn-hero-primary" @click="showExportModal = true">📥 Exportar Dados</button>
-            <button class="btn-hero-outline" @click="scrollSmooth('tabela-tranches')">Ver Tabela de Tranches</button>
+            <button class="btn-hero-outline" @click="scrollSmooth('lista-beneficiarios')">Ver Top 100 Beneficiários</button>
             <button class="btn-hero-outline" @click="showGuiaModal = true">Guia de Desembolsos</button>
           </div>
         </div>
@@ -150,7 +166,7 @@
         </div>
         <div class="filtros-grid">
           <div class="filtro-item" :class="{ 'filtro-activo': filtroPais !== 'todos' }">
-            <label>Estado‑Membro</label>
+            <label>País</label>
             <select v-model="filtroPais">
               <option value="todos">Todos os países</option>
               <option v-for="p in appStore.paises.filter(p => p.code !== 'todos')" :key="p.code" :value="p.code">{{ p.nome }}</option>
@@ -161,6 +177,15 @@
             <select v-model="anoSelecionado">
               <option value="todos">Todos os anos</option>
               <option v-for="ano in anosDisponiveis" :key="ano" :value="ano">{{ ano }}</option>
+            </select>
+          </div>
+          <div class="filtro-item" :class="{ 'filtro-activo': estadoSelecionado !== 'todos' }">
+            <label>Estado</label>
+            <select v-model="estadoSelecionado">
+              <option value="todos">Todos os estados</option>
+              <option value="Pago">✅ Pago</option>
+              <option value="Em Avaliação">⏳ Em Avaliação</option>
+              <option value="Planeado">📝 Planeado</option>
             </select>
           </div>
           <button class="btn-limpar" :class="{ 'btn-limpar-activo': filtrosActivos > 0 }" @click="limparFiltros">✕ Limpar</button>
@@ -236,8 +261,9 @@
           <p class="lista-sub">Os 3 desembolsos mais recentes</p>
         </div>
         <div class="lista-header-actions">
-          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-tranches')">📋 Ver tabela</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('lista-beneficiarios')">🏆 Ver Top 100</button>
           <button class="btn-scroll-tabela" @click="scrollSmooth('lista-tranches')">📜 Ver histórico</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-tranches')">📋 Ver tabela</button>
         </div>
       </div>
 
@@ -265,14 +291,57 @@
               <span class="meta-item">💰 <strong>{{ formatarValorCurto(tranche.valorNum) }}</strong></span>
             </div>
             <div class="marco-footer">
-              <button class="btn-detalhe" @click="mostrarDetalheTranche(tranche.raw)">Ver detalhes →</button>
-              <div class="marco-dl" @click="exportarTranchePDF(tranche)" title="Descarregar comprovativo">
+              <button class="btn-detalhe" @click="mostrarDetalheTranche(tranche)">Ver detalhes →</button>
+              <div class="marco-dl" @click="abrirExportCard(tranche)" title="Exportar dados">
                 <span class="dl-icon">📥</span>
-                <small>PDF</small>
+                <small>CSV | JSON | PDF</small>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ==================== TOP 100 BENEFICIÁRIOS ==================== -->
+    <section class="lista-section" id="lista-beneficiarios">
+      <div class="lista-header">
+        <div>
+          <h2>Top 100 Beneficiários <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <p class="lista-sub">Maiores beneficiários por valor aprovado · use o scroll para ver todos · ordenável por valor aprovado</p>
+        </div>
+        <div class="lista-header-actions">
+          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar Tabela</button>
+        </div>
+      </div>
+
+      <div class="beneficiarios-scroll">
+        <table class="beneficiarios-tabela">
+          <thead>
+            <tr>
+              <th class="ben-col-pos">#</th>
+              <th class="ben-col-pais">País</th>
+              <th class="ben-col-nome">Beneficiário</th>
+              <th class="ben-col-prog th-sort" @click="ordenarBenefPorValor()">
+                Valor Aprovado <span class="sort-icon">{{ sortBenefDir === 'asc' ? '↑' : (sortBenefDir === 'desc' ? '↓' : '↕') }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(ben, index) in topBeneficiariosOrdenados" :key="ben.nome">
+             <td class="ben-pos">{{ ben.rank }}</td>
+              <td>{{ bandeiraPaisObj(ben.paisCode) }} {{ ben.pais }}</td>
+              <td class="ben-nome">{{ ben.nome }}</td>
+              <td>
+                <div class="ben-prog-wrapper">
+                  <div class="ben-prog-bg">
+                    <div class="ben-prog-fill" :style="{ width: (ben.total / maxTotalBeneficiarios * 100) + '%' }"></div>
+                  </div>
+                  <span class="ben-prog-valor">{{ formatMoneyReduzido(ben.total) }}</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -297,7 +366,7 @@
           :key="tranche.id"
           class="historico-item"
           :class="tranche.statusClass"
-          @click="mostrarDetalheTranche(tranche.raw)"
+          @click="mostrarDetalheTranche(tranche)"
         >
           <div class="hist-icon" :class="{ pulse: tranche.estado === 'Em Avaliação' }">
             <span v-if="tranche.estado === 'Pago'">✅</span>
@@ -313,7 +382,7 @@
               <span class="hist-valor">{{ formatarValorCurto(tranche.valorNum) }}</span>
               <span class="hist-data">{{ tranche.data }}</span>
               <span class="hist-setor">{{ iconeSetor(tranche.setor) }} {{ tranche.setor }}</span>
-              <span :class="['hist-estado', tranche.estadoClass]">{{ estadoLabelTranche(tranche.estado) }}</span>
+              <span class="hist-pais">{{ bandeiraPaisObj(tranche.paisCode) }} {{ tranche.pais }}</span>
             </div>
           </div>
         </div>
@@ -362,9 +431,9 @@
           </thead>
           <tbody>
             <tr
-              v-for="tranche in tranchesOrdenadas"
+              v-for="tranche in tranchesPaginadas"
               :key="tranche.id"
-              @click="mostrarDetalheTranche(tranche.raw || tranche)"
+              @click="mostrarDetalheTranche(tranche)"
               class="tabela-row-clicavel"
             >
               <td class="td-id">T{{ tranche.id }}</td>
@@ -381,7 +450,23 @@
             </tr>
           </tbody>
         </table>
-        <p class="tabela-nota">A mostrar {{ historicoTranches.length }} tranches</p>
+        <div class="tabela-footer" v-if="tranchesOrdenadas.length > 10">
+          <button
+            class="btn-ver-mais"
+            v-if="linhasVisiveis < tranchesOrdenadas.length"
+            @click="linhasVisiveis = Math.min(linhasVisiveis + 10, tranchesOrdenadas.length)"
+          >
+            Ver mais (+{{ Math.min(10, tranchesOrdenadas.length - linhasVisiveis) }})
+          </button>
+          <button
+            class="btn-ver-mais"
+            v-if="linhasVisiveis > 10"
+            @click="linhasVisiveis = 10"
+          >
+            Ocultar
+          </button>
+        </div>
+        <p class="tabela-nota">A mostrar {{ tranchesPaginadas.length }} de {{ historicoTranches.length }} tranches</p>
       </div>
     </section>
 
@@ -404,14 +489,21 @@ const appStore = useAppStore()
 
 // -------------------- ESTADOS --------------------
 const anoSelecionado = ref('todos')
+const estadoSelecionado = ref('todos')
 const heroVisible = ref(false)
 const showExportModal = ref(false)
+const showCardExportModal = ref(false)
+const cardExportTranche = ref(null)
 const trancheDetalhe = ref(null)
 const showGuiaModal = ref(false)
 const loading = ref(true)
 const erro = ref(null)
 const ordemAscendente = ref(false)
 const modoCircular = ref('financiamento')
+const linhasVisiveis = ref(10)
+
+// -------------------- ORDENAÇÃO BENEFICIÁRIOS --------------------
+const sortBenefDir = ref('desc')
 
 // -------------------- STICKY BAR --------------------
 const showStickyBar = ref(false)
@@ -440,13 +532,13 @@ async function carregarDesembolsos() {
 
 async function carregarTodosDesembolsos() {
   try {
-    todosDesembolsos.value = await getDesembolsos()   // carrega sempre todos os países
+    todosDesembolsos.value = await getDesembolsos()
   } catch (e) {
     todosDesembolsos.value = []
   }
 }
 
-// -------------------- FILTRO PAÍS (ligado à store) --------------------
+// -------------------- FILTROS --------------------
 const filtroPais = computed({
   get: () => appStore.paisSelecionado,
   set: (val) => appStore.setPais(val)
@@ -456,54 +548,14 @@ const filtrosActivos = computed(() => {
   let n = 0
   if (filtroPais.value !== 'todos') n++
   if (anoSelecionado.value !== 'todos') n++
+  if (estadoSelecionado.value !== 'todos') n++
   return n
 })
 
 function limparFiltros() {
   appStore.setPais('todos')
   anoSelecionado.value = 'todos'
-}
-
-// ----------------------- Percentagem da tranche atual face ao total alocado do país filtrado ---------------------
-const percentagemTranche = computed(() => {
-  if (!trancheDetalhe.value) return 0
-  const totalPais = historicoTranches.value
-    .filter(t => t.paisCode === (trancheDetalhe.value.paisCode || trancheDetalhe.value.raw?.paisCode))
-    .reduce((soma, t) => soma + t.valorNum, 0)
-  const valorTranche = trancheDetalhe.value.montante || trancheDetalhe.value.valorNum
-  if (totalPais === 0) return 0
-  return ((valorTranche / totalPais) * 100).toFixed(1)
-})
-
-// ---------------- Formata uma data (objeto Date) para dd/mm/aaaa ---------------
-function formatDate(dateObj) {
-  if (!dateObj) return ''
-  const d = new Date(dateObj)
-  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
-}
-
-// -------------------- ICONE SETOR --------------------
-function iconeSetor(setor) {
-  const mapa = {
-    'Saúde': '❤️',
-    'Digital': '💻',
-    'Clima': '🌿',
-    'Transversal': '🔄',
-    'Coesão': '👥',
-    'Educação': '🎓',
-    'Infraestrutura': '🏢'
-  }
-  return mapa[setor] || '📌'
-}
-
-// -------------------- COR SETOR --------------------
-const coresSetores = {
-  'Saúde': '#e74c3c',
-  'Digital': '#3498db',
-  'Clima': '#2ecc71',
-  'Transversal': '#95a5a6',
-  'Coesão': '#9b59b6',
-  'Infraestrutura': '#f39c12'
+  estadoSelecionado.value = 'todos'
 }
 
 // -------------------- CÁLCULOS REAIS --------------------
@@ -514,11 +566,23 @@ const historicoTranches = computed(() => {
         const dataObj = new Date(t.data)
         if (dataObj.getFullYear() !== anoSelecionado.value) return false
       }
+      if (estadoSelecionado.value !== 'todos') {
+        const estadoBruto = t.estado || null
+        let estado = estadoBruto
+        if (!estadoBruto) {
+          const dataObj = new Date(t.data)
+          const agora = new Date()
+          const tresMesesDepois = new Date(agora.getFullYear(), agora.getMonth() + 3, agora.getDate())
+          if (dataObj <= agora) estado = 'Pago'
+          else if (dataObj <= tresMesesDepois) estado = 'Em Avaliação'
+          else estado = 'Planeado'
+        }
+        if (estado !== estadoSelecionado.value) return false
+      }
       return true
     })
     .map(t => {
       const tipo = t.tipologia
-
       const valorFormatado = formatMoney(t.montante)
       const dataObj = new Date(t.data)
       const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
@@ -621,7 +685,11 @@ const totaisPorAno = computed(() => {
 
 const anosDisponiveis = computed(() => {
   const anos = new Set()
-  historicoTranches.value.forEach(t => anos.add(t.dataObj.getFullYear()))
+  // usar desembolsosAPI (dados carregados, já filtrados por país, mas sem filtro de ano)
+  desembolsosAPI.value.forEach(t => {
+    const dataObj = new Date(t.data)
+    anos.add(dataObj.getFullYear())
+  })
   return [...anos].sort((a, b) => a - b)
 })
 
@@ -669,6 +737,47 @@ const contagemPorSetor = computed(() => {
   return Object.entries(mapa).map(([setor, count]) => ({ setor, count }))
 })
 
+// -------------------- TOP 100 BENEFICIÁRIOS --------------------
+// -------------------- TOP 100 BENEFICIÁRIOS (com rank fixo) --------------------
+const topBeneficiarios = computed(() => {
+  const mapa = {}
+  historicoTranches.value.forEach(t => {
+    const raw = t.raw
+    const beneficiario = raw?.beneficiario || 'Não especificado'
+    const chave = `${beneficiario}||${t.paisCode}||${t.pais}`
+    if (!mapa[chave]) {
+      mapa[chave] = { nome: beneficiario, paisCode: t.paisCode, pais: t.pais, total: 0 }
+    }
+    mapa[chave].total += t.valorNum
+  })
+  // Obter lista não ordenada
+  let lista = Object.values(mapa)
+  // Ordenar por total descendente para atribuir ranks
+  lista.sort((a, b) => b.total - a.total)
+  // Atribuir rank (1 = maior total)
+  lista = lista.map((item, idx) => ({ ...item, rank: idx + 1 }))
+  return lista
+})
+
+const topBeneficiariosOrdenados = computed(() => {
+  // Criar cópia e ordenar conforme o estado atual (asc/desc)
+  const lista = [...topBeneficiarios.value]
+  lista.sort((a, b) => {
+    return sortBenefDir.value === 'desc' ? b.total - a.total : a.total - b.total
+  })
+  return lista.slice(0, 100)
+})
+
+function ordenarBenefPorValor() {
+  sortBenefDir.value = sortBenefDir.value === 'desc' ? 'asc' : 'desc'
+}
+
+// Valor máximo absoluto para as barras de progresso (não depende da ordenação)
+const maxTotalBeneficiarios = computed(() => {
+  if (topBeneficiarios.value.length === 0) return 1
+  return Math.max(...topBeneficiarios.value.map(b => b.total))
+})
+
 // -------------------- HISTÓRICO ORDENADO E DESTAQUE --------------------
 const historicoRecente = computed(() => {
   const lista = [...historicoTranches.value]
@@ -704,6 +813,10 @@ const tranchesOrdenadas = computed(() => {
   })
 })
 
+const tranchesPaginadas = computed(() => {
+  return tranchesOrdenadas.value.slice(0, linhasVisiveis.value)
+})
+
 function ordenarPor(col) {
   if (sortCol.value === col) {
     sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
@@ -717,6 +830,42 @@ function mostrarDetalheTranche(tranche) {
   trancheDetalhe.value = tranche
 }
 
+// Retorna o ranking do beneficiário no top 100 (1 = maior valor)
+function getBeneficiarioRank(beneficiarioNome, paisCode) {
+  const idx = topBeneficiariosOrdenados.value.findIndex(b => b.nome === beneficiarioNome && b.paisCode === paisCode)
+  return idx !== -1 ? idx + 1 : null
+}
+
+// Retorna o ícone da medalha conforme a posição (1-3)
+function getMedalIcon(rank) {
+  if (rank === 1) return '🥇'
+  if (rank === 2) return '🥈'
+  if (rank === 3) return '🥉'
+  return ''
+}
+
+// -------------------- EXPORT CARD --------------------
+function abrirExportCard(tranche) {
+  cardExportTranche.value = tranche
+  showCardExportModal.value = true
+}
+
+function exportarTrancheIndividual(formato) {
+  const t = cardExportTranche.value
+  if (!t) return
+  if (formato === 'csv') {
+    const csv = `ID,Nome,Estado,Valor,Data,Beneficiário\nT${t.id},${t.nome},${t.estado},${t.valor},${t.data},"${t.raw?.beneficiario || ''}"`
+    downloadBlob(csv, 'text/csv', `tranche_${t.id}.csv`)
+  } else if (formato === 'json') {
+    const json = JSON.stringify({ id: t.id, nome: t.nome, estado: t.estado, valor: t.valor, data: t.data, beneficiario: t.raw?.beneficiario || '' }, null, 2)
+    downloadBlob(json, 'application/json', `tranche_${t.id}.json`)
+  } else if (formato === 'pdf') {
+    exportarTranchePDF(t)
+  }
+  showCardExportModal.value = false
+  cardExportTranche.value = null
+}
+
 // -------------------- AUXILIARES --------------------
 const nomePaisAtual = computed(() => {
   const pais = appStore.paises.find(p => p.code === filtroPais.value)
@@ -726,6 +875,16 @@ const nomePaisAtual = computed(() => {
 const bandeiraPais = computed(() => {
   const bandeiras = { PT: '🇵🇹', ES: '🇪🇸', FR: '🇫🇷', IT: '🇮🇹', DE: '🇩🇪', GR: '🇬🇷', HR: '🇭🇷', RO: '🇷🇴' }
   return bandeiras[filtroPais.value] || '🌍'
+})
+
+const percentagemTranche = computed(() => {
+  if (!trancheDetalhe.value) return 0
+  const totalPais = historicoTranches.value
+    .filter(t => t.paisCode === (trancheDetalhe.value.paisCode || trancheDetalhe.value.raw?.paisCode))
+    .reduce((soma, t) => soma + t.valorNum, 0)
+  const valorTranche = trancheDetalhe.value.montante || trancheDetalhe.value.valorNum
+  if (totalPais === 0) return 0
+  return ((valorTranche / totalPais) * 100).toFixed(1)
 })
 
 const horaAtual = ref('')
@@ -750,6 +909,12 @@ function overlayGradienteDesembolsos(setor) {
     'Infraestrutura': 'linear-gradient(to top, rgba(42,42,42,0.85) 0%, rgba(42,42,42,0.1) 60%)'
   }
   return cores[setor] || 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)'
+}
+
+function formatDate(dateObj) {
+  if (!dateObj) return ''
+  const d = new Date(dateObj)
+  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
 }
 
 function formatMoney(value) {
@@ -802,6 +967,28 @@ function estadoLabelTranche(estado) {
   return mapa[estado] || estado
 }
 
+function iconeSetor(setor) {
+  const mapa = {
+    'Saúde': '❤️',
+    'Digital': '💻',
+    'Clima': '🌿',
+    'Transversal': '🔄',
+    'Coesão': '👥',
+    'Educação': '🎓',
+    'Infraestrutura': '🏢'
+  }
+  return mapa[setor] || '📌'
+}
+
+const coresSetores = {
+  'Saúde': '#e74c3c',
+  'Digital': '#3498db',
+  'Clima': '#2ecc71',
+  'Transversal': '#95a5a6',
+  'Coesão': '#9b59b6',
+  'Infraestrutura': '#f39c12'
+}
+
 // -------------------- GRÁFICOS --------------------
 let chartBarras = null
 let chartDonut = null
@@ -819,7 +1006,6 @@ function criarGraficos() {
     }
   }
 
-  // ==================== BARRAS: desembolsos por ano ====================
   if (chartBarras) chartBarras.destroy()
   const ctxB = document.getElementById('graficoBarras')
   if (ctxB) {
@@ -861,7 +1047,6 @@ function criarGraficos() {
     })
   }
 
-  // ==================== CIRCULAR: financiamento ou setores ====================
   if (chartDonut) chartDonut.destroy()
   const ctxD = document.getElementById('graficoDonut')
   if (ctxD) {
@@ -961,13 +1146,16 @@ function exportarDesembolsos(tipo) {
         <h1>Balanço Financeiro PRR</h1>
         <p><strong>País:</strong> ${pais}</p>
         <h2>Indicadores</h2>
-        <table><tr><th>Indicador</th><th>Valor</th></tr>
-        <tr><td>Total Alocado</td><td>${formatMoney(d.alocado)}</td></tr>
-        <tr><td>Total Desembolsado</td><td>${formatMoney(d.desembolsado)}</td></tr>
-        <tr><td>Taxa Execução</td><td>${d.taxaExecucao}%</td></tr></table>
+        <table>
+          <tr><th>Indicador</th><th>Valor</th></tr>
+          <tr><td>Total Alocado</td><td>${formatMoney(d.alocado)}</td></tr>
+          <tr><td>Total Desembolsado</td><td>${formatMoney(d.desembolsado)}</td></tr>
+          <tr><td>Taxa Execução</td><td>${d.taxaExecucao}%</td></tr>
+        </table>
         <h2>Tranches</h2>
-        <table><tr><th>ID</th><th>Nome</th><th>Estado</th><th>Valor</th><th>Data</th></tr>
-        ${historicoTranches.value.map(t => `<tr><td>T${t.id}</td><td>${t.nome}</td><td>${t.estado}</td><td>${t.valor}</td><td>${t.data}</td></tr>`).join('')}
+        <table>
+          <tr><th>ID</th><th>Nome</th><th>Estado</th><th>Valor</th><th>Data</th></tr>
+          ${historicoTranches.value.map(t => `<tr><td>T${t.id}</td><td>${t.nome}</td><td>${t.estado}</td><td>${t.valor}</td><td>${t.data}</td></tr>`).join('')}
         </table>
       </body></html>`)
     win.document.close()
@@ -1034,7 +1222,7 @@ watch(filtroPais, () => {
   criarGraficos()
 })
 
-watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
+watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
   criarGraficos()
 })
 </script>
@@ -1151,10 +1339,11 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .marco-titulo { font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; line-height: 1.3; height: 1.8em; overflow: hidden; }
 .marco-desc { font-size: 0.82rem; color: #888; line-height: 1.5; margin-bottom: 12px; height: 4em; overflow: hidden; }
 
+/* ESTILOS DOS ESTADOS - VERSÃO ORIGINAL (PASTEL) */
 .estado-pill { font-size: 0.7rem; font-weight: 700; padding: 5px 11px; border-radius: 99px; }
-.estado-pill.concluido { background: rgba(26,122,74,0.9); color: white; }
-.estado-pill.em_curso  { background: rgba(230,168,23,0.9); color: white; }
-.estado-pill.planeado  { background: rgba(108, 117, 125, 0.9); color: white; }
+.estado-pill.concluido { background: #d4edda; color: #155724; }
+.estado-pill.em_curso  { background: #fff3cd; color: #856404; }
+.estado-pill.planeado  { background: #e9ecef; color: #495057; }
 
 .progresso-wrapper { margin-bottom: 16px; }
 .progresso-header { display: flex; justify-content: space-between; font-size: 0.76rem; color: #aaa; margin-bottom: 6px; }
@@ -1172,6 +1361,77 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .marco-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0; }
 
 .meta-divider { color: #ccc; font-weight: 400; margin: 0 4px; }
+
+/* ==================== BENEFICIÁRIOS ==================== */
+.beneficiarios-scroll {
+  max-height: 600px;
+  overflow-y: auto;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 #f5f5f5;
+}
+.beneficiarios-scroll::-webkit-scrollbar { width: 6px; }
+.beneficiarios-scroll::-webkit-scrollbar-track { background: #f5f5f5; border-radius: 10px; }
+.beneficiarios-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+
+.beneficiarios-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.beneficiarios-tabela thead tr {
+  background: linear-gradient(135deg, #931b18, #6b1210);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.beneficiarios-tabela th {
+  padding: 15px 18px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: white;
+}
+.beneficiarios-tabela td {
+  padding: 12px 18px;
+  color: #555;
+  border-bottom: 1px solid #f5f5f5;
+}
+.ben-col-pos { width: 50px; text-align: center; }
+.ben-col-pais { width: 120px; }
+.ben-col-nome { width: auto; }
+.ben-col-prog { width: 280px; cursor: pointer; }
+.ben-pos { font-weight: 700; color: #931b18; text-align: center; }
+.ben-nome { font-weight: 600; color: #333; }
+
+.ben-prog-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ben-prog-bg {
+  flex: 1;
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ben-prog-fill {
+  height: 100%;
+  background: #931b18;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.ben-prog-valor {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
 
 /* Tabela */
 .tabela-section { padding: 50px 10%; background: white; }
@@ -1195,11 +1455,18 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .td-id { font-weight: 700; color: #931b18; }
 .td-titulo { font-weight: 500; color: #333; }
 .tabela td { padding: 14px 18px; color: #555; }
+
+/* BADGES DA TABELA - VERSÃO ORIGINAL (PASTEL) */
 .tabela-badge { font-size: 0.72rem; font-weight: 700; padding: 5px 11px; border-radius: 99px; }
 .tabela-badge.concluido { background: #d4edda; color: #155724; }
 .tabela-badge.planeado { background: #e9ecef; color: #495057; }
 .tabela-badge.em_curso { background: #fff3cd; color: #856404; }
+
 .tabela-nota { font-size: 0.78rem; color: #bbb; padding: 12px 18px; }
+
+.tabela-footer { text-align: center; padding: 10px 0 0; }
+.btn-ver-mais { background: #f5f5f7; color: #931b18; border: 1px solid #ddd; padding: 10px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-ver-mais:hover { background: #931b18; color: white; }
 
 /* Modais */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
@@ -1219,21 +1486,6 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .metodologia-content ol { padding-left: 20px; color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.6; }
 
 /* Modal detalhe */
-.detalhe-card { background: white; width: 90%; max-width: 500px; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: fadeInUp 0.3s ease; }
-.close-btn-detalhe { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.4); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-.detalhe-img-wrap { position: relative; }
-.detalhe-body { padding: 28px; }
-.detalhe-meta { display: flex; gap: 10px; margin-bottom: 12px; }
-.tag-pais, .tag-prazo { font-size: 0.78rem; font-weight: 600; color: #666; background: #f5f5f7; padding: 4px 12px; border-radius: 99px; }
-.detalhe-titulo { font-size: 1.4rem; font-weight: 800; color: #1a1a1a; margin-bottom: 10px; }
-.detalhe-desc { font-size: 0.88rem; color: #777; line-height: 1.7; margin-bottom: 20px; }
-.detalhe-progresso { margin-bottom: 24px; }
-.detalhe-actions { display: flex; gap: 10px; margin-top: 20px; }
-.btn-export-detalhe { flex: 1; background: #931b18; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.btn-export-detalhe:hover { background: #6b1210; }
-.btn-fechar-detalhe { background: #f5f5f7; color: #666; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-
-/* ==================== MODAL DETALHE TRANCHE (design dos cards) ==================== */
 .detalhe-tranche-card {
   background: white;
   width: 90%;
@@ -1246,86 +1498,54 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
   max-height: 90vh;
   overflow-y: auto;
 }
+.detalhe-tranche-img-wrap { position: relative; height: 200px; overflow: hidden; }
+.detalhe-tranche-img { width: 100%; height: 100%; object-fit: cover; }
+.detalhe-tranche-overlay { position: absolute; inset: 0; z-index: 1; }
+.detalhe-tranche-img-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 14px; display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; }
+.detalhe-tranche-body { padding: 24px 22px 22px; }
+.detalhe-tranche-titulo { font-size: 1.3rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3; }
+.detalhe-tranche-desc { font-size: 0.88rem; color: #777; line-height: 1.6; margin-bottom: 16px; }
 
-.detalhe-tranche-img-wrap {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-.detalhe-tranche-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.detalhe-tranche-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-.detalhe-tranche-img-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  z-index: 2;
-}
-
-.detalhe-tranche-body {
-  padding: 24px 22px 22px;
-}
-.detalhe-tranche-titulo {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-  line-height: 1.3;
-}
-.detalhe-tranche-desc {
-  font-size: 0.88rem;
-  color: #777;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-.detalhe-tranche-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 20px;
+/* Layout dos campos no modal - versão atualizada */
+.detalhe-tranche-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
   margin-bottom: 20px;
-  font-size: 0.85rem;
-  color: #555;
 }
-.detalhe-tranche-meta .meta-item strong {
-  color: #1a1a1a;
-}
-
-.detalhe-tranche-actions {
+.campo-item {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 6px;
 }
-
-/* Override do botão fechar para ficar no canto superior direito */
-.detalhe-tranche-card .close-btn-detalhe {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(0,0,0,0.4);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.campo-titulo {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.campo-valor-num {
   font-size: 1rem;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: 700;
+  color: #1a1a1a;
+  word-break: break-word;
 }
+.campo-beneficiario-full {
+  grid-column: span 2;
+}
+
+.detalhe-tranche-actions { display: flex; gap: 10px; margin-top: 20px; }
+.detalhe-tranche-card .close-btn-detalhe {
+  position: absolute; top: 15px; right: 15px;
+  background: rgba(0,0,0,0.4); border: none; color: white;
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 1rem; cursor: pointer; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-export-detalhe { flex: 1; background: #931b18; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-export-detalhe:hover { background: #6b1210; }
+.btn-fechar-detalhe { background: #f5f5f7; color: #666; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 
 /* Nota de fonte */
 .data-source-note { display: flex; align-items: center; gap: 12px; padding: 20px 10%; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.8rem; color: #666; }
@@ -1333,14 +1553,9 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 
 /* Indicador de país */
 .pais-indicador-tabela {
-  font-size: 0.7em;
-  color: #333;
-  background: #f5f5f5;
-  padding: 3px 10px;
-  border-radius: 20px;
-  margin-left: 10px;
-  font-weight: 600;
-  border: 1px solid #ddd;
+  font-size: 0.7em; color: #333; background: #f5f5f5;
+  padding: 3px 10px; border-radius: 20px; margin-left: 10px;
+  font-weight: 600; border: 1px solid #ddd;
 }
 
 /* Responsivo */
@@ -1353,35 +1568,25 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 @media (max-width: 768px) {
   .filtros-grid { flex-direction: column; }
   .marcos-grid { grid-template-columns: 1fr; }
-  .tranche-details { flex-direction: column; gap: 8px; }
+  .detalhe-tranche-campos { grid-template-columns: 1fr; gap: 12px; }
+  .campo-beneficiario-full { grid-column: span 1; }
 }
 
 /* ==================== HISTÓRICO SCROLL ==================== */
 .historico-scroll {
-  max-height: 420px;
-  overflow-y: auto;
-  border-radius: 16px;
-  background: white;
-  padding: 4px;
+  max-height: 420px; overflow-y: auto; border-radius: 16px;
+  background: white; padding: 4px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  scrollbar-width: thin;
-  scrollbar-color: #d4af37 #f5f5f5;
+  scrollbar-width: thin; scrollbar-color: #d4af37 #f5f5f5;
 }
 .historico-scroll::-webkit-scrollbar { width: 6px; }
 .historico-scroll::-webkit-scrollbar-track { background: #f5f5f5; border-radius: 10px; }
 .historico-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
 
 .historico-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  margin: 8px 0;
-  border-radius: 12px;
-  background: white;
-  border: 1px solid #eaeaea;
-  cursor: pointer;
-  transition: all 0.2s;
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 18px; margin: 8px 0; border-radius: 12px;
+  background: white; border: 1px solid #eaeaea; cursor: pointer; transition: all 0.2s;
 }
 .historico-item:hover { background: #fdf2f2; }
 .historico-item.status-pago { border-left-color: #2e7d32; }
@@ -1389,15 +1594,9 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .historico-item.status-planeado { border-left-color: #bbb; }
 
 .hist-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #f9f9f9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 50%; background: #f9f9f9;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
 }
 .hist-icon.pulse { border: 2px solid #e6a817; animation: pulse-icon 1.2s infinite; }
 @keyframes pulse-icon {
@@ -1410,18 +1609,11 @@ watch([anoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
 .hist-titulo strong { color: #1a1a1a; font-weight: 700; }
 
 .hist-meta {
-  display: grid;
-  grid-template-columns: 130px 120px 140px 1fr;
-  gap: 12px 4px;
-  align-items: baseline;
-  font-size: 0.78rem;
-  color: #666;
+  display: grid; grid-template-columns: 130px 120px 140px 1fr;
+  gap: 12px 4px; align-items: baseline; font-size: 0.78rem; color: #666;
 }
 .hist-valor { font-weight: 700; color: #1a1a1a; }
 .hist-data { color: #888; }
 .hist-setor { color: #1a1a1a; font-weight: 600; white-space: nowrap; }
-.hist-estado { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; justify-self: start; margin-left: 16px; }
-.hist-estado.concluido { background: #d4edda; color: #155724; }
-.hist-estado.em_curso { background: #fff3cd; color: #856404; }
-.hist-estado.planeado { background: #e9ecef; color: #495057; }
+.hist-pais { color: #1a1a1a; font-weight: 600; }
 </style>
