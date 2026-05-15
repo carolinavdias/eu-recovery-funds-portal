@@ -18,6 +18,23 @@
       </div>
     </div>
 
+    <!-- ==================== MODAL DE EXPORTAÇÃO TOP 100 ==================== -->
+    <div v-if="showTop100ExportModal" class="modal-overlay" @click.self="showTop100ExportModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showTop100ExportModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">🏆</span>
+          <h2>Exportar Top 100 Beneficiários</h2>
+          <p>{{ nomePaisAtual }} · {{ topBeneficiariosOrdenados.length }} beneficiários</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarTopBeneficiarios('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarTopBeneficiarios('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarTopBeneficiarios('pdf')"><span>Relatório PDF</span><span class="ext">.pdf</span></button>
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== MODAL DE EXPORTAÇÃO INDIVIDUAL (CARD) ==================== -->
     <div v-if="showCardExportModal" class="modal-overlay" @click.self="showCardExportModal = false">
       <div class="export-card">
@@ -82,8 +99,7 @@
             </div>
           </div>
           <div class="detalhe-tranche-actions">
-            <button class="btn-export-detalhe" @click="exportarTranchePDF(trancheDetalhe)">📄 Comprovativo PDF</button>
-            <button class="btn-export-detalhe" @click="showExportModal = true; trancheDetalhe = null">📥 Exportar dados</button>
+            <button class="btn-export-detalhe" @click="abrirExportCard(trancheDetalhe); trancheDetalhe = null">📥 Exportar dados</button>
             <button class="btn-fechar-detalhe" @click="trancheDetalhe = null">Fechar</button>
           </div>
         </div>
@@ -148,7 +164,7 @@
         <div class="hero-stats" :class="{ 'animate-in': heroVisible }">
           <div class="hsc"><div class="hsc-icon-wrap">💶</div><span class="hsc-val">{{ formatMoneyReduzido(totalAlocadoReal) }}</span><span class="hsc-label">Total Alocado</span></div>
           <div class="hsc verde"><div class="hsc-icon-wrap">✅</div><span class="hsc-val">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span><span class="hsc-label">Total Desembolsado</span></div>
-          <div class="hsc amarelo"><div class="hsc-icon-wrap">📊</div><span class="hsc-val">{{ percentagemPais }}%</span><span class="hsc-label">Cobertura de Desembolsos</span></div>
+          <div class="hsc amarelo"><div class="hsc-icon-wrap">📊</div><span class="hsc-val">{{ taxaExecucaoReal }}%</span><span class="hsc-label">Taxa de Execução</span></div>
           <div class="hsc"><div class="hsc-icon-wrap">🗓️</div><span class="hsc-val">{{ proximaTrancheData }}</span><span class="hsc-label">Próxima Tranche</span></div>
         </div>
       </div>
@@ -196,7 +212,7 @@
     <!-- ==================== GRÁFICOS ==================== -->
     <section class="graficos-section" id="graficos">
       <div class="graficos-titulo-area">
-        <h2>Análise Financeira <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+        <h2>Análise Visual <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
         <p>Desembolsos por ano e distribuição do financiamento — atualização automática com os filtros</p>
       </div>
       <div class="graficos-grid">
@@ -310,7 +326,7 @@
           <p class="lista-sub">Maiores beneficiários por valor aprovado · use o scroll para ver todos · ordenável por valor aprovado</p>
         </div>
         <div class="lista-header-actions">
-          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar Tabela</button>
+          <button class="btn-export-lista" @click="showTop100ExportModal = true">📥 Exportar Top 100</button>
         </div>
       </div>
 
@@ -398,8 +414,7 @@
           <p class="tabela-sub">Listagem oficial · clique numa linha para ver detalhes · cabeçalhos ordenáveis</p>
         </div>
         <div class="tabela-btns">
-          <button class="btn-csv" @click="exportarDesembolsos('csv')">⬇ CSV</button>
-          <button class="btn-json" @click="exportarDesembolsos('json')">⬇ JSON</button>
+          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar tabela</button>
         </div>
       </div>
       <div class="tabela-wrap">
@@ -483,6 +498,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
 import { getDesembolsos, getDesembolsosByPais } from '@/services/api.js'
+const showTop100ExportModal = ref(false)
 
 Chart.register(...registerables)
 const appStore = useAppStore()
@@ -853,14 +869,52 @@ function abrirExportCard(tranche) {
 function exportarTrancheIndividual(formato) {
   const t = cardExportTranche.value
   if (!t) return
+  const raw = t.raw
+  
   if (formato === 'csv') {
-    const csv = `ID,Nome,Estado,Valor,Data,Beneficiário\nT${t.id},${t.nome},${t.estado},${t.valor},${t.data},"${t.raw?.beneficiario || ''}"`
-    downloadBlob(csv, 'text/csv', `tranche_${t.id}.csv`)
-  } else if (formato === 'json') {
-    const json = JSON.stringify({ id: t.id, nome: t.nome, estado: t.estado, valor: t.valor, data: t.data, beneficiario: t.raw?.beneficiario || '' }, null, 2)
-    downloadBlob(json, 'application/json', `tranche_${t.id}.json`)
-  } else if (formato === 'pdf') {
-    exportarTranchePDF(t)
+    let csv = `ID;País;Código País;Data;Montante;Tipologia;Título;Estado;Descrição Curta;Descrição Longa;Setor;Imagem;Beneficiário\n`
+    csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${raw.titulo.replace(/"/g, '""')}";${raw.estado || t.estado};"${(raw.descricaoCurta || '').replace(/"/g, '""')}";"${(raw.descricaoLonga || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(raw.beneficiario || '').replace(/"/g, '""')}"`
+    downloadBlob(csv, 'text/csv', `tranche_${raw.id}.csv`)
+  } 
+  else if (formato === 'json') {
+    const json = JSON.stringify(raw, null, 2)
+    downloadBlob(json, 'application/json', `tranche_${raw.id}.json`)
+  } 
+  else if (formato === 'pdf') {
+    const win = window.open('', '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      alert('O navegador bloqueou a janela de impressão. Permita pop-ups para este site.')
+      return
+    }
+    win.document.write(`
+      <html><head><title>Comprovativo - ${raw.titulo}</title>
+      <style>
+        body{font-family:Arial;padding:40px}
+        h1{color:#931b18}
+        table{width:100%;border-collapse:collapse;margin-top:20px}
+        th,td{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top}
+        th{background:#931b18;color:white;width:30%}
+        .footer{margin-top:30px;font-size:12px;color:#666}
+      </style></head>
+      <body>
+        <h1>📥 Comprovativo de Pagamento</h1>
+        <p><strong>Estado-Membro:</strong> ${raw.pais}</p>
+        <table>
+          <tr><th>ID</th><td>T${raw.id}</tr>
+          <tr><th>Título</th><td>${raw.titulo}</tr>
+          <tr><th>Estado</th><td>${raw.estado || t.estado}</tr>
+          <tr><th>Valor</th><td>${formatMoney(raw.montante)}</tr>
+          <tr><th>Data</th><td>${raw.data}</tr>
+          <tr><th>Tipologia</th><td>${raw.tipologia}</tr>
+          <tr><th>Setor</th><td>${raw.setor}</tr>
+          <tr><th>Beneficiário</th><td>${raw.beneficiario || 'Não especificado'}</tr>
+          <tr><th>Descrição Curta</th><td>${raw.descricaoCurta || ''}</tr>
+          <tr><th>Descrição Longa</th><td>${(raw.descricaoLonga || '').replace(/\n/g, '<br>')}</tr>
+        </table>
+        <div class="footer">Documento gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
+      </body></html>`)
+    win.document.close()
+    win.print()
   }
   showCardExportModal.value = false
   cardExportTranche.value = null
@@ -1117,12 +1171,14 @@ function exportarGrafico(id) {
 }
 
 // -------------------- EXPORTAÇÃO --------------------
+
 function exportarDesembolsos(tipo) {
   const pais = nomePaisAtual.value
   const d = {
     alocado: totalAlocadoReal.value,
     desembolsado: totalDesembolsadoReal.value,
-    taxaExecucao: taxaExecucaoReal.value
+    taxaExecucao: taxaExecucaoReal.value,
+    proximaTranche: proximaTrancheData.value
   }
 
   if (tipo === 'csv') {
@@ -1131,37 +1187,124 @@ function exportarDesembolsos(tipo) {
     csv += `Total Alocado;${formatMoney(d.alocado)}\n`
     csv += `Total Desembolsado;${formatMoney(d.desembolsado)}\n`
     csv += `Taxa Execução;${d.taxaExecucao}%\n`
-    csv += `\nTranches\nID,Nome,Estado,Valor,Data,Marcos\n`
-    historicoTranches.value.forEach(t => csv += `T${t.id},${t.nome},${t.estado},${t.valor},${t.data},${t.marcos}\n`)
+    csv += `Próxima Tranche;${d.proximaTranche}\n`
+    csv += `\nTranches (detalhe completo)\n`
+    csv += `ID;País;Código País;Data;Montante;Tipologia;Título;Estado;Descrição;Setor;Imagem;Beneficiário\n`
+    historicoTranches.value.forEach(t => {
+      const raw = t.raw
+      csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${raw.titulo.replace(/"/g, '""')}";${raw.estado || t.estado};"${(raw.descricaoCurta || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(raw.beneficiario || '').replace(/"/g, '""')}"\n`
+    })
     downloadBlob(csv, 'text/csv', `financas_prr_${filtroPais.value}.csv`)
-  } else if (tipo === 'json') {
-    const json = JSON.stringify({ pais, indicadores: { ...d }, tranches: historicoTranches.value }, null, 2)
+  } 
+  else if (tipo === 'json') {
+    const json = JSON.stringify({
+      pais,
+      indicadores: { ...d },
+      tranches: historicoTranches.value.map(t => t.raw)
+    }, null, 2)
     downloadBlob(json, 'application/json', `financas_prr_${filtroPais.value}.json`)
-  } else if (tipo === 'pdf') {
+  } 
+  else if (tipo === 'pdf') {
     const win = window.open('', '_blank')
     win.document.write(`
       <html><head><title>Relatório Financeiro PRR</title>
-      <style>body{font-family:Arial;padding:40px} h1{color:#931b18} table{width:100%;border-collapse:collapse} th,td{border:1px solid #ddd;padding:8px} th{background:#931b18;color:white}</style></head>
+      <style>
+        body{font-family:Arial;padding:40px}
+        h1{color:#931b18}
+        table{width:100%;border-collapse:collapse;margin-top:20px}
+        th,td{border:1px solid #ddd;padding:8px;text-align:left}
+        th{background:#931b18;color:white}
+        .footer{margin-top:30px;font-size:12px;color:#666}
+      </style></head>
       <body>
-        <h1>Balanço Financeiro PRR</h1>
-        <p><strong>País:</strong> ${pais}</p>
+        <h1>Relatório Financeiro PRR - ${pais}</h1>
         <h2>Indicadores</h2>
         <table>
           <tr><th>Indicador</th><th>Valor</th></tr>
           <tr><td>Total Alocado</td><td>${formatMoney(d.alocado)}</td></tr>
           <tr><td>Total Desembolsado</td><td>${formatMoney(d.desembolsado)}</td></tr>
-          <tr><td>Taxa Execução</td><td>${d.taxaExecucao}%</td></tr>
+          <tr><td>Taxa de Execução</td><td>${d.taxaExecucao}%</td></tr>
+          <tr><td>Próxima Tranche</td><td>${d.proximaTranche}</td></tr>
         </table>
-        <h2>Tranches</h2>
+        <h2>Tranches (detalhe completo)</h2>
         <table>
-          <tr><th>ID</th><th>Nome</th><th>Estado</th><th>Valor</th><th>Data</th></tr>
-          ${historicoTranches.value.map(t => `<tr><td>T${t.id}</td><td>${t.nome}</td><td>${t.estado}</td><td>${t.valor}</td><td>${t.data}</td></tr>`).join('')}
+          <thead><tr><th>ID</th><th>País</th><th>Código</th><th>Data</th><th>Montante</th><th>Tipologia</th><th>Título</th><th>Estado</th><th>Descrição</th><th>Setor</th><th>Beneficiário</th></tr></thead>
+          <tbody>
+            ${historicoTranches.value.map(t => {
+              const raw = t.raw
+              return `<tr>
+                <td>${raw.id}</td>
+                <td>${raw.pais}</td>
+                <td>${raw.paisCode}</td>
+                <td>${raw.data}</td>
+                <td>${formatMoney(raw.montante)}</td>
+                <td>${raw.tipologia}</td>
+                <td>${raw.titulo}</td>
+                <td>${raw.estado || t.estado}</td>
+                <td>${raw.descricaoCurta || ''}</td>
+                <td>${raw.setor}</td>
+                <td>${raw.beneficiario || ''}</td>
+              </tr>`
+            }).join('')}
+          </tbody>
         </table>
+        <div class="footer">Gerado em ${new Date().toLocaleString('pt-PT')}</div>
       </body></html>`)
     win.document.close()
     win.print()
   }
   showExportModal.value = false
+}
+
+// -------------------- EXPORTAÇÃO TOP 100 BENEFICIÁRIOS --------------------
+function exportarTopBeneficiarios(tipo) {
+  const dados = topBeneficiariosOrdenados.value
+  const pais = nomePaisAtual.value
+
+  if (tipo === 'csv') {
+    let csv = `Top 100 Beneficiários - ${pais}\n`
+    csv += `#;País;Beneficiário;Valor Aprovado\n`
+    dados.forEach(b => {
+      csv += `${b.rank};${b.pais};${b.nome};${formatMoneyReduzido(b.total)}\n`
+    })
+    downloadBlob(csv, 'text/csv', `top100_beneficiarios_${filtroPais.value}.csv`)
+  } 
+  else if (tipo === 'json') {
+    const json = JSON.stringify(dados, null, 2)
+    downloadBlob(json, 'application/json', `top100_beneficiarios_${filtroPais.value}.json`)
+  } 
+  else if (tipo === 'pdf') {
+    const win = window.open('', '_blank')
+    win.document.write(`
+      <html>
+        <head>
+          <title>Top 100 Beneficiários - ${pais}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; }
+            h1 { color: #931b18; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #931b18; color: white; }
+            .footer { margin-top: 30px; font-size: 12px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <h1>🏆 Top 100 Beneficiários - ${pais}</h1>
+          <p>Lista dos maiores beneficiários por valor aprovado.</p>
+          <table>
+            <thead><tr><th>#</th><th>País</th><th>Beneficiário</th><th>Valor Aprovado</th></tr></thead>
+            <tbody>
+              ${dados.map(b => `<tr><td>${b.rank}</td><td>${b.pais}</td><td>${b.nome}</td><td>${formatMoneyReduzido(b.total)}</td></tr>`).join('')}
+            </tbody>
+          </table>
+          <div class="footer">Gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
+        </body>
+      </html>
+    `)
+    win.document.close()
+    win.print()
+  }
+  showTop100ExportModal.value = false
 }
 
 function exportarTranchePDF(tranche) {
@@ -1199,6 +1342,11 @@ function handleScroll() {
   }
 }
 
+// Recriar gráficos ao redimensionar a janela (útil quando sidebar expande/colapsa)
+const handleResize = () => {
+  criarGraficos()
+}
+
 // -------------------- CICLO DE VIDA --------------------
 onMounted(async () => {
   await carregarTodosDesembolsos()
@@ -1206,6 +1354,27 @@ onMounted(async () => {
   atualizarHora()
   intervalo = setInterval(atualizarHora, 60000)
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('resize', handleResize)
+// Observar a classe collapsed no .app-content (para recriar gráficos após a transição da sidebar)
+const appContent = document.querySelector('.app-content')
+if (appContent) {
+  let timeoutId = null
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        // Aguardar o fim da transição CSS (0.25s)
+        if (timeoutId) clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+          criarGraficos()
+        }, 250)
+      }
+    })
+  })
+  mutationObserver.observe(appContent, { attributes: true })
+  
+  // Armazenar o observer para desligar no onUnmounted
+  window._mutationObserver = mutationObserver
+}
   setTimeout(() => {
     heroVisible.value = true
     criarGraficos()
@@ -1214,7 +1383,12 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (intervalo) clearInterval(intervalo)
+  if (window._mutationObserver) {
+    window._mutationObserver.disconnect()
+    delete window._mutationObserver
+  }
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', handleResize)
 })
 
 watch(filtroPais, () => {
@@ -1257,7 +1431,7 @@ watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCirc
 .btn-hero-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.6); padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: all 0.3s; }
 .btn-hero-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
 .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.hsc { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 24px 20px; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 130px; transition: transform 0.3s, border-color 0.3s; cursor: default; }
+.hsc { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 16px 12px; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 100px; transition: transform 0.3s, border-color 0.3s; cursor: default; }
 .hsc:hover { transform: translateY(-4px); }
 .hsc.verde { border-color: rgba(26,122,74,0.4); }
 .hsc.amarelo { border-color: rgba(230,168,23,0.4); }
@@ -1558,18 +1732,39 @@ watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCirc
   font-weight: 600; border: 1px solid #ddd;
 }
 
-/* Responsivo */
+/* Hero alinhado à esquerda em ecrãs médios/pequenos */
 @media (max-width: 992px) {
-  .graficos-grid { grid-template-columns: 1fr; }
-  .hero-overlay { flex-direction: column; text-align: center; }
-  .hero-left h1 { font-size: 3rem; }
-  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .hero-overlay {
+    flex-direction: column;
+    text-align: left;
+    justify-content: flex-start;
+    
+  }
+  .hero-left h1 {
+    font-size: 3rem;
+  }
+  .hero-stats {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
 }
+
 @media (max-width: 768px) {
   .filtros-grid { flex-direction: column; }
   .marcos-grid { grid-template-columns: 1fr; }
   .detalhe-tranche-campos { grid-template-columns: 1fr; gap: 12px; }
   .campo-beneficiario-full { grid-column: span 1; }
+  .graficos-section { padding: 40px 5%;}
+  .grafico-canvas-wrap,.donut-canvas-wrap {overflow-x: auto;}
+  .grafico-canvas-wrap canvas,.donut-canvas-wrap canvas { max-width: 300px;}
+  .graficos-titulo-area h2 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* ==================== HISTÓRICO SCROLL ==================== */
@@ -1616,4 +1811,74 @@ watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCirc
 .hist-data { color: #888; }
 .hist-setor { color: #1a1a1a; font-weight: 600; white-space: nowrap; }
 .hist-pais { color: #1a1a1a; font-weight: 600; }
+
+/* Garante que o indicador de país nunca seja cortado e possa quebrar linha */
+.lista-header h2,
+.tabela-header h2,
+.graficos-titulo-area h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.pais-indicador-tabela {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+  white-space: normal;
+  word-break: keep-all; /* evita quebrar a bandeira do nome */
+  background: #f5f5f5;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  font-size: 0.7em;
+  line-height: 1.4;
+}
+
+/* Para ecrãs muito pequenos, permite que o indicador ocupe largura total */
+@media (max-width: 640px) {
+  .lista-header h2,
+  .tabela-header h2,
+  .graficos-titulo-area h2 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pais-indicador-tabela {
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+}
+
+.grafico-canvas-wrap canvas,
+.donut-canvas-wrap canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* Empilhar botões verticalmente em ecrãs pequenos ou quando a sidebar está expandida */
+@media (max-width: 768px) {
+  .lista-header-actions,
+  .hero-actions,
+  .tabela-btns,
+  .detalhe-tranche-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100%;
+  }
+  .btn-scroll-tabela,
+  .btn-export-lista,
+  .btn-hero-primary,
+  .btn-hero-outline,
+  .btn-export-detalhe,
+  .btn-fechar-detalhe {
+    width: 100% !important;
+    text-align: center !important;
+    box-sizing: border-box;
+  }
+}
 </style>

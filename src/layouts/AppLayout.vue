@@ -28,15 +28,18 @@ const sidebarCollapsed = ref(false)
 </script>
 
 <style scoped>
+
 .app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden; /* evita scroll horizontal global */
 }
 
 .app-body {
   display: flex;
   flex: 1;
+  overflow-x: hidden; /* evita scroll horizontal no corpo */
 }
 
 .app-content {
@@ -45,6 +48,8 @@ const sidebarCollapsed = ref(false)
   background-color: #f8f9fa;
   margin-left: 220px;
   transition: margin-left 0.25s ease, background-color 0.3s ease;
+  overflow-x: hidden; /* não permite scroll horizontal interno apenas quando necessário */
+  min-width: 0;
 }
 
 .app-content.collapsed {

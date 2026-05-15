@@ -41,7 +41,7 @@
         <!-- TOOLTIP -->
         <transition name="tt-anim">
           <div v-if="tooltip.visivel" class="tooltip" :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }">
-            <div class="tt-top" :style="{ background: CORES_PAISES[tooltip.pais?.code] }">
+            <div class="tt-top" :style="{ background: corPais(tooltip.pais?.code) }">
               <span class="tt-flag">{{ tooltip.pais?.bandeira }}</span>
               <div>
                 <div class="tt-nome">{{ tooltip.pais?.nome }}</div>
@@ -65,7 +65,7 @@
       <!-- LEGENDA -->
       <div class="legenda">
         <div class="leg-item" v-for="p in paises" :key="p.code" @click="router.push('/paises/' + p.code)">
-          <span class="leg-dot" :style="{ background: CORES_PAISES[p.code] }"></span>
+          <span class="leg-dot" :style="{ background: corPais(p.code) }"></span>
           <span>{{ p.bandeira }}</span>
           <span class="leg-nome">{{ p.nome }}</span>
           <span class="leg-prog" :style="{ color: corProgresso(p.progresso) }">{{ p.progresso }}%</span>
@@ -95,28 +95,43 @@ const tooltip = ref({ visivel: false, x: 0, y: 0, pais: null })
 
 let geoData = null, projection = null, pathGen = null
 
-const PARTICIPANTES = ['PT','ES','FR','IT','DE','GR','HR','RO']
-const CORES_PAISES = {
-  PT: '#c0392b', ES: '#d35400',
-  FR: '#1a5276', IT: '#1e8449',
-  DE: '#6c3483', GR: '#b7144e',
-  HR: '#b7950b', RO: '#7d6608',
-}
+// Cores dinâmicas para todos os países
+const coresMap = new Map()
+const palette = [
+  '#c0392b', '#d35400', '#1a5276', '#1e8449', '#6c3483', '#b7144e', '#b7950b', '#7d6608',
+  '#2980b9', '#27ae60', '#8e44ad', '#e67e22', '#2c3e50', '#f1c40f', '#e74c3c', '#16a085',
+  '#c44569', '#f39c12', '#9b59b6', '#3498db', '#2ecc71', '#e84393', '#fdcb6e', '#6ab04c',
+  '#eb4d4b', '#686de0', '#f0932b', '#badc58'
+]
 
-const totalMarcos = computed(() => props.paises.reduce((a, p) => a + p.marcosTotal, 0))
-const totalConcluidos = computed(() => props.paises.reduce((a, p) => a + p.marcosConcluidos, 0))
+function corPais(code) {
+  if (coresMap.has(code)) return coresMap.get(code)
+  const index = coresMap.size % palette.length
+  const cor = palette[index]
+  coresMap.set(code, cor)
+  return cor
+}
 
 function getPais(code) { return props.paises.find(p => p.code === code) }
 function corProgresso(p) {
-  if (!p && p !== 0) return '#aaa'
+  if (p === undefined || p === null) return '#aaa'
   if (p >= 80) return '#1a7a4a'
   if (p >= 40) return '#e6a817'
   if (p === 0) return '#aaa'
   return '#931b18'
 }
 function getCode(d) {
-  return d.properties.ISO2 || d.properties.iso_a2 || d.properties.ADM0_A3?.slice(0,2) || ''
+  // Tenta obter o código ISO2 do país no GeoJSON
+  const props = d.properties
+  if (props.ISO2) return props.ISO2
+  if (props.iso_a2) return props.iso_a2
+  if (props.ADM0_A3) return props.ADM0_A3.slice(0,2)
+  if (props.ADM0_A3_IS) return props.ADM0_A3_IS.slice(0,2)
+  return ''
 }
+
+const totalMarcos = computed(() => props.paises.reduce((a, p) => a + (p.marcosTotal || 0), 0))
+const totalConcluidos = computed(() => props.paises.reduce((a, p) => a + (p.marcosConcluidos || 0), 0))
 
 function desenharMapa() {
   if (!geoData || !gRef.value) return
@@ -127,9 +142,24 @@ function desenharMapa() {
   labels.selectAll('*').remove()
   pulses.selectAll('*').remove()
 
-  // Países neutros
+  // Obter lista de códigos de países que existem nos dados
+  const paisesMap = new Map(props.paises.map(p => [p.code, p]))
+  const codigosExistentes = new Set(Array.from(paisesMap.keys()))
+
+  // Países neutros (não participantes no PRR)
+  const featuresAll = geoData.features
+  const neutros = featuresAll.filter(d => {
+    const code = getCode(d)
+    return !codigosExistentes.has(code)
+  })
+  const participantes = featuresAll.filter(d => {
+    const code = getCode(d)
+    return codigosExistentes.has(code)
+  })
+
+  // Desenhar neutros
   g.selectAll('path.neutro')
-    .data(geoData.features.filter(d => !PARTICIPANTES.includes(getCode(d))))
+    .data(neutros)
     .enter().append('path')
     .attr('class', 'neutro')
     .attr('d', pathGen)
@@ -139,15 +169,13 @@ function desenharMapa() {
     .transition().duration(500).delay((d, i) => i * 6)
     .attr('opacity', 1)
 
-  // Países participantes
-  const partFeatures = geoData.features.filter(d => PARTICIPANTES.includes(getCode(d)))
-
+  // Desenhar participantes
   g.selectAll('path.participante')
-    .data(partFeatures)
+    .data(participantes)
     .enter().append('path')
     .attr('class', 'participante')
     .attr('d', pathGen)
-    .attr('fill', d => CORES_PAISES[getCode(d)] || '#999')
+    .attr('fill', d => corPais(getCode(d)))
     .attr('stroke', 'white').attr('stroke-width', 1.8)
     .attr('filter', 'url(#f-sombra)')
     .attr('opacity', 0)
@@ -161,10 +189,11 @@ function desenharMapa() {
         const code = getCode(d)
         const pais = getPais(code)
         if (!pais) return
+        const cor = corPais(code)
         d3.select(this).raise()
           .transition().duration(150)
           .attr('stroke-width', 3)
-          .style('filter', `drop-shadow(0 0 10px ${CORES_PAISES[code]}cc) drop-shadow(0 0 4px ${CORES_PAISES[code]})`)
+          .style('filter', `drop-shadow(0 0 10px ${cor}cc) drop-shadow(0 0 4px ${cor})`)
 
         const rect = svgRef.value.getBoundingClientRect()
         let tx = event.clientX - rect.left + 18
@@ -192,13 +221,13 @@ function desenharMapa() {
   }, 1200)
 
   // Bandeiras centradas + pulsos
-  partFeatures.forEach((d, i) => {
+  participantes.forEach((d, i) => {
     const code = getCode(d)
     const pais = getPais(code)
     if (!pais) return
     const c = pathGen.centroid(d)
-    if (!c || isNaN(c[0])) return
-    const cor = CORES_PAISES[code]
+    if (!c || isNaN(c[0]) || isNaN(c[1])) return
+    const cor = corPais(code)
 
     // Pulso externo
     pulses.append('circle')
@@ -219,7 +248,7 @@ function desenharMapa() {
       .transition().duration(400).delay(400 + i * 100)
       .attr('opacity', 1)
 
-    // Emoji bandeira — usar foreignObject para melhor alinhamento
+    // Emoji bandeira
     const fo = labels.append('foreignObject')
       .attr('x', c[0] - 11)
       .attr('y', c[1] - 11)
@@ -237,7 +266,7 @@ function desenharMapa() {
     fo.transition().duration(400).delay(500 + i * 100).attr('opacity', 1)
   })
 
-  // Animação de pulse
+  // Animação de pulse contínua para todos os participantes
   function pulse(code) {
     const el = pulses.select(`.pr-${code}`)
     if (el.empty()) return
@@ -246,7 +275,11 @@ function desenharMapa() {
       .attr('r', 30).attr('opacity', 0)
       .on('end', () => pulse(code))
   }
-  setTimeout(() => PARTICIPANTES.forEach((c, i) => setTimeout(() => pulse(c), i * 200)), 1400)
+  setTimeout(() => {
+    Array.from(codigosExistentes).forEach((c, idx) => {
+      setTimeout(() => pulse(c), idx * 200)
+    })
+  }, 1400)
 }
 
 onMounted(async () => {
@@ -258,13 +291,17 @@ onMounted(async () => {
     pathGen = d3.geoPath().projection(projection)
     carregando.value = false
     desenharMapa()
-  } catch(e) { carregando.value = false }
+  } catch(e) {
+    console.error('Erro ao carregar o mapa:', e)
+    carregando.value = false
+  }
 })
 
 watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 </script>
 
 <style scoped>
+/* (mantém os estilos originais, não alterados) */
 .mapa-wrapper {
   background: #f5f5f7;
   padding: 0;
@@ -272,8 +309,6 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 .mapa-inner {
   padding: 50px 10%;
 }
-
-/* CABEÇALHO */
 .mapa-header {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 28px; flex-wrap: wrap; gap: 20px;
@@ -295,8 +330,6 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 .mhs { font-size: 0.65rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
 .mhs.verde span { color: #1a7a4a; }
 .mhs.dourado span { color: #c49a28; }
-
-/* MAPA */
 .mapa-svg-wrap {
   position: relative;
   border-radius: 20px; overflow: hidden;
@@ -311,8 +344,6 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 .spinner { width: 32px; height: 32px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .mapa-svg { width: 100%; height: auto; display: block; }
-
-/* TOOLTIP */
 .tooltip {
   position: absolute; background: white; border-radius: 16px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.2); min-width: 240px;
@@ -322,7 +353,6 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 .tt-anim-leave-active { transition: all 0.1s ease; }
 .tt-anim-enter-from { opacity: 0; transform: translateY(8px) scale(0.95); }
 .tt-anim-leave-to { opacity: 0; }
-
 .tt-top {
   padding: 14px 16px; display: flex; align-items: center; gap: 12px;
 }
@@ -339,8 +369,6 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 .tt-bar-bg { height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 8px; }
 .tt-bar-fill { height: 100%; border-radius: 99px; }
 .tt-cta { font-size: 0.75rem; color: #931b18; font-weight: 700; text-align: right; }
-
-/* LEGENDA */
 .legenda { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
 .leg-item {
   display: flex; align-items: center; gap: 6px;
@@ -351,6 +379,5 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 }
 .leg-item:hover { border-color: #931b18; color: #931b18; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(147,27,24,0.12); }
 .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.leg-nome { }
 .leg-prog { font-weight: 800; font-size: 0.76rem; margin-left: 2px; }
 </style>

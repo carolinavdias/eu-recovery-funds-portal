@@ -581,6 +581,7 @@ function exportarEstatisticas(formato) {
 .portal-container {
   margin: -2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
 
 .hero-ue {

@@ -16,6 +16,7 @@
         <div class="export-options">
           <button class="export-item" @click="exportarDados('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
           <button class="export-item" @click="exportarDados('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarDados('pdf')"><span>Relatório PDF</span><span class="ext">.pdf</span></button>
         </div>
       </div>
     </div>
@@ -117,6 +118,17 @@
       <p>{{ erro }}</p>
     </div>    
 
+    <!-- ==================== MINI BAR STICKY ==================== -->
+    <div class="sticky-mini-bar" :class="{ visible: showStickyBar }">
+      <div class="mini-item"><span class="mini-label">Total de Marcos</span><span class="mini-value">{{ contadorTotal }}</span></div>
+      <div class="mini-divider"></div>
+      <div class="mini-item"><span class="mini-label">Concluídos</span><span class="mini-value">{{ contadorConcluidos }}</span></div>
+      <div class="mini-divider"></div>
+      <div class="mini-item"><span class="mini-label">Em Curso</span><span class="mini-value">{{ contadorEmCurso }}</span></div>
+      <div class="mini-divider"></div>
+      <div class="mini-item"><span class="mini-label">Em Atraso</span><span class="mini-value">{{ contadorEmAtraso }}</span></div>
+    </div>
+
     <!-- HERO -->
     <section class="hero">
       <div class="hero-overlay">
@@ -143,6 +155,7 @@
       <div class="filtros-inner">
         <div class="filtros-left">
           <span class="filtros-titulo">🔍 Filtrar</span>
+          <!-- INDICADOR DE FILTROS ACTIVOS -->
           <div v-if="filtrosActivos > 0" class="filtros-activos-badge">
             {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} activo{{ filtrosActivos > 1 ? 's' : '' }}
             · {{ marcosFiltrados.length }} resultado{{ marcosFiltrados.length !== 1 ? 's' : '' }}
@@ -185,7 +198,7 @@
     <!-- GRÁFICOS -->
     <section class="graficos-section" id="graficos">
       <div class="graficos-titulo-area">
-        <h2>Análise Visual</h2>
+        <h2>Análise Visual <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
         <p>Dados agregados dos marcos e metas por setor e estado de execução — atualizam automaticamente com os filtros</p>
       </div>
       <div class="graficos-grid">
@@ -226,7 +239,7 @@
     <section class="lista-section" id="lista-marcos">
       <div class="lista-header">
         <div>
-          <h2>Lista de Marcos</h2>
+          <h2>Lista de Marcos <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
           <p class="lista-sub">
             {{ marcosFiltrados.length }} resultado{{ marcosFiltrados.length !== 1 ? 's' : '' }} encontrado{{ marcosFiltrados.length !== 1 ? 's' : '' }}
             <span v-if="filtrosActivos > 0" class="lista-filtro-info"> com {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} aplicado{{ filtrosActivos > 1 ? 's' : '' }}</span>
@@ -285,12 +298,11 @@
     <section class="tabela-section" id="tabela-marcos">
       <div class="tabela-header">
         <div>
-          <h2>Detalhamento de Execução</h2>
+          <h2>Detalhamento de Execução <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
           <p class="tabela-sub">Listagem completa · clique numa linha para ver detalhes · clique nos cabeçalhos para ordenar</p>
         </div>
         <div class="tabela-btns">
-          <button class="btn-csv" @click="exportarDados('csv')">⬇ CSV</button>
-          <button class="btn-json" @click="exportarDados('json')">⬇ JSON</button>
+          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar tabela</button>
         </div>
       </div>
       <div class="tabela-wrap">
@@ -306,7 +318,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="marco in marcosOrdenados" :key="'t'+marco.id" @click="marcoDetalhe = marco" class="tabela-row-clicavel">
+            <tr v-for="marco in marcosPaginados" :key="'t'+marco.id" @click="marcoDetalhe = marco" class="tabela-row-clicavel">
               <td class="td-id">M{{ marco.id }}</td>
               <td class="td-titulo">{{ marco.titulo }}</td>
               <td>{{ marco.pais }}</td>
@@ -321,6 +333,22 @@
             </tr>
           </tbody>
         </table>
+        <div class="tabela-footer" v-if="marcosOrdenados.length > 10">
+          <button
+            class="btn-ver-mais"
+            v-if="linhasVisiveis < marcosOrdenados.length"
+            @click="linhasVisiveis = Math.min(linhasVisiveis + 10, marcosOrdenados.length)"
+          >
+            Ver mais (+{{ Math.min(10, marcosOrdenados.length - linhasVisiveis) }})
+          </button>
+          <button
+            class="btn-ver-mais"
+            v-if="linhasVisiveis > 10"
+            @click="linhasVisiveis = 10"
+          >
+            Ocultar
+          </button>
+        </div>
         <p class="tabela-nota">A mostrar {{ marcosFiltrados.length }} de {{ marcos.length }} registos</p>
       </div>
     </section>
@@ -329,7 +357,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
 import { getMarcos } from '@/services/api.js'
@@ -350,6 +378,8 @@ const contadorTotal = ref(0)
 const contadorConcluidos = ref(0)
 const contadorEmCurso = ref(0)
 const contadorEmAtraso = ref(0)
+const showStickyBar = ref(false)
+const linhasVisiveis = ref(10)
 
 let chartBarras = null
 let chartDonut = null
@@ -357,6 +387,16 @@ let chartDonut = null
 const filtroPais = computed({
   get: () => appStore.paisSelecionado,
   set: (val) => appStore.setPais(val)
+})
+
+const nomePaisAtual = computed(() => {
+  const pais = appStore.paises.find(p => p.code === filtroPais.value)
+  return pais ? pais.nome : 'Todos os países'
+})
+
+const bandeiraPais = computed(() => {
+  const bandeiras = { PT: '🇵🇹', ES: '🇪🇸', FR: '🇫🇷', IT: '🇮🇹', DE: '🇩🇪', GR: '🇬🇷', HR: '🇭🇷', RO: '🇷🇴' }
+  return bandeiras[filtroPais.value] || '🌍'
 })
 
 const filtrosActivos = computed(() => {
@@ -389,6 +429,18 @@ const marcosOrdenados = computed(() => {
     return 0
   })
 })
+
+const marcosPaginados = computed(() => {
+  return marcosOrdenados.value.slice(0, linhasVisiveis.value)
+})
+
+function handleScroll() {
+  const hero = document.querySelector('.hero')
+  if (hero) {
+    const heroBottom = hero.getBoundingClientRect().bottom
+    showStickyBar.value = heroBottom < 0
+  }
+}
 
 function ordenarPor(col) {
   if (sortCol.value === col) {
@@ -444,122 +496,205 @@ function limparFiltros() {
   filtroEstado.value = 'todos'
 }
 
+// SCROLL SUAVE
 function scrollSmooth(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function criarGraficos() {
-  const setores = ['digital', 'clima', 'saude', 'educacao', 'coesao', 'infraestrutura']
-  const labels = ['💻 Digital', '🌿 Clima', '❤️ Saúde', '🎓 Educação', '👥 Coesão', '🏢 Infra']
-  const progresso = setores.map(s => {
-    const lst = marcosFiltrados.value.filter(m => m.setor === s)
-    if (!lst.length) return 0
-    return Math.round(lst.reduce((a, m) => a + m.progresso, 0) / lst.length)
-  })
+  try {
+    const setores = ['digital', 'clima', 'saude', 'educacao', 'coesao', 'infraestrutura']
+    const labels = ['💻 Digital', '🌿 Clima', '❤️ Saúde', '🎓 Educação', '👥 Coesão', '🏢 Infra']
+    const progresso = setores.map(s => {
+      const lst = marcosFiltrados.value.filter(m => m.setor === s)
+      if (!lst.length) return 0
+      return Math.round(lst.reduce((a, m) => a + m.progresso, 0) / lst.length)
+    })
 
-  const whiteBgPlugin = {
-    id: 'whiteBg',
-    beforeDraw(chart) {
-      const ctx = chart.canvas.getContext('2d')
-      ctx.save()
-      ctx.globalCompositeOperation = 'destination-over'
-      ctx.fillStyle = 'white'
-      ctx.fillRect(0, 0, chart.width, chart.height)
-      ctx.restore()
+    const whiteBgPlugin = {
+      id: 'whiteBg',
+      beforeDraw(chart) {
+        const ctx = chart.canvas.getContext('2d')
+        ctx.save()
+        ctx.globalCompositeOperation = 'destination-over'
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, chart.width, chart.height)
+        ctx.restore()
+      }
     }
-  }
 
-  if (chartBarras) chartBarras.destroy()
-  const ctxB = document.getElementById('graficoBarras')
-  if (ctxB) {
-    chartBarras = new Chart(ctxB, {
-      type: 'bar',
-      plugins: [whiteBgPlugin],
-      data: {
-        labels,
-        datasets: [{
-          label: 'Progresso médio (%)',
-          data: progresso,
-          backgroundColor: ['rgba(46,107,191,0.85)', 'rgba(46,158,82,0.85)', 'rgba(192,57,43,0.85)', 'rgba(191,126,46,0.85)', 'rgba(123,82,192,0.85)', 'rgba(85,85,85,0.85)'],
-          borderRadius: 10,
-          borderSkipped: false,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: { duration: 1500, easing: 'easeOutQuart' },
-        plugins: {
-          legend: { display: false },
-          tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.parsed.y}% de progresso médio neste pilar` } }
+    const ctxB = document.getElementById('graficoBarras')
+    if (ctxB) {
+      if (chartBarras) chartBarras.destroy()
+      chartBarras = new Chart(ctxB, {
+        type: 'bar',
+        plugins: [whiteBgPlugin],
+        data: {
+          labels,
+          datasets: [{
+            label: 'Progresso médio (%)',
+            data: progresso,
+            backgroundColor: ['rgba(46,107,191,0.85)', 'rgba(46,158,82,0.85)', 'rgba(192,57,43,0.85)', 'rgba(191,126,46,0.85)', 'rgba(123,82,192,0.85)', 'rgba(85,85,85,0.85)'],
+            borderRadius: 10,
+            borderSkipped: false,
+          }]
         },
-        scales: {
-          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
-          x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 1500, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.parsed.y}% de progresso médio neste pilar` } }
+          },
+          scales: {
+            y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+            x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+          }
         }
-      }
-    })
-  }
+      })
+    }
 
-  if (chartDonut) chartDonut.destroy()
-  const ctxD = document.getElementById('graficoDonut')
-  if (ctxD) {
-    chartDonut = new Chart(ctxD, {
-      type: 'doughnut',
-      plugins: [whiteBgPlugin],
-      data: {
-        labels: ['Concluído', 'Em Curso', 'Em Atraso'],
-        datasets: [{
-          data: [
-            marcosFiltrados.value.filter(m => m.estado === 'concluido').length,
-            marcosFiltrados.value.filter(m => m.estado === 'em_curso').length,
-            marcosFiltrados.value.filter(m => m.estado === 'em_atraso').length,
-          ],
-          backgroundColor: ['#1a7a4a', '#e6a817', '#931b18'],
-          borderWidth: 3, borderColor: '#fff', hoverOffset: 8,
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '65%',
-        animation: { duration: 1500, easing: 'easeOutQuart' },
-        plugins: {
-          legend: { display: false },
-          tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} marcos (${Math.round(ctx.parsed / marcos.value.length * 100)}%)` } }
+    const ctxD = document.getElementById('graficoDonut')
+    if (ctxD) {
+      if (chartDonut) chartDonut.destroy()
+      chartDonut = new Chart(ctxD, {
+        type: 'doughnut',
+        plugins: [whiteBgPlugin],
+        data: {
+          labels: ['Concluído', 'Em Curso', 'Em Atraso'],
+          datasets: [{
+            data: [
+              marcosFiltrados.value.filter(m => m.estado === 'concluido').length,
+              marcosFiltrados.value.filter(m => m.estado === 'em_curso').length,
+              marcosFiltrados.value.filter(m => m.estado === 'em_atraso').length,
+            ],
+            backgroundColor: ['#1a7a4a', '#e6a817', '#931b18'],
+            borderWidth: 3, borderColor: '#fff', hoverOffset: 8,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '65%',
+          animation: { duration: 1500, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} marcos (${Math.round(ctx.parsed / marcos.value.length * 100)}%)` } }
+          }
         }
-      }
-    })
+      })
+    }
+  } catch (err) {
+    console.error('Erro ao criar gráficos:', err)
+    toastMsg.value = '⚠️ Erro ao carregar os gráficos. Recarregue a página.'
+    setTimeout(() => { toastMsg.value = null }, 4000)
   }
 }
 
 function exportarGrafico(id) {
-  const canvas = document.getElementById(id)
-  if (!canvas) return
-  const a = document.createElement('a')
-  a.href = canvas.toDataURL('image/png')
-  a.download = `${id}.png`
-  a.click()
+  try {
+    const canvas = document.getElementById(id)
+    if (!canvas) {
+      toastMsg.value = '❌ Não foi possível exportar o gráfico. Tente novamente.'
+      setTimeout(() => { toastMsg.value = null }, 3000)
+      return
+    }
+    const a = document.createElement('a')
+    a.href = canvas.toDataURL('image/png')
+    a.download = `${id}.png`
+    a.click()
+    toastMsg.value = '✓ Gráfico exportado com sucesso!'
+    setTimeout(() => { toastMsg.value = null }, 3000)
+  } catch (err) {
+    console.error('Erro ao exportar gráfico:', err)
+    toastMsg.value = '❌ Erro ao exportar gráfico. Tente novamente.'
+    setTimeout(() => { toastMsg.value = null }, 3000)
+  }
+}
+
+function downloadBlob(content, mime, filename) {
+  try {
+    const blob = new Blob([content], { type: mime })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(url)
+    return true
+  } catch (err) {
+    console.error('Erro ao gerar ficheiro:', err)
+    toastMsg.value = '❌ Erro ao gerar o ficheiro. Tente novamente.'
+    setTimeout(() => { toastMsg.value = null }, 3000)
+    return false
+  }
 }
 
 function exportarDados(tipo) {
-  const dados = marcosFiltrados.value
-  let conteudo, mime, extensao
-  if (tipo === 'csv') {
-    conteudo = 'id,titulo,pais,setor,estado,prazo,progresso,investimento,beneficiarios\n' + dados.map(m => `${m.id},"${m.titulo}",${m.pais},${m.setor},${m.estado},${m.prazo},${m.progresso}%,"${m.investimento}","${m.beneficiarios}"`).join('\n')
-    mime = 'text/csv'; extensao = 'csv'
-  } else {
-    conteudo = JSON.stringify(dados, null, 2)
-    mime = 'application/json'; extensao = 'json'
-  }
-  const blob = new Blob([conteudo], { type: mime })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url; a.download = `marcos-metas.${extensao}`; a.click()
-  URL.revokeObjectURL(url)
-  showExportModal.value = false
+  try {
+    const dados = marcosFiltrados.value
+    const pais = nomePaisAtual.value
 
-  // Toast de confirmação
-  toastMsg.value = tipo === 'csv' ? '✓ Ficheiro CSV exportado com sucesso!' : '✓ Ficheiro JSON exportado com sucesso!'
-  setTimeout(() => { toastMsg.value = null }, 3000)
+    if (tipo === 'csv') {
+      let csv = `Marcos e Metas - ${pais}\n`
+      csv += 'ID,Título,País,Setor,Estado,Prazo,Progresso,Investimento,Beneficiários,Indicador de Sucesso,Entidade Responsável\n'
+      dados.forEach(m => {
+        csv += `${m.id},"${m.titulo.replace(/"/g, '""')}",${m.pais},${m.setor},${m.estado},${m.prazo},${m.progresso}%,"${m.investimento}","${m.beneficiarios}","${m.indicadorSucesso || ''}","${m.entidade || ''}"\n`
+      })
+      if (downloadBlob(csv, 'text/csv', `marcos_${filtroPais.value}.csv`)) {
+        toastMsg.value = '✓ Ficheiro CSV exportado com sucesso!'
+      }
+    } 
+    else if (tipo === 'json') {
+      const json = JSON.stringify(dados, null, 2)
+      if (downloadBlob(json, 'application/json', `marcos_${filtroPais.value}.json`)) {
+        toastMsg.value = '✓ Ficheiro JSON exportado com sucesso!'
+      }
+    } 
+    else if (tipo === 'pdf') {
+      // Verificar se o popup não está bloqueado
+      const win = window.open('', '_blank')
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        toastMsg.value = '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
+        setTimeout(() => { toastMsg.value = null }, 4000)
+        return
+      }
+      win.document.write(`
+        <html>
+          <head>
+            <title>Marcos e Metas - ${pais}</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 40px; }
+              h1 { color: #931b18; }
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              th { background-color: #931b18; color: white; }
+              .footer { margin-top: 30px; font-size: 12px; color: #666; }
+            </style>
+          </head>
+          <body>
+            <h1>📊 Marcos e Metas - ${pais}</h1>
+            <p>Lista de marcos e metas do PRR com estado de execução.</p>
+            <table>
+              <thead><tr><th>ID</th><th>Título</th><th>País</th><th>Setor</th><th>Estado</th><th>Prazo</th><th>Progresso</th><th>Investimento</th><th>Beneficiários</th></tr></thead>
+              <tbody>
+                ${dados.map(m => `<tr><td>M${m.id}</td><td>${m.titulo}</td><td>${m.pais}</td><td>${m.setor}</td><td>${estadoLabel(m.estado)}</td><td>${m.prazo}</td><td>${m.progresso}%</td><td>${m.investimento}</td><td>${m.beneficiarios}</td>`).join('')}
+              </tbody>
+            </table>
+            <div class="footer">Gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
+          </body>
+        </html>
+      `)
+      win.document.close()
+      win.print()
+      toastMsg.value = '✓ Relatório PDF gerado com sucesso!'
+    }
+    showExportModal.value = false
+    setTimeout(() => { toastMsg.value = null }, 3000)
+  } catch (err) {
+    console.error('Erro ao exportar dados:', err)
+    toastMsg.value = '❌ Erro ao exportar. Tente novamente.'
+    setTimeout(() => { toastMsg.value = null }, 4000)
+  }
 }
 
 onMounted(async () => {
@@ -567,25 +702,39 @@ onMounted(async () => {
     marcos.value = await getMarcos()
     erro.value = null
   } catch (e) {
+    console.error('Erro ao carregar dados:', e)
     erro.value = 'Não foi possível carregar os dados. Verifica se o servidor está ligado.'
   } finally {
     loading.value = false
   }
 
+  window.addEventListener('scroll', handleScroll)
+
   setTimeout(() => {
-    heroVisible.value = true
-    animarContador(contadorTotal, marcos.value.length)
-    animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
-    animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
-    animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
-    criarGraficos()
+    try {
+      heroVisible.value = true
+      animarContador(contadorTotal, marcos.value.length)
+      animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
+      animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
+      animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
+      criarGraficos()
+    } catch (err) {
+      console.error('Erro na inicialização dos contadores/gráficos:', err)
+      toastMsg.value = '⚠️ Erro ao inicializar os gráficos. Recarregue a página se o problema persistir.'
+      setTimeout(() => { toastMsg.value = null }, 5000)
+    }
   }, 100)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 
 watch(marcosFiltrados, () => criarGraficos())
 </script>
 
 <style scoped>
+/* mantenha todos os estilos exatamente como estavam */
 .marcos-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* TOAST */
@@ -607,6 +756,7 @@ watch(marcosFiltrados, () => criarGraficos())
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 
 .hero { background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 70vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(100,15,13,0.95) 0%, rgba(147,27,24,0.85) 100%); min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 70px 10%; gap: 50px; flex-wrap: wrap; }
@@ -633,6 +783,15 @@ watch(marcosFiltrados, () => criarGraficos())
 .hsc-val { font-size: 2.5rem; font-weight: 900; color: #d4af37; line-height: 1; }
 .hsc-label { font-size: 0.72rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.06em; }
 
+/* Sticky Mini Bar */
+.sticky-mini-bar { position: fixed; top: 0; left: 0; width: 100%; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 30px; padding: 12px 20px; z-index: 1000; transform: translateY(-100%); transition: transform 0.3s ease; }
+.sticky-mini-bar.visible { transform: translateY(0); }
+.mini-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.mini-label { font-size: 0.6rem; font-weight: 800; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+.mini-value { font-size: 1.1rem; font-weight: 800; color: #1a1a1a; }
+.mini-divider { width: 1px; height: 30px; background: #e0e0e0; }
+
+/* FILTROS */
 .filtros-section { background: white; padding: 16px 10%; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: sticky; top: 70px; z-index: 50; border-bottom: 1px solid #f0f0f0; }
 .filtros-inner { display: flex; flex-direction: column; gap: 10px; }
 .filtros-left { display: flex; align-items: center; gap: 12px; }
@@ -648,7 +807,9 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-limpar { background: transparent; border: 1.5px solid #e0e0e0; color: #999; padding: 9px 16px; border-radius: 8px; font-size: 0.82rem; cursor: pointer; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
 .btn-limpar:hover { border-color: #931b18; color: #931b18; }
 .btn-limpar-activo { border-color: #931b18; color: #931b18; background: #fdf2f2; }
+.pais-indicador-tabela { font-size: 0.7em; color: #333; background: #f5f5f5; padding: 3px 10px; border-radius: 20px; margin-left: 10px; font-weight: 600; border: 1px solid #ddd;}
 
+/* GRÁFICOS */
 .graficos-section { padding: 60px 10%; background: #f5f5f7; }
 .graficos-titulo-area { text-align: center; margin-bottom: 35px; }
 .graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
@@ -675,6 +836,7 @@ watch(marcosFiltrados, () => criarGraficos())
 .leg-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #931b18; border-radius: 10px; color: white; font-size: 0.84rem; font-weight: 600; }
 .leg-total strong { font-size: 1rem; }
 
+/* LISTA */
 .lista-section { padding: 50px 10%; background: #f5f5f7; }
 .lista-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
 .lista-header h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 5px; }
@@ -686,12 +848,14 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-export-lista { background: #931b18; color: white; border: none; padding: 11px 22px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-export-lista:hover { background: #6b1210; transform: translateY(-2px); }
 
+/* EMPTY */
 .empty-state { text-align: center; padding: 80px 20px; background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .empty-icon { font-size: 4rem; display: block; margin-bottom: 20px; }
 .empty-state h3 { font-size: 1.4rem; color: #333; margin-bottom: 10px; font-weight: 700; }
 .empty-state p { color: #888; margin-bottom: 25px; }
 .btn-limpar-empty { background: #931b18; color: white; border: none; padding: 12px 28px; border-radius: 10px; cursor: pointer; font-weight: 700; }
 
+/* CARDS */
 .marcos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 24px; }
 .marco-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.35s ease, box-shadow 0.35s ease; animation: fadeInUp 0.6s ease both; }
 .marco-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.14); }
@@ -724,6 +888,7 @@ watch(marcosFiltrados, () => criarGraficos())
 .dl-icon { font-size: 1.4rem; }
 .marco-dl small { font-size: 0.6rem; font-weight: 800; }
 
+/* TABELA */
 .tabela-section { padding: 50px 10%; background: white; }
 .tabela-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
 .tabela-header h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
@@ -754,6 +919,7 @@ watch(marcosFiltrados, () => criarGraficos())
 .tab-prog-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
 .tabela-nota { font-size: 0.78rem; color: #bbb; padding: 12px 18px; }
 
+/* MODAL DETALHE */
 .detalhe-card { background: white; width: 90%; max-width: 580px; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: fadeInUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
 .close-btn-detalhe { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.4); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
 .close-btn-detalhe:hover { background: rgba(0,0,0,0.7); }
@@ -779,6 +945,7 @@ watch(marcosFiltrados, () => criarGraficos())
 .btn-fechar-detalhe { background: #f5f5f7; color: #666; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
 .btn-fechar-detalhe:hover { background: #e8e8e8; }
 
+/* MODAL EXPORTAÇÃO */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
 .export-card { background-color: #931b18; width: 90%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.6rem; cursor: pointer; opacity: 0.8; }
@@ -815,4 +982,54 @@ watch(marcosFiltrados, () => criarGraficos())
 .historico-item.atraso .hist-tipo { background: #fff3cd; color: #856404; }
 .historico-item.conclusao .hist-tipo { background: #fef9e7; color: #7d6608; }
 .hist-desc { font-size: 0.82rem; color: #555; line-height: 1.5; }
+
+
+/* Responsividade dos gráficos - empilhar em ecrãs pequenos */
+@media (max-width: 900px) {
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Garante que o indicador de país nunca seja cortado e possa quebrar linha */
+.lista-header h2,
+.tabela-header h2,
+.graficos-titulo-area h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.pais-indicador-tabela {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+  white-space: normal;
+  word-break: keep-all; /* evita quebrar a bandeira do nome */
+  background: #f5f5f5;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  font-size: 0.7em;
+  line-height: 1.4;
+}
+
+/* Para ecrãs muito pequenos, permite que o indicador ocupe largura total */
+@media (max-width: 640px) {
+  .lista-header h2,
+  .tabela-header h2,
+  .graficos-titulo-area h2 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pais-indicador-tabela {
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+}
 </style>
