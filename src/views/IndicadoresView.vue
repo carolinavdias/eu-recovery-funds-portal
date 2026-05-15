@@ -13,7 +13,7 @@
           <div class="page-header">
             <div class="header-left">
               <h1>Indicadores Comuns</h1>
-              <p>Acompanhamento detalhado do reporte semestral dos 14 indicadores de reporte obrigatório do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
+              <p>Acompanhamento detalhado do reporte semestral dos principais indicadores de desempenho do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
             </div>
           </div>
 
@@ -106,7 +106,7 @@
               <span class="icon-download">📥</span>
               <div>
                 <h3>Exportar Dados</h3>
-                <p>Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
+                <p>Obtenha os dados consolidados de todos os principais indicadores para análise externa.</p>
               </div>
             </div>
 
