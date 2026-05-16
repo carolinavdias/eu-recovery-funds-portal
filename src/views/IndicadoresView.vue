@@ -13,7 +13,7 @@
           <div class="page-header">
             <div class="header-left">
               <h1>Indicadores Comuns</h1>
-              <p>Acompanhamento detalhado do reporte semestral dos 14 indicadores de reporte obrigatório do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
+              <p>Acompanhamento detalhado do reporte semestral dos principais indicadores de desempenho do Plano de Recuperação e Resiliência (PRR) em Portugal.</p>
             </div>
           </div>
 
@@ -106,7 +106,7 @@
               <span class="icon-download">📥</span>
               <div>
                 <h3>Exportar Dados</h3>
-                <p>Obtenha os dados consolidados de todos os 14 indicadores para análise externa.</p>
+                <p>Obtenha os dados consolidados de todos os principais indicadores para análise externa.</p>
               </div>
             </div>
 
@@ -571,12 +571,12 @@ const dadosEspanha = {
 
 // Multiplicadores para países dinâmicos
 const multiplicadoresPais = {
-  fr: { escala: 1.3, nome: 'França' },
-  it: { escala: 1.2, nome: 'Itália' },
-  al: { escala: 1.5, nome: 'Alemanha' },
-  gr: { escala: 0.7, nome: 'Grécia' },
-  cr: { escala: 0.5, nome: 'Croácia' },
-  rmn: { escala: 0.6, nome: 'Roménia' }
+  FR: { escala: 1.3, nome: 'França' },
+  IT: { escala: 1.2, nome: 'Itália' },
+  DE: { escala: 1.5, nome: 'Alemanha' },
+  GR: { escala: 0.7, nome: 'Grécia' },
+  HR: { escala: 0.5, nome: 'Croácia' },
+  RO: { escala: 0.6, nome: 'Roménia' }
 }
 
 function gerarDadosDinamicos(pais, periodo) {
@@ -642,8 +642,18 @@ const outrosIndicadores = computed(() => {
 })
 
 const nomePaisAtual = computed(() => {
-  const map = { pt: 'Portugal', es: 'Espanha', fr: 'França', it: 'Itália', al: 'Alemanha', gr: 'Grécia', cr: 'Croácia', rmn: 'Roménia' }
-  return map[paisSelecionado.value] || paisSelecionado.value.toUpperCase()
+  const map = {
+    PT: 'Portugal',
+    ES: 'Espanha',
+    FR: 'França',
+    IT: 'Itália',
+    DE: 'Alemanha',
+    GR: 'Grécia',
+    HR: 'Croácia',
+    RO: 'Roménia',
+    todos: 'Todos os países'
+  }
+  return map[paisSelecionado.value] || paisSelecionado.value
 })
 
 const nomePeriodoAtual = computed(() => {
