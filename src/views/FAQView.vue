@@ -22,7 +22,7 @@
     <section class="faq-section">
       <div class="faq-inner">
 
-        <!-- CATEGORIAS -->
+        <!-- CATEGORIAS (traduzidas) -->
         <div class="categorias">
           <button
             v-for="cat in categorias"
@@ -35,7 +35,7 @@
           </button>
         </div>
 
-        <!-- PERGUNTAS -->
+        <!-- PERGUNTAS (conforme idioma) -->
         <div class="faq-lista">
           <div
             v-for="(item, i) in perguntasFiltradas"
@@ -57,20 +57,21 @@
 
           <div v-if="perguntasFiltradas.length === 0" class="faq-empty">
             <span>🔍</span>
-            <p>Nenhuma pergunta nesta categoria.</p>
+            <p>{{ appStore.t.faq_empty_titulo }}</p>
+            <p>{{ appStore.t.faq_empty_desc }}</p>
           </div>
         </div>
 
-        <!-- CONTACTO -->
+        <!-- CONTACTO (traduzido) -->
         <div class="contacto-card">
           <div class="contacto-icon">✉️</div>
           <div class="contacto-texto">
-            <h3>Não encontrou o que procurava?</h3>
-            <p>Este portal é um trabalho académico desenvolvido na UC de IPM na Universidade do Minho. Para questões sobre os dados reais do PRR, consulte os recursos oficiais abaixo.</p>
+            <h3>{{ appStore.t.faq_contact_titulo }}</h3>
+            <p>{{ appStore.t.faq_contact_desc }}</p>
           </div>
           <div class="contacto-links">
-            <a href="https://recuperarportugal.gov.pt/" target="_blank" rel="noopener noreferrer" class="contacto-btn">PRR Portugal</a>
-            <a href="https://recovery-and-resilience-scoreboard.ec.europa.eu/" target="_blank" rel="noopener noreferrer" class="contacto-btn">EU Scoreboard</a>
+            <a href="https://recuperarportugal.gov.pt/" target="_blank" rel="noopener noreferrer" class="contacto-btn">{{ appStore.t.faq_contact_btn_prr }}</a>
+            <a href="https://ec.europa.eu/economy_finance/recovery-and-resilience-scoreboard/" target="_blank" rel="noopener noreferrer" class="contacto-btn">{{ appStore.t.faq_contact_btn_scoreboard }}</a>
           </div>
         </div>
 
@@ -91,15 +92,16 @@ const heroVisible = ref(false)
 const categoriaActiva = ref('geral')
 const abertos = ref([0]) // primeira pergunta aberta por defeito
 
-const categorias = [
-  { id: 'geral', icone: '🌍', label: 'Geral' },
-  { id: 'dados', icone: '📊', label: 'Dados e Secções' },
-  { id: 'funcionalidades', icone: '⚙️', label: 'Funcionalidades' },
-  { id: 'exportacao', icone: '📥', label: 'Exportação' },
-]
+// Categorias (usando traduções da store)
+const categorias = computed(() => [
+  { id: 'geral', icone: '🌍', label: appStore.t.faq_cat_geral },
+  { id: 'dados', icone: '📊', label: appStore.t.faq_cat_dados },
+  { id: 'funcionalidades', icone: '⚙️', label: appStore.t.faq_cat_funcionalidades },
+  { id: 'exportacao', icone: '📥', label: appStore.t.faq_cat_exportacao },
+])
 
-const perguntas = [
-  // GERAL
+// Dados das perguntas em português
+const perguntasDataPt = [
   {
     categoria: 'geral',
     pergunta: 'O que é o Portal PRR?',
@@ -126,7 +128,6 @@ const perguntas = [
       'Para dados oficiais e actualizados, consulte o EU Recovery and Resilience Scoreboard em recovery-and-resilience-scoreboard.ec.europa.eu ou o site oficial do PRR Portugal em recuperarportugal.gov.pt.',
     ],
   },
-  // DADOS
   {
     categoria: 'dados',
     pergunta: 'O que são Marcos e Metas?',
@@ -167,7 +168,6 @@ const perguntas = [
     ],
     link: { rota: '/paises', texto: 'Ver Países' },
   },
-  // FUNCIONALIDADES
   {
     categoria: 'funcionalidades',
     pergunta: 'Como funciona o filtro de país na barra superior?',
@@ -205,7 +205,6 @@ const perguntas = [
     ],
     link: { rota: '/marcos', texto: 'Ver gráficos em Marcos e Metas' },
   },
-  // EXPORTAÇÃO
   {
     categoria: 'exportacao',
     pergunta: 'Como exportar dados em CSV ou JSON?',
@@ -229,15 +228,157 @@ const perguntas = [
     categoria: 'exportacao',
     pergunta: 'Em que formatos estão disponíveis os dados?',
     resposta: [
-      'Os dados de Marcos e Metas estão disponíveis em CSV e JSON.',
+      'Os dados de Marcos e Metas estão disponíveis em CSV, JSON e PDF.',
+      'Os dados de Desembolsos estão disponíveis em CSV, JSON e PDF.',
       'Os gráficos estão disponíveis em PNG (imagem de alta qualidade com fundo branco).',
       'Os dados de Indicadores Comuns estão disponíveis com opção de exportação por indicador.',
     ],
   },
 ]
 
+// Dados das perguntas em inglês
+const perguntasDataEn = [
+  {
+    categoria: 'geral',
+    pergunta: 'What is the PRR Portal?',
+    resposta: [
+      'The PRR Portal is a data visualization system inspired by the EU Recovery and Resilience Scoreboard — the European monitoring portal for the Recovery and Resilience Mechanism (RRM).',
+      'It allows you to analyze and interpret complex data on the implementation of milestones and targets, payments made, and fund allocation, facilitating the extraction of objective information on the progress of National Recovery Plans.',
+      'This portal was developed as an academic project for the Human-Computer Interaction (HCI) course at the University of Minho, 2025/26.',
+    ],
+  },
+  {
+    categoria: 'geral',
+    pergunta: 'What is the EU Recovery and Resilience Mechanism?',
+    resposta: [
+      'The Recovery and Resilience Mechanism (RRM) is the main instrument of the EU recovery plan — NextGenerationEU — with a total of €750 billion available to support Member States.',
+      'Funds are distributed as grants and loans, conditional on the fulfillment of milestones and targets agreed with the European Commission.',
+      'Portugal, through the RRP — Recovery and Resilience Plan — has access to €16.6 billion for investments in climate transition, digitalization, housing, health, and education.',
+    ],
+  },
+  {
+    categoria: 'geral',
+    pergunta: 'Are the data presented real?',
+    resposta: [
+      'The data used in this portal are mockup (simulated) data created for academic purposes, inspired by the structure and typology of real data available on the EU Recovery and Resilience Scoreboard.',
+      'For official and updated data, please consult the EU Recovery and Resilience Scoreboard at recovery-and-resilience-scoreboard.ec.europa.eu or the official Portuguese RRP website at recuperarportugal.gov.pt.',
+    ],
+  },
+  {
+    categoria: 'dados',
+    pergunta: 'What are Milestones and Targets?',
+    resposta: [
+      'Milestones and Targets are the specific objectives each Member State has committed to achieving in order to receive RRM funds.',
+      'Milestones are qualitative objectives (e.g., approval of legislation, creation of entities). Targets are measurable quantitative objectives (e.g., number of renovated buildings, percentage of digitalized services).',
+      'On this portal you can filter by country, sector and execution status, view the progress of each objective, and export the data.',
+    ],
+    link: { rota: '/marcos', texto: 'View Milestones & Targets' },
+  },
+  {
+    categoria: 'dados',
+    pergunta: 'What are Common Indicators?',
+    resposta: [
+      'Common Indicators are 14 mandatory semi-annual reporting indicators for all Member States, defined by the European Commission.',
+      'They cover areas such as digitalization (internet users, broadband), climate (renewable energy, GHG emissions), employment, and education (employment rate, school dropout rate).',
+      'For each indicator you can see Portugal’s value compared to the European average and the evolution trend.',
+    ],
+    link: { rota: '/indicadores', texto: 'View Common Indicators' },
+  },
+  {
+    categoria: 'dados',
+    pergunta: 'What are Disbursements?',
+    resposta: [
+      'Disbursements are payments made by the EU to each Member State as milestones and targets are met and validated by the European Commission.',
+      'Portugal received a pre-financing of €2.2 billion in 2021, followed by subsequent payment requests as objectives are verified.',
+      'This section also includes a list of the top 100 beneficiaries by country.',
+    ],
+    link: { rota: '/desembolsos', texto: 'View Disbursements' },
+  },
+  {
+    categoria: 'dados',
+    pergunta: 'How are country data organized?',
+    resposta: [
+      'The Countries section allows you to explore individualized execution data for each of the 8 available Member States: Portugal, Spain, France, Italy, Germany, Greece, Croatia, and Romania.',
+      'For each country, overall progress, total allocated funds, total and completed milestones, and received disbursements are displayed.',
+      'You can also compare two countries side by side for comparative performance analysis.',
+    ],
+    link: { rota: '/paises', texto: 'View Countries' },
+  },
+  {
+    categoria: 'funcionalidades',
+    pergunta: 'How does the country filter in the top bar work?',
+    resposta: [
+      'The country selector in the top navigation bar allows you to filter all application data for a specific country.',
+      'When you select a country, the Milestones & Targets page and other sections will automatically update to show only information related to the chosen country.',
+      'To view data for all countries, select "All countries" (default option).',
+    ],
+  },
+  {
+    categoria: 'funcionalidades',
+    pergunta: 'How to compare two countries?',
+    resposta: [
+      'Go to the "Countries" section and click "Compare Countries", or access directly from the side menu.',
+      'Select Country A and Country B from the available country grid.',
+      'The system automatically calculates a comparative scorecard with 6 metrics (progress, total milestones, completed milestones, completion rate, allocated funds, and population) and determines the country with the best overall performance.',
+    ],
+    link: { rota: '/paises/comparar', texto: 'Compare Countries' },
+  },
+  {
+    categoria: 'funcionalidades',
+    pergunta: 'How to enable dark mode?',
+    resposta: [
+      'Click the moon icon (🌙) in the top navigation bar to enable dark mode.',
+      'Click the sun icon (☀️) to return to light mode.',
+      'The preference is automatically saved and maintained between sessions.',
+    ],
+  },
+  {
+    categoria: 'funcionalidades',
+    pergunta: 'Do charts update with filters?',
+    resposta: [
+      'Yes. On the Milestones & Targets page, the "Progress by Pillar" and "Distribution by Status" charts automatically update whenever you apply or remove country, sector, or status filters.',
+      'This allows you to quickly visualize the performance of a specific country or sector.',
+    ],
+    link: { rota: '/marcos', texto: 'View charts on Milestones & Targets' },
+  },
+  {
+    categoria: 'exportacao',
+    pergunta: 'How to export data as CSV or JSON?',
+    resposta: [
+      'On the Milestones & Targets page, click "Export Data" in the hero section or use the "⬇ CSV" / "⬇ JSON" buttons in the complete table.',
+      'The export applies the active filters — if you have filtered for Portugal, the exported CSV/JSON will contain only Portuguese milestones.',
+      'CSV format is ideal for opening in Excel or Google Sheets. JSON format is suitable for programmatic analysis or integration with other tools.',
+    ],
+    link: { rota: '/marcos', texto: 'Go to Milestones & Targets' },
+  },
+  {
+    categoria: 'exportacao',
+    pergunta: 'How to export a chart as an image?',
+    resposta: [
+      'On each chart on the Milestones & Targets page, there is a "📥 PNG" button in the top right corner.',
+      'Clicking it exports the chart as a PNG image with a white background, ready to use in presentations or reports.',
+      'The exported image reflects the current state of the chart, including applied filters.',
+    ],
+  },
+  {
+    categoria: 'exportacao',
+    pergunta: 'What data formats are available?',
+    resposta: [
+      'Milestones & Targets data are available as CSV, JSON and PDF.',
+      'Disbursements data are available as CSV, JSON and PDF.',
+      'Charts are available as PNG (high-quality image with white background).',
+      'Common Indicators data are available with per‑indicator export options.',
+    ],
+  },
+]
+
+// Perguntas consoante idioma actual
+const perguntas = computed(() => {
+  return appStore.idioma === 'pt' ? perguntasDataPt : perguntasDataEn
+})
+
 const perguntasFiltradas = computed(() =>
-  perguntas.filter(p => p.categoria === categoriaActiva.value)
+  perguntas.value.filter(p => p.categoria === categoriaActiva.value)
 )
 
 function toggle(i) {
@@ -259,6 +400,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Mantém o teu CSS original – não mexemos */
 .faq-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* HERO */

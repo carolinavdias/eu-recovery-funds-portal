@@ -7,13 +7,13 @@
         <button class="close-btn" @click="showExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">💶</span>
-          <h2>Exportar Dados Financeiros</h2>
-          <p>Descarregue o balanço financeiro e o histórico de tranches</p>
+          <h2>{{ appStore.t.desembolsos_modal_export_titulo }}</h2>
+          <p>{{ appStore.t.desembolsos_modal_export_desc }}</p>
         </div>
         <div class="export-options">
-          <button class="export-item" @click="exportarDesembolsos('csv')"><span>Exportar como CSV (Excel)</span><span class="ext">.csv</span></button>
-          <button class="export-item" @click="exportarDesembolsos('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
-          <button class="export-item" @click="exportarDesembolsos('pdf')"><span>Relatório Financeiro PDF</span><span class="ext">.pdf</span></button>
+          <button class="export-item" @click="exportarDesembolsos('csv')"><span>{{ appStore.t.desembolsos_modal_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarDesembolsos('json')"><span>{{ appStore.t.desembolsos_modal_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarDesembolsos('pdf')"><span>{{ appStore.t.desembolsos_modal_export_pdf }}</span><span class="ext">.pdf</span></button>
         </div>
       </div>
     </div>
@@ -24,13 +24,13 @@
         <button class="close-btn" @click="showTop100ExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">🏆</span>
-          <h2>Exportar Top 100 Beneficiários</h2>
-          <p>{{ nomePaisAtual }} · {{ topBeneficiariosOrdenados.length }} beneficiários</p>
+          <h2>{{ appStore.t.desembolsos_modal_top100_titulo }}</h2>
+          <p>{{ textoTop100Desc() }}</p>
         </div>
         <div class="export-options">
-          <button class="export-item" @click="exportarTopBeneficiarios('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
-          <button class="export-item" @click="exportarTopBeneficiarios('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
-          <button class="export-item" @click="exportarTopBeneficiarios('pdf')"><span>Relatório PDF</span><span class="ext">.pdf</span></button>
+          <button class="export-item" @click="exportarTopBeneficiarios('csv')"><span>{{ appStore.t.desembolsos_modal_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarTopBeneficiarios('json')"><span>{{ appStore.t.desembolsos_modal_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarTopBeneficiarios('pdf')"><span>{{ appStore.t.desembolsos_modal_export_pdf }}</span><span class="ext">.pdf</span></button>
         </div>
       </div>
     </div>
@@ -41,18 +41,18 @@
         <button class="close-btn" @click="showCardExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2>Exportar Desembolso</h2>
-          <p>{{ cardExportTranche?.nome || 'Tranche selecionada' }}</p>
+          <h2>{{ appStore.t.desembolsos_modal_card_titulo }}</h2>
+          <p>{{ textoCardExportDesc() }}</p>
         </div>
         <div class="export-options">
-          <button class="export-item" @click="exportarTrancheIndividual('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
-          <button class="export-item" @click="exportarTrancheIndividual('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
-          <button class="export-item" @click="exportarTrancheIndividual('pdf')"><span>Comprovativo PDF</span><span class="ext">.pdf</span></button>
+          <button class="export-item" @click="exportarTrancheIndividual('csv')"><span>{{ appStore.t.desembolsos_modal_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarTrancheIndividual('json')"><span>{{ appStore.t.desembolsos_modal_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarTrancheIndividual('pdf')"><span>{{ appStore.t.desembolsos_modal_export_pdf }}</span><span class="ext">.pdf</span></button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== MODAL DETALHE TRANCHE (novo design) ==================== -->
+    <!-- ==================== MODAL DETALHE TRANCHE ==================== -->
     <div v-if="trancheDetalhe" class="modal-overlay" @click.self="trancheDetalhe = null">
       <div class="detalhe-tranche-card">
         <div class="detalhe-tranche-img-wrap">
@@ -68,18 +68,17 @@
           <h2 class="detalhe-tranche-titulo">{{ trancheDetalhe.titulo || trancheDetalhe.nome }}</h2>
           <p class="detalhe-tranche-desc">{{ trancheDetalhe.descricaoCurta || trancheDetalhe.descCurta || trancheDetalhe.raw?.descricaoCurta || 'Sem descrição detalhada.' }}</p>
           
-          <!-- Campos fixos com título em cima e valor em baixo -->
           <div class="detalhe-tranche-campos">
             <div class="campo-item campo-valor">
-              <div class="campo-titulo">💰 Valor</div>
+              <div class="campo-titulo">{{ appStore.t.desembolsos_modal_detalhe_valor }}</div>
               <div class="campo-valor-num">{{ formatMoney(trancheDetalhe.montante || trancheDetalhe.valorNum) }}</div>
             </div>
             <div class="campo-item campo-data">
-              <div class="campo-titulo">📅 Data</div>
+              <div class="campo-titulo">{{ appStore.t.desembolsos_modal_detalhe_data }}</div>
               <div class="campo-valor-num">{{ trancheDetalhe.data || formatDate(trancheDetalhe.dataObj) }}</div>
             </div>
             <div class="campo-item campo-beneficiario-full">
-              <div class="campo-titulo">👥 Beneficiário</div>
+              <div class="campo-titulo">{{ appStore.t.desembolsos_modal_detalhe_beneficiario }}</div>
               <div class="campo-valor-num">
                 {{ trancheDetalhe.beneficiario || trancheDetalhe.raw?.beneficiario || 'Não especificado' }}
                 <span v-if="getMedalIcon(getBeneficiarioRank(trancheDetalhe.beneficiario || trancheDetalhe.raw?.beneficiario, trancheDetalhe.paisCode || trancheDetalhe.raw?.paisCode))" style="margin-left: 8px;">
@@ -91,7 +90,7 @@
 
           <div class="progresso-wrapper">
             <div class="progresso-header">
-              <span>Peso no total do país ({{ nomePaisAtual }})</span>
+              <span>{{ textoPesoModal() }}</span>   
               <strong>{{ percentagemTranche }}%</strong>
             </div>
             <div class="progresso-bg">
@@ -99,8 +98,8 @@
             </div>
           </div>
           <div class="detalhe-tranche-actions">
-            <button class="btn-export-detalhe" @click="abrirExportCard(trancheDetalhe); trancheDetalhe = null">📥 Exportar dados</button>
-            <button class="btn-fechar-detalhe" @click="trancheDetalhe = null">Fechar</button>
+            <button class="btn-export-detalhe" @click="abrirExportCard(trancheDetalhe); trancheDetalhe = null">{{ appStore.t.desembolsos_modal_detalhe_exportar }}</button>
+            <button class="btn-fechar-detalhe" @click="trancheDetalhe = null">{{ appStore.t.desembolsos_modal_detalhe_fechar }}</button>
           </div>
         </div>
         <button class="close-btn-detalhe" @click="trancheDetalhe = null">✕</button>
@@ -113,59 +112,59 @@
         <button class="close-btn" @click="showGuiaModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">💶</span>
-          <h2>Guia de Desembolsos</h2>
-          <p>Como funcionam os fluxos financeiros do PRR</p>
+          <h2>{{ appStore.t.desembolsos_guia_titulo }}</h2>
+          <p>{{ appStore.t.desembolsos_guia_desc }}</p>
         </div>
         <div class="metodologia-content">
-          <h3>💰 Subvenções vs Empréstimos</h3>
-          <p>O Mecanismo de Recuperação e Resiliência é composto por <strong>Subvenções</strong> (fundos perdidos que não requerem devolução), <strong>Empréstimos</strong> (crédito em condições muito favoráveis) e financiamentos <strong>Mistos</strong> (ambos).</p>
-          <h3>✅ Baseado no Desempenho</h3>
-          <p>Ao contrário dos fundos estruturais tradicionais, os pagamentos do PRR não são baseados em faturas, mas sim no cumprimento comprovado de <strong>Marcos e Metas</strong> (Milestones and Targets).</p>
-          <h3>🔄 Processo de Desembolso</h3>
+          <h3>💰 {{ appStore.idioma === 'pt' ? 'Subvenções vs Empréstimos' : 'Grants vs Loans' }}</h3>
+          <p>{{ appStore.idioma === 'pt' ? 'O Mecanismo de Recuperação e Resiliência é composto por <strong>Subvenções</strong> (fundos perdidos que não requerem devolução), <strong>Empréstimos</strong> (crédito em condições muito favoráveis) e financiamentos <strong>Mistos</strong> (ambos).' : 'The Recovery and Resilience Mechanism consists of <strong>Grants</strong> (non-repayable funds), <strong>Loans</strong> (credit on very favourable terms) and <strong>Mixed</strong> financing (both).' }}</p>
+          <h3>✅ {{ appStore.idioma === 'pt' ? 'Baseado no Desempenho' : 'Performance‑Based' }}</h3>
+          <p>{{ appStore.idioma === 'pt' ? 'Ao contrário dos fundos estruturais tradicionais, os pagamentos do PRR não são baseados em faturas, mas sim no cumprimento comprovado de <strong>Marcos e Metas</strong> (Milestones and Targets).' : 'Unlike traditional structural funds, RRP payments are not based on invoices, but on the proven fulfilment of <strong>Milestones and Targets</strong>.' }}</p>
+          <h3>🔄 {{ appStore.idioma === 'pt' ? 'Processo de Desembolso' : 'Disbursement Process' }}</h3>
           <ol>
-            <li>O Estado-Membro cumpre um conjunto de marcos.</li>
-            <li>Submete um "Pedido de Pagamento" à Comissão Europeia.</li>
-            <li>A Comissão tem 2 meses para avaliar (fase 'Em Avaliação').</li>
-            <li>O Comité Económico e Financeiro aprova e o dinheiro é transferido.</li>
+            <li>{{ appStore.idioma === 'pt' ? 'O Estado-Membro cumpre um conjunto de marcos.' : 'The Member State fulfills a set of milestones.' }}</li>
+            <li>{{ appStore.idioma === 'pt' ? 'Submete um "Pedido de Pagamento" à Comissão Europeia.' : 'Submits a "Payment Request" to the European Commission.' }}</li>
+            <li>{{ appStore.idioma === 'pt' ? 'A Comissão tem 2 meses para avaliar (fase \'Em Avaliação\').' : 'The Commission has 2 months to evaluate (phase \'Under Evaluation\').' }}</li>
+            <li>{{ appStore.idioma === 'pt' ? 'O Comité Económico e Financeiro aprova e o dinheiro é transferido.' : 'The Economic and Financial Committee approves and the money is transferred.' }}</li>
           </ol>
-          <h3>🏦 Pré-financiamento</h3>
-          <p>Em 2021, os países receberam um adiantamento de 13% do montante total para iniciar os projetos imediatamente.</p>
+          <h3>🏦 {{ appStore.idioma === 'pt' ? 'Pré-financiamento' : 'Pre‑financing' }}</h3>
+          <p>{{ appStore.idioma === 'pt' ? 'Em 2021, os países receberam um adiantamento de 13% do montante total para iniciar os projetos imediatamente.' : 'In 2021, countries received an advance of 13% of the total amount to start projects immediately.' }}</p>
         </div>
         <div class="export-options" style="margin-top: 20px;">
-          <button class="export-item btn-fechar" @click="showGuiaModal = false">Fechar Guia</button>
+          <button class="export-item btn-fechar" @click="showGuiaModal = false">{{ appStore.t.desembolsos_guia_fechar }}</button>
         </div>
       </div>
     </div>
 
     <!-- ==================== MINI BAR STICKY ==================== -->
     <div class="sticky-mini-bar" :class="{ visible: showStickyBar }">
-      <div class="mini-item"><span class="mini-label">Total Alocado</span><span class="mini-value">{{ formatMoneyReduzido(totalAlocadoReal) }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.desembolsos_total_alocado }}</span><span class="mini-value">{{ formatMoneyReduzido(totalAlocadoReal) }}</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Desembolsado</span><span class="mini-value">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.desembolsos_total_desembolsado }}</span><span class="mini-value">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Execução</span><span class="mini-value highlight">{{ taxaExecucaoReal }}%</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.desembolsos_taxa_execucao }}</span><span class="mini-value highlight">{{ taxaExecucaoReal }}%</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Próx. Tranche</span><span class="mini-value">{{ proximaTrancheData }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.desembolsos_proxima_tranche }}</span><span class="mini-value">{{ proximaTrancheData }}</span></div>
     </div>
 
     <!-- ==================== HERO SECTION ==================== -->
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-left" :class="{ 'animate-in': heroVisible }">
-          <div class="hero-badge">💶 Monitorização em Tempo Real</div>
-          <h1>Desembolsos<br><span class="hero-accent">e Execução</span></h1>
-          <p>Acompanhe a execução financeira do PRR: transferências, alocações por pilar e estado dos pedidos de pagamento.</p>
+          <div class="hero-badge">{{ appStore.t.desembolsos_badge }}</div>
+          <h1>{{ appStore.t.desembolsos_titulo }}<br><span class="hero-accent">{{ appStore.t.desembolsos_accent }}</span></h1>
+          <p>{{ appStore.t.desembolsos_sub }}</p>
           <div class="hero-actions">
-            <button class="btn-hero-primary" @click="showExportModal = true">📥 Exportar Dados</button>
-            <button class="btn-hero-outline" @click="scrollSmooth('lista-beneficiarios')">Ver Top 100 Beneficiários</button>
-            <button class="btn-hero-outline" @click="showGuiaModal = true">Guia de Desembolsos</button>
+            <button class="btn-hero-primary" @click="showExportModal = true">{{ appStore.t.desembolsos_btn_export }}</button>
+            <button class="btn-hero-outline" @click="scrollSmooth('lista-beneficiarios')">{{ appStore.t.desembolsos_btn_top100 }}</button>
+            <button class="btn-hero-outline" @click="showGuiaModal = true">{{ appStore.t.desembolsos_btn_guia }}</button>
           </div>
         </div>
         <div class="hero-stats" :class="{ 'animate-in': heroVisible }">
-          <div class="hsc"><div class="hsc-icon-wrap">💶</div><span class="hsc-val">{{ formatMoneyReduzido(totalAlocadoReal) }}</span><span class="hsc-label">Total Alocado</span></div>
-          <div class="hsc verde"><div class="hsc-icon-wrap">✅</div><span class="hsc-val">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span><span class="hsc-label">Total Desembolsado</span></div>
-          <div class="hsc amarelo"><div class="hsc-icon-wrap">📊</div><span class="hsc-val">{{ taxaExecucaoReal }}%</span><span class="hsc-label">Taxa de Execução</span></div>
-          <div class="hsc"><div class="hsc-icon-wrap">🗓️</div><span class="hsc-val">{{ proximaTrancheData }}</span><span class="hsc-label">Próxima Tranche</span></div>
+          <div class="hsc"><div class="hsc-icon-wrap">💶</div><span class="hsc-val">{{ formatMoneyReduzido(totalAlocadoReal) }}</span><span class="hsc-label">{{ appStore.t.desembolsos_total_alocado }}</span></div>
+          <div class="hsc verde"><div class="hsc-icon-wrap">✅</div><span class="hsc-val">{{ formatMoneyReduzido(totalDesembolsadoReal) }}</span><span class="hsc-label">{{ appStore.t.desembolsos_total_desembolsado }}</span></div>
+          <div class="hsc amarelo"><div class="hsc-icon-wrap">📊</div><span class="hsc-val">{{ taxaExecucaoReal }}%</span><span class="hsc-label">{{ appStore.t.desembolsos_taxa_execucao }}</span></div>
+          <div class="hsc"><div class="hsc-icon-wrap">🗓️</div><span class="hsc-val">{{ proximaTrancheData }}</span><span class="hsc-label">{{ appStore.t.desembolsos_proxima_tranche }}</span></div>
         </div>
       </div>
     </section>
@@ -174,37 +173,37 @@
     <section class="filtros-section" id="filtros">
       <div class="filtros-inner">
         <div class="filtros-left">
-          <span class="filtros-titulo">🔍 Filtrar</span>
+          <span class="filtros-titulo">🔍 {{ appStore.idioma === 'pt' ? 'Filtrar' : 'Filter' }}</span>
           <div v-if="filtrosActivos > 0" class="filtros-activos-badge">
-            {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} ativo{{ filtrosActivos > 1 ? 's' : '' }}
-            · {{ historicoTranches.length }} resultado{{ historicoTranches.length !== 1 ? 's' : '' }}
+            {{ filtrosActivos }} {{ appStore.idioma === 'pt' ? (filtrosActivos > 1 ? 'filtros ativos' : 'filtro ativo') : (filtrosActivos > 1 ? 'active filters' : 'active filter') }}
+            · {{ historicoTranches.length }} {{ appStore.idioma === 'pt' ? (historicoTranches.length !== 1 ? 'resultados' : 'resultado') : (historicoTranches.length !== 1 ? 'results' : 'result') }}
           </div>
         </div>
         <div class="filtros-grid">
           <div class="filtro-item" :class="{ 'filtro-activo': filtroPais !== 'todos' }">
-            <label>País</label>
+            <label>{{ appStore.t.desembolsos_filtro_pais }}</label>
             <select v-model="filtroPais">
-              <option value="todos">Todos os países</option>
-              <option v-for="p in appStore.paises.filter(p => p.code !== 'todos')" :key="p.code" :value="p.code">{{ p.nome }}</option>
+              <option value="todos">{{ appStore.t.todos_paises }}</option>
+              <option v-for="p in paisesLocal" :key="p.code" :value="p.code">{{ getNomePais(p.code) }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': anoSelecionado !== 'todos' }">
-            <label>Ano</label>
+            <label>{{ appStore.t.desembolsos_filtro_ano }}</label>
             <select v-model="anoSelecionado">
-              <option value="todos">Todos os anos</option>
+              <option value="todos">{{ appStore.idioma === 'pt' ? 'Todos os anos' : 'All years' }}</option>
               <option v-for="ano in anosDisponiveis" :key="ano" :value="ano">{{ ano }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': estadoSelecionado !== 'todos' }">
-            <label>Estado</label>
+            <label>{{ appStore.t.desembolsos_filtro_estado }}</label>
             <select v-model="estadoSelecionado">
-              <option value="todos">Todos os estados</option>
-              <option value="Pago">✅ Pago</option>
-              <option value="Em Avaliação">⏳ Em Avaliação</option>
-              <option value="Planeado">📝 Planeado</option>
+              <option value="todos">{{ appStore.t.todos_estados }}</option>
+              <option value="Pago">{{ appStore.t.desembolso_estado_pago }}</option>
+              <option value="Em Avaliação">{{ appStore.t.desembolso_estado_avaliacao }}</option>
+              <option value="Planeado">{{ appStore.t.desembolso_estado_planeado }}</option>
             </select>
           </div>
-          <button class="btn-limpar" :class="{ 'btn-limpar-activo': filtrosActivos > 0 }" @click="limparFiltros">✕ Limpar</button>
+          <button class="btn-limpar" :class="{ 'btn-limpar-activo': filtrosActivos > 0 }" @click="limparFiltros">{{ appStore.t.desembolsos_filtro_limpar }}</button>
         </div>
       </div>
     </section>
@@ -212,31 +211,32 @@
     <!-- ==================== GRÁFICOS ==================== -->
     <section class="graficos-section" id="graficos">
       <div class="graficos-titulo-area">
-        <h2>Análise Visual <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-        <p>Desembolsos por ano e distribuição do financiamento — atualização automática com os filtros</p>
+        <h2>{{ appStore.t.marcos_titulo_grafico }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+        <p>{{ appStore.t.desembolsos_grafico_sub }}</p>
       </div>
       <div class="graficos-grid">
         <div class="grafico-card grande">
           <div class="grafico-header">
             <div>
-              <h3>📊 Desembolsos por Ano</h3>
-              <p class="grafico-sub">Montante total de desembolsos agrupado por ano de pagamento</p>
+              <h3>{{ appStore.t.desembolsos_grafico_barras_titulo }}</h3>
+              <p class="grafico-sub">{{ appStore.t.desembolsos_grafico_barras_sub }}</p>
             </div>
             <button class="btn-export-grafico" @click="exportarGrafico('graficoBarras')">📥 PNG</button>
           </div>
           <div class="grafico-canvas-wrap"><canvas id="graficoBarras"></canvas></div>
-          <p class="grafico-legenda-texto">Barras representam o valor total de desembolsos por ano (em EUR)</p>
+          <p class="grafico-legenda-texto">{{ appStore.t.desembolsos_grafico_barras_legenda }}</p>
         </div>
         <div class="grafico-card">
           <div class="grafico-header">
             <div>
-              <h3>🍩 {{ modoCircular === 'financiamento' ? 'Composição do Financiamento' : 'Distribuição por Setores' }}</h3>
+              <h3>{{ modoCircular === 'financiamento' ? appStore.t.desembolsos_grafico_donut_financiamento_titulo : appStore.t.desembolsos_grafico_donut_setores_titulo }}</h3>
               <p class="grafico-sub">
-                {{ modoCircular === 'financiamento' ? 'Proporção entre Subvenções (fundo perdido) e Empréstimos' : 'Montante de desembolsos por setor de intervenção' }}
+                {{ modoCircular === 'financiamento' ? appStore.t.desembolsos_grafico_donut_financiamento_sub : appStore.t.desembolsos_grafico_donut_setores_sub }}
               </p>
             </div>
             <div style="display: flex; gap: 8px;">
-              <button class="btn-export-grafico" @click="modoCircular = modoCircular === 'financiamento' ? 'setores' : 'financiamento'"> {{ modoCircular === 'financiamento' ? '📊 Setores' : '💰 Financiamento' }}
+              <button class="btn-export-grafico" @click="modoCircular = modoCircular === 'financiamento' ? 'setores' : 'financiamento'"> 
+                {{ textoBotaoAlternancia() }}
               </button>
               <button class="btn-export-grafico" @click="exportarGrafico('graficoDonut')">📥 PNG</button>
             </div>
@@ -248,7 +248,7 @@
                 <div class="leg-item" v-for="item in totaisPorFinanciamento" :key="item.tipo">
                   <span class="leg-cor" :style="{ background: item.tipo === 'Subvenção' ? '#1a7a4a' : item.tipo === 'Empréstimo' ? '#0077b6' : '#e6a817' }"></span>
                   <div class="leg-info">
-                    <span>{{ item.tipo }}</span>
+                    <span>{{ item.tipo === 'Subvenção' ? appStore.t.tipo_subvencao : (item.tipo === 'Empréstimo' ? appStore.t.tipo_emprestimo : appStore.t.tipo_misto) }}</span>
                     <strong>{{ formatMoneyReduzido(item.total) }}</strong>
                   </div>
                 </div>
@@ -262,8 +262,9 @@
                   </div>
                 </div>
               </template>
-              <div class="leg-total"><span>Total</span><strong>{{ formatMoneyReduzido(totalRealDesembolsado) }}</strong></div>
+              <div class="leg-total"><span>{{ appStore.idioma === 'pt' ? 'Total' : 'Total' }}</span><strong>{{ formatMoneyReduzido(totalRealDesembolsado) }}</strong></div>
             </div>
+            <p class="grafico-legenda-texto">{{ textoLegendaDonut() }}</p>
           </div>
         </div>
       </div>
@@ -273,13 +274,13 @@
     <section class="lista-section" id="lista-destaque">
       <div class="lista-header">
         <div>
-          <h2>Desembolsos em Destaque <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-          <p class="lista-sub">Os 3 desembolsos mais recentes</p>
+          <h2>{{ appStore.t.desembolsos_destaque_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <p class="lista-sub">{{ appStore.t.desembolsos_destaque_sub }}</p>
         </div>
         <div class="lista-header-actions">
-          <button class="btn-scroll-tabela" @click="scrollSmooth('lista-beneficiarios')">🏆 Ver Top 100</button>
-          <button class="btn-scroll-tabela" @click="scrollSmooth('lista-tranches')">📜 Ver histórico</button>
-          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-tranches')">📋 Ver tabela</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('lista-beneficiarios')">{{ appStore.t.desembolsos_destaque_btn_top100 }}</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('lista-tranches')">{{ appStore.t.desembolsos_destaque_btn_historico }}</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-tranches')">{{ appStore.t.desembolsos_destaque_btn_tabela }}</button>
         </div>
       </div>
 
@@ -307,10 +308,10 @@
               <span class="meta-item">💰 <strong>{{ formatarValorCurto(tranche.valorNum) }}</strong></span>
             </div>
             <div class="marco-footer">
-              <button class="btn-detalhe" @click="mostrarDetalheTranche(tranche)">Ver detalhes →</button>
+              <button class="btn-detalhe" @click="mostrarDetalheTranche(tranche)">{{ appStore.t.desembolsos_card_ver_detalhes }}</button>
               <div class="marco-dl" @click="abrirExportCard(tranche)" title="Exportar dados">
                 <span class="dl-icon">📥</span>
-                <small>CSV | JSON | PDF</small>
+                <small>{{ appStore.t.desembolsos_card_exportar }}</small>
               </div>
             </div>
           </div>
@@ -322,11 +323,11 @@
     <section class="lista-section" id="lista-beneficiarios">
       <div class="lista-header">
         <div>
-          <h2>Top 100 Beneficiários <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-          <p class="lista-sub">Maiores beneficiários por valor aprovado · use o scroll para ver todos · ordenável por valor aprovado</p>
+          <h2>{{ appStore.t.desembolsos_top100_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <p class="lista-sub">{{ appStore.t.desembolsos_top100_sub }}</p>
         </div>
         <div class="lista-header-actions">
-          <button class="btn-export-lista" @click="showTop100ExportModal = true">📥 Exportar Top 100</button>
+          <button class="btn-export-lista" @click="showTop100ExportModal = true">{{ appStore.t.desembolsos_top100_btn_export }}</button>
         </div>
       </div>
 
@@ -334,11 +335,11 @@
         <table class="beneficiarios-tabela">
           <thead>
             <tr>
-              <th class="ben-col-pos">#</th>
-              <th class="ben-col-pais">País</th>
-              <th class="ben-col-nome">Beneficiário</th>
+              <th class="ben-col-pos">{{ appStore.t.desembolsos_top100_col_pos }}</th>
+              <th class="ben-col-pais">{{ appStore.t.desembolsos_top100_col_pais }}</th>
+              <th class="ben-col-nome">{{ appStore.t.desembolsos_top100_col_beneficiario }}</th>
               <th class="ben-col-prog th-sort" @click="ordenarBenefPorValor()">
-                Valor Aprovado <span class="sort-icon">{{ sortBenefDir === 'asc' ? '↑' : (sortBenefDir === 'desc' ? '↓' : '↕') }}</span>
+                {{ appStore.t.desembolsos_top100_col_valor }} <span class="sort-icon">{{ sortBenefDir === 'asc' ? '↑' : (sortBenefDir === 'desc' ? '↓' : '↕') }}</span>
               </th>
             </tr>
           </thead>
@@ -354,10 +355,10 @@
                   </div>
                   <span class="ben-prog-valor">{{ formatMoneyReduzido(ben.total) }}</span>
                 </div>
-              </td>
-            </tr>
+               </td>
+             </tr>
           </tbody>
-        </table>
+         </table>
       </div>
     </section>
 
@@ -365,14 +366,14 @@
     <section class="lista-section" id="lista-tranches">
       <div class="lista-header">
         <div>
-          <h2>Histórico de Desembolsos <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-          <p class="lista-sub">{{ historicoTranches.length }} tranches · {{ ordemAscendente ? 'mais antigos primeiro' : 'mais recentes primeiro' }}</p>
+          <h2>{{ appStore.t.desembolsos_historico_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <p class="lista-sub">{{ textoHistoricoSub() }}</p>
         </div>
         <div class="lista-header-actions">
           <button class="btn-scroll-tabela" @click="ordemAscendente = !ordemAscendente">
-            {{ ordemAscendente ? '↓ Mais recentes' : '↑ Mais antigos' }}
+            {{ textoBotaoOrdem() }}
           </button>
-          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar Histórico</button>
+          <button class="btn-export-lista" @click="showExportModal = true">{{ appStore.t.desembolsos_historico_btn_export }}</button>
         </div>
       </div>
 
@@ -409,12 +410,11 @@
     <section class="tabela-section" id="tabela-tranches">
       <div class="tabela-header">
         <div>
-          <h2> Detalhe das Tranches <span class="pais-indicador-tabela"> {{ bandeiraPais }} {{ nomePaisAtual }} </span>
-          </h2>
-          <p class="tabela-sub">Listagem oficial · clique numa linha para ver detalhes · cabeçalhos ordenáveis</p>
+          <h2>{{ appStore.t.desembolsos_tabela_titulo }} <span class="pais-indicador-tabela"> {{ bandeiraPais }} {{ nomePaisAtual }} </span></h2>
+          <p class="tabela-sub">{{ appStore.t.desembolsos_tabela_sub }}</p>
         </div>
         <div class="tabela-btns">
-          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar tabela</button>
+          <button class="btn-export-lista" @click="showExportModal = true">{{ appStore.t.desembolsos_tabela_btn_export }}</button>
         </div>
       </div>
       <div class="tabela-wrap">
@@ -422,25 +422,25 @@
           <thead>
             <tr>
               <th @click="ordenarPor('id')" class="th-sort">
-                ID <span class="sort-icon">{{ sortCol === 'id' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_id }} <span class="sort-icon">{{ sortCol === 'id' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('nome')" class="th-sort">
-                Designação <span class="sort-icon">{{ sortCol === 'nome' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_designacao }} <span class="sort-icon">{{ sortCol === 'nome' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('tipo')" class="th-sort">
-                Tipo de Fundo <span class="sort-icon">{{ sortCol === 'tipo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_tipo }} <span class="sort-icon">{{ sortCol === 'tipo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('pais')" class="th-sort">
-                País <span class="sort-icon">{{ sortCol === 'pais' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_pais }} <span class="sort-icon">{{ sortCol === 'pais' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('valorNum')" class="th-sort">
-                Montante <span class="sort-icon">{{ sortCol === 'valorNum' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_montante }} <span class="sort-icon">{{ sortCol === 'valorNum' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('dataObj')" class="th-sort">
-                Data <span class="sort-icon">{{ sortCol === 'dataObj' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_data }} <span class="sort-icon">{{ sortCol === 'dataObj' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
               <th @click="ordenarPor('estadoOrd')" class="th-sort">
-                Estado <span class="sort-icon">{{ sortCol === 'estadoOrd' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
+                {{ appStore.t.desembolsos_tabela_col_estado }} <span class="sort-icon">{{ sortCol === 'estadoOrd' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span>
               </th>
             </tr>
           </thead>
@@ -471,24 +471,24 @@
             v-if="linhasVisiveis < tranchesOrdenadas.length"
             @click="linhasVisiveis = Math.min(linhasVisiveis + 10, tranchesOrdenadas.length)"
           >
-            Ver mais (+{{ Math.min(10, tranchesOrdenadas.length - linhasVisiveis) }})
+            {{ textoVerMais() }}
           </button>
           <button
             class="btn-ver-mais"
             v-if="linhasVisiveis > 10"
             @click="linhasVisiveis = 10"
           >
-            Ocultar
+            {{ appStore.t.desembolsos_tabela_ocultar }}
           </button>
         </div>
-        <p class="tabela-nota">A mostrar {{ tranchesPaginadas.length }} de {{ historicoTranches.length }} tranches</p>
+        <p class="tabela-nota">{{ textoNotaTabela() }}</p>
       </div>
     </section>
 
     <!-- ==================== NOTA DE RODAPÉ ==================== -->
     <div class="data-source-note">
       <span class="source-icon">📋</span>
-      <p>Dados síncronos com <strong>Recuperar Portugal</strong> e <strong>Comissão Europeia</strong>. Última atualização: {{ horaAtual }}.</p>
+      <p>{{ textoNotaRodape() }}</p>
     </div>
   </div>
 </template>
@@ -497,13 +497,14 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
-import { getDesembolsos, getDesembolsosByPais } from '@/services/api.js'
-const showTop100ExportModal = ref(false)
+import { getDesembolsos, getDesembolsosByPais, getPaises } from '@/services/api.js'
 
 Chart.register(...registerables)
 const appStore = useAppStore()
 
 // -------------------- ESTADOS --------------------
+const paisesLocal = ref([])
+const showTop100ExportModal = ref(false)
 const anoSelecionado = ref('todos')
 const estadoSelecionado = ref('todos')
 const heroVisible = ref(false)
@@ -517,11 +518,7 @@ const erro = ref(null)
 const ordemAscendente = ref(false)
 const modoCircular = ref('financiamento')
 const linhasVisiveis = ref(10)
-
-// -------------------- ORDENAÇÃO BENEFICIÁRIOS --------------------
 const sortBenefDir = ref('desc')
-
-// -------------------- STICKY BAR --------------------
 const showStickyBar = ref(false)
 
 // -------------------- DADOS DA API --------------------
@@ -539,7 +536,10 @@ async function carregarDesembolsos() {
       desembolsosAPI.value = await getDesembolsosByPais(pais)
     }
   } catch (e) {
-    erro.value = 'Falha ao carregar os desembolsos. Verifique a ligação ao servidor.'
+    console.error('Erro ao carregar desembolsos:', e)
+    erro.value = appStore.idioma === 'pt' 
+      ? 'Falha ao carregar os desembolsos. Verifique a ligação ao servidor.'
+      : 'Failed to load disbursements. Check server connection.'
     desembolsosAPI.value = []
   } finally {
     loading.value = false
@@ -550,7 +550,25 @@ async function carregarTodosDesembolsos() {
   try {
     todosDesembolsos.value = await getDesembolsos()
   } catch (e) {
+    console.error('Erro ao carregar todos desembolsos:', e)
     todosDesembolsos.value = []
+  }
+}
+
+function getNomePais(paisCode) {
+  if (!paisCode || paisCode === 'todos') return appStore.t.todos_paises
+  const isPt = appStore.idioma === 'pt'
+  const pais = paisesLocal.value.find(p => p.code === paisCode)
+  if (!pais) return paisCode
+  return isPt ? pais.nome_pt : pais.nome_en
+}
+
+function textoBotaoAlternancia() {
+  const isPt = appStore.idioma === 'pt'
+  if (modoCircular.value === 'financiamento') {
+    return isPt ? '📊 Setores' : '📊 Sectors'
+  } else {
+    return isPt ? '💰 Financiamento' : '💰 Financing'
   }
 }
 
@@ -598,11 +616,13 @@ const historicoTranches = computed(() => {
       return true
     })
     .map(t => {
+      const isPt = appStore.idioma === 'pt'
       const tipo = t.tipologia
       const valorFormatado = formatMoney(t.montante)
       const dataObj = new Date(t.data)
-      const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
-      const dataFormatada = `${meses[dataObj.getMonth()]} ${dataObj.getFullYear()}`
+      const setorOriginal = t.setor || ''
+      const mesOriginal = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][dataObj.getMonth()]
+      const dataFormatada = `${traduzirMes(mesOriginal)} ${dataObj.getFullYear()}`
 
       const estadoBruto = t.estado || null
       let estado
@@ -618,20 +638,42 @@ const historicoTranches = computed(() => {
 
       const estadoClass = estado === 'Pago' ? 'concluido' : (estado === 'Em Avaliação' ? 'em_curso' : 'planeado')
       const estadoOrd = estado === 'Pago' ? 1 : (estado === 'Em Avaliação' ? 2 : 3)
-      const nomePais = t.pais || ''
+
+      const paisTraduzido = getNomePaisTraduzido(t.paisCode)
+
+      let setorTraduzido = t.setor
+      if (appStore.idioma === 'en') {
+        const setoresMap = {
+          'Saúde': 'Health', 'Digital': 'Digital', 'Clima': 'Climate',
+          'Transversal': 'Cross-cutting', 'Coesão': 'Cohesion',
+          'Infraestrutura': 'Infrastructure', 'Educação': 'Education'
+        }
+        setorTraduzido = setoresMap[t.setor] || t.setor
+      }
+
+      const titulo = isPt ? (t.titulo_pt || t.titulo) : (t.titulo_en || t.titulo)
+      const descCurta = isPt ? (t.descricaoCurta_pt || t.descricaoCurta || t.descricao || 'Sem descrição')
+                           : (t.descricaoCurta_en || t.descricaoCurta || t.descricao || 'No description')
+
+      const beneficiario = isPt ? (t.beneficiario_pt || t.beneficiario || 'Não especificado')
+                               : (t.beneficiario_en || t.beneficiario || 'Not specified')
+
+      let tipoTraduzido = tipo
+      if (appStore.idioma === 'en') {
+        if (tipo === 'Subvenção') tipoTraduzido = 'Grant'
+        else if (tipo === 'Empréstimo') tipoTraduzido = 'Loan'
+        else if (tipo === 'Misto') tipoTraduzido = 'Mixed'
+      }
 
       let statusClass = ''
       if (estado === 'Pago') statusClass = 'status-pago'
       else if (estado === 'Em Avaliação') statusClass = 'status-avaliacao'
       else statusClass = 'status-planeado'
 
-      const descCurta = t.descricaoCurta || t.descricao || 'Sem descrição'
-      const setor = t.setor || 'Transversal'
-
       return {
         id: t.id,
-        nome: t.titulo || t.tipologia,
-        tipo,
+        nome: titulo,
+        tipo: tipoTraduzido,
         valor: valorFormatado,
         data: dataFormatada,
         estado,
@@ -641,11 +683,13 @@ const historicoTranches = computed(() => {
         valorNum: t.montante,
         dataObj,
         marcos: 'N/A',
-        pais: nomePais,
+        pais: paisTraduzido,
         paisCode: t.paisCode,
         descCurta,
-        setor,
-        raw: t
+        setor: setorTraduzido,
+        setorOriginal: setorOriginal,
+        raw: t,
+        beneficiario: beneficiario
       }
     })
 })
@@ -680,13 +724,21 @@ const percentagemPais = computed(() => {
 })
 
 const proximaTrancheData = computed(() => {
-  const avaliacao = historicoTranches.value
-    .filter(t => t.estado === 'Em Avaliação')
-    .sort((a, b) => b.dataObj.getTime() - a.dataObj.getTime())
-  if (avaliacao.length === 0) return '—'
-  const d = avaliacao[0].dataObj
+  const hoje = new Date()
+  hoje.setHours(0, 0, 0, 0)
+  
+  const futuras = historicoTranches.value
+    .filter(t => {
+      if (t.estado !== 'Em Avaliação' && t.estado !== 'Planeado') return false
+      return t.dataObj.getTime() > hoje.getTime()
+    })
+    .sort((a, b) => a.dataObj.getTime() - b.dataObj.getTime())
+  
+  if (futuras.length === 0) return '—'
+  const d = futuras[0].dataObj
   const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
-  return `${meses[d.getMonth()]} ${d.getFullYear()}`
+  const mesOriginal = meses[d.getMonth()]
+  return `${traduzirMes(mesOriginal)} ${d.getFullYear()}`
 })
 
 const totaisPorAno = computed(() => {
@@ -701,7 +753,6 @@ const totaisPorAno = computed(() => {
 
 const anosDisponiveis = computed(() => {
   const anos = new Set()
-  // usar desembolsosAPI (dados carregados, já filtrados por país, mas sem filtro de ano)
   desembolsosAPI.value.forEach(t => {
     const dataObj = new Date(t.data)
     anos.add(dataObj.getFullYear())
@@ -712,17 +763,28 @@ const anosDisponiveis = computed(() => {
 const totaisPorSetor = computed(() => {
   const mapa = {}
   historicoTranches.value.forEach(t => {
-    const setor = t.setor || 'Transversal'
+    const setor = t.setorOriginal || t.setor || ''
     mapa[setor] = (mapa[setor] || 0) + t.valorNum
   })
-  return Object.entries(mapa).map(([setor, total]) => ({ setor, total }))
+  return Object.entries(mapa).map(([setor, total]) => {
+    let nomeExibicao = setor
+    if (appStore.idioma === 'en') {
+      const mapEn = {
+        'Saúde': 'Health', 'Digital': 'Digital', 'Clima': 'Climate',
+        'Transversal': 'Cross-cutting', 'Coesão': 'Cohesion',
+        'Infraestrutura': 'Infrastructure', 'Educação': 'Education'
+      }
+      nomeExibicao = mapEn[setor] || setor
+    }
+    return { setor: nomeExibicao, total }
+  })
 })
 
 const totaisPorFinanciamento = computed(() => {
   const mapa = {}
   historicoTranches.value.forEach(t => {
-    const tipo = t.tipo || 'Subvenção'
-    mapa[tipo] = (mapa[tipo] || 0) + t.valorNum
+    const tipoOriginal = t.raw.tipologia
+    mapa[tipoOriginal] = (mapa[tipoOriginal] || 0) + t.valorNum
   })
   return [
     { tipo: 'Subvenção', total: mapa['Subvenção'] || 0 },
@@ -754,29 +816,23 @@ const contagemPorSetor = computed(() => {
 })
 
 // -------------------- TOP 100 BENEFICIÁRIOS --------------------
-// -------------------- TOP 100 BENEFICIÁRIOS (com rank fixo) --------------------
 const topBeneficiarios = computed(() => {
   const mapa = {}
   historicoTranches.value.forEach(t => {
-    const raw = t.raw
-    const beneficiario = raw?.beneficiario || 'Não especificado'
+    const beneficiario = t.beneficiario
     const chave = `${beneficiario}||${t.paisCode}||${t.pais}`
     if (!mapa[chave]) {
       mapa[chave] = { nome: beneficiario, paisCode: t.paisCode, pais: t.pais, total: 0 }
     }
     mapa[chave].total += t.valorNum
   })
-  // Obter lista não ordenada
   let lista = Object.values(mapa)
-  // Ordenar por total descendente para atribuir ranks
   lista.sort((a, b) => b.total - a.total)
-  // Atribuir rank (1 = maior total)
   lista = lista.map((item, idx) => ({ ...item, rank: idx + 1 }))
   return lista
 })
 
 const topBeneficiariosOrdenados = computed(() => {
-  // Criar cópia e ordenar conforme o estado atual (asc/desc)
   const lista = [...topBeneficiarios.value]
   lista.sort((a, b) => {
     return sortBenefDir.value === 'desc' ? b.total - a.total : a.total - b.total
@@ -788,7 +844,6 @@ function ordenarBenefPorValor() {
   sortBenefDir.value = sortBenefDir.value === 'desc' ? 'asc' : 'desc'
 }
 
-// Valor máximo absoluto para as barras de progresso (não depende da ordenação)
 const maxTotalBeneficiarios = computed(() => {
   if (topBeneficiarios.value.length === 0) return 1
   return Math.max(...topBeneficiarios.value.map(b => b.total))
@@ -846,13 +901,15 @@ function mostrarDetalheTranche(tranche) {
   trancheDetalhe.value = tranche
 }
 
-// Retorna o ranking do beneficiário no top 100 (1 = maior valor)
 function getBeneficiarioRank(beneficiarioNome, paisCode) {
   const idx = topBeneficiariosOrdenados.value.findIndex(b => b.nome === beneficiarioNome && b.paisCode === paisCode)
   return idx !== -1 ? idx + 1 : null
 }
 
-// Retorna o ícone da medalha conforme a posição (1-3)
+function textoPesoModal() {
+  return appStore.t.desembolsos_modal_detalhe_peso.replace('{{pais}}', nomePaisAtual.value)
+}
+
 function getMedalIcon(rank) {
   if (rank === 1) return '🥇'
   if (rank === 2) return '🥈'
@@ -860,7 +917,7 @@ function getMedalIcon(rank) {
   return ''
 }
 
-// -------------------- EXPORT CARD --------------------
+// -------------------- EXPORT CARD (INDIVIDUAL) --------------------
 function abrirExportCard(tranche) {
   cardExportTranche.value = tranche
   showCardExportModal.value = true
@@ -870,54 +927,86 @@ function exportarTrancheIndividual(formato) {
   const t = cardExportTranche.value
   if (!t) return
   const raw = t.raw
+  const isPt = appStore.idioma === 'pt'
   
   if (formato === 'csv') {
     let csv = `ID;País;Código País;Data;Montante;Tipologia;Título;Estado;Descrição Curta;Descrição Longa;Setor;Imagem;Beneficiário\n`
-    csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${raw.titulo.replace(/"/g, '""')}";${raw.estado || t.estado};"${(raw.descricaoCurta || '').replace(/"/g, '""')}";"${(raw.descricaoLonga || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(raw.beneficiario || '').replace(/"/g, '""')}"`
+    csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${(isPt ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)).replace(/"/g, '""')}";${raw.estado || t.estado};"${(isPt ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')).replace(/"/g, '""')}";"${(raw.descricaoLonga || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(isPt ? (raw.beneficiario_pt || raw.beneficiario || '') : (raw.beneficiario_en || raw.beneficiario || '')).replace(/"/g, '""')}"\n`
     downloadBlob(csv, 'text/csv', `tranche_${raw.id}.csv`)
+    showCardExportModal.value = false
+    cardExportTranche.value = null
+    return
   } 
   else if (formato === 'json') {
     const json = JSON.stringify(raw, null, 2)
     downloadBlob(json, 'application/json', `tranche_${raw.id}.json`)
+    showCardExportModal.value = false
+    cardExportTranche.value = null
+    return
   } 
   else if (formato === 'pdf') {
     const win = window.open('', '_blank')
     if (!win || win.closed || typeof win.closed === 'undefined') {
-      alert('O navegador bloqueou a janela de impressão. Permita pop-ups para este site.')
+      const msg = appStore.idioma === 'pt' 
+        ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
+        : '❌ The browser blocked the print window. Please allow pop-ups for this site.'
+      alert(msg)
+      showCardExportModal.value = false
+      cardExportTranche.value = null
       return
     }
+    
+    const titulo = isPt ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)
+    const descCurta = isPt ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')
+    const descLonga = isPt ? (raw.descricaoLonga_pt || raw.descricaoLonga || '') : (raw.descricaoLonga_en || raw.descricaoLonga || '')
+    const beneficiario = isPt ? (raw.beneficiario_pt || raw.beneficiario || 'Não especificado') : (raw.beneficiario_en || raw.beneficiario || 'Not specified')
+    const estado = raw.estado || t.estado
+    const estadoLabel = estadoLabelTranche(estado)
+    
     win.document.write(`
-      <html><head><title>Comprovativo - ${raw.titulo}</title>
-      <style>
-        body{font-family:Arial;padding:40px}
-        h1{color:#931b18}
-        table{width:100%;border-collapse:collapse;margin-top:20px}
-        th,td{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top}
-        th{background:#931b18;color:white;width:30%}
-        .footer{margin-top:30px;font-size:12px;color:#666}
-      </style></head>
-      <body>
-        <h1>📥 Comprovativo de Pagamento</h1>
-        <p><strong>Estado-Membro:</strong> ${raw.pais}</p>
-        <table>
-          <tr><th>ID</th><td>T${raw.id}</tr>
-          <tr><th>Título</th><td>${raw.titulo}</tr>
-          <tr><th>Estado</th><td>${raw.estado || t.estado}</tr>
-          <tr><th>Valor</th><td>${formatMoney(raw.montante)}</tr>
-          <tr><th>Data</th><td>${raw.data}</tr>
-          <tr><th>Tipologia</th><td>${raw.tipologia}</tr>
-          <tr><th>Setor</th><td>${raw.setor}</tr>
-          <tr><th>Beneficiário</th><td>${raw.beneficiario || 'Não especificado'}</tr>
-          <tr><th>Descrição Curta</th><td>${raw.descricaoCurta || ''}</tr>
-          <tr><th>Descrição Longa</th><td>${(raw.descricaoLonga || '').replace(/\n/g, '<br>')}</tr>
-        </table>
-        <div class="footer">Documento gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
-      </body></html>`)
+      <html>
+        <head>
+          <title>${appStore.t.desembolsos_modal_card_titulo} - ${titulo}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: 0 auto; }
+            h1 { color: #931b18; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
+            .info { margin-top: 20px; }
+            .row { margin-bottom: 12px; }
+            .label { font-weight: bold; width: 180px; display: inline-block; color: #931b18; }
+            .value { display: inline-block; }
+            .desc-box { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+            .desc-box h3 { margin-top: 0; color: #931b18; }
+            .footer { margin-top: 40px; font-size: 12px; color: #666; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>📥 ${appStore.t.desembolsos_modal_card_titulo}</h1>
+          <div class="info">
+            <div class="row"><span class="label">${appStore.t.marco_pdf_pais}:</span> <span class="value">${getNomePaisTraduzido(raw.paisCode)}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_id}:</span> <span class="value">T${raw.id}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_designacao}:</span> <span class="value">${titulo}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_estado}:</span> <span class="value">${estadoLabel}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_montante}:</span> <span class="value">${formatMoney(raw.montante)}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_data}:</span> <span class="value">${raw.data}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_tabela_col_tipo}:</span> <span class="value">${raw.tipologia === 'Subvenção' ? appStore.t.tipo_subvencao : (raw.tipologia === 'Empréstimo' ? appStore.t.tipo_emprestimo : appStore.t.tipo_misto)}</span></div>
+            <div class="row"><span class="label">${appStore.t.setor_label}:</span> <span class="value">${raw.setor}</span></div>
+            <div class="row"><span class="label">${appStore.t.desembolsos_modal_detalhe_beneficiario}:</span> <span class="value">${beneficiario}</span></div>
+          </div>
+          <div class="desc-box">
+            <h3>📝 ${appStore.t.marco_pdf_descricao}</h3>
+            <p><strong>${appStore.idioma === 'pt' ? 'Descrição curta:' : 'Short description:'}</strong> ${descCurta}</p>
+            <p><strong>${appStore.idioma === 'pt' ? 'Descrição longa:' : 'Long description:'}</strong> ${descLonga.replace(/\n/g, '<br>')}</p>
+          </div>
+          <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
+        </body>
+      </html>
+    `)
     win.document.close()
     win.print()
+    showCardExportModal.value = false
+    cardExportTranche.value = null
+    return
   }
-  showCardExportModal.value = false
-  cardExportTranche.value = null
 }
 
 // -------------------- AUXILIARES --------------------
@@ -927,8 +1016,9 @@ const nomePaisAtual = computed(() => {
 })
 
 const bandeiraPais = computed(() => {
-  const bandeiras = { PT: '🇵🇹', ES: '🇪🇸', FR: '🇫🇷', IT: '🇮🇹', DE: '🇩🇪', GR: '🇬🇷', HR: '🇭🇷', RO: '🇷🇴' }
-  return bandeiras[filtroPais.value] || '🌍'
+  if (filtroPais.value === 'todos') return '🌍'
+  const pais = paisesLocal.value.find(p => p.code === filtroPais.value)
+  return pais?.bandeira || '🌍'
 })
 
 const percentagemTranche = computed(() => {
@@ -949,18 +1039,44 @@ function atualizarHora() {
 }
 
 function bandeiraPaisObj(paisCode) {
-  const bandeiras = { PT: '🇵🇹', ES: '🇪🇸', FR: '🇫🇷', IT: '🇮🇹', DE: '🇩🇪', GR: '🇬🇷', HR: '🇭🇷', RO: '🇷🇴' }
-  return bandeiras[paisCode] || '🌍'
+  if (!paisCode) return '🌍'
+  const pais = paisesLocal.value.find(p => p.code === paisCode)
+  return pais?.bandeira || '🌍'
+}
+
+function traduzirMes(mesAbreviado) {
+  if (appStore.idioma !== 'en') return mesAbreviado
+  const meses = {
+    'Jan': 'Jan', 'Fev': 'Feb', 'Mar': 'Mar', 'Abr': 'Apr',
+    'Mai': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Ago': 'Aug',
+    'Set': 'Sep', 'Out': 'Oct', 'Nov': 'Nov', 'Dez': 'Dec'
+  }
+  return meses[mesAbreviado] || mesAbreviado
+}
+
+function getNomePaisTraduzido(paisCode) {
+  if (!paisCode || paisCode === 'todos') return appStore.t.todos_paises
+  const pais = paisesLocal.value.find(p => p.code === paisCode)
+  if (!pais) return paisCode
+  const isPt = appStore.idioma === 'pt'
+  return isPt ? pais.nome_pt : pais.nome_en
 }
 
 function overlayGradienteDesembolsos(setor) {
   const cores = {
     'Saúde': 'linear-gradient(to top, rgba(123,28,28,0.85) 0%, rgba(123,28,28,0.1) 60%)',
+    'Health': 'linear-gradient(to top, rgba(123,28,28,0.85) 0%, rgba(123,28,28,0.1) 60%)',
     'Digital': 'linear-gradient(to top, rgba(26,58,107,0.85) 0%, rgba(26,58,107,0.1) 60%)',
     'Clima': 'linear-gradient(to top, rgba(26,92,46,0.85) 0%, rgba(26,92,46,0.1) 60%)',
+    'Climate': 'linear-gradient(to top, rgba(26,92,46,0.85) 0%, rgba(26,92,46,0.1) 60%)',
     'Transversal': 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)',
+    'Cross-cutting': 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)',
     'Coesão': 'linear-gradient(to top, rgba(58,26,107,0.85) 0%, rgba(58,26,107,0.1) 60%)',
-    'Infraestrutura': 'linear-gradient(to top, rgba(42,42,42,0.85) 0%, rgba(42,42,42,0.1) 60%)'
+    'Cohesion': 'linear-gradient(to top, rgba(58,26,107,0.85) 0%, rgba(58,26,107,0.1) 60%)',
+    'Infraestrutura': 'linear-gradient(to top, rgba(42,42,42,0.85) 0%, rgba(42,42,42,0.1) 60%)',
+    'Infrastructure': 'linear-gradient(to top, rgba(42,42,42,0.85) 0%, rgba(42,42,42,0.1) 60%)',
+    'Educação': 'linear-gradient(to top, rgba(107,58,26,0.85) 0%, rgba(107,58,26,0.1) 60%)',
+    'Education': 'linear-gradient(to top, rgba(107,58,26,0.85) 0%, rgba(107,58,26,0.1) 60%)'
   }
   return cores[setor] || 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)'
 }
@@ -1002,45 +1118,64 @@ function formatarValorCurto(valor) {
   }
 }
 
-function corProgresso(val) {
-  if (val >= 80) return '#1a7a4a'
-  if (val >= 40) return '#e6a817'
-  return '#931b18'
-}
-
 function scrollSmooth(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function estadoLabelTranche(estado) {
-  const mapa = {
-    'Pago': '✅ Pago',
-    'Em Avaliação': '⏳ Em Avaliação',
-    'Planeado': '📝 Planeado'
-  }
-  return mapa[estado] || estado
+  if (estado === 'Pago') return appStore.t.desembolso_estado_pago
+  if (estado === 'Em Avaliação') return appStore.t.desembolso_estado_avaliacao
+  return appStore.t.desembolso_estado_planeado
+}
+
+function textoTop100Desc() {
+  return appStore.t.desembolsos_modal_top100_desc
+    .replace('{{pais}}', nomePaisAtual.value)
+    .replace('{{total}}', topBeneficiariosOrdenados.value.length)
+}
+
+function textoCardExportDesc() {
+  const nome = cardExportTranche.value?.nome || 'Tranche selecionada'
+  return appStore.t.desembolsos_modal_card_desc.replace('{{nome}}', nome)
+}
+
+function textoLegendaDonut() {
+  return appStore.t.desembolsos_grafico_donut_legenda.replace('{{total}}', historicoTranches.value.length)
+}
+
+function textoNotaRodape() {
+  return appStore.t.desembolsos_nota_fonte.replace('{{hora}}', horaAtual.value)
 }
 
 function iconeSetor(setor) {
   const mapa = {
     'Saúde': '❤️',
+    'Health': '❤️',
     'Digital': '💻',
     'Clima': '🌿',
-    'Transversal': '🔄',
+    'Climate': '🌿',
     'Coesão': '👥',
+    'Cohesion': '👥',
     'Educação': '🎓',
-    'Infraestrutura': '🏢'
+    'Education': '🎓',
+    'Infraestrutura': '🏢',
+    'Infrastructure': '🏢'
   }
   return mapa[setor] || '📌'
 }
 
 const coresSetores = {
   'Saúde': '#e74c3c',
+  'Health': '#e74c3c',
   'Digital': '#3498db',
   'Clima': '#2ecc71',
-  'Transversal': '#95a5a6',
+  'Climate': '#2ecc71',
   'Coesão': '#9b59b6',
-  'Infraestrutura': '#f39c12'
+  'Cohesion': '#9b59b6',
+  'Infraestrutura': '#f39c12',
+  'Infrastructure': '#f39c12',
+  'Educação': '#f39c12',
+  'Education': '#f39c12'
 }
 
 // -------------------- GRÁFICOS --------------------
@@ -1070,7 +1205,7 @@ function criarGraficos() {
       data: {
         labels: dadosAno.map(d => d.ano),
         datasets: [{
-          label: 'Desembolsos por ano',
+          label: appStore.idioma === 'pt' ? 'Desembolsos por ano' : 'Disbursements by year',
           data: dadosAno.map(d => d.total),
           backgroundColor: 'rgba(147, 27, 24, 0.85)',
           borderRadius: 8,
@@ -1083,7 +1218,11 @@ function criarGraficos() {
           if (elements.length > 0) {
             const index = elements[0].index
             const anoClicado = dadosAno[index].ano
-            anoSelecionado.value = anoClicado
+            if (anoSelecionado.value !== 'todos') {
+              anoSelecionado.value = 'todos'
+            } else {
+              anoSelecionado.value = anoClicado
+            }
           }
         },
         plugins: {
@@ -1115,7 +1254,18 @@ function criarGraficos() {
       const dadosSetor = totaisPorSetor.value
       labels = dadosSetor.map(d => d.setor)
       data = dadosSetor.map(d => d.total)
-      backgroundColor = dadosSetor.map(d => coresSetores[d.setor] || '#999')
+      backgroundColor = dadosSetor.map(d => {
+        let setorOriginal = d.setor
+        if (appStore.idioma === 'en') {
+          const mapPt = {
+            'Health': 'Saúde', 'Digital': 'Digital', 'Climate': 'Clima',
+            'Cross-cutting': 'Transversal', 'Cohesion': 'Coesão',
+            'Infrastructure': 'Infraestrutura', 'Education': 'Educação'
+          }
+          setorOriginal = mapPt[d.setor] || d.setor
+        }
+        return coresSetores[setorOriginal] || coresSetores[d.setor] || '#999'
+      })
     }
 
     chartDonut = new Chart(ctxD, {
@@ -1145,13 +1295,14 @@ function criarGraficos() {
                 if (modoCircular.value === 'financiamento') {
                   const tipo = labels[ctx.dataIndex]
                   const contagem = contagemPorFinanciamento.value.find(c => c.tipo === tipo)?.count || 0
-                  extra = ` (${contagem} desembolso${contagem !== 1 ? 's' : ''})`
+                  extra = ` (${contagem} ${appStore.idioma === 'pt' ? (contagem !== 1 ? 'desembolsos' : 'desembolso') : (contagem !== 1 ? 'disbursements' : 'disbursement')})`
                 } else {
                   const setor = labels[ctx.dataIndex]
                   const contagem = contagemPorSetor.value.find(c => c.setor === setor)?.count || 0
-                  extra = ` (${contagem} desembolso${contagem !== 1 ? 's' : ''})`
+                  extra = ` (${contagem} ${appStore.idioma === 'pt' ? (contagem !== 1 ? 'desembolsos' : 'desembolso') : (contagem !== 1 ? 'disbursements' : 'disbursement')})`
                 }
-                return ` ${labels[ctx.dataIndex]}: ${valor.toLocaleString('pt-PT')} €${extra}`
+                const nomeLabel = appStore.idioma === 'pt' ? labels[ctx.dataIndex] : (labels[ctx.dataIndex] === 'Subvenção' ? 'Grant' : (labels[ctx.dataIndex] === 'Empréstimo' ? 'Loan' : 'Mixed'))
+                return ` ${nomeLabel}: ${valor.toLocaleString('pt-PT')} €${extra}`
               }
             }
           }
@@ -1170,8 +1321,7 @@ function exportarGrafico(id) {
   a.click()
 }
 
-// -------------------- EXPORTAÇÃO --------------------
-
+// -------------------- EXPORTAÇÃO GERAL --------------------
 function exportarDesembolsos(tipo) {
   const pais = nomePaisAtual.value
   const d = {
@@ -1182,14 +1332,14 @@ function exportarDesembolsos(tipo) {
   }
 
   if (tipo === 'csv') {
-    let csv = `Relatório Financeiro PRR\nPaís;${pais}\n\n`
-    csv += `Indicador;Valor\n`
-    csv += `Total Alocado;${formatMoney(d.alocado)}\n`
-    csv += `Total Desembolsado;${formatMoney(d.desembolsado)}\n`
-    csv += `Taxa Execução;${d.taxaExecucao}%\n`
-    csv += `Próxima Tranche;${d.proximaTranche}\n`
-    csv += `\nTranches (detalhe completo)\n`
-    csv += `ID;País;Código País;Data;Montante;Tipologia;Título;Estado;Descrição;Setor;Imagem;Beneficiário\n`
+    let csv = `${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'}\n${appStore.idioma === 'pt' ? 'País' : 'Country'};${pais}\n\n`
+    csv += `${appStore.idioma === 'pt' ? 'Indicador;Valor' : 'Indicator;Value'}\n`
+    csv += `${appStore.t.desembolsos_total_alocado};${formatMoney(d.alocado)}\n`
+    csv += `${appStore.t.desembolsos_total_desembolsado};${formatMoney(d.desembolsado)}\n`
+    csv += `${appStore.t.desembolsos_taxa_execucao};${d.taxaExecucao}%\n`
+    csv += `${appStore.t.desembolsos_proxima_tranche};${d.proximaTranche}\n`
+    csv += `\n${appStore.idioma === 'pt' ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}\n`
+    csv += `ID;${appStore.idioma === 'pt' ? 'País' : 'Country'};${appStore.idioma === 'pt' ? 'Código País' : 'Country Code'};Data;Montante;Tipologia;Título;Estado;Descrição;Setor;Imagem;Beneficiário\n`
     historicoTranches.value.forEach(t => {
       const raw = t.raw
       csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${raw.titulo.replace(/"/g, '""')}";${raw.estado || t.estado};"${(raw.descricaoCurta || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(raw.beneficiario || '').replace(/"/g, '""')}"\n`
@@ -1206,50 +1356,80 @@ function exportarDesembolsos(tipo) {
   } 
   else if (tipo === 'pdf') {
     const win = window.open('', '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      const msg = appStore.idioma === 'pt' 
+        ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
+        : '❌ The browser blocked the print window. Please allow pop-ups for this site.'
+      alert(msg)
+      showExportModal.value = false
+      return
+    }
     win.document.write(`
-      <html><head><title>Relatório Financeiro PRR</title>
-      <style>
-        body{font-family:Arial;padding:40px}
-        h1{color:#931b18}
-        table{width:100%;border-collapse:collapse;margin-top:20px}
-        th,td{border:1px solid #ddd;padding:8px;text-align:left}
-        th{background:#931b18;color:white}
-        .footer{margin-top:30px;font-size:12px;color:#666}
-      </style></head>
-      <body>
-        <h1>Relatório Financeiro PRR - ${pais}</h1>
-        <h2>Indicadores</h2>
-        <table>
-          <tr><th>Indicador</th><th>Valor</th></tr>
-          <tr><td>Total Alocado</td><td>${formatMoney(d.alocado)}</td></tr>
-          <tr><td>Total Desembolsado</td><td>${formatMoney(d.desembolsado)}</td></tr>
-          <tr><td>Taxa de Execução</td><td>${d.taxaExecucao}%</td></tr>
-          <tr><td>Próxima Tranche</td><td>${d.proximaTranche}</td></tr>
-        </table>
-        <h2>Tranches (detalhe completo)</h2>
-        <table>
-          <thead><tr><th>ID</th><th>País</th><th>Código</th><th>Data</th><th>Montante</th><th>Tipologia</th><th>Título</th><th>Estado</th><th>Descrição</th><th>Setor</th><th>Beneficiário</th></tr></thead>
-          <tbody>
-            ${historicoTranches.value.map(t => {
-              const raw = t.raw
-              return `<tr>
-                <td>${raw.id}</td>
-                <td>${raw.pais}</td>
-                <td>${raw.paisCode}</td>
-                <td>${raw.data}</td>
-                <td>${formatMoney(raw.montante)}</td>
-                <td>${raw.tipologia}</td>
-                <td>${raw.titulo}</td>
-                <td>${raw.estado || t.estado}</td>
-                <td>${raw.descricaoCurta || ''}</td>
-                <td>${raw.setor}</td>
-                <td>${raw.beneficiario || ''}</td>
-              </tr>`
-            }).join('')}
-          </tbody>
-        </table>
-        <div class="footer">Gerado em ${new Date().toLocaleString('pt-PT')}</div>
-      </body></html>`)
+      <html>
+        <head>
+          <title>${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            h1 { color: #931b18; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+            th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+            th { background-color: #931b18; color: white; }
+            .footer { margin-top: 30px; font-size: 10px; color: #666; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <h1>${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'} - ${pais}</h1>
+          <h2>${appStore.idioma === 'pt' ? 'Indicadores' : 'Indicators'}</h2>
+          <table>
+            <tr><th>${appStore.idioma === 'pt' ? 'Indicador' : 'Indicator'}</th><th>${appStore.idioma === 'pt' ? 'Valor' : 'Value'}</th></tr>
+            <tr><td>${appStore.t.desembolsos_total_alocado}</td><td>${formatMoney(d.alocado)}</td></tr>
+            <tr><td>${appStore.t.desembolsos_total_desembolsado}</td><td>${formatMoney(d.desembolsado)}</td></tr>
+            <tr><td>${appStore.t.desembolsos_taxa_execucao}</td><td>${d.taxaExecucao}%</td></tr>
+            <tr><td>${appStore.t.desembolsos_proxima_tranche}</td><td>${d.proximaTranche}</td></tr>
+          </table>
+          <h2>${appStore.idioma === 'pt' ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>${appStore.t.desembolsos_tabela_col_id}</th>
+                <th>${appStore.t.desembolsos_tabela_col_pais}</th>
+                <th>${appStore.idioma === 'pt' ? 'Código' : 'Code'}</th>
+                <th>${appStore.t.desembolsos_tabela_col_data}</th>
+                <th>${appStore.t.desembolsos_tabela_col_montante}</th>
+                <th>${appStore.t.desembolsos_tabela_col_tipo}</th>
+                <th>${appStore.t.desembolsos_tabela_col_designacao}</th>
+                <th>${appStore.t.desembolsos_tabela_col_estado}</th>
+                <th>${appStore.idioma === 'pt' ? 'Descrição' : 'Description'}</th>
+                <th>${appStore.t.setor_label}</th>
+                <th>${appStore.t.desembolsos_modal_detalhe_beneficiario}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${historicoTranches.value.map(t => {
+                const raw = t.raw
+                const descCurta = appStore.idioma === 'pt' ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')
+                return `
+                  <tr>
+                    <td>T${raw.id}</td>
+                    <td>${raw.pais}</td>
+                    <td>${raw.paisCode}</td>
+                    <td>${raw.data}</td>
+                    <td>${formatMoney(raw.montante)}</td>
+                    <td>${raw.tipologia === 'Subvenção' ? appStore.t.tipo_subvencao : (raw.tipologia === 'Empréstimo' ? appStore.t.tipo_emprestimo : appStore.t.tipo_misto)}</td>
+                    <td>${appStore.idioma === 'pt' ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)}</td>
+                    <td>${estadoLabelTranche(raw.estado || t.estado)}</td>
+                    <td>${descCurta}</td>
+                    <td>${raw.setor}</td>
+                    <td>${appStore.idioma === 'pt' ? (raw.beneficiario_pt || raw.beneficiario || '') : (raw.beneficiario_en || raw.beneficiario || '')}</td>
+                  </tr>
+                `
+              }).join('')}
+            </tbody>
+          </table>
+          <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
+        </body>
+      </html>
+    `)
     win.document.close()
     win.print()
   }
@@ -1262,8 +1442,8 @@ function exportarTopBeneficiarios(tipo) {
   const pais = nomePaisAtual.value
 
   if (tipo === 'csv') {
-    let csv = `Top 100 Beneficiários - ${pais}\n`
-    csv += `#;País;Beneficiário;Valor Aprovado\n`
+    let csv = `${appStore.t.desembolsos_top100_titulo} - ${pais}\n`
+    csv += `${appStore.t.desembolsos_top100_col_pos};${appStore.t.desembolsos_top100_col_pais};${appStore.t.desembolsos_top100_col_beneficiario};${appStore.t.desembolsos_top100_col_valor}\n`
     dados.forEach(b => {
       csv += `${b.rank};${b.pais};${b.nome};${formatMoneyReduzido(b.total)}\n`
     })
@@ -1275,29 +1455,51 @@ function exportarTopBeneficiarios(tipo) {
   } 
   else if (tipo === 'pdf') {
     const win = window.open('', '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      const msg = appStore.idioma === 'pt' 
+        ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
+        : '❌ The browser blocked the print window. Please allow pop-ups for this site.'
+      alert(msg)
+      showTop100ExportModal.value = false
+      return
+    }
     win.document.write(`
       <html>
         <head>
-          <title>Top 100 Beneficiários - ${pais}</title>
+          <title>${appStore.t.desembolsos_top100_titulo} - ${pais}</title>
           <style>
-            body { font-family: Arial, sans-serif; padding: 40px; }
+            body { font-family: Arial, sans-serif; padding: 20px; }
             h1 { color: #931b18; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+            th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
             th { background-color: #931b18; color: white; }
-            .footer { margin-top: 30px; font-size: 12px; color: #666; }
+            .footer { margin-top: 30px; font-size: 10px; color: #666; text-align: center; }
           </style>
         </head>
         <body>
-          <h1>🏆 Top 100 Beneficiários - ${pais}</h1>
-          <p>Lista dos maiores beneficiários por valor aprovado.</p>
+          <h1>🏆 ${appStore.t.desembolsos_top100_titulo} - ${pais}</h1>
+          <p>${appStore.idioma === 'pt' ? 'Lista dos maiores beneficiários por valor aprovado.' : 'List of the largest beneficiaries by approved amount.'}</p>
           <table>
-            <thead><tr><th>#</th><th>País</th><th>Beneficiário</th><th>Valor Aprovado</th></tr></thead>
+            <thead>
+              <tr>
+                <th>${appStore.t.desembolsos_top100_col_pos}</th>
+                <th>${appStore.t.desembolsos_top100_col_pais}</th>
+                <th>${appStore.t.desembolsos_top100_col_beneficiario}</th>
+                <th>${appStore.t.desembolsos_top100_col_valor}</th>
+              </tr>
+            </thead>
             <tbody>
-              ${dados.map(b => `<tr><td>${b.rank}</td><td>${b.pais}</td><td>${b.nome}</td><td>${formatMoneyReduzido(b.total)}</td></tr>`).join('')}
+              ${dados.map(b => `
+                <tr>
+                  <td>${b.rank}</td>
+                  <td>${b.pais}</td>
+                  <td>${b.nome}</td>
+                  <td>${formatMoneyReduzido(b.total)}</td>
+                </tr>
+              `).join('')}
             </tbody>
           </table>
-          <div class="footer">Gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
+          <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
         </body>
       </html>
     `)
@@ -1305,22 +1507,6 @@ function exportarTopBeneficiarios(tipo) {
     win.print()
   }
   showTop100ExportModal.value = false
-}
-
-function exportarTranchePDF(tranche) {
-  const win = window.open('', '_blank')
-  win.document.write(`
-    <html><head><title>Comprovativo - ${tranche.nome}</title>
-    <style>body{font-family:Arial;padding:40px} h1{color:#931b18} .badge{padding:4px 12px;border-radius:20px;font-weight:bold}</style></head>
-    <body>
-      <h1>📥 Comprovativo de Pagamento</h1>
-      <p><strong>Estado-Membro:</strong> ${nomePaisAtual.value}</p>
-      <p><strong>Tranche:</strong> ${tranche.nome} | <span class="badge">${tranche.estado}</span></p>
-      <p><strong>Valor:</strong> ${tranche.valor} | <strong>Data:</strong> ${tranche.data} | <strong>Marcos:</strong> ${tranche.marcos || 'N/A'}</p>
-      <hr><small>Documento gerado pelo Sistema de Monitorização do PRR</small>
-    </body></html>`)
-  win.document.close()
-  win.print()
 }
 
 function downloadBlob(content, mime, filename) {
@@ -1333,6 +1519,31 @@ function downloadBlob(content, mime, filename) {
   URL.revokeObjectURL(url)
 }
 
+// -------------------- MÉTODOS PARA TEXTOS DINÂMICOS --------------------
+function textoHistoricoSub() {
+  const ordem = ordemAscendente.value 
+    ? (appStore.idioma === 'pt' ? 'mais antigos primeiro' : 'oldest first')
+    : (appStore.idioma === 'pt' ? 'mais recentes primeiro' : 'most recent first')
+  return `${historicoTranches.value.length} ${appStore.idioma === 'pt' ? (historicoTranches.value.length !== 1 ? 'tranches' : 'tranche') : (historicoTranches.value.length !== 1 ? 'tranches' : 'tranche')} · ${ordem}`
+}
+
+function textoBotaoOrdem() {
+  return ordemAscendente.value 
+    ? (appStore.idioma === 'pt' ? '↓ Mais recentes' : '↓ Most recent')
+    : (appStore.idioma === 'pt' ? '↑ Mais antigos' : '↑ Oldest')
+}
+
+function textoVerMais() {
+  const count = Math.min(10, tranchesOrdenadas.value.length - linhasVisiveis.value)
+  return appStore.t.desembolsos_tabela_ver_mais.replace('{{count}}', count)
+}
+
+function textoNotaTabela() {
+  return appStore.t.desembolsos_tabela_nota
+    .replace('{{visible}}', tranchesPaginadas.value.length)
+    .replace('{{total}}', historicoTranches.value.length)
+}
+
 // -------------------- STICKY BAR SCROLL --------------------
 function handleScroll() {
   const hero = document.querySelector('.hero')
@@ -1342,43 +1553,54 @@ function handleScroll() {
   }
 }
 
-// Recriar gráficos ao redimensionar a janela (útil quando sidebar expande/colapsa)
 const handleResize = () => {
   criarGraficos()
 }
 
 // -------------------- CICLO DE VIDA --------------------
 onMounted(async () => {
-  await carregarTodosDesembolsos()
-  await carregarDesembolsos()
-  atualizarHora()
-  intervalo = setInterval(atualizarHora, 60000)
-  window.addEventListener('scroll', handleScroll)
-  window.addEventListener('resize', handleResize)
-// Observar a classe collapsed no .app-content (para recriar gráficos após a transição da sidebar)
-const appContent = document.querySelector('.app-content')
-if (appContent) {
-  let timeoutId = null
-  const mutationObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        // Aguardar o fim da transição CSS (0.25s)
-        if (timeoutId) clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => {
-          criarGraficos()
-        }, 250)
+  try {
+    if (paisesLocal.value.length === 0) {
+      paisesLocal.value = await getPaises()
+      if (!appStore.paises || appStore.paises.length === 0) {
+        appStore.paises = paisesLocal.value
       }
-    })
-  })
-  mutationObserver.observe(appContent, { attributes: true })
-  
-  // Armazenar o observer para desligar no onUnmounted
-  window._mutationObserver = mutationObserver
-}
-  setTimeout(() => {
-    heroVisible.value = true
-    criarGraficos()
-  }, 100)
+    }
+    await carregarTodosDesembolsos()
+    await carregarDesembolsos()
+    atualizarHora()
+    intervalo = setInterval(atualizarHora, 60000)
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
+
+    const appContent = document.querySelector('.app-content')
+    if (appContent) {
+      let timeoutId = null
+      const mutationObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            if (timeoutId) clearTimeout(timeoutId)
+            timeoutId = setTimeout(() => {
+              criarGraficos()
+            }, 250)
+          }
+        })
+      })
+      mutationObserver.observe(appContent, { attributes: true })
+      window._mutationObserver = mutationObserver
+    }
+
+    setTimeout(() => {
+      heroVisible.value = true
+      criarGraficos()
+    }, 100)
+  } catch (err) {
+    console.error('Erro na inicialização dos desembolsos:', err)
+    erro.value = appStore.idioma === 'pt' 
+      ? 'Não foi possível carregar os dados. Verifique a ligação ao servidor.'
+      : 'Could not load data. Check server connection.'
+    loading.value = false
+  }
 })
 
 onUnmounted(() => {
@@ -1399,6 +1621,11 @@ watch(filtroPais, () => {
 watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCircular], () => {
   criarGraficos()
 })
+
+watch(() => appStore.idioma, () => {
+  criarGraficos()
+})
+
 </script>
 
 <style scoped>
@@ -1460,10 +1687,10 @@ watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCirc
 /* Gráficos */
 .graficos-section { padding: 60px 10%; background: #f5f5f7; }
 .graficos-titulo-area { text-align: center; margin-bottom: 35px; }
-.graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
+.graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; justify-content: center; text-align: center; }
 .graficos-titulo-area p { font-size: 0.92rem; color: #aaa; max-width: 600px; margin: 0 auto; }
 .graficos-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 25px; align-items: start; }
-.grafico-legenda-texto { font-size: 0.77rem; color: #bbb; margin-top: 12px; line-height: 1.5; font-style: italic; }
+.grafico-legenda-texto { font-size: 0.72rem; color: #bbb; margin-top: 12px; line-height: 1.5; font-style: italic; }
 .grafico-card { background: white; border-radius: 24px; padding: 28px; box-shadow: 0 4px 30px rgba(0,0,0,0.07); }
 .grafico-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
 .grafico-header h3 { font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
@@ -1561,6 +1788,12 @@ watch([anoSelecionado, estadoSelecionado, totaisPorAno, totaisPorSetor, modoCirc
   top: 0;
   z-index: 1;
 }
+
+/* Aumentar largura da coluna País na tabela Top 100 */
+.beneficiarios-tabela .ben-col-pais {
+  width: 140px;
+}
+
 .beneficiarios-tabela th {
   padding: 15px 18px;
   text-align: left;

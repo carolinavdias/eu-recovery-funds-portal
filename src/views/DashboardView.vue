@@ -7,20 +7,20 @@
         <button class="close-btn" @click="showExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2 class="modal-title-yellow">Exportação Rápida</h2>
-          <p>Descarregue o conjunto de dados da vista atual para análise offline</p>
+          <h2 class="modal-title-yellow">{{ t.modal_export_titulo }}</h2>
+          <p>{{ t.modal_export_desc }}</p>
         </div>
         <div class="export-options">
           <button class="export-item" @click="executarDownload('csv')">
-            <span>Exportar como CSV</span>
+            <span>{{ t.modal_export_csv }}</span>
             <span class="ext">.csv</span>
           </button>
           <button class="export-item" @click="executarDownload('json')">
-            <span>Feed de Dados (JSON)</span>
+            <span>{{ t.modal_export_json }}</span>
             <span class="ext">.json</span>
           </button>
           <button class="export-item" @click="executarDownload('pdf')">
-            <span>Sumário em PDF</span>
+            <span>{{ t.modal_export_pdf }}</span>
             <span class="ext">.pdf</span>
           </button>
         </div>
@@ -33,25 +33,25 @@
         <button class="close-btn" @click="showPilarModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2 class="modal-title-yellow">Exportar Dados do Pilar</h2>
+          <h2 class="modal-title-yellow">{{ t.modal_pilar_titulo }}</h2>
           <p>{{ pilarSelecionado.titulo }}</p>
         </div>
         <div class="pilar-detalhes-modal">
-          <p><strong>Meta:</strong> {{ pilarSelecionado.meta }}</p>
-          <p><strong>Investimento:</strong> {{ pilarSelecionado.investimento }}</p>
-          <p><strong>Impacto:</strong> {{ pilarSelecionado.impacto }}</p>
+          <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ pilarSelecionado.meta }}</p>
+          <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ pilarSelecionado.investimento }}</p>
+          <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ pilarSelecionado.impacto }}</p>
         </div>
         <div class="export-options">
           <button class="export-item" @click="executarDownloadPilar('csv')">
-            <span>Exportar como CSV</span>
+            <span>{{ t.modal_export_csv }}</span>
             <span class="ext">.csv</span>
           </button>
           <button class="export-item" @click="executarDownloadPilar('json')">
-            <span>Feed de Dados (JSON)</span>
+            <span>{{ t.modal_export_json }}</span>
             <span class="ext">.json</span>
           </button>
           <button class="export-item" @click="executarDownloadPilar('pdf')">
-            <span>Sumário em PDF</span>
+            <span>{{ t.modal_export_pdf }}</span>
             <span class="ext">.pdf</span>
           </button>
         </div>
@@ -64,20 +64,20 @@
         <button class="close-btn" @click="showStatsModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2 class="modal-title-yellow">Exportar Dados Estatísticos</h2>
-          <p>Investimentos e indicadores‑chave do PRR</p>
+          <h2 class="modal-title-yellow">{{ t.modal_stats_titulo }}</h2>
+          <p>{{ t.modal_stats_desc }}</p>
         </div>
         <div class="export-options">
           <button class="export-item" @click="exportarEstatisticas('csv')">
-            <span>Exportar como CSV</span>
+            <span>{{ t.modal_export_csv }}</span>
             <span class="ext">.csv</span>
           </button>
           <button class="export-item" @click="exportarEstatisticas('json')">
-            <span>Feed de Dados (JSON)</span>
+            <span>{{ t.modal_export_json }}</span>
             <span class="ext">.json</span>
           </button>
           <button class="export-item" @click="exportarEstatisticas('pdf')">
-            <span>Sumário em PDF</span>
+            <span>{{ t.modal_export_pdf }}</span>
             <span class="ext">.pdf</span>
           </button>
         </div>
@@ -87,60 +87,56 @@
     <!-- ================= HERO ================= -->
     <section class="hero-ue">
       <div class="overlay">
-        <h1>Mecanismo de Recuperação e Resiliência da EU</h1>
-        <p>Monitorize o impacto real dos fundos europeus na sua região e quotidiano.</p>
+        <h1>{{ t.hero_title }}</h1>
+        <p>{{ t.hero_sub }}</p>
         <div class="button-group-main">
-        <RouterLink to="/paises" class="btn-outline">Explorar por País</RouterLink>
-          <a href="#sobre"><button class="btn-yellow">Saber Mais</button></a>
-          <a href="#pilares"><button class="btn-outline">Ver Pilares</button></a>
+          <RouterLink to="/paises" class="btn-outline">{{ t.hero_btn_explorar }}</RouterLink>
+          <a href="#sobre"><button class="btn-yellow">{{ t.hero_btn_saber }}</button></a>
+          <a href="#pilares"><button class="btn-outline">{{ t.hero_btn_pilares }}</button></a>
         </div>
       </div>
     </section>
 
     <!-- ================= INTRO ================= -->
     <section id="sobre" class="intro">
-      <h2>O que é o PRR?</h2>
-      <p class="intro-text">
-        O PRR - Plano de Recuperação e Resiliência é o programa nacional financiado pelo 
-        Mecanismo de Recuperação e Resiliência da União Europeia, destinado a apoiar a 
-        recuperação económica e a construção de um país mais resiliente.
-      </p>
+      <h2>{{ t.intro_title }}</h2>
+      <p class="intro-text">{{ t.intro_text }}</p>
       <div class="cards-grid">
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">€</div>
-            <div class="download-container" @click="abrirModalExportacao('Investimento', 'Gestão e execução de pagamentos efetuados pela EU', '€16,6 Bilhões')">
+            <div class="download-container" @click="abrirModalExportacao(t.card_investimento_title, t.card_investimento_desc, t.card_investimento_highlight_value)">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON | PDF</span>
+              <span class="download-text">{{ t.download_formats }}</span>
             </div>
           </div>
-          <h3>Investimento</h3>
-          <p>Gestão e execução de pagamentos e desembolsos efetuados pela EU a Portugal.</p>
-          <p class="card-highlight">Montante Total: <span>€16,6 Bilhões</span></p>
+          <h3>{{ t.card_investimento_title }}</h3>
+          <p>{{ t.card_investimento_desc }}</p>
+          <p class="card-highlight">{{ t.card_investimento_highlight_label }} <span>{{ t.card_investimento_highlight_value }}</span></p>
         </div>
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">🎯</div>
-            <div class="download-container" @click="abrirModalExportacao('Objetivos PRR', 'Acompanhamento de Marcos e Metas: objetivos específicos com prazos e estados de execução.', '341 objetivos')">
+            <div class="download-container" @click="abrirModalExportacao(t.card_objetivos_title, t.card_objetivos_desc, t.card_objetivos_highlight_value)">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON | PDF</span>
+              <span class="download-text">{{ t.download_formats }}</span>
             </div>
           </div>
-          <h3>Objetivos</h3>
-          <p>Acompanhamento de Marcos e Metas: objetivos específicos com prazos e estados de execução detalhados.</p>
-          <p class="card-highlight">Marcos Totais: <span>341 objetivos</span></p>
+          <h3>{{ t.card_objetivos_title }}</h3>
+          <p>{{ t.card_objetivos_desc }}</p>
+          <p class="card-highlight">{{ t.card_objetivos_highlight_label }} <span>{{ t.card_objetivos_highlight_value }}</span></p>
         </div>
         <div class="info-card">
           <div class="card-header">
             <div class="icon-circle">📈</div>
-            <div class="download-container" @click="abrirModalExportacao('Crescimento e Indicadores', 'Monitorização semestral de 14 indicadores de reporte obrigatório.', 'Prazo Final: 2026')">
+            <div class="download-container" @click="abrirModalExportacao(t.card_crescimento_title, t.card_crescimento_desc, t.card_crescimento_highlight_value)">
               <span class="download-icon">📥</span>
-              <span class="download-text">CSV | JSON | PDF</span>
+              <span class="download-text">{{ t.download_formats }}</span>
             </div>
           </div>
-          <h3>Crescimento</h3>
-          <p>Indicadores Comuns: Monitorização semestral de 14 indicadores de reporte obrigatório.</p>
-          <p class="card-highlight">Prazo Final: <span>2026</span></p>
+          <h3>{{ t.card_crescimento_title }}</h3>
+          <p>{{ t.card_crescimento_desc }}</p>
+          <p class="card-highlight">{{ t.card_crescimento_highlight_label }} <span>{{ t.card_crescimento_highlight_value }}</span></p>
         </div>
       </div>
     </section>
@@ -158,26 +154,26 @@
         </div>
       </div>
       <div class="impacto-conteudo">
-        <h2>Resultados e Impacto no Quotidiano</h2>
+        <h2>{{ t.impacto_title }}</h2>
         <div class="impacto-item">
           <div class="impacto-icone">🎓</div>
           <div>
-            <p class="impacto-titulo">Educação:</p>
-            <p class="impacto-desc">Modernização digital de escolas e entrega de equipamentos;</p>
+            <p class="impacto-titulo">{{ t.impacto_educacao_titulo }}</p>
+            <p class="impacto-desc">{{ t.impacto_educacao_desc }}</p>
           </div>
         </div>
         <div class="impacto-item">
           <div class="impacto-icone">🏠</div>
           <div>
-            <p class="impacto-titulo">Habitação:</p>
-            <p class="impacto-desc">Renovação de infraestruturas e eficiência energética;</p>
+            <p class="impacto-titulo">{{ t.impacto_habitacao_titulo }}</p>
+            <p class="impacto-desc">{{ t.impacto_habitacao_desc }}</p>
           </div>
         </div>
         <div class="impacto-item">
           <div class="impacto-icone">🤍</div>
           <div>
-            <p class="impacto-titulo">Saúde:</p>
-            <p class="impacto-desc">Reforço do Serviço Nacional de Saúde e novos centros digitais.</p>
+            <p class="impacto-titulo">{{ t.impacto_saude_titulo }}</p>
+            <p class="impacto-desc">{{ t.impacto_saude_desc }}</p>
           </div>
         </div>
       </div>
@@ -186,10 +182,11 @@
     <!-- ================= PILARES ================= -->
     <section id="pilares" class="pilares">
       <div class="pilares-header">
-        <h2>Pilares do PRR</h2>
-        <p>Consulte o investimento, acompanhe as metas e veja o impacto direto destes 6 pilares no seu quotidiano.</p>
+        <h2>{{ t.pilares_title }}</h2>
+        <p>{{ t.pilares_sub }}</p>
       </div>
       <div class="pilares-grid">
+        <!-- Clima -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Clima">
@@ -197,19 +194,20 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Transição Climática</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Transição Climática', 'Descarbonização e Eficiência', '€16,6 Bilhões', '250 mil edifícios renovados')">
+              <h3>{{ t.pilar_climatica }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_climatica, t.pilar_climatica_meta, t.pilar_climatica_investimento, t.pilar_climatica_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Descarbonização e Eficiência;</p>
-              <p><strong>Investimento:</strong> €16,6 Bilhões;</p>
-              <p><strong>Impacto:</strong> 250 mil edifícios renovados.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_climatica_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_climatica_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_climatica_impacto }}</p>
             </div>
           </div>
         </div>
+        <!-- Digital -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="Digital">
@@ -217,19 +215,20 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Transição Digital</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Transição Digital', 'Digitalização da Economia', '€5,2 Bilhões', '100% dos serviços públicos online')">
+              <h3>{{ t.pilar_digital }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_digital, t.pilar_digital_meta, t.pilar_digital_investimento, t.pilar_digital_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Digitalização da Economia;</p>
-              <p><strong>Investimento:</strong> €5,2 Bilhões;</p>
-              <p><strong>Impacto:</strong> 100% dos serviços públicos online.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_digital_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_digital_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_digital_impacto }}</p>
             </div>
           </div>
         </div>
+        <!-- Infraestruturas -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" alt="Infra">
@@ -237,19 +236,20 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Infraestruturas</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Infraestruturas', 'Modernização Ferroviária e Logística', '€4,8 Bilhões', 'Transportes 20% mais rápidos')">
+              <h3>{{ t.pilar_infra }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_infra, t.pilar_infra_meta, t.pilar_infra_investimento, t.pilar_infra_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Modernização Ferroviária e Logística;</p>
-              <p><strong>Investimento:</strong> €4,8 Bilhões alocados;</p>
-              <p><strong>Impacto:</strong> Transportes 20% mais rápidos.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_infra_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_infra_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_infra_impacto }}</p>
             </div>
           </div>
         </div>
+        <!-- Educação -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" alt="Educação">
@@ -257,19 +257,20 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Educação e Formação</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Educação e Formação', 'Qualificação Geracional', '€1,2 Bilhões', '600 mil portáteis entregues a alunos')">
+              <h3>{{ t.pilar_educacao }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_educacao, t.pilar_educacao_meta, t.pilar_educacao_investimento, t.pilar_educacao_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Qualificação Geracional;</p>
-              <p><strong>Investimento:</strong> €1,2 Bilhões;</p>
-              <p><strong>Impacto:</strong> 600 mil portáteis entregues a alunos.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_educacao_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_educacao_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_educacao_impacto }}</p>
             </div>
           </div>
         </div>
+        <!-- Coesão -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Coesão">
@@ -277,19 +278,20 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Coesão Social</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Coesão Social', 'Habitação Pública e Inclusão', '€2,5 Milhões', '15.000 novas casas acessíveis')">
+              <h3>{{ t.pilar_coesao }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_coesao, t.pilar_coesao_meta, t.pilar_coesao_investimento, t.pilar_coesao_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Habitação Pública e Inclusão;</p>
-              <p><strong>Investimento:</strong> €2,5 Milhões aplicados;</p>
-              <p><strong>Impacto:</strong> 15.000 novas casas acessíveis.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_coesao_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_coesao_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_coesao_impacto }}</p>
             </div>
           </div>
         </div>
+        <!-- Saúde -->
         <div class="pilar-card">
           <div class="pilar-image">
             <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" alt="Saúde">
@@ -297,16 +299,16 @@
           </div>
           <div class="pilar-info">
             <div class="pilar-top">
-              <h3>Saúde</h3>
-              <div class="pilar-download" @click="abrirModalPilar('Saúde', 'Digitalização e Reforço do SNS', '€1,4 Milhões', '100 Centros de Saúde renovados')">
+              <h3>{{ t.pilar_saude }}</h3>
+              <div class="pilar-download" @click="abrirModalPilar(t.pilar_saude, t.pilar_saude_meta, t.pilar_saude_investimento, t.pilar_saude_impacto)">
                 <span class="dl-icon">📥</span>
-                <span class="dl-text">CSV | JSON | PDF</span>
+                <span class="dl-text">{{ t.download_formats }}</span>
               </div>
             </div>
             <div class="pilar-details">
-              <p><strong>Meta:</strong> Digitalização e Reforço do SNS;</p>
-              <p><strong>Investimento:</strong> €1,4 Milhões em tecnologia;</p>
-              <p><strong>Impacto:</strong> 100 Centros de Saúde renovados.</p>
+              <p><strong>{{ t.modal_pilar_meta_label }}</strong> {{ t.pilar_saude_meta }}</p>
+              <p><strong>{{ t.modal_pilar_investimento_label }}</strong> {{ t.pilar_saude_investimento }}</p>
+              <p><strong>{{ t.modal_pilar_impacto_label }}</strong> {{ t.pilar_saude_impacto }}</p>
             </div>
           </div>
         </div>
@@ -316,13 +318,13 @@
     <!-- ================= DADOS E ESTATÍSTICAS ================= -->
     <section class="dados">
       <div class="dados-topo">
-        <button class="btn-exportar-tudo" @click="abrirModalEstatisticas">Exportar Tudo</button>
+        <button class="btn-exportar-tudo" @click="abrirModalEstatisticas">{{ t.dados_exportar_tudo }}</button>
       </div>
-      <h2>Dados e Estatísticas</h2>
-      <p class="dados-sub">Explore os dados: do investimento europeu ao impacto direto na sua região.</p>
+      <h2>{{ t.dados_title }}</h2>
+      <p class="dados-sub">{{ t.dados_sub }}</p>
 
       <div class="barras-card">
-        <h3>Áreas de Investimento Prioritárias</h3>
+        <h3>{{ t.dados_areas_titulo }}</h3>
         <div class="barras-grid">
           <div class="barra-item" v-for="barra in dadosBarras" :key="barra.nome">
             <div class="barra-label-row">
@@ -335,7 +337,7 @@
             </div>
           </div>
         </div>
-        <p class="barras-nota">*As linhas a preto sobre as barras estatísticas correspondem à média da EU.</p>
+        <p class="barras-nota">{{ t.dados_barras_nota }}</p>
       </div>
 
       <div class="stats-grid">
@@ -348,52 +350,51 @@
       </div>
     </section>
 
-    <!-- ================= FOOTER ================= -->
-
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useAppStore } from '@/stores/app'
+
+const store = useAppStore()
 
 // ---- ESTADOS DOS MODAIS ----
-const showExportModal = ref(false)    // cards superiores
-const showPilarModal = ref(false)     // pilares
-const showStatsModal = ref(false)     // estatísticas
+const showExportModal = ref(false)
+const showPilarModal = ref(false)
+const showStatsModal = ref(false)
 
 // ---- DADOS DOS CARDS SUPERIORES ----
-const cardSelecionado = ref({
-  titulo: '',
-  descricao: '',
-  valor: ''
-})
+const cardSelecionado = ref({ titulo: '', descricao: '', valor: '' })
+const pilarSelecionado = ref({ titulo: '', meta: '', investimento: '', impacto: '' })
 
-// ---- DADOS DOS PILARES ----
-const pilarSelecionado = ref({
-  titulo: '',
-  meta: '',
-  investimento: '',
-  impacto: ''
-})
-
-// ---- DADOS DAS ESTATÍSTICAS (BARRAS + STATS) ----
-const dadosBarras = ref([
-  { nome: 'Transição Climática', percentagem: 37, valor: '€277,5 Mil milhões' },
-  { nome: 'Educação e Formação', percentagem: 12, valor: '€90 Mil milhões' },
-  { nome: 'Transição Digital', percentagem: 20, valor: '€150 Mil milhões' },
-  { nome: 'Saúde', percentagem: 8, valor: '€60 Mil milhões' },
-  { nome: 'Infraestruturas', percentagem: 18, valor: '€135 Mil milhões' },
-  { nome: 'Coesão Social', percentagem: 5, valor: '€37,5 Mil milhões' }
+// ---- DADOS REATIVOS DAS BARRAS E STATS (ACEDEM DIRETAMENTE A store.t) ----
+const dadosBarras = computed(() => [
+  { nome: store.t.barra_climatica, percentagem: 37, valor: '€277,5 Mil milhões' },
+  { nome: store.t.barra_educacao, percentagem: 12, valor: '€90 Mil milhões' },
+  { nome: store.t.barra_digital, percentagem: 20, valor: '€150 Mil milhões' },
+  { nome: store.t.barra_saude, percentagem: 8, valor: '€60 Mil milhões' },
+  { nome: store.t.barra_infra, percentagem: 18, valor: '€135 Mil milhões' },
+  { nome: store.t.barra_coesao, percentagem: 5, valor: '€37,5 Mil milhões' }
 ])
 
-const dadosStats = ref([
-  { icone: '📈', valor: '€750', label: 'Mil milhões', desc: 'Investimento total da UE' },
-  { icone: '👥', valor: '27', label: 'Países', desc: 'Estados-Membros beneficiários' },
-  { icone: '🌿', valor: '37%', label: 'Transição Verde', desc: 'Mínimo de investimento' },
-  { icone: '⚡', valor: '20%', label: 'Transição Digital', desc: 'Mínimo de investimento' }
+const dadosStats = computed(() => [
+  { icone: '📈', valor: '€750', label: store.t.stat_investimento_label, desc: store.t.stat_investimento_desc },
+  { icone: '👥', valor: '27', label: store.t.stat_paises_label, desc: store.t.stat_paises_desc },
+  { icone: '🌿', valor: '37%', label: store.t.stat_verde_label, desc: store.t.stat_verde_desc },
+  { icone: '⚡', valor: '20%', label: store.t.stat_digital_label, desc: store.t.stat_digital_desc }
 ])
 
-// ---- FUNÇÕES PARA CARDS SUPERIORES ----
+// No template, usar store.t em vez de t (ou então definir um alias local reativo)
+// Mas para não alterar o template todo, podes criar uma referência local reativa:
+const t = computed(() => store.t)   // ← isto sim mantém a reatividade
+
+// ... o resto das funções (abrirModalExportacao, executarDownload, etc.) podem continuar a usar t.value ou store.t
+// Atenção: dentro das funções, se usares t (que agora é um computed), precisas de t.value.chave.
+// Para simplificar, dentro das funções usa store.t diretamente.
+
+
+// ---- FUNÇÕES DOS MODAIS (usam t e o idioma da store para as datas) ----
 function abrirModalExportacao(titulo, descricao, valor) {
   cardSelecionado.value = { titulo, descricao, valor }
   showExportModal.value = true
@@ -401,7 +402,7 @@ function abrirModalExportacao(titulo, descricao, valor) {
 
 function executarDownload(formato) {
   const { titulo, descricao, valor } = cardSelecionado.value
-  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
   let conteudo = ''
   let mimeType = ''
 
@@ -412,7 +413,16 @@ function executarDownload(formato) {
     conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2)
     mimeType = 'application/json'
   } else if (formato === 'pdf') {
-    gerarPDF(titulo, descricao, valor, dataGeracao)
+    gerarPDF(
+        titulo,
+        descricao,
+        valor,
+        dataGeracao,
+        store.t.modal_export_pdf_title,
+        store.t.modal_export_pdf_description,
+        store.t.modal_export_pdf_value,
+        store.t.modal_export_pdf_generated
+    )
     showExportModal.value = false
     return
   }
@@ -429,16 +439,16 @@ function executarDownload(formato) {
   showExportModal.value = false
 }
 
-function gerarPDF(t, d, v, data) {
+function gerarPDF(titulo, descricao, valor, data, labelRelatorio, labelDescricao, labelValor, labelGeradoEm) {
   const win = window.open('', '_blank')
   win.document.write(`
     <html>
       <body style="font-family:sans-serif; padding:40px;">
-        <h1 style="color:#931b18;">Relatório PRR: ${t}</h1>
-        <p><strong>Descrição:</strong> ${d}</p>
-        <p><strong>Valor/Estado:</strong> ${v}</p>
+        <h1 style="color:#931b18;">${labelRelatorio}: ${titulo}</h1>
+        <p><strong>${labelDescricao}:</strong> ${descricao}</p>
+        <p><strong>${labelValor}:</strong> ${valor}</p>
         <hr>
-        <p>Gerado em ${data}</p>
+        <p>${labelGeradoEm} ${data}</p>
       </body>
     </html>
   `)
@@ -446,7 +456,6 @@ function gerarPDF(t, d, v, data) {
   win.print()
 }
 
-// ---- FUNÇÕES PARA PILARES ----
 function abrirModalPilar(titulo, meta, investimento, impacto) {
   pilarSelecionado.value = { titulo, meta, investimento, impacto }
   showPilarModal.value = true
@@ -454,7 +463,7 @@ function abrirModalPilar(titulo, meta, investimento, impacto) {
 
 function executarDownloadPilar(formato) {
   const { titulo, meta, investimento, impacto } = pilarSelecionado.value
-  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
 
   if (formato === 'csv') {
     const conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`
@@ -484,12 +493,12 @@ function executarDownloadPilar(formato) {
     win.document.write(`
       <html>
         <body style="font-family:sans-serif; padding:40px;">
-          <h1 style="color:#931b18;">Pilar PRR: ${titulo}</h1>
-          <p><strong>Meta:</strong> ${meta}</p>
-          <p><strong>Investimento:</strong> ${investimento}</p>
-          <p><strong>Impacto:</strong> ${impacto}</p>
+          <h1 style="color:#931b18;">${store.t.modal_export_pdf_title}: ${titulo}</h1>
+          <p><strong>${store.t.modal_pilar_meta_label}</strong> ${meta}</p>
+          <p><strong>${store.t.modal_pilar_investimento_label}</strong> ${investimento}</p>
+          <p><strong>${store.t.modal_pilar_impacto_label}</strong> ${impacto}</p>
           <hr>
-          <p>Gerado em ${dataGeracao}</p>
+          <p>${store.t.modal_export_pdf_generated} ${dataGeracao}</p>
         </body>
       </html>
     `)
@@ -499,26 +508,36 @@ function executarDownloadPilar(formato) {
   showPilarModal.value = false
 }
 
-// ---- FUNÇÕES PARA ESTATÍSTICAS ----
 function abrirModalEstatisticas() {
   showStatsModal.value = true
 }
 
 function exportarEstatisticas(formato) {
-  const dataGeracao = new Date().toLocaleDateString('pt-PT')
+  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
+  // Usamos os valores já traduzidos
+  const areas = dadosBarras.value.map(b => ({
+    nome: b.nome,
+    percentagem: b.percentagem,
+    valor: b.valor
+  }))
+  const stats = dadosStats.value.map(s => ({
+    label: s.label,
+    valor: s.valor,
+    desc: s.desc
+  }))
   const dadosCompletos = {
     dataGeracao,
-    areasInvestimento: dadosBarras.value,
-    indicadoresChave: dadosStats.value
+    areasInvestimento: areas,
+    indicadoresChave: stats
   }
 
   if (formato === 'csv') {
     let linhas = []
     linhas.push('Seção;Nome;Percentagem;Valor;Descrição')
-    dadosBarras.value.forEach(b => {
+    areas.forEach(b => {
       linhas.push(`Área de Investimento;${b.nome};${b.percentagem};${b.valor};-`)
     })
-    dadosStats.value.forEach(s => {
+    stats.forEach(s => {
       linhas.push(`Indicador-Chave;${s.label};-;${s.valor};${s.desc}`)
     })
     const conteudo = linhas.join('\n')
@@ -545,39 +564,38 @@ function exportarEstatisticas(formato) {
     window.URL.revokeObjectURL(url)
   }
   else if (formato === 'pdf') {
-    const win = window.open('', '_blank')
-    win.document.write(`
-      <html>
-        <head><title>Estatísticas PRR</title></head>
-        <body style="font-family:sans-serif; padding:40px;">
-          <h1 style="color:#931b18;">Dados Estatísticos - PRR</h1>
-          <p>Gerado em ${dataGeracao}</p>
-          <h2>Áreas de Investimento Prioritárias</h2>
-          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
-            <tr style="background:#931b18; color:white">
-              <th>Área</th><th>Percentagem</th><th>Valor</th>
-            </tr>
-            ${dadosBarras.value.map(b => `<tr><td>${b.nome}</td><td>${b.percentagem}%</td><td>${b.valor}</td></tr>`).join('')}
-          </table>
-          <h2>Indicadores-Chave</h2>
-          <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
-            <tr style="background:#931b18; color:white">
-              <th>Indicador</th><th>Valor</th><th>Descrição</th>
-            </tr>
-            ${dadosStats.value.map(s => `<tr><td>${s.label}</td><td>${s.valor}</td><td>${s.desc}</td></tr>`).join('')}
-          </table>
-        </body>
-      </html>
-    `)
-    win.document.close()
-    win.print()
+      const win = window.open('', '_blank')
+      win.document.write(`
+        <html>
+          <head><title>${store.t.modal_stats_titulo}</title></head>
+          <body style="font-family:sans-serif; padding:40px;">
+            <h1 style="color:#931b18;">${store.t.modal_stats_titulo}</h1>
+            <p>${store.t.modal_export_pdf_generated} ${dataGeracao}</p>
+            <h2>${store.t.dados_areas_titulo}</h2>
+            <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+              <tr style="background:#931b18; color:white">
+                <th>Área</th><th>Percentagem</th><th>Valor</th>
+              </tr>
+              ${areas.map(b => `<tr><td>${b.nome}</td><td>${b.percentagem}%</td><td>${b.valor}</td>`).join('')}
+            </table>
+            <h2>Indicadores‑Chave</h2>
+            <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
+              <tr style="background:#931b18; color:white">
+                <th>Indicador</th><th>Valor</th><th>Descrição</th>
+              </tr>
+              ${stats.map(s => `<tr><td>${s.label}</td><td>${s.valor}</td><td>${s.desc}</td></tr>`).join('')}
+            </table>
+          </body>
+        </html>
+      `)
+      win.document.close()
+      win.print()
   }
-
-  showStatsModal.value = false
 }
 </script>
 
 <style scoped>
+/* Mantém o teu CSS original exactamente igual – não mexemos */
 .portal-container {
   margin: -2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -734,7 +752,7 @@ function exportarEstatisticas(formato) {
 }
 
 .modal-title-yellow {
-  color: #FFD700 !important; /* Cor Amarela/Dourada */
+  color: #FFD700 !important;
   font-weight: bold;
   margin-bottom: 8px;
   font-size: 1.8rem;

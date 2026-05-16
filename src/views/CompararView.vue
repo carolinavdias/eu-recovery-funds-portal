@@ -27,8 +27,8 @@
     <!-- SELETORES -->
     <section class="seletores-section">
       <div class="seletores-titulo">
-        <h2>Escolhe os países a comparar</h2>
-        <p>Clica num país para o seleccionar · Clica num seleccionado para remover</p>
+        <h2>{{ appStore.t.comparar_seletores_titulo }}</h2>
+        <p>{{ appStore.t.comparar_seletores_sub }}</p>
       </div>
 
       <div class="selecionados-wrap">
@@ -48,13 +48,13 @@
           </template>
           <div v-else class="slot-vazio azul-vazio">
             <span class="slot-num-vazio">A</span>
-            <span>Escolha um país</span>
+            <span>{{ appStore.t.comparar_slot_escolha }}</span>
           </div>
         </div>
 
         <div class="vs-central">
           <div class="vs-ring" :class="{ ativo: paisA && paisB }">VS</div>
-          <button v-if="paisA && paisB" class="vs-trocar" @click="trocarPaises">⇄ Trocar</button>
+          <button v-if="paisA && paisB" class="vs-trocar" @click="trocarPaises">{{ appStore.t.comparar_trocar }}</button>
         </div>
 
         <div class="slot" :class="{ preenchido: paisB }" @click="paisB && (codigoB = '')">
@@ -73,7 +73,7 @@
           </template>
           <div v-else class="slot-vazio vermelho-vazio">
             <span class="slot-num-vazio">B</span>
-            <span>Escolha um país</span>
+            <span>{{ appStore.t.comparar_slot_escolha }}</span>
           </div>
         </div>
       </div>
@@ -81,12 +81,12 @@
       <!-- LOADING MARCOS -->
       <div v-if="loadingMarcos" class="loading-marcos">
         <div class="loading-spinner"></div>
-        <p>A carregar marcos dos países...</p>
+        <p>{{ appStore.t.comparar_loading_marcos }}</p>
       </div>
 
       <div v-else class="paises-picker">
         <div
-          v-for="p in paises"
+          v-for="p in paisesTraduzidos"
           :key="p.code"
           class="picker-card"
           :class="{ 'selected-a': codigoA === p.code, 'selected-b': codigoB === p.code }"
@@ -132,26 +132,31 @@
       <!-- SCORECARD -->
       <section class="scorecard-section">
         <div class="sc-titulo" :class="{ reveal: revealScore }">
-          <h2>Comparação de Métricas</h2>
-          <p>Sistema de pontuação · cada métrica vencida vale 1 ponto</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2>{{ appStore.t.comparar_scorecard_titulo }}</h2>
+              <p>{{ appStore.t.comparar_scorecard_sub }}</p>
+            </div>
+            <button class="btn-export-score" @click="showExportModal = true">{{ appStore.t.comparar_exportar_btn }}</button>
+          </div>
         </div>
 
         <div class="sc-legenda" :class="{ reveal: revealScore }">
           <div class="leg-item">
             <span class="leg-cor azul-cor"></span>
-            <span>Vence País A</span>
+            <span>{{ appStore.t.comparar_legenda_vencedor_a }}</span>
           </div>
           <div class="leg-item">
             <span class="leg-cor vermelho-cor"></span>
-            <span>Vence País B</span>
+            <span>{{ appStore.t.comparar_legenda_vencedor_b }}</span>
           </div>
           <div class="leg-item">
             <span class="leg-empate">=</span>
-            <span>Empate</span>
+            <span>{{ appStore.t.comparar_legenda_empate }}</span>
           </div>
           <div class="leg-item">
             <span class="leg-bar"><span class="leg-bar-fill"></span></span>
-            <span>Barra proporcional ao valor</span>
+            <span>{{ appStore.t.comparar_legenda_barra }}</span>
           </div>
         </div>
 
@@ -159,13 +164,13 @@
           <div class="sc-col-header azul-bg">
             <span class="sch-flag">{{ paisA.bandeira }}</span>
             <span class="sch-nome">{{ paisA.nome }}</span>
-            <span class="sch-score">{{ scoreA }} pts</span>
+            <span class="sch-score">{{ scoreA }} {{ appStore.t.comparar_pontos }}</span>
           </div>
-          <div class="sc-col-center-header">Métrica</div>
+          <div class="sc-col-center-header">{{ appStore.t.comparar_metrica }}</div>
           <div class="sc-col-header vermelho-bg">
             <span class="sch-flag">{{ paisB.bandeira }}</span>
             <span class="sch-nome">{{ paisB.nome }}</span>
-            <span class="sch-score">{{ scoreB }} pts</span>
+            <span class="sch-score">{{ scoreB }} {{ appStore.t.comparar_pontos }}</span>
           </div>
           <template v-for="(m, i) in metricas" :key="i">
             <div class="sc-val-cell" :class="{ vence: m.venceA === true }">
@@ -204,14 +209,14 @@
           <div v-if="revealVencedor && vencedor" class="vencedor-card" :class="vencedor.code === codigoA ? 'v-azul' : 'v-vermelho'">
             <div class="v-trofeu">🏆</div>
             <div class="v-content">
-              <div class="v-label">MELHOR DESEMPENHO GERAL</div>
+              <div class="v-label">{{ appStore.t.comparar_vencedor_label }}</div>
               <div class="v-nome">{{ vencedor.bandeira }} {{ vencedor.nome }}</div>
               <div class="v-stats">
-                <span>{{ vencedor.progresso }}% progresso</span>
+                <span>{{ vencedor.progresso }}% {{ appStore.t.comparar_vencedor_progresso }}</span>
                 <span>·</span>
-                <span>{{ taxaConclusao(vencedor) }}% taxa de conclusão</span>
+                <span>{{ taxaConclusao(vencedor) }}% {{ appStore.t.comparar_vencedor_taxa }}</span>
                 <span>·</span>
-                <span>{{ scoreVencedor }} pontos</span>
+                <span>{{ scoreVencedor }} {{ appStore.t.comparar_pontos }}</span>
               </div>
             </div>
             <div class="v-stars">
@@ -223,11 +228,11 @@
 
       <!-- MARCOS -->
       <section class="marcos-section">
-        <div class="marcos-titulo" :class="{ reveal: revealMarcos }"><h2>🎯 Marcos e Metas</h2></div>
+        <div class="marcos-titulo" :class="{ reveal: revealMarcos }"><h2>{{ appStore.t.comparar_marcos_titulo }}</h2></div>
         <div class="marcos-dual" :class="{ reveal: revealMarcos }">
           <div class="marcos-col">
             <div class="mc-header azul-bg">{{ paisA.bandeira }} {{ paisA.nome }}<span class="mc-count">{{ marcosA.length }}</span></div>
-            <div v-if="!marcosA.length" class="mc-empty">Sem marcos registados</div>
+            <div v-if="!marcosA.length" class="mc-empty">{{ appStore.t.comparar_marcos_vazio }}</div>
             <div v-for="(m, i) in marcosA" :key="m.id" class="marco-item" :style="{ animationDelay: (i * 0.07) + 's' }">
               <div class="mi-top">
                 <span class="mi-setor">{{ m.setorLabel }}</span>
@@ -242,7 +247,7 @@
           </div>
           <div class="marcos-col">
             <div class="mc-header vermelho-bg">{{ paisB.bandeira }} {{ paisB.nome }}<span class="mc-count">{{ marcosB.length }}</span></div>
-            <div v-if="!marcosB.length" class="mc-empty">Sem marcos registados</div>
+            <div v-if="!marcosB.length" class="mc-empty">{{ appStore.t.comparar_marcos_vazio }}</div>
             <div v-for="(m, i) in marcosB" :key="m.id" class="marco-item" :style="{ animationDelay: (i * 0.07) + 's' }">
               <div class="mi-top">
                 <span class="mi-setor">{{ m.setorLabel }}</span>
@@ -258,28 +263,101 @@
         </div>
       </section>
 
+      <!-- DESEMBOLSOS -->
+      <section class="desembolsos-section">
+        <div class="marcos-titulo" :class="{ reveal: revealMarcos }">
+          <h2>{{ appStore.t.comparar_desembolsos_titulo }}</h2>
+          <p class="section-sub">{{ appStore.t.comparar_desembolsos_sub }}</p>
+        </div>
+        <div class="marcos-dual" :class="{ reveal: revealMarcos }">
+          <div class="marcos-col">
+            <div class="mc-header azul-bg">{{ paisA.bandeira }} {{ paisA.nome }}</div>
+            <div v-if="carregandoDesembolsosA" class="loading-desembolsos">
+              <div class="loading-spinner-small"></div>
+            </div>
+            <div v-else-if="!desembolsosA.length" class="mc-empty">{{ appStore.t.comparar_desembolsos_vazio }}</div>
+            <div v-else class="desembolso-item">
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_proxima_tranche }}:</span>
+                <span class="desembolso-valor">{{ nextTrancheA.data || '—' }}</span>
+              </div>
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_estado }}:</span>
+                <span :class="['desembolso-status', estadoDesembolsoClass(nextTrancheA.estado)]">{{ estadoDesembolsoLabel(nextTrancheA.estado) }}</span>
+              </div>
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_taxa_execucao }}:</span>
+                <span class="desembolso-valor">{{ taxaExecucaoA }}%</span>
+              </div>
+            </div>
+          </div>
+          <div class="marcos-col">
+            <div class="mc-header vermelho-bg">{{ paisB.bandeira }} {{ paisB.nome }}</div>
+            <div v-if="carregandoDesembolsosB" class="loading-desembolsos">
+              <div class="loading-spinner-small"></div>
+            </div>
+            <div v-else-if="!desembolsosB.length" class="mc-empty">{{ appStore.t.comparar_desembolsos_vazio }}</div>
+            <div v-else class="desembolso-item">
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_proxima_tranche }}:</span>
+                <span class="desembolso-valor">{{ nextTrancheB.data || '—' }}</span>
+              </div>
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_estado }}:</span>
+                <span :class="['desembolso-status', estadoDesembolsoClass(nextTrancheB.estado)]">{{ estadoDesembolsoLabel(nextTrancheB.estado) }}</span>
+              </div>
+              <div class="desembolso-linha">
+                <span class="desembolso-label">{{ appStore.t.comparar_taxa_execucao }}:</span>
+                <span class="desembolso-valor">{{ taxaExecucaoB }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ACÇÕES -->
       <section class="acoes-section">
-        <RouterLink :to="'/paises/' + paisA.code" class="btn-acao azul">{{ paisA.bandeira }} Explorar {{ paisA.nome }}</RouterLink>
-        <RouterLink to="/paises" class="btn-acao outline">← Todos os Países</RouterLink>
-        <RouterLink :to="'/paises/' + paisB.code" class="btn-acao vermelho">{{ paisB.bandeira }} Explorar {{ paisB.nome }}</RouterLink>
+        <RouterLink :to="'/paises/' + paisA.code" class="btn-acao azul">{{ paisA.bandeira }} {{ appStore.t.comparar_explorar }} {{ paisA.nome }}</RouterLink>
+        <RouterLink to="/paises" class="btn-acao outline">{{ appStore.t.comparar_todos_paises }}</RouterLink>
+        <RouterLink :to="'/paises/' + paisB.code" class="btn-acao vermelho">{{ paisB.bandeira }} {{ appStore.t.comparar_explorar }} {{ paisB.nome }}</RouterLink>
       </section>
     </template>
+
+    <!-- MODAL EXPORTAÇÃO -->
+    <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showExportModal = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📥</span>
+          <h2>{{ appStore.t.comparar_export_titulo }}</h2>
+          <p>{{ appStore.t.comparar_export_desc }}</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarDados('csv')"><span>{{ appStore.t.comparar_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarDados('json')"><span>{{ appStore.t.comparar_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarDados('pdf')"><span>{{ appStore.t.comparar_export_pdf }}</span><span class="ext">.pdf</span></button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { getPaises, getMarcosByPais } from '@/services/api.js'
+import { getPaises, getMarcosByPais, getDesembolsosByPais } from '@/services/api.js'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
 
-const paises = ref([])
+const paisesRaw = ref([])
 const codigoA = ref('')
 const codigoB = ref('')
 const marcosA = ref([])
 const marcosB = ref([])
+const desembolsosA = ref([])
+const desembolsosB = ref([])
+const carregandoDesembolsosA = ref(false)
+const carregandoDesembolsosB = ref(false)
 const heroVisible = ref(false)
 const revealProgresso = ref(false)
 const revealScore = ref(false)
@@ -287,9 +365,85 @@ const revealVencedor = ref(false)
 const revealMarcos = ref(false)
 const loadingMarcos = ref(false)
 const erroAPI = ref(null)
+const showExportModal = ref(false)
 
-const paisA = computed(() => paises.value.find(p => p.code === codigoA.value) || null)
-const paisB = computed(() => paises.value.find(p => p.code === codigoB.value) || null)
+// Tradução dos países com base no idioma atual
+const paisesTraduzidos = computed(() => {
+  const isPt = appStore.idioma === 'pt'
+  return paisesRaw.value.map(p => ({
+    ...p,
+    nome: isPt ? p.nome_pt : p.nome_en,
+    capital: isPt ? p.capital_pt : p.capital_en,
+    populacao: isPt ? p.populacao_pt : p.populacao_en,
+    totalFundos: isPt ? p.totalFundos_pt : p.totalFundos_en,
+  }))
+})
+
+const paisA = computed(() => paisesTraduzidos.value.find(p => p.code === codigoA.value) || null)
+const paisB = computed(() => paisesTraduzidos.value.find(p => p.code === codigoB.value) || null)
+
+// Desembolsos - lógica
+const nextTrancheA = computed(() => {
+  if (!desembolsosA.value.length) return { data: null, estado: null }
+  const hoje = new Date(); hoje.setHours(0,0,0,0)
+  const futuras = desembolsosA.value.filter(d => {
+    const data = new Date(d.data); data.setHours(0,0,0,0)
+    return (d.estado === 'Em Avaliação' || d.estado === 'Planeado') && data > hoje
+  }).sort((a,b) => new Date(a.data) - new Date(b.data))
+  if (!futuras.length) return { data: null, estado: null }
+  return { data: formatarData(futuras[0].data), estado: futuras[0].estado }
+})
+
+const nextTrancheB = computed(() => {
+  if (!desembolsosB.value.length) return { data: null, estado: null }
+  const hoje = new Date(); hoje.setHours(0,0,0,0)
+  const futuras = desembolsosB.value.filter(d => {
+    const data = new Date(d.data); data.setHours(0,0,0,0)
+    return (d.estado === 'Em Avaliação' || d.estado === 'Planeado') && data > hoje
+  }).sort((a,b) => new Date(a.data) - new Date(b.data))
+  if (!futuras.length) return { data: null, estado: null }
+  return { data: formatarData(futuras[0].data), estado: futuras[0].estado }
+})
+
+const taxaExecucaoA = computed(() => {
+  if (!desembolsosA.value.length) return 0
+  const totalAlocado = desembolsosA.value.reduce((s, d) => s + d.montante, 0)
+  const totalPago = desembolsosA.value.filter(d => d.estado === 'Pago').reduce((s, d) => s + d.montante, 0)
+  if (totalAlocado === 0) return 0
+  return Math.round((totalPago / totalAlocado) * 100)
+})
+
+const taxaExecucaoB = computed(() => {
+  if (!desembolsosB.value.length) return 0
+  const totalAlocado = desembolsosB.value.reduce((s, d) => s + d.montante, 0)
+  const totalPago = desembolsosB.value.filter(d => d.estado === 'Pago').reduce((s, d) => s + d.montante, 0)
+  if (totalAlocado === 0) return 0
+  return Math.round((totalPago / totalAlocado) * 100)
+})
+
+function formatarData(dataStr) {
+  const data = new Date(dataStr)
+  return data.toLocaleDateString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric'
+  })
+}
+
+function estadoDesembolsoLabel(estado) {
+  if (!estado) return '—'
+  const estadoMap = {
+    'Pago': appStore.t.desembolso_estado_pago,
+    'Em Avaliação': appStore.t.desembolso_estado_avaliacao,
+    'Planeado': appStore.t.desembolso_estado_planeado
+  }
+  return estadoMap[estado] || estado
+}
+
+function estadoDesembolsoClass(estado) {
+  if (estado === 'Pago') return 'concluido'
+  if (estado === 'Em Avaliação') return 'em_curso'
+  if (estado === 'Planeado') return 'planeado'
+  return ''
+}
 
 function selecionarPais(code) {
   if (codigoA.value === code) { codigoA.value = ''; return }
@@ -311,7 +465,9 @@ function taxaConclusao(pais) {
 }
 
 function estadoLabel(e) {
-  return e === 'concluido' ? '✅ Concluído' : e === 'em_curso' ? '⏳ Em curso' : '⚠️ Em atraso'
+  if (e === 'concluido') return appStore.t.estado_concluido
+  if (e === 'em_curso') return appStore.t.estado_em_curso
+  return appStore.t.estado_em_atraso
 }
 
 function barWidth(val, other) {
@@ -320,16 +476,35 @@ function barWidth(val, other) {
   return Math.round((Number(val) || 0) / max * 100)
 }
 
+// Funções auxiliares para extrair números de strings como "€16,6B" ou "10,3M"
+function extrairNumeroFundos(fundosStr) {
+  if (!fundosStr) return 0
+  const match = fundosStr.match(/[\d.,]+([BKM])/i)
+  if (!match) return 0
+  let num = parseFloat(match[0].replace(',', '.'))
+  const suffix = match[1].toUpperCase()
+  if (suffix === 'B') num *= 1e9
+  else if (suffix === 'M') num *= 1e6
+  else if (suffix === 'K') num *= 1e3
+  return num
+}
+
+function extrairNumeroPopulacao(popStr) {
+  if (!popStr) return 0
+  const num = parseFloat(popStr.replace(',', '.'))
+  return isNaN(num) ? 0 : num
+}
+
 const metricas = computed(() => {
   if (!paisA.value || !paisB.value) return []
   const a = paisA.value, b = paisB.value
   const rows = [
-    { label: 'Progresso Geral', valA: a.progresso + '%', valB: b.progresso + '%', numA: a.progresso, numB: b.progresso },
-    { label: 'Marcos Totais', valA: a.marcosTotal, valB: b.marcosTotal, numA: a.marcosTotal, numB: b.marcosTotal },
-    { label: 'Marcos Concluídos', valA: a.marcosConcluidos, valB: b.marcosConcluidos, numA: a.marcosConcluidos, numB: b.marcosConcluidos },
-    { label: 'Taxa de Conclusão', valA: taxaConclusao(a) + '%', valB: taxaConclusao(b) + '%', numA: taxaConclusao(a), numB: taxaConclusao(b) },
-    { label: 'Fundos Alocados', valA: a.totalFundos, valB: b.totalFundos, numA: parseFloat(a.totalFundos) || 0, numB: parseFloat(b.totalFundos) || 0 },
-    { label: 'População', valA: a.populacao, valB: b.populacao, numA: parseFloat(a.populacao) || 0, numB: parseFloat(b.populacao) || 0 },
+    { label: appStore.t.comparar_metrica_progresso, valA: a.progresso + '%', valB: b.progresso + '%', numA: a.progresso, numB: b.progresso },
+    { label: appStore.t.comparar_metrica_marcos_total, valA: a.marcosTotal, valB: b.marcosTotal, numA: a.marcosTotal, numB: b.marcosTotal },
+    { label: appStore.t.comparar_metrica_marcos_concluidos, valA: a.marcosConcluidos, valB: b.marcosConcluidos, numA: a.marcosConcluidos, numB: b.marcosConcluidos },
+    { label: appStore.t.comparar_metrica_taxa_conclusao, valA: taxaConclusao(a) + '%', valB: taxaConclusao(b) + '%', numA: taxaConclusao(a), numB: taxaConclusao(b) },
+    { label: appStore.t.comparar_metrica_fundos, valA: a.totalFundos, valB: b.totalFundos, numA: extrairNumeroFundos(a.totalFundos), numB: extrairNumeroFundos(b.totalFundos) },
+    { label: appStore.t.comparar_metrica_populacao, valA: a.populacao, valB: b.populacao, numA: extrairNumeroPopulacao(a.populacao), numB: extrairNumeroPopulacao(b.populacao) },
   ]
   return rows.map(r => ({ ...r, venceA: r.numA > r.numB ? true : r.numA < r.numB ? false : null, empate: r.numA === r.numB }))
 })
@@ -349,12 +524,30 @@ watch([codigoA, codigoB], async ([newA, newB]) => {
   if (newA || newB) loadingMarcos.value = true
 
   try {
-    if (newA) { marcosA.value = await getMarcosByPais(newA) } else { marcosA.value = [] }
-    if (newB) { marcosB.value = await getMarcosByPais(newB) } else { marcosB.value = [] }
+    if (newA) {
+      marcosA.value = await getMarcosByPais(newA)
+      carregandoDesembolsosA.value = true
+      desembolsosA.value = await getDesembolsosByPais(newA)
+      carregandoDesembolsosA.value = false
+    } else {
+      marcosA.value = []
+      desembolsosA.value = []
+    }
+    if (newB) {
+      marcosB.value = await getMarcosByPais(newB)
+      carregandoDesembolsosB.value = true
+      desembolsosB.value = await getDesembolsosByPais(newB)
+      carregandoDesembolsosB.value = false
+    } else {
+      marcosB.value = []
+      desembolsosB.value = []
+    }
   } catch {
-    erroAPI.value = 'Não foi possível carregar os marcos. Verifica se o servidor está ligado (porta 3001).'
+    erroAPI.value = appStore.t.comparar_erro_api
     marcosA.value = []
     marcosB.value = []
+    desembolsosA.value = []
+    desembolsosB.value = []
   } finally {
     loadingMarcos.value = false
   }
@@ -368,17 +561,124 @@ watch([codigoA, codigoB], async ([newA, newB]) => {
   }
 })
 
+// Exportação
+function downloadBlob(content, mime, filename) {
+  const blob = new Blob([content], { type: mime })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function exportarDados(tipo) {
+  const isPt = appStore.idioma === 'pt'
+  const dados = {
+    paisA: paisA.value,
+    paisB: paisB.value,
+    metricas: metricas.value,
+    marcosA: marcosA.value,
+    marcosB: marcosB.value,
+    desembolsosA: desembolsosA.value,
+    desembolsosB: desembolsosB.value,
+    proximaTrancheA: nextTrancheA.value,
+    proximaTrancheB: nextTrancheB.value,
+    taxaExecucaoA: taxaExecucaoA.value,
+    taxaExecucaoB: taxaExecucaoB.value,
+    scoreA: scoreA.value,
+    scoreB: scoreB.value,
+    vencedor: vencedor.value
+  }
+
+  if (tipo === 'csv') {
+    let csv = `${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}\n\n`
+    csv += `${isPt ? 'MÉTRICAS' : 'METRICS'}\n`
+    csv += `${isPt ? 'Métrica' : 'Metric'},${dados.paisA.nome},${dados.paisB.nome}\n`
+    dados.metricas.forEach(m => {
+      csv += `${m.label},${m.valA},${m.valB}\n`
+    })
+    csv += `\n${isPt ? 'MARCOS' : 'MILESTONES'} - ${dados.paisA.nome}\n`
+    csv += `${isPt ? 'Título' : 'Title'},${isPt ? 'Setor' : 'Sector'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Progresso' : 'Progress'}\n`
+    dados.marcosA.forEach(m => {
+      csv += `"${m.titulo}",${m.setorLabel},${estadoLabel(m.estado)},${m.progresso}%\n`
+    })
+    csv += `\n${isPt ? 'MARCOS' : 'MILESTONES'} - ${dados.paisB.nome}\n`
+    csv += `${isPt ? 'Título' : 'Title'},${isPt ? 'Setor' : 'Sector'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Progresso' : 'Progress'}\n`
+    dados.marcosB.forEach(m => {
+      csv += `"${m.titulo}",${m.setorLabel},${estadoLabel(m.estado)},${m.progresso}%\n`
+    })
+    csv += `\n${isPt ? 'DESEMBOLSOS' : 'DISBURSEMENTS'}\n`
+    csv += `${isPt ? 'País' : 'Country'},${isPt ? 'Próxima Tranche' : 'Next Tranche'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Taxa Execução' : 'Execution Rate'}\n`
+    csv += `${dados.paisA.nome},${dados.proximaTrancheA.data || '—'},${estadoDesembolsoLabel(dados.proximaTrancheA.estado)},${dados.taxaExecucaoA}%\n`
+    csv += `${dados.paisB.nome},${dados.proximaTrancheB.data || '—'},${estadoDesembolsoLabel(dados.proximaTrancheB.estado)},${dados.taxaExecucaoB}%\n`
+    downloadBlob(csv, 'text/csv', `comparacao_${dados.paisA.code}_vs_${dados.paisB.code}.csv`)
+  } 
+  else if (tipo === 'json') {
+    const json = JSON.stringify(dados, null, 2)
+    downloadBlob(json, 'application/json', `comparacao_${dados.paisA.code}_vs_${dados.paisB.code}.json`)
+  } 
+  else if (tipo === 'pdf') {
+    const win = window.open('', '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      alert(isPt ? 'O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : 'The browser blocked the print window. Please allow pop-ups for this site.')
+      return
+    }
+    win.document.write(`
+      <html>
+        <head>
+          <title>${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; }
+            h1 { color: #931b18; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 30px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+            th { background-color: #931b18; color: white; }
+            .section { margin-top: 40px; }
+          </style>
+        </head>
+        <body>
+          <h1>${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</h1>
+          <h2>${isPt ? 'Métricas' : 'Metrics'}</h2>
+          <table><thead><tr><th>${isPt ? 'Métrica' : 'Metric'}</th><th>${dados.paisA.nome}</th><th>${dados.paisB.nome}</th></tr></thead><tbody>
+            ${dados.metricas.map(m => `<tr><td>${m.label}</td><td>${m.valA}</td><td>${m.valB}</td></tr>`).join('')}
+          </tbody></table>
+          <h2>${isPt ? 'Marcos e Metas' : 'Milestones & Targets'}</h2>
+          <h3>${dados.paisA.nome}</h3>
+          <table><thead><tr><th>${isPt ? 'Título' : 'Title'}</th><th>${isPt ? 'Setor' : 'Sector'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Progresso' : 'Progress'}</th></tr></thead><tbody>
+            ${dados.marcosA.map(m => `<tr><td>${m.titulo}</td><td>${m.setorLabel}</td><td>${estadoLabel(m.estado)}</td><td>${m.progresso}%</td></tr>`).join('')}
+          </tbody></table>
+          <h3>${dados.paisB.nome}</h3>
+          <table><thead><tr><th>${isPt ? 'Título' : 'Title'}</th><th>${isPt ? 'Setor' : 'Sector'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Progresso' : 'Progress'}</th></tr></thead><tbody>
+            ${dados.marcosB.map(m => `<tr><td>${m.titulo}</td><td>${m.setorLabel}</td><td>${estadoLabel(m.estado)}</td><td>${m.progresso}%</td></tr>`).join('')}
+          </tbody></table>
+          <h2>${isPt ? 'Desembolsos' : 'Disbursements'}</h2>
+          <table><thead><tr><th>${isPt ? 'País' : 'Country'}</th><th>${isPt ? 'Próxima Tranche' : 'Next Tranche'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Taxa Execução' : 'Execution Rate'}</th></tr></thead><tbody>
+            <tr><td>${dados.paisA.nome}</td><td>${dados.proximaTrancheA.data || '—'}</td><td>${estadoDesembolsoLabel(dados.proximaTrancheA.estado)}</td><td>${dados.taxaExecucaoA}%</td></tr>
+            <tr><td>${dados.paisB.nome}</td><td>${dados.proximaTrancheB.data || '—'}</td><td>${estadoDesembolsoLabel(dados.proximaTrancheB.estado)}</td><td>${dados.taxaExecucaoB}%</td></tr>
+          </tbody></table>
+          <div class="footer">${isPt ? 'Documento gerado pelo Sistema de Monitorização do PRR em' : 'Generated by the PRR Monitoring System on'} ${new Date().toLocaleString('pt-PT')}</div>
+        </body>
+      </html>
+    `)
+    win.document.close()
+    win.print()
+  }
+  showExportModal.value = false
+}
+
 onMounted(async () => {
   setTimeout(() => { heroVisible.value = true }, 100)
   try {
-    paises.value = await getPaises()
+    paisesRaw.value = await getPaises()
   } catch {
-    erroAPI.value = 'Não foi possível carregar os países. Verifica se o servidor está ligado (porta 3001).'
+    erroAPI.value = appStore.t.comparar_erro_api_paises
   }
 })
 </script>
 
 <style scoped>
+/* ===== TODO O CSS ORIGINAL É MANTIDO EXACTAMENTE IGUAL ===== */
 .comparar-container { margin: -2rem; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
 
 /* LOADING E ERRO */
@@ -387,7 +687,36 @@ onMounted(async () => {
 @keyframes spin { to { transform: rotate(360deg); } }
 .erro-state { background: #fdf2f2; border: 1px solid #f8d7da; border-radius: 16px; padding: 16px 24px; margin: 16px 10%; display: flex; align-items: center; gap: 12px; color: #721c24; font-size: 0.9rem; }
 
-/* HERO */
+.loading-desembolsos { padding: 20px; text-align: center; }
+.loading-spinner-small { width: 24px; height: 24px; border: 2px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+
+.desembolso-item { padding: 16px; background: white; border-radius: 12px; margin: 8px; }
+.desembolso-linha { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.85rem; }
+.desembolso-label { font-weight: 600; color: #666; }
+.desembolso-valor { font-weight: 700; color: #333; }
+.desembolso-status { font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.desembolso-status.concluido { background: #d4edda; color: #155724; }
+.desembolso-status.em_curso { background: #fff3cd; color: #856404; }
+.desembolso-status.planeado { background: #e9ecef; color: #495057; }
+
+.btn-export-score { background: #f5f5f7; color: #931b18; border: 1px solid #ddd; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-export-score:hover { background: #931b18; color: white; transform: translateY(-2px); }
+
+/* MODAL EXPORTAÇÃO */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
+.export-card { background-color: #931b18; width: 90%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+.close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.6rem; cursor: pointer; opacity: 0.8; }
+.close-btn:hover { opacity: 1; }
+.main-download-icon { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+.export-header h2 { font-size: 1.8rem; margin-bottom: 8px; }
+.export-header p { font-size: 0.95rem; margin-bottom: 30px; opacity: 0.9; }
+.export-options { display: flex; flex-direction: column; gap: 12px; }
+.export-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 15px 20px; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; }
+.export-item:hover { background: rgba(255,255,255,0.2); }
+.export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
+
+/* O RESTO DO CSS ORIGINAL (HERO, SELETORES, PROGRESSO, SCORECARD, VENCEDOR, MARCOS, ACÇÕES) 
+   DEVE SER INCLUÍDO AQUI EXACTAMENTE COMO ESTAVA NO SEU FICHEIRO ORIGINAL */
 .hero { background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 50vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(80,10,8,0.97) 0%, rgba(147,27,24,0.9) 100%); min-height: 50vh; display: flex; align-items: center; justify-content: space-between; padding: 60px 10%; gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden; }
 .hero-content { flex: 1; min-width: 280px; opacity: 0; transform: translateX(-40px); transition: all 0.9s ease; }
@@ -579,4 +908,8 @@ onMounted(async () => {
 .btn-acao.vermelho:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(147,27,24,0.3); }
 .btn-acao.outline { background: white; color: #333; border: 1.5px solid #e0e0e0; }
 .btn-acao.outline:hover { border-color: #931b18; color: #931b18; transform: translateY(-2px); }
+
+/* DESEMBOLSOS (nova secção) */
+.desembolsos-section { padding: 0 10% 50px; background: white; }
+.section-sub { font-size: 0.88rem; color: #aaa; text-align: center; margin-top: 6px; }
 </style>

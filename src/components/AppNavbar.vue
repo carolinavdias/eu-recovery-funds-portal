@@ -3,20 +3,20 @@
     <div class="navbar-logo">
       <RouterLink to="/" class="logo-link">
         <span class="icon-logo">🏛️</span>
-        <span class="logo-text">PORTAL <span class="logo-accent">PRR</span></span>
+        <span class="logo-text">{{ appStore.t.navbar_logo_prefix }} <span class="logo-accent">{{ appStore.t.navbar_logo_suffix }}</span></span>
       </RouterLink>
     </div>
 
     <div class="navbar-actions">
-
       <select
         class="pais-select"
         v-model="paisAtual"
         :title="appStore.t.nav_pais_label"
         :aria-label="appStore.t.nav_pais_label"
       >
-        <option v-for="pais in paisesComTradução" :key="pais.code" :value="pais.code">
-          {{ pais.nome }}
+        <option value="todos">{{ textoTodosPaises }}</option>
+        <option v-for="pais in paisesLista" :key="pais.code" :value="pais.code">
+          {{ pais.bandeira }} {{ nomePais(pais) }}
         </option>
       </select>
 
@@ -37,38 +37,56 @@
       >
         {{ appStore.idioma === 'pt' ? '🇵🇹 PT' : '🇬🇧 EN' }}
       </button>
-
     </div>
   </header>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { getPaises } from '@/services/api.js'
 
 const appStore = useAppStore()
 
-// Computed bidirecional da Tixa — filtro global funciona correctamente
+// Lista de países carregada da API
+const paisesLista = ref([])
+
+// Computed bidirecional do país selecionado (filtro global)
 const paisAtual = computed({
   get: () => appStore.paisSelecionado,
   set: (val) => appStore.setPais(val)
 })
 
-// Nomes dos países traduzidos dinamicamente
-const paisesComTradução = computed(() => {
-  const nomes = {
-    pt: { todos: 'Todos os países', ES: 'Espanha', FR: 'França', IT: 'Itália', DE: 'Alemanha', GR: 'Grécia', HR: 'Croácia', RO: 'Roménia' },
-    en: { todos: 'All countries', ES: 'Spain', FR: 'France', IT: 'Italy', DE: 'Germany', GR: 'Greece', HR: 'Croatia', RO: 'Romania' }
+// Tradução do título da navbar
+const logoTexto = computed(() => {
+  return appStore.idioma === 'pt' ? 'PORTAL' : 'PRR PORTAL'
+})
+
+// Texto "Todos os países" traduzido
+const textoTodosPaises = computed(() => {
+  return appStore.idioma === 'pt' ? 'Todos os países' : 'All countries'
+})
+
+// Retorna o nome do país no idioma atual
+function nomePais(pais) {
+  return appStore.idioma === 'pt' ? pais.nome_pt : pais.nome_en
+}
+
+// Carregar países da API ao montar o componente
+onMounted(async () => {
+  try {
+    const paises = await getPaises()
+    paisesLista.value = paises
+    // Opcional: sincronizar a store com a lista de países (útil para outras páginas)
+    appStore.paises = paises
+  } catch (error) {
+    console.error('Erro ao carregar países na navbar:', error)
   }
-  const mapa = nomes[appStore.idioma]
-  return appStore.paises.map(p => ({
-    ...p,
-    nome: mapa[p.code] || p.nome
-  }))
 })
 </script>
 
 <style scoped>
+/* Mantém o CSS original que já está no teu projecto */
 .navbar {
   display: flex;
   align-items: center;
@@ -96,6 +114,11 @@ const paisesComTradução = computed(() => {
   background: #931b18;
   color: white;
   transition: background 0.2s, border-color 0.2s;
+  /* O select nativo já tem scroll automático se muitos itens */
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .pais-select:hover { background: #a82220; border-color: #f0c349; }
 .btn-icon {

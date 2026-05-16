@@ -5,14 +5,14 @@
       <!-- CABEÇALHO -->
       <div class="mapa-header" :class="{ 'animate-in': tituloVisible }">
         <div>
-          <h2>🗺️ Mapa Interativo</h2>
-          <p>Passe o rato sobre um país para ver os dados · Clique para explorar em detalhe</p>
+          <h2>{{ appStore.t.mapa_titulo }}</h2>
+          <p>{{ appStore.t.mapa_sub }}</p>
         </div>
         <div class="mapa-header-stats" v-if="paises.length">
-          <div class="mhs"><span>{{ paises.length }}</span>Países</div>
-          <div class="mhs"><span>{{ totalMarcos }}</span>Marcos</div>
-          <div class="mhs verde"><span>{{ totalConcluidos }}</span>Concluídos</div>
-          <div class="mhs dourado"><span>€750B</span>Total UE</div>
+          <div class="mhs"><span>{{ paises.length }}</span>{{ appStore.t.mapa_paises_label }}</div>
+          <div class="mhs"><span>{{ totalMarcosReal }}</span>{{ appStore.t.mapa_marcos_label }}</div>
+          <div class="mhs verde"><span>{{ totalConcluidosReal }}</span>{{ appStore.t.mapa_concluidos_label }}</div>
+          <div class="mhs dourado"><span>€750B</span>{{ appStore.t.mapa_total_ue }}</div>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
       <div class="mapa-svg-wrap">
         <div v-if="carregando" class="mapa-loading">
           <div class="spinner"></div>
-          <span>A carregar mapa...</span>
+          <span>{{ appStore.t.mapa_loading }}</span>
         </div>
         <svg ref="svgRef" :viewBox="`0 0 ${W} ${H}`" class="mapa-svg" v-show="!carregando">
           <defs>
@@ -49,26 +49,53 @@
               </div>
             </div>
             <div class="tt-body">
-              <div class="tt-fundos">💶 {{ tooltip.pais?.totalFundos }} alocados pelo PRR</div>
+              <div class="tt-fundos">💶 {{ tooltip.pais?.totalFundos }} {{ appStore.t.mapa_tooltip_allocated }}</div>
               <div class="tt-stats">
-                <div class="ts"><strong>{{ tooltip.pais?.marcosTotal }}</strong><span>Marcos</span></div>
-                <div class="ts"><strong style="color:#1a7a4a">{{ tooltip.pais?.marcosConcluidos }}</strong><span>Concluídos</span></div>
-                <div class="ts"><strong :style="{ color: corProgresso(tooltip.pais?.progresso) }">{{ tooltip.pais?.progresso }}%</strong><span>Progresso</span></div>
+                <div class="ts">
+                  <strong>{{ marcosStatsPorPais[tooltip.pais?.code]?.total || 0 }}</strong>
+                  <span>{{ appStore.t.mapa_marcos_label }}</span>
+                </div>
+                <div class="ts">
+                  <strong style="color:#1a7a4a">{{ marcosStatsPorPais[tooltip.pais?.code]?.concluidos || 0 }}</strong>
+                  <span>{{ appStore.t.mapa_tooltip_completed }}</span>
+                </div>
+                <div class="ts">
+                  <strong :style="{ color: corProgresso(percentagemPorPais[tooltip.pais?.code] || 0) }">
+                    {{ percentagemPorPais[tooltip.pais?.code] || 0 }}%
+                  </strong>
+                  <span>{{ appStore.t.mapa_tooltip_progress }}</span>
+                </div>
               </div>
-              <div class="tt-bar-bg"><div class="tt-bar-fill" :style="{ width: tooltip.pais?.progresso + '%', background: corProgresso(tooltip.pais?.progresso) }"></div></div>
-              <div class="tt-cta">Clique para explorar →</div>
+              <div class="tt-desembolso">
+                💰 {{ appStore.t.mapa_tooltip_disbursed }}
+                <strong>{{ formatMoneyReduzido(desembolsosPorPais[tooltip.pais?.code] || 0) }}</strong>
+              </div>
+              <div class="tt-proxima">
+                🗓️ {{ appStore.t.mapa_tooltip_next_tranche }}
+                <strong>{{ proximasTranches[tooltip.pais?.code] || '—' }}</strong>
+              </div>
+              <div class="tt-progress-label">{{ appStore.t.mapa_tooltip_progress }}</div>
+              <div class="tt-bar-bg"><div class="tt-bar-fill" :style="{ width: (percentagemPorPais[tooltip.pais?.code] || 0) + '%', background: corProgresso(percentagemPorPais[tooltip.pais?.code] || 0) }"></div></div>
+              <div class="tt-cta">{{ appStore.t.mapa_tooltip_click }}</div>
             </div>
           </div>
         </transition>
       </div>
 
-      <!-- LEGENDA -->
+      <!-- LEGENDA (hover destaca país no mapa) -->
       <div class="legenda">
-        <div class="leg-item" v-for="p in paises" :key="p.code" @click="router.push('/paises/' + p.code)">
+        <div
+          class="leg-item"
+          v-for="p in paises"
+          :key="p.code"
+          @click="router.push('/paises/' + p.code)"
+          @mouseenter="destacarPaisLegenda(p.code)"
+          @mouseleave="removerDestaqueLegenda(p.code)"
+        >
           <span class="leg-dot" :style="{ background: corPais(p.code) }"></span>
           <span>{{ p.bandeira }}</span>
           <span class="leg-nome">{{ p.nome }}</span>
-          <span class="leg-prog" :style="{ color: corProgresso(p.progresso) }">{{ p.progresso }}%</span>
+          <span class="leg-prog" :style="{ color: corProgresso(percentagemPorPais[p.code] || 0) }"> {{ percentagemPorPais[p.code] || 0 }}% </span>
         </div>
       </div>
 
@@ -80,9 +107,18 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import * as d3 from 'd3'
+import { useAppStore } from '@/stores/app'
+import { getPaises, getDesembolsos, getMarcos } from '@/services/api.js'
 
-const props = defineProps({ paises: { type: Array, default: () => [] } })
+const appStore = useAppStore()
 const router = useRouter()
+
+const props = defineProps({
+  paises: { type: Array, default: () => [] },
+  desembolsosPorPais: { type: Object, default: () => ({}) },
+  proximasTranches: { type: Object, default: () => ({}) },
+  marcosStatsPorPais: { type: Object, default: () => ({}) }   // <-- NOVO
+})
 
 const W = 900, H = 600
 const svgRef = ref(null)
@@ -94,6 +130,8 @@ const tituloVisible = ref(false)
 const tooltip = ref({ visivel: false, x: 0, y: 0, pais: null })
 
 let geoData = null, projection = null, pathGen = null
+const pathsMap = new Map()
+const centroidsMap = new Map()
 
 // Cores dinâmicas para todos os países
 const coresMap = new Map()
@@ -121,7 +159,6 @@ function corProgresso(p) {
   return '#931b18'
 }
 function getCode(d) {
-  // Tenta obter o código ISO2 do país no GeoJSON
   const props = d.properties
   if (props.ISO2) return props.ISO2
   if (props.iso_a2) return props.iso_a2
@@ -130,8 +167,88 @@ function getCode(d) {
   return ''
 }
 
-const totalMarcos = computed(() => props.paises.reduce((a, p) => a + (p.marcosTotal || 0), 0))
-const totalConcluidos = computed(() => props.paises.reduce((a, p) => a + (p.marcosConcluidos || 0), 0))
+function formatMoneyReduzido(val) {
+  if (val >= 1e9) return `€ ${(val / 1e9).toFixed(1)}B`
+  if (val >= 1e6) return `€ ${(val / 1e6).toFixed(1)}M`
+  if (val >= 1e3) return `€ ${(val / 1e3).toFixed(0)} mil`
+  return `€ ${Math.round(val).toLocaleString('pt-PT')}`
+}
+
+
+// Calcula a percentagem de marcos concluídos por país com base nos dados reais
+const percentagemPorPais = computed(() => {
+  const result = {}
+  for (const [code, stats] of Object.entries(props.marcosStatsPorPais)) {
+    if (!stats || stats.total === 0) {
+      result[code] = 0
+    } else {
+      result[code] = Math.round((stats.concluidos / stats.total) * 100)
+    }
+  }
+  return result
+})
+
+const totalMarcosReal = computed(() => {
+  let total = 0
+  for (const stats of Object.values(props.marcosStatsPorPais)) {
+    total += stats?.total || 0
+  }
+  return total
+})
+
+const totalConcluidosReal = computed(() => {
+  let total = 0
+  for (const stats of Object.values(props.marcosStatsPorPais)) {
+    total += stats?.concluidos || 0
+  }
+  return total
+})
+
+function destacarPaisLegenda(code) {
+  const pathEl = pathsMap.get(code)
+  if (!pathEl) return
+  const cor = corPais(code)
+  d3.select(pathEl)
+    .raise()
+    .transition().duration(150)
+    .attr('stroke-width', 3)
+    .style('filter', `drop-shadow(0 0 10px ${cor}cc) drop-shadow(0 0 4px ${cor})`)
+
+  const centroid = centroidsMap.get(code)
+  if (centroid && svgRef.value) {
+    const rect = svgRef.value.getBoundingClientRect()
+    const tooltipWidth = 260
+    const tooltipHeight = 200
+    let tx = centroid[0] + rect.right + 10
+    let ty = centroid[1] + rect.top + 20
+    
+    if (tx + tooltipWidth > rect.width) {
+      tx = centroid[0] + rect.left - tooltipWidth - 10
+    }
+    if (tx < 0) tx = 8
+    
+    // Ajuste vertical semelhante
+    if (ty + tooltipHeight > rect.height) {
+      ty = rect.height - tooltipHeight - 10
+    }
+    if (ty < 0) ty = 8
+    
+    const pais = getPais(code)
+    if (pais) {
+      tooltip.value = { visivel: true, x: tx, y: ty, pais: { ...pais, code } }
+    }
+  }
+}
+
+function removerDestaqueLegenda(code) {
+  const pathEl = pathsMap.get(code)
+  if (!pathEl) return
+  d3.select(pathEl)
+    .transition().duration(200)
+    .attr('stroke-width', 1.8)
+    .style('filter', 'url(#f-sombra)')
+  tooltip.value.visivel = false
+}
 
 function desenharMapa() {
   if (!geoData || !gRef.value) return
@@ -141,23 +258,16 @@ function desenharMapa() {
   g.selectAll('*').remove()
   labels.selectAll('*').remove()
   pulses.selectAll('*').remove()
+  pathsMap.clear()
+  centroidsMap.clear()
 
-  // Obter lista de códigos de países que existem nos dados
   const paisesMap = new Map(props.paises.map(p => [p.code, p]))
   const codigosExistentes = new Set(Array.from(paisesMap.keys()))
-
-  // Países neutros (não participantes no PRR)
   const featuresAll = geoData.features
-  const neutros = featuresAll.filter(d => {
-    const code = getCode(d)
-    return !codigosExistentes.has(code)
-  })
-  const participantes = featuresAll.filter(d => {
-    const code = getCode(d)
-    return codigosExistentes.has(code)
-  })
+  const neutros = featuresAll.filter(d => !codigosExistentes.has(getCode(d)))
+  const participantes = featuresAll.filter(d => codigosExistentes.has(getCode(d)))
 
-  // Desenhar neutros
+  // neutros
   g.selectAll('path.neutro')
     .data(neutros)
     .enter().append('path')
@@ -169,7 +279,7 @@ function desenharMapa() {
     .transition().duration(500).delay((d, i) => i * 6)
     .attr('opacity', 1)
 
-  // Desenhar participantes
+  // participantes
   g.selectAll('path.participante')
     .data(participantes)
     .enter().append('path')
@@ -182,34 +292,78 @@ function desenharMapa() {
     .style('cursor', 'pointer')
     .transition().duration(700).delay((d, i) => 200 + i * 100)
     .attr('opacity', 1)
+    .each(function(d) {
+      const code = getCode(d)
+      if (codigosExistentes.has(code)) {
+        pathsMap.set(code, this)
+        const centroid = pathGen.centroid(d)
+        if (centroid && !isNaN(centroid[0]) && !isNaN(centroid[1])) {
+          centroidsMap.set(code, centroid)
+        }
+      }
+    })
 
   setTimeout(() => {
     g.selectAll('path.participante')
-      .on('mouseover', function(event, d) {
-        const code = getCode(d)
-        const pais = getPais(code)
-        if (!pais) return
-        const cor = corPais(code)
-        d3.select(this).raise()
-          .transition().duration(150)
-          .attr('stroke-width', 3)
-          .style('filter', `drop-shadow(0 0 10px ${cor}cc) drop-shadow(0 0 4px ${cor})`)
 
-        const rect = svgRef.value.getBoundingClientRect()
-        let tx = event.clientX - rect.left + 18
-        let ty = event.clientY - rect.top - 120
-        if (tx + 260 > rect.width) tx = event.clientX - rect.left - 278
-        if (ty < 0) ty = 8
-        tooltip.value = { visivel: true, x: tx, y: ty, pais: { ...pais, code } }
-      })
-      .on('mousemove', function(event) {
-        const rect = svgRef.value.getBoundingClientRect()
-        let tx = event.clientX - rect.left + 18
-        let ty = event.clientY - rect.top - 120
-        if (tx + 260 > rect.width) tx = event.clientX - rect.left - 278
-        if (ty < 0) ty = 8
-        tooltip.value.x = tx
-        tooltip.value.y = ty
+      .on('mouseover', function(event, d) {
+      const code = getCode(d)
+      const pais = getPais(code)
+      if (!pais) return
+      const cor = corPais(code)
+      d3.select(this).raise()
+        .transition().duration(150)
+        .attr('stroke-width', 3)
+        .style('filter', `drop-shadow(0 0 10px ${cor}cc) drop-shadow(0 0 4px ${cor})`)
+
+      const rect = svgRef.value.getBoundingClientRect()
+      const tooltipWidth = 260
+      const tooltipHeight = 200 // altura estimada do tooltip
+      
+      let tx = event.clientX - rect.left + 18
+      let ty = event.clientY - rect.top - 120 // posição padrão acima do cursor
+      
+      // Ajuste horizontal
+      if (tx + tooltipWidth > rect.width) {
+        tx = event.clientX - rect.left - tooltipWidth - 18
+      }
+      if (tx < 0) tx = 8
+      
+      // Ajuste vertical: se tooltip ultrapassar o topo, colocar abaixo do cursor
+      if (ty < 0) {
+        ty = event.clientY - rect.top + 20
+      }
+      // Se tooltip ultrapassar a parte inferior, colocar acima do cursor (mais alto)
+      if (ty + tooltipHeight > rect.height) {
+        ty = event.clientY - rect.top - tooltipHeight - 20
+      }
+      // Garantir que não fica negativo
+      if (ty < 0) ty = 8
+      
+      tooltip.value = { visivel: true, x: tx, y: ty, pais: { ...pais, code } }
+    })
+    .on('mousemove', function(event) {
+      const rect = svgRef.value.getBoundingClientRect()
+      const tooltipWidth = 260
+      const tooltipHeight = 200
+      
+      let tx = event.clientX - rect.left + 18
+      let ty = event.clientY - rect.top - 120
+      
+      if (tx + tooltipWidth > rect.width) {
+        tx = event.clientX - rect.left - tooltipWidth - 18
+      }
+      if (tx < 0) tx = 8
+      if (ty < 0) {
+        ty = event.clientY - rect.top + 20
+      }
+      if (ty + tooltipHeight > rect.height) {
+        ty = event.clientY - rect.top - tooltipHeight - 20
+      }
+      if (ty < 0) ty = 8
+      
+      tooltip.value.x = tx
+      tooltip.value.y = ty
       })
       .on('mouseout', function() {
         d3.select(this).transition().duration(200)
@@ -220,7 +374,7 @@ function desenharMapa() {
       .on('click', function(event, d) { router.push('/paises/' + getCode(d)) })
   }, 1200)
 
-  // Bandeiras centradas + pulsos
+  // pulsos e bandeiras
   participantes.forEach((d, i) => {
     const code = getCode(d)
     const pais = getPais(code)
@@ -229,7 +383,6 @@ function desenharMapa() {
     if (!c || isNaN(c[0]) || isNaN(c[1])) return
     const cor = corPais(code)
 
-    // Pulso externo
     pulses.append('circle')
       .attr('cx', c[0]).attr('cy', c[1])
       .attr('r', 12).attr('fill', 'none')
@@ -237,7 +390,6 @@ function desenharMapa() {
       .attr('opacity', 0)
       .attr('class', `pr-${code}`)
 
-    // Círculo branco
     labels.append('circle')
       .attr('cx', c[0]).attr('cy', c[1])
       .attr('r', 13)
@@ -248,7 +400,6 @@ function desenharMapa() {
       .transition().duration(400).delay(400 + i * 100)
       .attr('opacity', 1)
 
-    // Emoji bandeira
     const fo = labels.append('foreignObject')
       .attr('x', c[0] - 11)
       .attr('y', c[1] - 11)
@@ -266,7 +417,6 @@ function desenharMapa() {
     fo.transition().duration(400).delay(500 + i * 100).attr('opacity', 1)
   })
 
-  // Animação de pulse contínua para todos os participantes
   function pulse(code) {
     const el = pulses.select(`.pr-${code}`)
     if (el.empty()) return
@@ -301,82 +451,56 @@ watch(() => props.paises, () => { if (geoData) desenharMapa() }, { deep: true })
 </script>
 
 <style scoped>
-/* (mantém os estilos originais, não alterados) */
-.mapa-wrapper {
-  background: #f5f5f7;
-  padding: 0;
-}
-.mapa-inner {
-  padding: 50px 10%;
-}
-.mapa-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 28px; flex-wrap: wrap; gap: 20px;
-  opacity: 0; transform: translateY(-16px);
-  transition: all 0.7s ease;
-}
+/* (estilos mantidos exactamente iguais aos originais) */
+.mapa-wrapper { background: #f5f5f7; padding: 0; }
+.mapa-inner { padding: 50px 10%; }
+.mapa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 20px; opacity: 0; transform: translateY(-16px); transition: all 0.7s ease; }
 .mapa-header.animate-in { opacity: 1; transform: translateY(0); }
 .mapa-header h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
 .mapa-header p { font-size: 0.85rem; color: #aaa; }
 .mapa-header-stats { display: flex; gap: 10px; flex-wrap: wrap; }
-.mhs {
-  display: flex; flex-direction: column; align-items: center;
-  background: white; border: 1.5px solid #f0f0f0;
-  border-radius: 12px; padding: 10px 16px; min-width: 70px;
-  transition: all 0.2s;
-}
+.mhs { display: flex; flex-direction: column; align-items: center; background: white; border: 1.5px solid #f0f0f0; border-radius: 12px; padding: 10px 16px; min-width: 70px; transition: all 0.2s; }
 .mhs:hover { border-color: #931b18; transform: translateY(-2px); }
 .mhs span { font-size: 1.1rem; font-weight: 900; color: #1a1a1a; }
 .mhs { font-size: 0.65rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
 .mhs.verde span { color: #1a7a4a; }
 .mhs.dourado span { color: #c49a28; }
-.mapa-svg-wrap {
-  position: relative;
-  border-radius: 20px; overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-  border: 2px solid #e8eaf0;
-}
-.mapa-loading {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; height: 460px; gap: 12px;
-  color: #aaa; background: #f8f9fb; font-size: 0.88rem;
-}
+.mapa-svg-wrap { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.12); border: 2px solid #e8eaf0; }
+.mapa-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 460px; gap: 12px; color: #aaa; background: #f8f9fb; font-size: 0.88rem; }
 .spinner { width: 32px; height: 32px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .mapa-svg { width: 100%; height: auto; display: block; }
-.tooltip {
-  position: absolute; background: white; border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.2); min-width: 240px;
-  pointer-events: none; z-index: 100; overflow: hidden;
-}
+.tooltip { position: absolute; background: white; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.2); min-width: 260px; pointer-events: none; z-index: 100; overflow: hidden; }
 .tt-anim-enter-active { transition: all 0.18s cubic-bezier(0.34,1.4,0.64,1); }
 .tt-anim-leave-active { transition: all 0.1s ease; }
 .tt-anim-enter-from { opacity: 0; transform: translateY(8px) scale(0.95); }
 .tt-anim-leave-to { opacity: 0; }
-.tt-top {
-  padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-}
+.tt-top { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
 .tt-flag { font-size: 2rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2)); }
 .tt-nome { font-size: 1rem; font-weight: 800; color: white; }
 .tt-sub { font-size: 0.72rem; color: rgba(255,255,255,0.75); margin-top: 2px; }
 .tt-body { padding: 12px 16px; }
 .tt-fundos { background: #fdf2f2; color: #931b18; font-size: 0.78rem; font-weight: 700; padding: 5px 10px; border-radius: 8px; margin-bottom: 10px; }
+.tt-desembolso, .tt-proxima { font-size: 0.78rem; margin-bottom: 8px; color: #444; display: flex; justify-content: space-between; }
+.tt-desembolso strong, .tt-proxima strong { color: #1a1a1a; }
 .tt-stats { display: flex; border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
 .ts { flex: 1; text-align: center; padding: 8px 4px; border-right: 1px solid #f0f0f0; }
 .ts:last-child { border-right: none; }
 .ts strong { display: block; font-size: 0.95rem; font-weight: 800; }
 .ts span { font-size: 0.62rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.04em; }
 .tt-bar-bg { height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 8px; }
+.tt-progress-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
 .tt-bar-fill { height: 100%; border-radius: 99px; }
 .tt-cta { font-size: 0.75rem; color: #931b18; font-weight: 700; text-align: right; }
 .legenda { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
-.leg-item {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.8rem; color: #444; font-weight: 600;
-  background: white; border: 1.5px solid #f0f0f0;
-  padding: 7px 14px; border-radius: 99px;
-  cursor: pointer; transition: all 0.2s;
-}
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #444; font-weight: 600; background: white; border: 1.5px solid #f0f0f0; padding: 7px 14px; border-radius: 99px; cursor: pointer; transition: all 0.2s; }
 .leg-item:hover { border-color: #931b18; color: #931b18; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(147,27,24,0.12); }
 .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .leg-prog { font-weight: 800; font-size: 0.76rem; margin-left: 2px; }

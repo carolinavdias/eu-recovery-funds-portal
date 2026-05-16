@@ -10,13 +10,30 @@
         <button class="close-btn" @click="showExportModal = false">✕</button>
         <div class="export-header">
           <span class="main-download-icon">📥</span>
-          <h2>Exportar Dados</h2>
-          <p>Descarregue os dados de Marcos e Metas para análise offline</p>
+          <h2>{{ appStore.t.marcos_modal_export_titulo }}</h2>
+          <p>{{ appStore.t.marcos_modal_export_desc }}</p>
         </div>
         <div class="export-options">
-          <button class="export-item" @click="exportarDados('csv')"><span>Exportar como CSV</span><span class="ext">.csv</span></button>
-          <button class="export-item" @click="exportarDados('json')"><span>Feed de Dados (JSON)</span><span class="ext">.json</span></button>
-          <button class="export-item" @click="exportarDados('pdf')"><span>Relatório PDF</span><span class="ext">.pdf</span></button>
+          <button class="export-item" @click="exportarDados('csv')"><span>{{ appStore.t.marcos_modal_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarDados('json')"><span>{{ appStore.t.marcos_modal_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarDados('pdf')"><span>{{ appStore.t.marcos_modal_export_pdf }}</span><span class="ext">.pdf</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE EXPORTAÇÃO INDIVIDUAL -->
+    <div v-if="showExportModalIndividual" class="modal-overlay" @click.self="showExportModalIndividual = false">
+      <div class="export-card">
+        <button class="close-btn" @click="showExportModalIndividual = false">✕</button>
+        <div class="export-header">
+          <span class="main-download-icon">📥</span>
+          <h2>{{ appStore.t.marcos_modal_export_titulo }}</h2>
+          <p>{{ appStore.t.marcos_modal_export_desc }}</p>
+        </div>
+        <div class="export-options">
+          <button class="export-item" @click="exportarDados('csv', marcoParaExportar)"><span>{{ appStore.t.marcos_modal_export_csv }}</span><span class="ext">.csv</span></button>
+          <button class="export-item" @click="exportarDados('json', marcoParaExportar)"><span>{{ appStore.t.marcos_modal_export_json }}</span><span class="ext">.json</span></button>
+          <button class="export-item" @click="exportarDados('pdf', marcoParaExportar)"><span>{{ appStore.t.marcos_modal_export_pdf }}</span><span class="ext">.pdf</span></button>
         </div>
       </div>
     </div>
@@ -35,14 +52,14 @@
         </div>
         <div class="detalhe-body">
           <div class="detalhe-meta">
-            <span class="tag-pais">🌍 {{ marcoDetalhe.pais }}</span>
-            <span class="tag-prazo">📅 {{ marcoDetalhe.prazo }}</span>
+            <span class="tag-pais">🌍 {{ getNomePais(marcoDetalhe.paisCode) }}</span>
+            <span class="tag-prazo">📅 {{ traduzirData(marcoDetalhe.prazo) }}</span>
           </div>
           <h2 class="detalhe-titulo">{{ marcoDetalhe.titulo }}</h2>
           <p class="detalhe-desc">{{ marcoDetalhe.descricao }}</p>
           <div class="detalhe-progresso">
             <div class="progresso-header">
-              <span>Progresso de execução</span>
+              <span>{{ appStore.t.marcos_card_progresso }}</span>
               <strong :style="{ color: corProgresso(marcoDetalhe.estado) }">{{ marcoDetalhe.progresso }}%</strong>
             </div>
             <div class="progresso-bg">
@@ -51,38 +68,38 @@
           </div>
           <div class="detalhe-stats">
             <div class="dstat">
-              <span class="dstat-label">Estado</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_estado }}</span>
               <span :class="['tabela-badge', marcoDetalhe.estado]">{{ estadoLabel(marcoDetalhe.estado) }}</span>
             </div>
             <div class="dstat">
-              <span class="dstat-label">Setor</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_setor }}</span>
               <span class="dstat-val">{{ marcoDetalhe.setorLabel }}</span>
             </div>
             <div class="dstat">
-              <span class="dstat-label">Investimento</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_investimento }}</span>
               <span class="dstat-val dstat-highlight">{{ marcoDetalhe.investimento }}</span>
             </div>
             <div class="dstat">
-              <span class="dstat-label">Beneficiários</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_beneficiarios }}</span>
               <span class="dstat-val">{{ marcoDetalhe.beneficiarios }}</span>
             </div>
             <div class="dstat dstat-full">
-              <span class="dstat-label">Indicador de Sucesso</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_indicador }}</span>
               <span class="dstat-val">{{ marcoDetalhe.indicadorSucesso }}</span>
             </div>
             <div class="dstat dstat-full">
-              <span class="dstat-label">Entidade Responsável</span>
+              <span class="dstat-label">{{ appStore.t.marcos_modal_detalhe_entidade }}</span>
               <span class="dstat-val">{{ marcoDetalhe.entidade }}</span>
             </div>
           </div>
           <div class="detalhe-actions">
-            <button class="btn-export-detalhe" @click="showExportModal = true; marcoDetalhe = null">📥 Exportar dados</button>
-            <button class="btn-fechar-detalhe" @click="marcoDetalhe = null">Fechar</button>
+            <button class="btn-export-detalhe" @click="exportarMarcoUnico(marcoDetalhe)">{{ appStore.t.marcos_modal_detalhe_exportar }}</button>
+            <button class="btn-fechar-detalhe" @click="marcoDetalhe = null">{{ appStore.t.marcos_modal_detalhe_fechar }}</button>
           </div>
 
           <!-- HISTÓRICO DE REVISÕES -->
           <div v-if="marcoDetalhe.revisoes && marcoDetalhe.revisoes.length" class="historico-wrap">
-            <div class="historico-titulo">📋 Histórico de Revisões</div>
+            <div class="historico-titulo">{{ appStore.t.marcos_modal_detalhe_historico_titulo }}</div>
             <div class="historico-timeline">
               <div
                 v-for="(rev, i) in marcoDetalhe.revisoes"
@@ -93,7 +110,7 @@
                 <div class="hist-dot"></div>
                 <div class="hist-conteudo">
                   <div class="hist-meta">
-                    <span class="hist-data">{{ rev.data }}</span>
+                    <span class="hist-data">{{ traduzirData(rev.data) }}</span>
                     <span class="hist-tipo">{{ tipoLabel(rev.tipo) }}</span>
                   </div>
                   <p class="hist-desc">{{ rev.descricao }}</p>
@@ -109,24 +126,24 @@
     <!-- LOADING -->
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner"></div>
-      <p>A carregar dados...</p>
+      <p>{{ appStore.t.marcos_loading }}</p>
     </div>
 
     <!-- ERRO -->
     <div v-if="erro" class="erro-state">
       <span>⚠️</span>
-      <p>{{ erro }}</p>
+      <p>{{ erro || appStore.t.marcos_erro }}</p>
     </div>    
 
     <!-- ==================== MINI BAR STICKY ==================== -->
     <div class="sticky-mini-bar" :class="{ visible: showStickyBar }">
-      <div class="mini-item"><span class="mini-label">Total de Marcos</span><span class="mini-value">{{ contadorTotal }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.marcos_sticky_total }}</span><span class="mini-value">{{ contadorTotal }}</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Concluídos</span><span class="mini-value">{{ contadorConcluidos }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.marcos_sticky_concluidos }}</span><span class="mini-value">{{ contadorConcluidos }}</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Em Curso</span><span class="mini-value">{{ contadorEmCurso }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.marcos_sticky_em_curso }}</span><span class="mini-value">{{ contadorEmCurso }}</span></div>
       <div class="mini-divider"></div>
-      <div class="mini-item"><span class="mini-label">Em Atraso</span><span class="mini-value">{{ contadorEmAtraso }}</span></div>
+      <div class="mini-item"><span class="mini-label">{{ appStore.t.marcos_sticky_em_atraso }}</span><span class="mini-value">{{ contadorEmAtraso }}</span></div>
     </div>
 
     <!-- HERO -->
@@ -154,43 +171,42 @@
     <section class="filtros-section" id="filtros">
       <div class="filtros-inner">
         <div class="filtros-left">
-          <span class="filtros-titulo">🔍 Filtrar</span>
-          <!-- INDICADOR DE FILTROS ACTIVOS -->
+          <span class="filtros-titulo">🔍 {{ appStore.idioma === 'pt' ? 'Filtrar' : 'Filter' }}</span>
           <div v-if="filtrosActivos > 0" class="filtros-activos-badge">
-            {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} activo{{ filtrosActivos > 1 ? 's' : '' }}
-            · {{ marcosFiltrados.length }} resultado{{ marcosFiltrados.length !== 1 ? 's' : '' }}
+            {{ filtrosActivos }} {{ textoFiltrosActivos() }}
+            · {{ marcosExibidos.length }} {{ textoResultados() }}
           </div>
         </div>
         <div class="filtros-grid">
           <div class="filtro-item" :class="{ 'filtro-activo': filtroPais !== 'todos' }">
-            <label>País</label>
+            <label>{{ appStore.t.pais_label }}</label>
             <select v-model="filtroPais">
-              <option value="todos">Todos os países</option>
-              <option v-for="p in appStore.paises.filter(p => p.code !== 'todos')" :key="p.code" :value="p.code">{{ p.nome }}</option>
+              <option value="todos">{{ appStore.t.todos_paises }}</option>
+              <option v-for="p in paisesStore" :key="p.code" :value="p.code">{{ getNomePais(p.code) }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': filtroSetor !== 'todos' }">
-            <label>Setor</label>
+            <label>{{ appStore.t.setor_label }}</label>
             <select v-model="filtroSetor">
-              <option value="todos">Todos os setores</option>
-              <option value="digital">💻 Transição Digital</option>
-              <option value="clima">🌿 Transição Climática</option>
-              <option value="saude">❤️ Saúde</option>
-              <option value="educacao">🎓 Educação e Formação</option>
-              <option value="coesao">👥 Coesão Social</option>
-              <option value="infraestrutura">🏢 Infraestruturas</option>
+              <option value="todos">{{ appStore.t.todos_setores }}</option>
+              <option value="digital">{{ appStore.t.setor_digital }}</option>
+              <option value="clima">{{ appStore.t.setor_clima }}</option>
+              <option value="saude">{{ appStore.t.setor_saude }}</option>
+              <option value="educacao">{{ appStore.t.setor_educacao }}</option>
+              <option value="coesao">{{ appStore.t.setor_coesao }}</option>
+              <option value="infraestrutura">{{ appStore.t.setor_infra }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': filtroEstado !== 'todos' }">
-            <label>Estado</label>
+            <label>{{ appStore.t.estado_label }}</label>
             <select v-model="filtroEstado">
-              <option value="todos">Todos os estados</option>
-              <option value="concluido">✅ Concluído</option>
-              <option value="em_curso">⏳ Em curso</option>
-              <option value="em_atraso">⚠️ Em atraso</option>
+              <option value="todos">{{ appStore.t.todos_estados }}</option>
+              <option value="concluido">{{ appStore.t.estado_concluido }}</option>
+              <option value="em_curso">{{ appStore.t.estado_em_curso }}</option>
+              <option value="em_atraso">{{ appStore.t.estado_em_atraso }}</option>
             </select>
           </div>
-          <button class="btn-limpar" :class="{ 'btn-limpar-activo': filtrosActivos > 0 }" @click="limparFiltros">✕ Limpar</button>
+          <button class="btn-limpar" :class="{ 'btn-limpar-activo': filtrosActivos > 0 }" @click="limparFiltros">{{ appStore.t.filtro_limpar }}</button>
         </div>
       </div>
     </section>
@@ -198,39 +214,39 @@
     <!-- GRÁFICOS -->
     <section class="graficos-section" id="graficos">
       <div class="graficos-titulo-area">
-        <h2>Análise Visual <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-        <p>Dados agregados dos marcos e metas por setor e estado de execução — atualizam automaticamente com os filtros</p>
+        <h2>{{ appStore.t.marcos_titulo_grafico }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+        <p>{{ appStore.t.marcos_sub_grafico }}</p>
       </div>
       <div class="graficos-grid">
         <div class="grafico-card grande">
           <div class="grafico-header">
             <div>
-              <h3>📊 Progresso por Pilar</h3>
-              <p class="grafico-sub">Progresso médio (%) dos marcos concluídos em cada setor de intervenção do PRR</p>
+              <h3>{{ appStore.t.marcos_grafico_barras_titulo }}</h3>
+              <p class="grafico-sub">{{ appStore.t.marcos_grafico_barras_sub }}</p>
             </div>
             <button class="btn-export-grafico" @click="exportarGrafico('graficoBarras')" title="Exportar gráfico como imagem PNG com fundo branco">📥 PNG</button>
           </div>
           <div class="grafico-canvas-wrap"><canvas id="graficoBarras"></canvas></div>
-          <p class="grafico-legenda-texto">Cada barra representa a média de progresso de todos os marcos nesse setor. 100% = todos os marcos concluídos.</p>
+          <p class="grafico-legenda-texto">{{ appStore.t.marcos_grafico_barras_legenda }}</p>
         </div>
         <div class="grafico-card">
           <div class="grafico-header">
             <div>
-              <h3>🍩 Distribuição por Estado</h3>
-              <p class="grafico-sub">Proporção de marcos por estado de execução (concluído, em curso, em atraso)</p>
+              <h3>{{ appStore.t.marcos_grafico_donut_titulo }}</h3>
+              <p class="grafico-sub">{{ appStore.t.marcos_grafico_donut_sub }}</p>
             </div>
             <button class="btn-export-grafico" @click="exportarGrafico('graficoDonut')" title="Exportar gráfico como imagem PNG com fundo branco">📥 PNG</button>
           </div>
           <div class="donut-wrap">
             <div class="donut-canvas-wrap"><canvas id="graficoDonut"></canvas></div>
             <div class="donut-legenda">
-              <div class="leg-item"><span class="leg-cor" style="background:#1a7a4a"></span><div class="leg-info"><span>Concluído</span><strong>{{ marcosFiltrados.filter(m=>m.estado==='concluido').length }}</strong></div></div>
-              <div class="leg-item"><span class="leg-cor" style="background:#e6a817"></span><div class="leg-info"><span>Em Curso</span><strong>{{ marcosFiltrados.filter(m=>m.estado==='em_curso').length }}</strong></div></div>
-              <div class="leg-item"><span class="leg-cor" style="background:#931b18"></span><div class="leg-info"><span>Em Atraso</span><strong>{{ marcosFiltrados.filter(m=>m.estado==='em_atraso').length }}</strong></div></div>
-              <div class="leg-total"><span>Total</span><strong>{{ marcosFiltrados.length }}</strong></div>
+              <div class="leg-item"><span class="leg-cor" style="background:#1a7a4a"></span><div class="leg-info"><span>{{ appStore.t.estado_concluido }}</span><strong>{{ marcosExibidos.filter(m=>m.estado==='concluido').length }}</strong></div></div>
+              <div class="leg-item"><span class="leg-cor" style="background:#e6a817"></span><div class="leg-info"><span>{{ appStore.t.estado_em_curso }}</span><strong>{{ marcosExibidos.filter(m=>m.estado==='em_curso').length }}</strong></div></div>
+              <div class="leg-item"><span class="leg-cor" style="background:#931b18"></span><div class="leg-info"><span>{{ appStore.t.estado_em_atraso }}</span><strong>{{ marcosExibidos.filter(m=>m.estado==='em_atraso').length }}</strong></div></div>
+              <div class="leg-total"><span>{{ appStore.t.marcos_totais }}</span><strong>{{ marcosExibidos.length }}</strong></div>
             </div>
           </div>
-          <p class="grafico-legenda-texto">O gráfico mostra a distribuição percentual dos {{ marcos.length }} marcos monitorizados.</p>
+         <p class="grafico-legenda-texto">{{ legendaDonut() }}</p>
         </div>
       </div>
     </section>
@@ -239,27 +255,27 @@
     <section class="lista-section" id="lista-marcos">
       <div class="lista-header">
         <div>
-          <h2>Lista de Marcos <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <h2>{{ appStore.t.marcos_lista_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
           <p class="lista-sub">
-            {{ marcosFiltrados.length }} resultado{{ marcosFiltrados.length !== 1 ? 's' : '' }} encontrado{{ marcosFiltrados.length !== 1 ? 's' : '' }}
+            {{ marcosExibidos.length }} resultado{{ marcosExibidos.length !== 1 ? 's' : '' }} encontrado{{ marcosExibidos.length !== 1 ? 's' : '' }}
             <span v-if="filtrosActivos > 0" class="lista-filtro-info"> com {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} aplicado{{ filtrosActivos > 1 ? 's' : '' }}</span>
           </p>
         </div>
         <div class="lista-header-actions">
-          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-marcos')">📋 Ver tabela</button>
-          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar lista</button>
+          <button class="btn-scroll-tabela" @click="scrollSmooth('tabela-marcos')">{{ appStore.t.marcos_lista_ver_tabela }}</button>
+          <button class="btn-export-lista" @click="showExportModal = true">{{ appStore.t.marcos_lista_exportar }}</button>
         </div>
       </div>
 
-      <div v-if="marcosFiltrados.length === 0" class="empty-state">
+      <div v-if="marcosExibidos.length === 0" class="empty-state">
         <div class="empty-icon">🔍</div>
-        <h3>Nenhum resultado encontrado</h3>
-        <p>Não existem marcos que correspondam aos filtros selecionados.</p>
-        <button class="btn-limpar-empty" @click="limparFiltros">Limpar filtros</button>
+        <h3>{{ appStore.t.marcos_empty_titulo }}</h3>
+        <p>{{ appStore.t.marcos_empty_desc }}</p>
+        <button class="btn-limpar-empty" @click="limparFiltros">{{ appStore.t.marcos_empty_limpar }}</button>
       </div>
 
       <div v-else class="marcos-grid">
-        <div v-for="(marco, index) in marcosFiltrados" :key="marco.id" class="marco-card" :style="{ animationDelay: (index * 0.08) + 's' }">
+        <div v-for="(marco, index) in marcosExibidos" :key="marco.id" class="marco-card" :style="{ animationDelay: (index * 0.08) + 's' }">
           <div class="marco-img-wrap">
             <img :src="marco.imagem" :alt="marco.titulo" class="marco-img" />
             <div class="marco-img-overlay" :style="{ background: overlayGradiente(marco.setor) }"></div>
@@ -267,15 +283,15 @@
               <span class="marco-setor-pill">{{ marco.setorLabel }}</span>
               <span :class="['estado-pill', marco.estado]">{{ estadoLabel(marco.estado) }}</span>
             </div>
-            <div class="marco-pais-badge">🌍 {{ marco.pais }}</div>
+            <div class="marco-pais-badge">{{ getBandeira(marco.paisCode) }} {{ getNomePais(marco.paisCode) }}</div>
           </div>
           <div class="marco-body">
             <h3 class="marco-titulo">{{ marco.titulo }}</h3>
             <p class="marco-desc">{{ marco.descricao }}</p>
-            <div class="marco-meta"><span class="meta-item">📅 <strong>{{ marco.prazo }}</strong></span></div>
+            <div class="marco-meta"><span class="meta-item">📅 <strong>{{ traduzirData(marco.prazo) }}</strong></span></div>
             <div class="progresso-wrapper">
               <div class="progresso-header">
-                <span>Progresso</span>
+                <span>{{ appStore.t.marcos_card_progresso }}</span>
                 <strong :style="{ color: corProgresso(marco.estado) }">{{ marco.progresso }}%</strong>
               </div>
               <div class="progresso-bg">
@@ -283,10 +299,10 @@
               </div>
             </div>
             <div class="marco-footer">
-              <button class="btn-detalhe" @click="marcoDetalhe = marco">Ver detalhes →</button>
-              <div class="marco-dl" @click="showExportModal = true" title="Exportar dados deste marco">
+              <button class="btn-detalhe" @click="marcoDetalhe = marco">{{ appStore.t.marcos_card_ver_detalhes }}</button>
+              <div class="marco-dl" @click="exportarMarcoUnico(marco)" :title="appStore.t.marcos_card_exportar">
                 <span class="dl-icon">📥</span>
-                <small>CSV | JSON</small>
+                <small>CSV | JSON | PDF</small>
               </div>
             </div>
           </div>
@@ -298,31 +314,31 @@
     <section class="tabela-section" id="tabela-marcos">
       <div class="tabela-header">
         <div>
-          <h2>Detalhamento de Execução <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
-          <p class="tabela-sub">Listagem completa · clique numa linha para ver detalhes · clique nos cabeçalhos para ordenar</p>
+          <h2>{{ appStore.t.marcos_tabela_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
+          <p class="tabela-sub">{{ appStore.t.marcos_tabela_sub }}</p>
         </div>
         <div class="tabela-btns">
-          <button class="btn-export-lista" @click="showExportModal = true">📥 Exportar tabela</button>
+          <button class="btn-export-lista" @click="showExportModal = true">{{ appStore.t.marcos_lista_exportar }}</button>
         </div>
       </div>
       <div class="tabela-wrap">
         <table class="tabela">
           <thead>
             <tr>
-              <th @click="ordenarPor('id')" class="th-sort">ID <span class="sort-icon">{{ sortCol === 'id' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
-              <th @click="ordenarPor('titulo')" class="th-sort">Designação do Marco <span class="sort-icon">{{ sortCol === 'titulo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
-              <th @click="ordenarPor('pais')" class="th-sort">País <span class="sort-icon">{{ sortCol === 'pais' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
-              <th @click="ordenarPor('prazo')" class="th-sort">Prazo <span class="sort-icon">{{ sortCol === 'prazo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
-              <th @click="ordenarPor('estado')" class="th-sort">Estado <span class="sort-icon">{{ sortCol === 'estado' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
-              <th @click="ordenarPor('progresso')" class="th-sort">Progresso <span class="sort-icon">{{ sortCol === 'progresso' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('id')" class="th-sort">{{ appStore.t.marcos_tabela_col_id }} <span class="sort-icon">{{ sortCol === 'id' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('titulo')" class="th-sort">{{ appStore.t.marcos_tabela_col_designacao }} <span class="sort-icon">{{ sortCol === 'titulo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('pais')" class="th-sort">{{ appStore.t.marcos_tabela_col_pais }} <span class="sort-icon">{{ sortCol === 'pais' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('prazo')" class="th-sort">{{ appStore.t.marcos_tabela_col_prazo }} <span class="sort-icon">{{ sortCol === 'prazo' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('estado')" class="th-sort">{{ appStore.t.marcos_tabela_col_estado }} <span class="sort-icon">{{ sortCol === 'estado' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
+              <th @click="ordenarPor('progresso')" class="th-sort">{{ appStore.t.marcos_tabela_col_progresso }} <span class="sort-icon">{{ sortCol === 'progresso' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}</span></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="marco in marcosPaginados" :key="'t'+marco.id" @click="marcoDetalhe = marco" class="tabela-row-clicavel">
               <td class="td-id">M{{ marco.id }}</td>
               <td class="td-titulo">{{ marco.titulo }}</td>
-              <td>{{ marco.pais }}</td>
-              <td>{{ marco.prazo }}</td>
+              <td>{{ getNomePais(marco.paisCode) }}</td>
+              <td>{{ traduzirData(marco.prazo) }}</td>
               <td><span :class="['tabela-badge', marco.estado]">{{ estadoLabel(marco.estado) }}</span></td>
               <td>
                 <div class="tab-prog">
@@ -339,17 +355,17 @@
             v-if="linhasVisiveis < marcosOrdenados.length"
             @click="linhasVisiveis = Math.min(linhasVisiveis + 10, marcosOrdenados.length)"
           >
-            Ver mais (+{{ Math.min(10, marcosOrdenados.length - linhasVisiveis) }})
+            {{ textoVerMais() }}
           </button>
           <button
             class="btn-ver-mais"
             v-if="linhasVisiveis > 10"
             @click="linhasVisiveis = 10"
           >
-            Ocultar
+            {{ appStore.t.marcos_tabela_ocultar }}
           </button>
         </div>
-        <p class="tabela-nota">A mostrar {{ marcosFiltrados.length }} de {{ marcos.length }} registos</p>
+        <p class="tabela-nota">{{ textoNotaTabela() }}</p>
       </div>
     </section>
 
@@ -360,10 +376,11 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
-import { getMarcos } from '@/services/api.js'
+import { getMarcos, getPaises} from '@/services/api.js'
 
 Chart.register(...registerables)
 const appStore = useAppStore()
+const paisesStore = ref([])
 
 const showExportModal = ref(false)
 const marcoDetalhe = ref(null)
@@ -373,6 +390,8 @@ const filtroEstado = ref('todos')
 const heroVisible = ref(false)
 const sortCol = ref('id')
 const sortDir = ref('asc')
+const marcoParaExportar = ref(null)
+const showExportModalIndividual = ref(false)
 
 const contadorTotal = ref(0)
 const contadorConcluidos = ref(0)
@@ -394,10 +413,7 @@ const nomePaisAtual = computed(() => {
   return pais ? pais.nome : 'Todos os países'
 })
 
-const bandeiraPais = computed(() => {
-  const bandeiras = { PT: '🇵🇹', ES: '🇪🇸', FR: '🇫🇷', IT: '🇮🇹', DE: '🇩🇪', GR: '🇬🇷', HR: '🇭🇷', RO: '🇷🇴' }
-  return bandeiras[filtroPais.value] || '🌍'
-})
+const bandeiraPais = computed(() => getBandeira(filtroPais.value === 'todos' ? null : filtroPais.value))
 
 const filtrosActivos = computed(() => {
   let n = 0
@@ -407,54 +423,82 @@ const filtrosActivos = computed(() => {
   return n
 })
 
+const labelsGraficoBarras = computed(() => {
+  const isPt = appStore.idioma === 'pt'
+  return [
+    isPt ? '💻 Digital' : '💻 Digital',
+    isPt ? '🌿 Clima' : '🌿 Climate',
+    isPt ? '❤️ Saúde' : '❤️ Health',
+    isPt ? '🎓 Educação' : '🎓 Education',
+    isPt ? '👥 Coesão' : '👥 Cohesion',
+    isPt ? '🏢 Infraestrutura' : '🏢 Infrastructure'
+  ]
+})
+
+// Dados brutos da API (com campos _pt, _en)
 const marcos = ref([])
 const loading = ref(true)
 const erro = ref(null)
 
-const marcosFiltrados = computed(() => marcos.value.filter(m => {
-  const paisMatch = filtroPais.value === 'todos' || m.paisCode === filtroPais.value
-  const setorMatch = filtroSetor.value === 'todos' || m.setor === filtroSetor.value
-  const estadoMatch = filtroEstado.value === 'todos' || m.estado === filtroEstado.value
-  return paisMatch && setorMatch && estadoMatch
-}))
+// Dados filtrados (a partir dos brutos, usando os valores originais para filtragem)
+const marcosFiltradosRaw = computed(() => {
+  return marcos.value.filter(m => {
+    const paisMatch = filtroPais.value === 'todos' || m.paisCode === filtroPais.value
+    const setorMatch = filtroSetor.value === 'todos' || m.setor === filtroSetor.value
+    const estadoMatch = filtroEstado.value === 'todos' || m.estado === filtroEstado.value
+    return paisMatch && setorMatch && estadoMatch
+  })
+})
 
-// Ordem semântica dos estados (concluído → em curso → em atraso)
-const ESTADO_ORDEM = { concluido: 0, em_curso: 1, em_atraso: 2 }
+// Tradução dos dados filtrados conforme o idioma atual
+const marcosExibidos = computed(() => {
+  const isPt = appStore.idioma === 'pt'
+  return marcosFiltradosRaw.value.map(m => ({
+    ...m,
+    titulo: isPt ? m.titulo_pt : m.titulo_en,
+    descricao: isPt ? m.descricao_pt : m.descricao_en,
+    setorLabel: isPt ? m.setorLabel_pt : m.setorLabel_en,
+    investimento: isPt ? m.investimento_pt : m.investimento_en,
+    beneficiarios: isPt ? m.beneficiarios_pt : m.beneficiarios_en,
+    indicadorSucesso: isPt ? m.indicadorSucesso_pt : m.indicadorSucesso_en,
+    entidade: isPt ? m.entidade_pt : m.entidade_en,
+    revisoes: m.revisoes.map(rev => ({
+      ...rev,
+      descricao: isPt ? rev.descricao_pt : rev.descricao_en
+    }))
+  }))
+})
 
+// Ordenação aplicada sobre os dados já traduzidos
 const marcosOrdenados = computed(() => {
-  return [...marcosFiltrados.value].sort((a, b) => {
+  return [...marcosExibidos.value].sort((a, b) => {
     let valA = a[sortCol.value]
     let valB = b[sortCol.value]
 
-    // Estado: concluído → em curso → em atraso (e inverso)
     if (sortCol.value === 'estado') {
+      const ESTADO_ORDEM = { concluido: 0, em_curso: 1, em_atraso: 2 }
       const oA = ESTADO_ORDEM[valA] ?? 99
       const oB = ESTADO_ORDEM[valB] ?? 99
       return sortDir.value === 'asc' ? oA - oB : oB - oA
     }
 
-    // Progresso: numérico
     if (sortCol.value === 'progresso') {
       const nA = Number(valA) || 0
       const nB = Number(valB) || 0
       return sortDir.value === 'asc' ? nA - nB : nB - nA
     }
 
-    // Prazo: parse de data ("Q1 2023", "2023-Q1", "31/12/2023", ISO)
     if (sortCol.value === 'prazo') {
       const parseData = (s) => {
         if (!s) return 0
-        // "Q1 2023" ou "1T 2023"
         const q = s.match(/[QqTt](\d)\s*(\d{4})|(\d{4})\s*[QqTt](\d)/)
         if (q) {
           const ano = q[2] || q[3]
           const trim = q[1] || q[4]
           return parseInt(ano) * 10 + parseInt(trim)
         }
-        // "31/12/2023"
         const br = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)
         if (br) return new Date(br[3], br[2] - 1, br[1]).getTime()
-        // ISO ou qualquer coisa que o Date entenda
         const d = new Date(s)
         if (!isNaN(d)) return d.getTime()
         return s
@@ -465,7 +509,7 @@ const marcosOrdenados = computed(() => {
         return sortDir.value === 'asc' ? dA - dB : dB - dA
     }
 
-    // Texto (ID, Designação, País): alfabético
+    // Para campos de texto (título, país)
     const sA = String(valA ?? '').toLowerCase()
     const sB = String(valB ?? '').toLowerCase()
     if (sA < sB) return sortDir.value === 'asc' ? -1 : 1
@@ -509,20 +553,47 @@ function animarContador(ref, target, duration = 1500) {
 
 function tipoLabel(tipo) {
   const map = {
-    aprovacao: '✅ Aprovação',
-    atualizacao: '🔄 Atualização',
-    atraso: '⚠️ Atraso',
-    conclusao: '🏁 Conclusão'
+    aprovacao: appStore.t.revisao_aprovacao,
+    atualizacao: appStore.t.revisao_atualizacao,
+    atraso: appStore.t.revisao_atraso,
+    conclusao: appStore.t.revisao_conclusao
   }
   return map[tipo] || tipo
 }
 
-function estadoLabel(e) {
-  return e === 'concluido' ? '✅ Concluído' : e === 'em_curso' ? '⏳ Em curso' : '⚠️ Em atraso'
+function textoFiltrosActivos() {
+  const count = filtrosActivos.value
+  if (appStore.idioma === 'pt') {
+    return count === 1 ? 'filtro ativo' : 'filtros ativos'
+  } else {
+    return count === 1 ? 'active filter' : 'active filters'
+  }
 }
+
+function exportarMarcoUnico(marco) {
+  marcoParaExportar.value = marco
+  showExportModalIndividual.value = true
+}
+
+function textoResultados() {
+  const count = marcosExibidos.value.length
+  if (appStore.idioma === 'pt') {
+    return count === 1 ? 'resultado' : 'resultados'
+  } else {
+    return count === 1 ? 'result' : 'results'
+  }
+}
+
+function estadoLabel(e) {
+  if (e === 'concluido') return appStore.t.estado_concluido
+  if (e === 'em_curso') return appStore.t.estado_em_curso
+  return appStore.t.estado_em_atraso
+}
+
 function corProgresso(e) {
   return e === 'concluido' ? '#1a7a4a' : e === 'em_curso' ? '#e6a817' : '#931b18'
 }
+
 function overlayGradiente(s) {
   const cores = {
     digital: 'linear-gradient(to top, rgba(26,58,107,0.85) 0%, rgba(26,58,107,0.1) 60%)',
@@ -534,23 +605,58 @@ function overlayGradiente(s) {
   }
   return cores[s] || 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)'
 }
+
 function limparFiltros() {
   appStore.setPais('todos')
   filtroSetor.value = 'todos'
   filtroEstado.value = 'todos'
 }
 
-// SCROLL SUAVE
 function scrollSmooth(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+function legendaDonut() {
+  return appStore.t.marcos_grafico_donut_legenda.replace('{{total}}', marcosExibidos.value.length)
+}
+
+function textoVerMais() {
+  const count = Math.min(10, marcosOrdenados.value.length - linhasVisiveis.value)
+  return appStore.t.marcos_tabela_ver_mais.replace('{{count}}', count)
+}
+
+function textoNotaTabela() {
+  return appStore.t.marcos_tabela_nota
+    .replace('{{visible}}', marcosPaginados.value.length)
+    .replace('{{total}}', marcosExibidos.value.length)
+}
+
+function getNomePais(paisCode) {
+  if (!paisCode || paisCode === 'todos') return appStore.t.todos_paises
+  const isPt = appStore.idioma === 'pt'
+  const pais = paisesStore.value.find(p => p.code === paisCode)
+  if (!pais) return paisCode  // fallback: mostra o código se não encontrar
+  return isPt ? pais.nome_pt : pais.nome_en
+}
+
+function traduzirData(dataStr) {
+  if (!dataStr) return ''
+  if (appStore.idioma !== 'en') return dataStr
+  const mesesPt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  const mesesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  let resultado = dataStr
+  for (let i = 0; i < mesesPt.length; i++) {
+    resultado = resultado.replace(mesesPt[i], mesesEn[i])
+  }
+  return resultado
 }
 
 function criarGraficos() {
   try {
     const setores = ['digital', 'clima', 'saude', 'educacao', 'coesao', 'infraestrutura']
-    const labels = ['💻 Digital', '🌿 Clima', '❤️ Saúde', '🎓 Educação', '👥 Coesão', '🏢 Infra']
+    const labels = labelsGraficoBarras.value
     const progresso = setores.map(s => {
-      const lst = marcosFiltrados.value.filter(m => m.setor === s)
+      const lst = marcosExibidos.value.filter(m => m.setor === s)
       if (!lst.length) return 0
       return Math.round(lst.reduce((a, m) => a + m.progresso, 0) / lst.length)
     })
@@ -606,12 +712,12 @@ function criarGraficos() {
         type: 'doughnut',
         plugins: [whiteBgPlugin],
         data: {
-          labels: ['Concluído', 'Em Curso', 'Em Atraso'],
+          labels: [appStore.t.estado_concluido, appStore.t.estado_em_curso, appStore.t.estado_em_atraso],
           datasets: [{
             data: [
-              marcosFiltrados.value.filter(m => m.estado === 'concluido').length,
-              marcosFiltrados.value.filter(m => m.estado === 'em_curso').length,
-              marcosFiltrados.value.filter(m => m.estado === 'em_atraso').length,
+              marcosExibidos.value.filter(m => m.estado === 'concluido').length,
+              marcosExibidos.value.filter(m => m.estado === 'em_curso').length,
+              marcosExibidos.value.filter(m => m.estado === 'em_atraso').length,
             ],
             backgroundColor: ['#1a7a4a', '#e6a817', '#931b18'],
             borderWidth: 3, borderColor: '#fff', hoverOffset: 8,
@@ -622,14 +728,14 @@ function criarGraficos() {
           animation: { duration: 1500, easing: 'easeOutQuart' },
           plugins: {
             legend: { display: false },
-            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} marcos (${Math.round(ctx.parsed / marcos.value.length * 100)}%)` } }
+            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} marcos (${Math.round(ctx.parsed / marcosExibidos.value.length * 100)}%)` } }
           }
         }
       })
     }
   } catch (err) {
     console.error('Erro ao criar gráficos:', err)
-    toastMsg.value = '⚠️ Erro ao carregar os gráficos. Recarregue a página.'
+    toastMsg.value = appStore.t.marcos_erro_grafico
     setTimeout(() => { toastMsg.value = null }, 4000)
   }
 }
@@ -638,7 +744,7 @@ function exportarGrafico(id) {
   try {
     const canvas = document.getElementById(id)
     if (!canvas) {
-      toastMsg.value = '❌ Não foi possível exportar o gráfico. Tente novamente.'
+      toastMsg.value = appStore.t.marcos_erro_grafico
       setTimeout(() => { toastMsg.value = null }, 3000)
       return
     }
@@ -646,11 +752,11 @@ function exportarGrafico(id) {
     a.href = canvas.toDataURL('image/png')
     a.download = `${id}.png`
     a.click()
-    toastMsg.value = '✓ Gráfico exportado com sucesso!'
+    toastMsg.value = appStore.t.marcos_sucesso_grafico
     setTimeout(() => { toastMsg.value = null }, 3000)
   } catch (err) {
     console.error('Erro ao exportar gráfico:', err)
-    toastMsg.value = '❌ Erro ao exportar gráfico. Tente novamente.'
+    toastMsg.value = appStore.t.marcos_erro_grafico
     setTimeout(() => { toastMsg.value = null }, 3000)
   }
 }
@@ -673,66 +779,138 @@ function downloadBlob(content, mime, filename) {
   }
 }
 
-function exportarDados(tipo) {
+function exportarDados(tipo, marcoUnico = null) {
   try {
-    const dados = marcosFiltrados.value
-    const pais = nomePaisAtual.value
+    const dados = marcoUnico ? [marcoUnico] : marcosExibidos.value
+    const pais = marcoUnico ? getNomePais(marcoUnico.paisCode) : nomePaisAtual.value
+    const isIndividual = !!marcoUnico
 
     if (tipo === 'csv') {
-      let csv = `Marcos e Metas - ${pais}\n`
+      let csv = isIndividual ? `Marco - ${marcoUnico.titulo}\n` : `Marcos e Metas - ${pais}\n`
       csv += 'ID,Título,País,Setor,Estado,Prazo,Progresso,Investimento,Beneficiários,Indicador de Sucesso,Entidade Responsável\n'
       dados.forEach(m => {
-        csv += `${m.id},"${m.titulo.replace(/"/g, '""')}",${m.pais},${m.setor},${m.estado},${m.prazo},${m.progresso}%,"${m.investimento}","${m.beneficiarios}","${m.indicadorSucesso || ''}","${m.entidade || ''}"\n`
+        csv += `${m.id},"${m.titulo.replace(/"/g, '""')}",${getNomePais(m.paisCode)},${m.setorLabel},${estadoLabel(m.estado)},${m.prazo},${m.progresso}%,"${m.investimento}","${m.beneficiarios}","${m.indicadorSucesso || ''}","${m.entidade || ''}"\n`
       })
-      if (downloadBlob(csv, 'text/csv', `marcos_${filtroPais.value}.csv`)) {
+      if (downloadBlob(csv, 'text/csv', isIndividual ? `marco_${marcoUnico.id}.csv` : `marcos_${filtroPais.value}.csv`)) {
         toastMsg.value = '✓ Ficheiro CSV exportado com sucesso!'
       }
     } 
     else if (tipo === 'json') {
       const json = JSON.stringify(dados, null, 2)
-      if (downloadBlob(json, 'application/json', `marcos_${filtroPais.value}.json`)) {
+      if (downloadBlob(json, 'application/json', isIndividual ? `marco_${marcoUnico.id}.json` : `marcos_${filtroPais.value}.json`)) {
         toastMsg.value = '✓ Ficheiro JSON exportado com sucesso!'
       }
     } 
     else if (tipo === 'pdf') {
-      // Verificar se o popup não está bloqueado
       const win = window.open('', '_blank')
       if (!win || win.closed || typeof win.closed === 'undefined') {
         toastMsg.value = '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
         setTimeout(() => { toastMsg.value = null }, 4000)
         return
       }
-      win.document.write(`
-        <html>
-          <head>
-            <title>Marcos e Metas - ${pais}</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 40px; }
-              h1 { color: #931b18; }
-              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-              th { background-color: #931b18; color: white; }
-              .footer { margin-top: 30px; font-size: 12px; color: #666; }
-            </style>
-          </head>
-          <body>
-            <h1>📊 Marcos e Metas - ${pais}</h1>
-            <p>Lista de marcos e metas do PRR com estado de execução.</p>
-            <table>
-              <thead><tr><th>ID</th><th>Título</th><th>País</th><th>Setor</th><th>Estado</th><th>Prazo</th><th>Progresso</th><th>Investimento</th><th>Beneficiários</th></tr></thead>
-              <tbody>
-                ${dados.map(m => `<tr><td>M${m.id}</td><td>${m.titulo}</td><td>${m.pais}</td><td>${m.setor}</td><td>${estadoLabel(m.estado)}</td><td>${m.prazo}</td><td>${m.progresso}%</td><td>${m.investimento}</td><td>${m.beneficiarios}</td>`).join('')}
-              </tbody>
-            </table>
-            <div class="footer">Gerado pelo Sistema de Monitorização do PRR em ${new Date().toLocaleString('pt-PT')}</div>
-          </body>
-        </html>
-      `)
+
+      if (isIndividual) {
+        const m = marcoUnico
+        win.document.write(`
+          <html>
+            <head>
+              <title>${appStore.t.marco_pdf_titulo} - ${m.titulo}</title>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+                h1 { color: #931b18; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
+                .detalhe { margin-top: 30px; }
+                .linha { margin-bottom: 15px; }
+                .label { font-weight: bold; width: 180px; display: inline-block; color: #931b18; }
+                .valor { display: inline-block; }
+                .progresso-bar { background: #f0f0f0; height: 20px; width: 300px; border-radius: 10px; overflow: hidden; margin-top: 5px; }
+                .progresso-fill { height: 100%; background: #1a7a4a; width: ${m.progresso}%; }
+                .footer { margin-top: 40px; font-size: 12px; color: #666; text-align: center; }
+              </style>
+            </head>
+            <body>
+              <h1>📊 ${appStore.t.marco_pdf_titulo}</h1>
+              <div class="detalhe">
+                <div class="linha"><span class="label">${appStore.t.marcos_tabela_col_id}:</span> <span class="valor">M${m.id}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marcos_tabela_col_designacao}:</span> <span class="valor">${m.titulo}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_descricao}:</span> <span class="valor">${m.descricao}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_pais}:</span> <span class="valor">${getNomePais(m.paisCode)}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_setor}:</span> <span class="valor">${m.setorLabel}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_estado}:</span> <span class="valor">${estadoLabel(m.estado)}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_prazo}:</span> <span class="valor">${m.prazo}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_progresso}:</span>
+                  <div class="valor">
+                    <div class="progresso-bar"><div class="progresso-fill"></div></div>
+                    ${m.progresso}%
+                  </div>
+                </div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_investimento}:</span> <span class="valor">${m.investimento}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_beneficiarios}:</span> <span class="valor">${m.beneficiarios}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_indicador}:</span> <span class="valor">${m.indicadorSucesso || '-'}</span></div>
+                <div class="linha"><span class="label">${appStore.t.marco_pdf_entidade}:</span> <span class="valor">${m.entidade || '-'}</span></div>
+              </div>
+              <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
+            </body>
+          </html>
+        `)
+      } else {
+        win.document.write(`
+          <html>
+            <head>
+              <title>Marcos e Metas - ${pais}</title>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h1 { color: #931b18; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+                th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+                th { background-color: #931b18; color: white; }
+                .footer { margin-top: 30px; font-size: 10px; color: #666; text-align: center; }
+                @media print { body { padding: 0; } table { font-size: 10px; } }
+              </style>
+            </head>
+            <body>
+              <h1>📊 Marcos e Metas - ${pais}</h1>
+              <p>${appStore.t.marcos_sub}</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>${appStore.t.marcos_tabela_col_id}</th>
+                    <th>${appStore.t.marcos_tabela_col_designacao}</th>
+                    <th>${appStore.t.marcos_tabela_col_pais}</th>
+                    <th>${appStore.t.setor_label}</th>
+                    <th>${appStore.t.marcos_tabela_col_estado}</th>
+                    <th>${appStore.t.marcos_tabela_col_prazo}</th>
+                    <th>${appStore.t.marcos_tabela_col_progresso}</th>
+                    <th>${appStore.t.marcos_modal_detalhe_investimento}</th>
+                    <th>${appStore.t.marcos_modal_detalhe_beneficiarios}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${dados.map(m => `
+                    <tr>
+                      <td>M${m.id}</td>
+                      <td>${m.titulo}</td>
+                      <td>${getNomePais(m.paisCode)}</td>
+                      <td>${m.setorLabel}</td>
+                      <td>${estadoLabel(m.estado)}</td>
+                      <td>${m.prazo}</td>
+                      <td>${m.progresso}%</td>
+                      <td>${m.investimento}</td>
+                      <td>${m.beneficiarios}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+              <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
+            </body>
+          </html>
+        `)
+      }
       win.document.close()
       win.print()
       toastMsg.value = '✓ Relatório PDF gerado com sucesso!'
     }
-    showExportModal.value = false
+    if (!marcoUnico) showExportModal.value = false
+    else showExportModalIndividual.value = false
     setTimeout(() => { toastMsg.value = null }, 3000)
   } catch (err) {
     console.error('Erro ao exportar dados:', err)
@@ -741,13 +919,22 @@ function exportarDados(tipo) {
   }
 }
 
+function getBandeira(paisCode) {
+  if (!paisCode) return '🌍'
+  const pais = paisesStore.value.find(p => p.code === paisCode)
+  return pais?.bandeira || '🌍'
+}
+
 onMounted(async () => {
   try {
-    marcos.value = await getMarcos()
+    const [marcosData, paisesData] = await Promise.all([getMarcos(), getPaises()])
+    marcos.value = marcosData
+    paisesStore.value = paisesData
+    appStore.paises = paisesData
     erro.value = null
   } catch (e) {
     console.error('Erro ao carregar dados:', e)
-    erro.value = 'Não foi possível carregar os dados. Verifica se o servidor está ligado.'
+    erro.value = appStore.t.marcos_erro
   } finally {
     loading.value = false
   }
@@ -757,14 +944,14 @@ onMounted(async () => {
   setTimeout(() => {
     try {
       heroVisible.value = true
-      animarContador(contadorTotal, marcos.value.length)
-      animarContador(contadorConcluidos, marcos.value.filter(m => m.estado === 'concluido').length)
-      animarContador(contadorEmCurso, marcos.value.filter(m => m.estado === 'em_curso').length)
-      animarContador(contadorEmAtraso, marcos.value.filter(m => m.estado === 'em_atraso').length)
+      animarContador(contadorTotal, marcosExibidos.value.length)
+      animarContador(contadorConcluidos, marcosExibidos.value.filter(m => m.estado === 'concluido').length)
+      animarContador(contadorEmCurso, marcosExibidos.value.filter(m => m.estado === 'em_curso').length)
+      animarContador(contadorEmAtraso, marcosExibidos.value.filter(m => m.estado === 'em_atraso').length)
       criarGraficos()
     } catch (err) {
       console.error('Erro na inicialização dos contadores/gráficos:', err)
-      toastMsg.value = '⚠️ Erro ao inicializar os gráficos. Recarregue a página se o problema persistir.'
+      toastMsg.value = appStore.t.marcos_erro_grafico
       setTimeout(() => { toastMsg.value = null }, 5000)
     }
   }, 100)
@@ -774,11 +961,13 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-watch(marcosFiltrados, () => criarGraficos())
+watch([marcosExibidos, () => appStore.idioma], () => {
+  criarGraficos()
+})
 </script>
 
 <style scoped>
-/* mantenha todos os estilos exatamente como estavam */
+/* (todo o CSS original permanece exactamente igual) */
 .marcos-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* TOAST */
@@ -856,7 +1045,7 @@ watch(marcosFiltrados, () => criarGraficos())
 /* GRÁFICOS */
 .graficos-section { padding: 60px 10%; background: #f5f5f7; }
 .graficos-titulo-area { text-align: center; margin-bottom: 35px; }
-.graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
+.graficos-titulo-area h2 { font-size: 2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; justify-content: center; text-align: center; }
 .graficos-titulo-area p { font-size: 0.92rem; color: #aaa; max-width: 600px; margin: 0 auto; }
 .graficos-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 25px; align-items: start; }
 .grafico-card { background: white; border-radius: 24px; padding: 28px; box-shadow: 0 4px 30px rgba(0,0,0,0.07); }
@@ -962,6 +1151,28 @@ watch(marcosFiltrados, () => criarGraficos())
 .tab-prog-bg { flex: 1; height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; min-width: 80px; }
 .tab-prog-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
 .tabela-nota { font-size: 0.78rem; color: #bbb; padding: 12px 18px; }
+/* Estilo para o botão Ver mais/Ocultar – igual ao dos Desembolsos */
+.tabela-footer {
+  text-align: center;
+  padding: 10px 0 0;
+}
+
+.btn-ver-mais {
+  background: #f5f5f7;
+  color: #931b18;
+  border: 1px solid #ddd;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-ver-mais:hover {
+  background: #931b18;
+  color: white;
+}
 
 /* MODAL DETALHE */
 .detalhe-card { background: white; width: 90%; max-width: 580px; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: fadeInUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
@@ -1053,7 +1264,7 @@ watch(marcosFiltrados, () => criarGraficos())
   align-items: baseline;
   gap: 0.25rem;
   white-space: normal;
-  word-break: keep-all; /* evita quebrar a bandeira do nome */
+  word-break: keep-all;
   background: #f5f5f5;
   padding: 3px 10px;
   border-radius: 20px;
