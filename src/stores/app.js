@@ -59,7 +59,7 @@ export const useAppStore = defineStore('app', () => {
       marcos_em_atraso: 'Em Atraso',
       // Marcos página inteira
       marcos_titulo_grafico: 'Análise Visual',
-      marcos_sub_grafico: 'Dados agregados dos marcos e metas por setor e estado de execução — atualizam automaticamente com os filtros',
+      marcos_sub_grafico: 'Dados agregados dos marcos e metas por setor e estado de execução, atualizam automaticamente com os filtros',
       marcos_grafico_barras_titulo: '📊 Progresso por Pilar',
       marcos_grafico_barras_sub: 'Progresso médio (%) dos marcos concluídos em cada setor de intervenção do PRR',
       marcos_grafico_barras_legenda: 'Cada barra representa a média de progresso de todos os marcos nesse setor. 100% = todos os marcos concluídos.',

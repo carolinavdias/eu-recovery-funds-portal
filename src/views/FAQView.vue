@@ -106,7 +106,7 @@ const perguntasDataPt = [
     categoria: 'geral',
     pergunta: 'O que é o Portal PRR?',
     resposta: [
-      'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard — o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
+      'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard, o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
       'Permite analisar e interpretar dados complexos sobre a execução de marcos e metas, os pagamentos efetuados e a alocação de fundos, facilitando a extração de informação objetiva sobre o progresso dos Planos Nacionais de Recuperação.',
       'Este portal foi desenvolvido como trabalho académico na UC de Interface Pessoa-Máquina (IPM) da Universidade do Minho, 2025/26.',
     ],
@@ -115,9 +115,9 @@ const perguntasDataPt = [
     categoria: 'geral',
     pergunta: 'O que é o Mecanismo de Recuperação e Resiliência da UE?',
     resposta: [
-      'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE — NextGenerationEU — com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
+      'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE, NextGenerationEU, com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
       'Os fundos são distribuídos sob a forma de subvenções e empréstimos, condicionados ao cumprimento de marcos e metas acordados com a Comissão Europeia.',
-      'Portugal, através do PRR — Plano de Recuperação e Resiliência — tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
+      'Portugal, através do PRR (Plano de Recuperação e Resiliência) tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
     ],
   },
   {
@@ -210,7 +210,7 @@ const perguntasDataPt = [
     pergunta: 'Como exportar dados em CSV ou JSON?',
     resposta: [
       'Na página de Marcos e Metas, clique em "Exportar Dados" no hero ou nos botões "⬇ CSV" / "⬇ JSON" da tabela completa.',
-      'A exportação aplica os filtros activos — se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
+      'A exportação aplica os filtros ativos: se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
       'O formato CSV é ideal para abrir no Excel ou Google Sheets. O formato JSON é adequado para análise programática ou integração com outras ferramentas.',
     ],
     link: { rota: '/marcos', texto: 'Ir para Marcos e Metas' },
@@ -242,7 +242,7 @@ const perguntasDataEn = [
     categoria: 'geral',
     pergunta: 'What is the PRR Portal?',
     resposta: [
-      'The PRR Portal is a data visualization system inspired by the EU Recovery and Resilience Scoreboard — the European monitoring portal for the Recovery and Resilience Mechanism (RRM).',
+      'The PRR Portal is a data visualization system inspired by the EU Recovery and Resilience Scoreboard, the European monitoring portal for the Recovery and Resilience Mechanism (RRM).',
       'It allows you to analyze and interpret complex data on the implementation of milestones and targets, payments made, and fund allocation, facilitating the extraction of objective information on the progress of National Recovery Plans.',
       'This portal was developed as an academic project for the Human-Computer Interaction (HCI) course at the University of Minho, 2025/26.',
     ],
@@ -251,9 +251,9 @@ const perguntasDataEn = [
     categoria: 'geral',
     pergunta: 'What is the EU Recovery and Resilience Mechanism?',
     resposta: [
-      'The Recovery and Resilience Mechanism (RRM) is the main instrument of the EU recovery plan — NextGenerationEU — with a total of €750 billion available to support Member States.',
+      'The Recovery and Resilience Mechanism (RRM) is the main instrument of the EU recovery plan, NextGenerationEU, with a total of €750 billion available to support Member States.',
       'Funds are distributed as grants and loans, conditional on the fulfillment of milestones and targets agreed with the European Commission.',
-      'Portugal, through the RRP — Recovery and Resilience Plan — has access to €16.6 billion for investments in climate transition, digitalization, housing, health, and education.',
+      'Portugal, through the RRP (Recovery and Resilience Plan) has access to €16.6 billion for investments in climate transition, digitalization, housing, health, and education.',
     ],
   },
   {
@@ -346,7 +346,7 @@ const perguntasDataEn = [
     pergunta: 'How to export data as CSV or JSON?',
     resposta: [
       'On the Milestones & Targets page, click "Export Data" in the hero section or use the "⬇ CSV" / "⬇ JSON" buttons in the complete table.',
-      'The export applies the active filters — if you have filtered for Portugal, the exported CSV/JSON will contain only Portuguese milestones.',
+      'The export applies the active filters: if you have filtered for Portugal, the exported CSV/JSON will contain only Portuguese milestones.',
       'CSV format is ideal for opening in Excel or Google Sheets. JSON format is suitable for programmatic analysis or integration with other tools.',
     ],
     link: { rota: '/marcos', texto: 'Go to Milestones & Targets' },
