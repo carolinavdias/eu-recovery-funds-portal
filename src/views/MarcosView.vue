@@ -572,6 +572,7 @@ function textoFiltrosActivos() {
 
 function exportarMarcoUnico(marco) {
   marcoParaExportar.value = marco
+  marcoDetalhe.value = null
   showExportModalIndividual.value = true
 }
 
@@ -1201,7 +1202,7 @@ watch([marcosExibidos, () => appStore.idioma], () => {
 .btn-fechar-detalhe:hover { background: #e8e8e8; }
 
 /* MODAL EXPORTAÇÃO */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 10000; }
 .export-card { background-color: #931b18; width: 90%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.6rem; cursor: pointer; opacity: 0.8; }
 .close-btn:hover { opacity: 1; }

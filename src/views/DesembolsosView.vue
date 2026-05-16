@@ -1642,7 +1642,7 @@ watch(() => appStore.idioma, () => {
 .mini-divider { width: 1px; height: 30px; background: #e0e0e0; }
 
 /* Hero */
-.hero { background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 70vh; }
+.hero { background-image: url('https://images.unsplash.com/photo-1701434001217-16428abc6309?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 70vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(100,15,13,0.95) 0%, rgba(147,27,24,0.85) 100%); min-height: 70vh; display: flex; align-items: center; justify-content: space-between; padding: 70px 10%; gap: 50px; flex-wrap: wrap; }
 .hero-left { flex: 1; min-width: 300px; opacity: 0; transform: translateX(-40px); transition: all 0.8s ease; }
 .hero-left.animate-in { opacity: 1; transform: translateX(0); }
