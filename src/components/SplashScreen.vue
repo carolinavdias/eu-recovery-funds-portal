@@ -3,18 +3,20 @@
     <div class="splash-content">
       <div class="splash-logo">🏛️</div>
       <div class="splash-texto">
-        <span class="splash-portal">PORTAL</span>
-        <span class="splash-prr">PRR</span>
+        <span class="splash-portal">{{ appStore.t.navbar_logo_prefix}}</span>
+        <span class="splash-prr">{{ appStore.t.navbar_logo_suffix }}</span>
       </div>
       <div class="splash-linha"></div>
-      <p class="splash-sub">Do dinheiro à decisão</p>
+      <p class="splash-sub">{{ appStore.t.splash_sub }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useAppStore } from '../stores/app'
 
+const appStore = useAppStore()
 const esconder = ref(false)
 const emit = defineEmits(['done'])
 

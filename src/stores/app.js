@@ -26,9 +26,14 @@ export const useAppStore = defineStore('app', () => {
   const t = computed(() => {
     const pt = {
       // ================= EXISTENTES (outras rotas) =================
-      // Navbar
+      // Navbar e spalash screen
       navbar_logo_prefix: 'PORTAL',
       navbar_logo_suffix: 'PRR',
+
+      //splash screen
+      splash_sub: 'Do dinheiro à decisão',
+
+      //navbar
       nav_pais_label: 'Todos os países',
       nav_dark_on: 'Mudar para modo claro',
       nav_dark_off: 'Mudar para modo escuro',
@@ -578,6 +583,9 @@ export const useAppStore = defineStore('app', () => {
       // ================= EXISTENTES (EN) =================
       navbar_logo_prefix: 'RRP',
       navbar_logo_suffix: 'PORTAL',
+
+      splash_sub: 'From funding to decision',
+      
       nav_pais_label: 'All countries',
       nav_dark_on: 'Switch to light mode',
       nav_dark_off: 'Switch to dark mode',
@@ -884,7 +892,7 @@ export const useAppStore = defineStore('app', () => {
 
       // ================= CHAVES PARA A PÁGINA DE INDICADORES (EN) =================
       outros_sem_dados: 'No other indicators available for this period/country.',
-      
+
       // Cabeçalho
       indicadores_titulo: 'Common Indicators',
       indicadores_sub: 'Detailed monitoring of the semi-annual reporting of the main performance indicators of the Recovery and Resilience Plan (RRP) in Portugal.',
