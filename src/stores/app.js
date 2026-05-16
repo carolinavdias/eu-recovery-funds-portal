@@ -343,6 +343,114 @@ export const useAppStore = defineStore('app', () => {
       faq_sub: 'Encontre respostas sobre o Portal PRR, as funcionalidades disponíveis e os dados do Mecanismo de Recuperação e Resiliência da UE.',
       faq_voltar: '← Voltar ao início',
 
+      // ================= CHAVES PARA A PÁGINA DE INDICADORES =================
+
+      outros_sem_dados: 'Não existem outros indicadores para este período/país.',
+
+      // Cabeçalho
+      indicadores_titulo: 'Indicadores Comuns',
+      indicadores_sub: 'Acompanhamento detalhado do reporte semestral dos principais indicadores de desempenho do Plano de Recuperação e Resiliência (PRR) em Portugal.',
+
+      // Filtros
+      indicadores_filtro_pais: 'PAÍS',
+      indicadores_filtro_periodo: 'PERÍODO DE REPORTE',
+      indicadores_periodo_s1: '1º Semestre',
+      indicadores_periodo_s2: '2º Semestre',
+
+      // Secções
+      indicadores_seccao_performance: 'Indicadores de Performance',
+      indicadores_seccao_outros: 'Outros Indicadores Obrigatórios',
+
+      // Labels dos cards
+      indicadores_progresso_meta: 'PROGRESSO META',
+      indicadores_saber_mais: 'Saber Mais →',
+      indicadores_exportar_outro: 'Exportar',
+
+      // Painel lateral
+      indicadores_guia: 'Guia de Metodologia',
+      indicadores_exportar_dados: 'Exportar Dados',
+      indicadores_exportar_desc: 'Obtenha os dados consolidados de todos os principais indicadores para análise externa.',
+      indicadores_csv: 'Descarregar CSV',
+      indicadores_pdf: 'Relatório PDF',
+      indicadores_json: 'Feed de Dados (JSON)',
+      indicadores_sync_estado: 'ESTADO DE SINCRONIZAÇÃO',
+      indicadores_sync_texto: 'Atualizado %hora%',
+
+      // Modais
+      modal_metodologia_titulo: 'Guia de Metodologia',
+      modal_metodologia_desc: 'Como os indicadores são calculados e reportados',
+      modal_faq_titulo: 'Perguntas Frequentes',
+      modal_faq_desc: 'FAQ – Plano de Recuperação e Resiliência',
+      modal_contactos_titulo: 'Contactos',
+      modal_contactos_desc: 'Fale connosco',
+      modal_privacidade_titulo: 'Política de Privacidade',
+      modal_privacidade_desc: 'Como os seus dados são protegidos',
+      modal_termos_titulo: 'Termos e Condições',
+      modal_termos_desc: 'Utilização do portal',
+      modal_cookies_titulo: 'Política de Cookies',
+      modal_cookies_desc: 'Como utilizamos cookies',
+      modal_dados_abertos_titulo: 'Dados Abertos',
+      modal_dados_abertos_desc: 'Acesso a conjuntos de dados públicos do PRR',
+      modal_fechar: 'Fechar',
+
+      // Conteúdo metodologia
+      metodologia_fontes_titulo: '📊 Fontes de Dados',
+      metodologia_fontes_texto: 'Os dados são recolhidos junto das entidades gestoras do PRR, com validação pela Comissão Europeia e Auditoria Interna.',
+      metodologia_periodicidade_titulo: '🔄 Periodicidade',
+      metodologia_periodicidade_texto: 'Reporte semestral (Janeiro e Julho) com atualização dos marcos e metas alcançados.',
+      metodologia_calculo_titulo: '⚙️ Metodologia de Cálculo',
+      metodologia_calculo_texto: 'O progresso de cada indicador é calculado com base no rácio entre o valor realizado e a meta estabelecida no plano original, expresso em percentagem.',
+      metodologia_niveis_titulo: '✅ Níveis de Progresso',
+      metodologia_niveis_item1: '0% – 39%: Atraso significativo',
+      metodologia_niveis_item2: '40% – 74%: Progresso moderado',
+      metodologia_niveis_item3: '75% – 100%: Próximo ou atingido',
+      metodologia_transparencia_titulo: '🔍 Transparência',
+      metodologia_transparencia_texto: 'Todos os dados são públicos e podem ser exportados nos formatos CSV, JSON e PDF através do painel lateral.',
+
+      // Conteúdo dados abertos
+      dados_abertos_texto: 'Os dados utilizados neste portal são públicos e podem ser acedidos através de:',
+      dados_abertos_link1: 'Portal do PRR Portugal',
+      dados_abertos_link2: 'Eurostat',
+      dados_abertos_link3: 'Data Europa',
+      dados_abertos_reutilizacao: 'Os ficheiros exportados (CSV, JSON, PDF) podem ser reutilizados livremente para fins académicos e de investigação.',
+
+      // Conteúdo FAQ
+      faq_pergunta1: 'O que é o PRR?',
+      faq_resposta1: 'É o Plano de Recuperação e Resiliência de Portugal, financiado pela UE.',
+      faq_pergunta2: 'Como são atualizados os indicadores?',
+      faq_resposta2: 'Reporte semestral oficial.',
+      faq_pergunta3: 'Posso exportar os dados?',
+      faq_resposta3: 'Sim, através dos botões de exportação (CSV, JSON, PDF).',
+      faq_pergunta4: 'Onde posso obter mais informações?',
+      faq_resposta4: 'No site oficial recuperarportugal.gov.pt.',
+
+      // Conteúdo contactos
+      contactos_email: 'Email:',
+      contactos_telefone: 'Telefone:',
+      contactos_morada: 'Morada:',
+      contactos_horario: 'Horário:',
+      contactos_email_valor: 'info@prr-europa.eu',
+      contactos_telefone_valor: '+351 XXX XXX XXX',
+      contactos_morada_valor: 'União Europeia',
+      contactos_horario_valor: 'Segunda a Sexta, 9h00 – 18h00',
+
+      // Conteúdo privacidade
+      privacidade_texto: 'Este site não recolhe dados pessoais sem consentimento. Os dados de navegação são anónimos. Para mais informações, contacte o nosso Encarregado de Proteção de Dados.',
+
+      // Conteúdo termos
+      termos_texto: 'Todo o conteúdo é disponibilizado para fins académicos e informativos. É permitida a reprodução parcial desde que citada a fonte.',
+
+      // Conteúdo cookies
+      cookies_texto: 'Este site utiliza cookies apenas para funcionalidades essenciais (não rastreia utilizadores). Não são utilizados cookies de terceiros.',
+
+      // Modal Saber Mais
+      saber_mais_valor_atual: 'Valor atual:',
+      saber_mais_progresso: 'Progresso:',
+      saber_mais_descricao: 'Descrição:',
+      saber_mais_meta_nacional: 'Meta nacional:',
+      saber_mais_fonte: 'Fonte:',
+      saber_mais_atualizacao: 'Última atualização:',
+
       // ================= NOVAS CHAVES PARA A DASHBOARD (INÍCIO) =================
       // Hero
       hero_title: 'Mecanismo de Recuperação e Resiliência da EU',
@@ -772,6 +880,115 @@ export const useAppStore = defineStore('app', () => {
       faq_accent: 'Asked Questions',
       faq_sub: 'Find answers about the PRR Portal, available features and EU Recovery and Resilience Mechanism data.',
       faq_voltar: '← Back to home',
+
+
+      // ================= CHAVES PARA A PÁGINA DE INDICADORES (EN) =================
+      outros_sem_dados: 'No other indicators available for this period/country.',
+      
+      // Cabeçalho
+      indicadores_titulo: 'Common Indicators',
+      indicadores_sub: 'Detailed monitoring of the semi-annual reporting of the main performance indicators of the Recovery and Resilience Plan (RRP) in Portugal.',
+
+      // Filtros
+      indicadores_filtro_pais: 'COUNTRY',
+      indicadores_filtro_periodo: 'REPORTING PERIOD',
+      indicadores_periodo_s1: '1st Semester',
+      indicadores_periodo_s2: '2nd Semester',
+
+      // Secções
+      indicadores_seccao_performance: 'Performance Indicators',
+      indicadores_seccao_outros: 'Other Mandatory Indicators',
+
+      // Labels dos cards
+      indicadores_progresso_meta: 'TARGET PROGRESS',
+      indicadores_saber_mais: 'Learn More →',
+      indicadores_exportar_outro: 'Export',
+
+      // Painel lateral
+      indicadores_guia: 'Methodology Guide',
+      indicadores_exportar_dados: 'Export Data',
+      indicadores_exportar_desc: 'Get consolidated data from all key indicators for external analysis.',
+      indicadores_csv: 'Download CSV',
+      indicadores_pdf: 'PDF Report',
+      indicadores_json: 'Data Feed (JSON)',
+      indicadores_sync_estado: 'SYNCHRONIZATION STATUS',
+      indicadores_sync_texto: 'Updated %hora%',
+
+      // Modais
+      modal_metodologia_titulo: 'Methodology Guide',
+      modal_metodologia_desc: 'How indicators are calculated and reported',
+      modal_faq_titulo: 'Frequently Asked Questions',
+      modal_faq_desc: 'FAQ – Recovery and Resilience Plan',
+      modal_contactos_titulo: 'Contacts',
+      modal_contactos_desc: 'Talk to us',
+      modal_privacidade_titulo: 'Privacy Policy',
+      modal_privacidade_desc: 'How your data is protected',
+      modal_termos_titulo: 'Terms and Conditions',
+      modal_termos_desc: 'Portal usage',
+      modal_cookies_titulo: 'Cookie Policy',
+      modal_cookies_desc: 'How we use cookies',
+      modal_dados_abertos_titulo: 'Open Data',
+      modal_dados_abertos_desc: 'Access to public RRP datasets',
+      modal_fechar: 'Close',
+
+      // Conteúdo metodologia
+      metodologia_fontes_titulo: '📊 Data Sources',
+      metodologia_fontes_texto: 'Data is collected from RRP managing entities, validated by the European Commission and Internal Audit.',
+      metodologia_periodicidade_titulo: '🔄 Periodicity',
+      metodologia_periodicidade_texto: 'Semi-annual reporting (January and July) with updates on achieved milestones and targets.',
+      metodologia_calculo_titulo: '⚙️ Calculation Methodology',
+      metodologia_calculo_texto: 'The progress of each indicator is calculated based on the ratio between the achieved value and the target set in the original plan, expressed as a percentage.',
+      metodologia_niveis_titulo: '✅ Progress Levels',
+      metodologia_niveis_item1: '0% – 39%: Significant delay',
+      metodologia_niveis_item2: '40% – 74%: Moderate progress',
+      metodologia_niveis_item3: '75% – 100%: Close or achieved',
+      metodologia_transparencia_titulo: '🔍 Transparency',
+      metodologia_transparencia_texto: 'All data is public and can be exported in CSV, JSON and PDF formats via the side panel.',
+
+      // Conteúdo dados abertos
+      dados_abertos_texto: 'The data used in this portal is public and can be accessed via:',
+      dados_abertos_link1: 'PRR Portugal Portal',
+      dados_abertos_link2: 'Eurostat',
+      dados_abertos_link3: 'Data Europa',
+      dados_abertos_reutilizacao: 'Exported files (CSV, JSON, PDF) can be freely reused for academic and research purposes.',
+
+      // Conteúdo FAQ
+      faq_pergunta1: 'What is the RRP?',
+      faq_resposta1: 'It is Portugal\'s Recovery and Resilience Plan, funded by the EU.',
+      faq_pergunta2: 'How are indicators updated?',
+      faq_resposta2: 'Official semi-annual reporting.',
+      faq_pergunta3: 'Can I export the data?',
+      faq_resposta3: 'Yes, via the export buttons (CSV, JSON, PDF).',
+      faq_pergunta4: 'Where can I get more information?',
+      faq_resposta4: 'On the official website recuperarportugal.gov.pt.',
+
+      // Conteúdo contactos
+      contactos_email: 'Email:',
+      contactos_telefone: 'Phone:',
+      contactos_morada: 'Address:',
+      contactos_horario: 'Hours:',
+      contactos_email_valor: 'info@prr-europa.eu',
+      contactos_telefone_valor: '+351 XXX XXX XXX',
+      contactos_morada_valor: 'European Union',
+      contactos_horario_valor: 'Monday to Friday, 9:00 AM – 6:00 PM',
+
+      // Conteúdo privacidade
+      privacidade_texto: 'This site does not collect personal data without consent. Browsing data is anonymous. For more information, contact our Data Protection Officer.',
+
+      // Conteúdo termos
+      termos_texto: 'All content is provided for academic and informational purposes. Partial reproduction is permitted provided the source is cited.',
+
+      // Conteúdo cookies
+      cookies_texto: 'This site uses cookies only for essential functionality (does not track users). Third-party cookies are not used.',
+
+      // Modal Saber Mais
+      saber_mais_valor_atual: 'Current value:',
+      saber_mais_progresso: 'Progress:',
+      saber_mais_descricao: 'Description:',
+      saber_mais_meta_nacional: 'National target:',
+      saber_mais_fonte: 'Source:',
+      saber_mais_atualizacao: 'Last update:',
+      
 
       // ================= NOVAS CHAVES PARA A DASHBOARD (EN) =================
       hero_title: 'EU Recovery and Resilience Mechanism',

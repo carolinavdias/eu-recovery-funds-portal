@@ -515,7 +515,6 @@ onMounted(async () => {
 .marco-body h3 { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; line-height: 1.4; }
 .marco-body p { font-size: 0.8rem; color: #888; line-height: 1.5; margin-bottom: 10px; }
 .marco-meta { font-size: 0.78rem; color: #666; margin-bottom: 12px; }
-.progresso-wrap { }
 .progresso-header { display: flex; justify-content: space-between; font-size: 0.74rem; color: #aaa; margin-bottom: 5px; }
 .prog-bg { height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
 .prog-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
