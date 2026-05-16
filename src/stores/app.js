@@ -214,7 +214,7 @@ export const useAppStore = defineStore('app', () => {
       desembolsos_titulo: 'Desembolsos',
       desembolsos_accent: 'e Execução',
       desembolsos_sub: 'Acompanhe a execução financeira do PRR: transferências, alocações por pilar e estado dos pedidos de pagamento.',
-      desembolsos_grafico_sub: 'Desembolsos por ano e distribuição do financiamento — atualização automática com os filtros',
+      desembolsos_grafico_sub: 'Desembolsos por ano e distribuição do financiamento, atualização automática com os filtros',
       desembolsos_btn_export: '📥 Exportar Dados',
       desembolsos_btn_top100: 'Ver Top 100 Beneficiários',
       desembolsos_btn_guia: 'Guia de Desembolsos',
