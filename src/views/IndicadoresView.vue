@@ -476,10 +476,6 @@ const dadosBasePortugalEn = {
       { id: 3, icone: '🔬', nome: 'R&D investment', valor: '€420M' }
     ]
   },
-  // ... (completar os restantes períodos da mesma forma)
-  // Para brevidade, mantém a estrutura igual aos dados em português, apenas com os textos em inglês.
-  // Como o código é longo, assume-se que replicas a tradução para todos os períodos.
-  // Exemplo rápido para s2-2025:
   's2-2025': {
     principais: [
       { id: 1, icone: '🎓', categoria: 'EDUCATION', nome: 'Participants in training', valor: '485,500', progresso: 76 },
@@ -496,10 +492,6 @@ const dadosBasePortugalEn = {
     ]
   }
 }
-
-// Dados de Espanha (português e inglês) – similar, mas por brevidade mantemos apenas pt e depois usamos tradução?
-// Para evitar duplicar tudo, optamos por usar os dados base de Portugal e aplicar um fator de escala para os outros países (como já estava).
-// A tradução dos textos será feita através do mapeamento dentro do computed `indicadores` e `outrosIndicadores`.
 
 // Função que retorna os dados do país/periodo, aplicando tradução se necessário
 function obterDadosPorPaisPeriodo(pais, periodo) {
@@ -924,7 +916,7 @@ watch([paisSelecionado, periodoSelecionado, () => appStore.idioma], () => {
 </script>
 
 <style scoped>
-/* ========== ESTILOS ORIGINAIS (NÃO MEXIDOS) ========== */
+/* ========== ESTILOS ORIGINAIS ========== */
 * { box-sizing: border-box; }
 
 @keyframes notificacaoEntrada {

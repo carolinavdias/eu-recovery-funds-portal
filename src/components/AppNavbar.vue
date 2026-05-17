@@ -57,11 +57,6 @@ const paisAtual = computed({
   set: (val) => appStore.setPais(val)
 })
 
-// Tradução do título da navbar
-const logoTexto = computed(() => {
-  return appStore.idioma === 'pt' ? 'PORTAL' : 'PRR PORTAL'
-})
-
 // Texto "Todos os países" traduzido
 const textoTodosPaises = computed(() => {
   return appStore.idioma === 'pt' ? 'Todos os países' : 'All countries'
@@ -77,7 +72,6 @@ onMounted(async () => {
   try {
     const paises = await getPaises()
     paisesLista.value = paises
-    // Opcional: sincronizar a store com a lista de países (útil para outras páginas)
     appStore.paises = paises
   } catch (error) {
     console.error('Erro ao carregar países na navbar:', error)
@@ -86,7 +80,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Mantém o CSS original que já está no teu projecto */
 .navbar {
   display: flex;
   align-items: center;
@@ -114,7 +107,6 @@ onMounted(async () => {
   background: #931b18;
   color: white;
   transition: background 0.2s, border-color 0.2s;
-  /* O select nativo já tem scroll automático se muitos itens */
   max-width: 180px;
   white-space: nowrap;
   overflow: hidden;

@@ -385,14 +385,7 @@ const dadosStats = computed(() => [
   { icone: '⚡', valor: '20%', label: store.t.stat_digital_label, desc: store.t.stat_digital_desc }
 ])
 
-// No template, usar store.t em vez de t (ou então definir um alias local reativo)
-// Mas para não alterar o template todo, podes criar uma referência local reativa:
 const t = computed(() => store.t)   // ← isto sim mantém a reatividade
-
-// ... o resto das funções (abrirModalExportacao, executarDownload, etc.) podem continuar a usar t.value ou store.t
-// Atenção: dentro das funções, se usares t (que agora é um computed), precisas de t.value.chave.
-// Para simplificar, dentro das funções usa store.t diretamente.
-
 
 // ---- FUNÇÕES DOS MODAIS (usam t e o idioma da store para as datas) ----
 function abrirModalExportacao(titulo, descricao, valor) {
@@ -514,7 +507,6 @@ function abrirModalEstatisticas() {
 
 function exportarEstatisticas(formato) {
   const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
-  // Usamos os valores já traduzidos
   const areas = dadosBarras.value.map(b => ({
     nome: b.nome,
     percentagem: b.percentagem,
@@ -595,7 +587,8 @@ function exportarEstatisticas(formato) {
 </script>
 
 <style scoped>
-/* Mantém o teu CSS original exactamente igual – não mexemos */
+html { scroll-behavior: smooth; }
+
 .portal-container {
   margin: -2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1265,82 +1258,5 @@ function exportarEstatisticas(formato) {
 .stat-desc { 
   font-size: 0.78rem; 
   opacity: 0.7; 
-}
-
-.footer { 
-  background-color: #7a1614; 
-  color: white; 
-  padding: 50px 8% 30px; 
-}
-
-.footer-grid { 
-  display: grid; 
-  grid-template-columns: 1.5fr 1fr 1fr; 
-  gap: 60px; 
-  margin-bottom: 30px; 
-}
-
-.footer-col h4 { 
-  font-size: 1rem; 
-  font-weight: 700; 
-  margin-bottom: 15px; 
-  color: white; 
-}
-
-.footer-col p { 
-  font-size: 0.85rem; 
-  opacity: 0.8; 
-  line-height: 1.6; 
-}
-
-.footer-col ul { 
-  list-style: none; 
-  padding: 0; 
-  margin: 0; 
-}
-
-.footer-col ul li { 
-  margin-bottom: 10px; 
-}
-
-.footer-col ul li a { 
-  color: rgba(255,255,255,0.8); 
-  text-decoration: none; 
-  font-size: 0.88rem; 
-  transition: opacity 0.2s; 
-}
-
-.footer-col ul li a:hover { 
-  opacity: 1; 
-  color: white; 
-}
-
-.footer-info li { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  font-size: 0.88rem; 
-  opacity: 0.85; 
-}
-
-.footer-divider { 
-  border: none; 
-  border-top: 1px solid rgba(255,255,255,0.5); 
-  margin-bottom: 20px; 
-}
-
-.footer-bottom { 
-  text-align: center; 
-}
-
-.footer-bottom p { 
-  font-size: 0.82rem; 
-  opacity: 0.75; 
-  margin: 4px 0; 
-}
-
-.footer-sub { 
-  opacity: 0.5 !important; 
-  font-size: 0.75rem !important; 
 }
 </style>
