@@ -1,5 +1,5 @@
 {
-"marcos": [
+  "marcos": [
     {
       "id": 1,
       "titulo_pt": "Digitalização dos Serviços Públicos",
@@ -24,10 +24,30 @@
       "entidade_pt": "AMA — Agência para a Modernização Administrativa",
       "entidade_en": "AMA — Agency for Administrative Modernization",
       "revisoes": [
-        { "data": "Jan 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado pelo Conselho de Ministros e integrado no PRR nacional.", "descricao_en": "Milestone approved by the Council of Ministers and integrated into the national RRP." },
-        { "data": "Jun 2022", "tipo": "atualizacao", "descricao_pt": "35% dos serviços migrados para plataforma digital. Prazo original mantido.", "descricao_en": "35% of services migrated to digital platform. Original deadline maintained." },
-        { "data": "Fev 2023", "tipo": "atualizacao", "descricao_pt": "Expansão do programa a mais 120 serviços. Progresso atualizado para 52%.", "descricao_en": "Program expansion to 120 more services. Progress updated to 52%." },
-        { "data": "Set 2024", "tipo": "atualizacao", "descricao_pt": "65% dos serviços migrados com autenticação segura. Prazo Jun 2025 confirmado.", "descricao_en": "65% of services migrated with secure authentication. Deadline Jun 2025 confirmed." }
+        {
+          "data": "Jan 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado pelo Conselho de Ministros e integrado no PRR nacional.",
+          "descricao_en": "Milestone approved by the Council of Ministers and integrated into the national RRP."
+        },
+        {
+          "data": "Jun 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "35% dos serviços migrados para plataforma digital. Prazo original mantido.",
+          "descricao_en": "35% of services migrated to digital platform. Original deadline maintained."
+        },
+        {
+          "data": "Fev 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "Expansão do programa a mais 120 serviços. Progresso atualizado para 52%.",
+          "descricao_en": "Program expansion to 120 more services. Progress updated to 52%."
+        },
+        {
+          "data": "Set 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "65% dos serviços migrados com autenticação segura. Prazo Jun 2025 confirmado.",
+          "descricao_en": "65% of services migrated with secure authentication. Deadline Jun 2025 confirmed."
+        }
       ]
     },
     {
@@ -54,9 +74,24 @@
       "entidade_pt": "ADENE — Agência para a Energia",
       "entidade_en": "ADENE — Energy Agency",
       "revisoes": [
-        { "data": "Mar 2021", "tipo": "aprovacao", "descricao_pt": "Programa de eficiência energética aprovado e lançado a nível nacional.", "descricao_en": "Energy efficiency program approved and launched nationwide." },
-        { "data": "Nov 2022", "tipo": "atualizacao", "descricao_pt": "Primeiros 45.000 edifícios intervencionados. Progresso: 18%.", "descricao_en": "First 45,000 buildings intervened. Progress: 18%." },
-        { "data": "Abr 2024", "tipo": "atualizacao", "descricao_pt": "120.000 edifícios concluídos. Progresso revisto para 48%.", "descricao_en": "120,000 buildings completed. Progress revised to 48%." }
+        {
+          "data": "Mar 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Programa de eficiência energética aprovado e lançado a nível nacional.",
+          "descricao_en": "Energy efficiency program approved and launched nationwide."
+        },
+        {
+          "data": "Nov 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "Primeiros 45.000 edifícios intervencionados. Progresso: 18%.",
+          "descricao_en": "First 45,000 buildings intervened. Progress: 18%."
+        },
+        {
+          "data": "Abr 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "120.000 edifícios concluídos. Progresso revisto para 48%.",
+          "descricao_en": "120,000 buildings completed. Progress revised to 48%."
+        }
       ]
     },
     {
@@ -83,10 +118,30 @@
       "entidade_pt": "Ministério da Saúde / SPMS",
       "entidade_en": "Ministry of Health / SPMS",
       "revisoes": [
-        { "data": "Fev 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado e incluído no PRR sob coordenação da SPMS.", "descricao_en": "Milestone approved and included in the RRP under SPMS coordination." },
-        { "data": "Jun 2022", "tipo": "atualizacao", "descricao_pt": "50 Centros de Saúde digitais operacionais. Meta a 50%.", "descricao_en": "50 operational digital Health Centers. Target at 50%." },
-        { "data": "Out 2023", "tipo": "atualizacao", "descricao_pt": "80 centros concluídos. Progresso: 80%. Prazo mantido.", "descricao_en": "80 centers completed. Progress: 80%. Deadline maintained." },
-        { "data": "Mar 2024", "tipo": "conclusao", "descricao_pt": "100 Centros de Saúde digitais operacionais. Marco concluído e validado pela CE.", "descricao_en": "100 operational digital Health Centers. Milestone completed and validated by the EC." }
+        {
+          "data": "Fev 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado e incluído no PRR sob coordenação da SPMS.",
+          "descricao_en": "Milestone approved and included in the RRP under SPMS coordination."
+        },
+        {
+          "data": "Jun 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "50 Centros de Saúde digitais operacionais. Meta a 50%.",
+          "descricao_en": "50 operational digital Health Centers. Target at 50%."
+        },
+        {
+          "data": "Out 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "80 centros concluídos. Progresso: 80%. Prazo mantido.",
+          "descricao_en": "80 centers completed. Progress: 80%. Deadline maintained."
+        },
+        {
+          "data": "Mar 2024",
+          "tipo": "conclusao",
+          "descricao_pt": "100 Centros de Saúde digitais operacionais. Marco concluído e validado pela CE.",
+          "descricao_en": "100 operational digital Health Centers. Milestone completed and validated by the EC."
+        }
       ]
     },
     {
@@ -113,9 +168,24 @@
       "entidade_pt": "Ministério da Educação / DGEstE",
       "entidade_en": "Ministry of Education / DGEstE",
       "revisoes": [
-        { "data": "Abr 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado. Concurso público lançado para aquisição dos equipamentos.", "descricao_en": "Milestone approved. Public tender launched for equipment acquisition." },
-        { "data": "Jan 2023", "tipo": "atualizacao", "descricao_pt": "350.000 portáteis entregues. Distribuição em curso nas restantes escolas.", "descricao_en": "350,000 laptops delivered. Distribution ongoing in remaining schools." },
-        { "data": "Set 2023", "tipo": "conclusao", "descricao_pt": "600.000 dispositivos entregues e ativados. Marco concluído dentro do prazo.", "descricao_en": "600,000 devices delivered and activated. Milestone completed on time." }
+        {
+          "data": "Abr 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Concurso público lançado para aquisição dos equipamentos.",
+          "descricao_en": "Milestone approved. Public tender launched for equipment acquisition."
+        },
+        {
+          "data": "Jan 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "350.000 portáteis entregues. Distribuição em curso nas restantes escolas.",
+          "descricao_en": "350,000 laptops delivered. Distribution ongoing in remaining schools."
+        },
+        {
+          "data": "Set 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "600.000 dispositivos entregues e ativados. Marco concluído dentro do prazo.",
+          "descricao_en": "600,000 devices delivered and activated. Milestone completed on time."
+        }
       ]
     },
     {
@@ -142,9 +212,24 @@
       "entidade_pt": "IHRU — Instituto da Habitação e Reabilitação Urbana",
       "entidade_en": "IHRU — Institute for Housing and Urban Rehabilitation",
       "revisoes": [
-        { "data": "Mai 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado com meta de 15.000 habitações acessíveis até Jun 2024.", "descricao_en": "Milestone approved with target of 15,000 affordable homes by Jun 2024." },
-        { "data": "Jan 2023", "tipo": "atualizacao", "descricao_pt": "2.500 habitações concluídas. Progresso abaixo do esperado devido a atrasos em licenciamentos.", "descricao_en": "2,500 homes completed. Progress below expectations due to licensing delays." },
-        { "data": "Jul 2024", "tipo": "atraso", "descricao_pt": "Prazo não cumprido — apenas 30% da meta alcançada. Revisão do calendário em negociação com a CE.", "descricao_en": "Deadline not met — only 30% of target achieved. Schedule revision under negotiation with the EC." }
+        {
+          "data": "Mai 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado com meta de 15.000 habitações acessíveis até Jun 2024.",
+          "descricao_en": "Milestone approved with target of 15,000 affordable homes by Jun 2024."
+        },
+        {
+          "data": "Jan 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "2.500 habitações concluídas. Progresso abaixo do esperado devido a atrasos em licenciamentos.",
+          "descricao_en": "2,500 homes completed. Progress below expectations due to licensing delays."
+        },
+        {
+          "data": "Jul 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Prazo não cumprido — apenas 30% da meta alcançada. Revisão do calendário em negociação com a CE.",
+          "descricao_en": "Deadline not met — only 30% of target achieved. Schedule revision under negotiation with the EC."
+        }
       ]
     },
     {
@@ -171,9 +256,24 @@
       "entidade_pt": "IP — Infraestruturas de Portugal",
       "entidade_en": "IP — Infrastructures of Portugal",
       "revisoes": [
-        { "data": "Jun 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado. Estudos de viabilidade e projetos de execução iniciados.", "descricao_en": "Milestone approved. Feasibility studies and execution projects initiated." },
-        { "data": "Mar 2023", "tipo": "atualizacao", "descricao_pt": "Adjudicação dos primeiros contratos de empreitada. Progresso: 8%.", "descricao_en": "Award of first construction contracts. Progress: 8%." },
-        { "data": "Out 2024", "tipo": "atualizacao", "descricao_pt": "Obras em curso em 3 linhas ferroviárias. Progresso atualizado para 22%.", "descricao_en": "Works underway on 3 railway lines. Progress updated to 22%." }
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Estudos de viabilidade e projetos de execução iniciados.",
+          "descricao_en": "Milestone approved. Feasibility studies and execution projects initiated."
+        },
+        {
+          "data": "Mar 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "Adjudicação dos primeiros contratos de empreitada. Progresso: 8%.",
+          "descricao_en": "Award of first construction contracts. Progress: 8%."
+        },
+        {
+          "data": "Out 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "Obras em curso em 3 linhas ferroviárias. Progresso atualizado para 22%.",
+          "descricao_en": "Works underway on 3 railway lines. Progress updated to 22%."
+        }
       ]
     },
     {
@@ -200,9 +300,24 @@
       "entidade_pt": "Ministerio para la Transición Ecológica",
       "entidade_en": "Ministry for the Ecological Transition",
       "revisoes": [
-        { "data": "Ago 2021", "tipo": "aprovacao", "descricao_pt": "Marco incluído no PRTR espanhol e aprovado pela Comissão Europeia.", "descricao_en": "Milestone included in the Spanish RRP and approved by the European Commission." },
-        { "data": "Dez 2022", "tipo": "atualizacao", "descricao_pt": "6.000 empresas industriais com planos de descarbonização aprovados. Progresso: 25%.", "descricao_en": "6,000 industrial companies with approved decarbonization plans. Progress: 25%." },
-        { "data": "Jun 2024", "tipo": "atualizacao", "descricao_pt": "12.000 empresas em transição energética ativa. Progresso revisto para 55%.", "descricao_en": "12,000 companies in active energy transition. Progress revised to 55%." }
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco incluído no PRTR espanhol e aprovado pela Comissão Europeia.",
+          "descricao_en": "Milestone included in the Spanish RRP and approved by the European Commission."
+        },
+        {
+          "data": "Dez 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "6.000 empresas industriais com planos de descarbonização aprovados. Progresso: 25%.",
+          "descricao_en": "6,000 industrial companies with approved decarbonization plans. Progress: 25%."
+        },
+        {
+          "data": "Jun 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "12.000 empresas em transição energética ativa. Progresso revisto para 55%.",
+          "descricao_en": "12,000 companies in active energy transition. Progress revised to 55%."
+        }
       ]
     },
     {
@@ -229,9 +344,24 @@
       "entidade_pt": "Agence Nationale de la Cohésion des Territoires",
       "entidade_en": "National Agency for Territorial Cohesion",
       "revisoes": [
-        { "data": "Ago 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no âmbito do France Relance. Infraestrutura de fibra iniciada.", "descricao_en": "Milestone approved under France Relance. Fiber infrastructure initiated." },
-        { "data": "Jun 2023", "tipo": "atualizacao", "descricao_pt": "4 milhões de habitantes cobertos com fibra ótica. Progresso: 50%.", "descricao_en": "4 million inhabitants covered with fiber optics. Progress: 50%." },
-        { "data": "Dez 2024", "tipo": "conclusao", "descricao_pt": "100% das zonas rurais com cobertura de fibra ótica ou 5G. Marco concluído antes do prazo.", "descricao_en": "100% of rural areas with fiber optic or 5G coverage. Milestone completed ahead of schedule." }
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no âmbito do France Relance. Infraestrutura de fibra iniciada.",
+          "descricao_en": "Milestone approved under France Relance. Fiber infrastructure initiated."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "4 milhões de habitantes cobertos com fibra ótica. Progresso: 50%.",
+          "descricao_en": "4 million inhabitants covered with fiber optics. Progress: 50%."
+        },
+        {
+          "data": "Dez 2024",
+          "tipo": "conclusao",
+          "descricao_pt": "100% das zonas rurais com cobertura de fibra ótica ou 5G. Marco concluído antes do prazo.",
+          "descricao_en": "100% of rural areas with fiber optic or 5G coverage. Milestone completed ahead of schedule."
+        }
       ]
     },
     {
@@ -258,9 +388,24 @@
       "entidade_pt": "Ministero della Salute",
       "entidade_en": "Ministry of Health",
       "revisoes": [
-        { "data": "Ago 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no PNRR italiano sob coordenação do Ministero della Salute.", "descricao_en": "Milestone approved in the Italian NRRP under the coordination of the Ministry of Health." },
-        { "data": "Set 2022", "tipo": "atualizacao", "descricao_pt": "Adjudicação de contratos para renovação de 30 hospitais. Progresso: 5%.", "descricao_en": "Contract awards for renovation of 30 hospitals. Progress: 5%." },
-        { "data": "Abr 2024", "tipo": "atraso", "descricao_pt": "Apenas 18 hospitais renovados por atrasos em concursos públicos. Revisão do prazo solicitada à CE.", "descricao_en": "Only 18 hospitals renovated due to delays in public tenders. Deadline revision requested from the EC." }
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no PNRR italiano sob coordenação do Ministero della Salute.",
+          "descricao_en": "Milestone approved in the Italian NRRP under the coordination of the Ministry of Health."
+        },
+        {
+          "data": "Set 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "Adjudicação de contratos para renovação de 30 hospitais. Progresso: 5%.",
+          "descricao_en": "Contract awards for renovation of 30 hospitals. Progress: 5%."
+        },
+        {
+          "data": "Abr 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Apenas 18 hospitais renovados por atrasos em concursos públicos. Revisão do prazo solicitada à CE.",
+          "descricao_en": "Only 18 hospitals renovated due to delays in public tenders. Deadline revision requested from the EC."
+        }
       ]
     },
     {
@@ -287,9 +432,24 @@
       "entidade_pt": "Υπουργείο Περιβάλλοντος και Ενέργειας",
       "entidade_en": "Ministry of Environment and Energy",
       "revisoes": [
-        { "data": "Ago 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no plano grego de recuperação. Programa de instalação solar lançado.", "descricao_en": "Milestone approved in the Greek recovery plan. Solar installation program launched." },
-        { "data": "Mai 2023", "tipo": "atualizacao", "descricao_pt": "15.000 edifícios com painéis instalados. 150MW gerados. Progresso: 30%.", "descricao_en": "15,000 buildings with panels installed. 150MW generated. Progress: 30%." },
-        { "data": "Jan 2025", "tipo": "atualizacao", "descricao_pt": "20.000 edifícios cobertos. 200MW de capacidade instalada. Progresso revisto para 40%.", "descricao_en": "20,000 buildings covered. 200MW installed capacity. Progress revised to 40%." }
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano grego de recuperação. Programa de instalação solar lançado.",
+          "descricao_en": "Milestone approved in the Greek recovery plan. Solar installation program launched."
+        },
+        {
+          "data": "Mai 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "15.000 edifícios com painéis instalados. 150MW gerados. Progresso: 30%.",
+          "descricao_en": "15,000 buildings with panels installed. 150MW generated. Progress: 30%."
+        },
+        {
+          "data": "Jan 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "20.000 edifícios cobertos. 200MW de capacidade instalada. Progresso revisto para 40%.",
+          "descricao_en": "20,000 buildings covered. 200MW installed capacity. Progress revised to 40%."
+        }
       ]
     },
     {
@@ -316,9 +476,24 @@
       "entidade_pt": "Ministrstvo za infrastrukturo",
       "entidade_en": "Ministry of Infrastructure",
       "revisoes": [
-        { "data": "Fev 2022", "tipo": "aprovacao", "descricao_pt": "Marco aprovado e integrado no plano esloveno. Lançamento do concurso para auditorias energéticas.", "descricao_en": "Milestone approved and integrated into the Slovenian plan. Launch of tender for energy audits." },
-        { "data": "Set 2023", "tipo": "atualizacao", "descricao_pt": "300 edifícios auditados e 80 obras concluídas. Progresso: 15%.", "descricao_en": "300 buildings audited and 80 works completed. Progress: 15%." },
-        { "data": "Mai 2025", "tipo": "atualizacao", "descricao_pt": "420 edifícios renovados. Progresso revisto para 35%.", "descricao_en": "420 buildings renovated. Progress revised to 35%." }
+        {
+          "data": "Fev 2022",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado e integrado no plano esloveno. Lançamento do concurso para auditorias energéticas.",
+          "descricao_en": "Milestone approved and integrated into the Slovenian plan. Launch of tender for energy audits."
+        },
+        {
+          "data": "Set 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "300 edifícios auditados e 80 obras concluídas. Progresso: 15%.",
+          "descricao_en": "300 buildings audited and 80 works completed. Progress: 15%."
+        },
+        {
+          "data": "Mai 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "420 edifícios renovados. Progresso revisto para 35%.",
+          "descricao_en": "420 buildings renovated. Progress revised to 35%."
+        }
       ]
     },
     {
@@ -345,9 +520,24 @@
       "entidade_pt": "Opetushallitus (Agência Finlandesa de Educação)",
       "entidade_en": "Opetushallitus (Finnish Education Agency)",
       "revisoes": [
-        { "data": "Abr 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no plano de recuperação finlandês. Programa de aquisição de equipamentos iniciado.", "descricao_en": "Milestone approved in the Finnish recovery plan. Equipment acquisition program initiated." },
-        { "data": "Jan 2023", "tipo": "atualizacao", "descricao_pt": "400.000 alunos receberam dispositivos. 20.000 professores em formação. Progresso: 45%.", "descricao_en": "400,000 students received devices. 20,000 teachers in training. Progress: 45%." },
-        { "data": "Out 2024", "tipo": "atualizacao", "descricao_pt": "620.000 alunos abrangidos. 35.000 professores formados. Progresso atualizado para 62%.", "descricao_en": "620,000 students covered. 35,000 teachers trained. Progress updated to 62%." }
+        {
+          "data": "Abr 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano de recuperação finlandês. Programa de aquisição de equipamentos iniciado.",
+          "descricao_en": "Milestone approved in the Finnish recovery plan. Equipment acquisition program initiated."
+        },
+        {
+          "data": "Jan 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "400.000 alunos receberam dispositivos. 20.000 professores em formação. Progresso: 45%.",
+          "descricao_en": "400,000 students received devices. 20,000 teachers in training. Progress: 45%."
+        },
+        {
+          "data": "Out 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "620.000 alunos abrangidos. 35.000 professores formados. Progresso atualizado para 62%.",
+          "descricao_en": "620,000 students covered. 35,000 teachers trained. Progress updated to 62%."
+        }
       ]
     },
     {
@@ -374,10 +564,30 @@
       "entidade_pt": "Energistyrelsen",
       "entidade_en": "Danish Energy Agency",
       "revisoes": [
-        { "data": "Jun 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no PRR dinamarquês. Parceria público-privada anunciada.", "descricao_en": "Milestone approved in the Danish RRP. Public-private partnership announced." },
-        { "data": "Fev 2023", "tipo": "atualizacao", "descricao_pt": "Início da construção da fábrica. 200 MW de capacidade contratada. Progresso: 30%.", "descricao_en": "Factory construction begins. 200 MW contracted capacity. Progress: 30%." },
-        { "data": "Ago 2024", "tipo": "atualizacao", "descricao_pt": "Fábrica concluída a 80%. Testes de produção iniciados. Progresso: 70%.", "descricao_en": "Factory 80% complete. Production tests initiated. Progress: 70%." },
-        { "data": "Mar 2025", "tipo": "conclusao", "descricao_pt": "Fábrica em plena operação. 500 MW de eletrólise instalados. Marco concluído dentro do prazo.", "descricao_en": "Factory in full operation. 500 MW of electrolysis installed. Milestone completed on time." }
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no PRR dinamarquês. Parceria público-privada anunciada.",
+          "descricao_en": "Milestone approved in the Danish RRP. Public-private partnership announced."
+        },
+        {
+          "data": "Fev 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "Início da construção da fábrica. 200 MW de capacidade contratada. Progresso: 30%.",
+          "descricao_en": "Factory construction begins. 200 MW contracted capacity. Progress: 30%."
+        },
+        {
+          "data": "Ago 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "Fábrica concluída a 80%. Testes de produção iniciados. Progresso: 70%.",
+          "descricao_en": "Factory 80% complete. Production tests initiated. Progress: 70%."
+        },
+        {
+          "data": "Mar 2025",
+          "tipo": "conclusao",
+          "descricao_pt": "Fábrica em plena operação. 500 MW de eletrólise instalados. Marco concluído dentro do prazo.",
+          "descricao_en": "Factory in full operation. 500 MW of electrolysis installed. Milestone completed on time."
+        }
       ]
     },
     {
@@ -404,9 +614,24 @@
       "entidade_pt": "Ministère de la Digitalisation",
       "entidade_en": "Ministry of Digitalisation",
       "revisoes": [
-        { "data": "Mai 2021", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no plano de recuperação luxemburguês. Mapeamento das zonas sem cobertura.", "descricao_en": "Milestone approved in the Luxembourg recovery plan. Mapping of uncovered areas." },
-        { "data": "Nov 2023", "tipo": "atualizacao", "descricao_pt": "25.000 habitações ligadas à fibra. Progresso: 30%.", "descricao_en": "25,000 homes connected to fiber. Progress: 30%." },
-        { "data": "Jul 2025", "tipo": "atualizacao", "descricao_pt": "40.000 habitações abrangidas. Progresso revisto para 48%.", "descricao_en": "40,000 homes covered. Progress revised to 48%." }
+        {
+          "data": "Mai 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano de recuperação luxemburguês. Mapeamento das zonas sem cobertura.",
+          "descricao_en": "Milestone approved in the Luxembourg recovery plan. Mapping of uncovered areas."
+        },
+        {
+          "data": "Nov 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "25.000 habitações ligadas à fibra. Progresso: 30%.",
+          "descricao_en": "25,000 homes connected to fiber. Progress: 30%."
+        },
+        {
+          "data": "Jul 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "40.000 habitações abrangidas. Progresso revisto para 48%.",
+          "descricao_en": "40,000 homes covered. Progress revised to 48%."
+        }
       ]
     },
     {
@@ -433,13 +658,1500 @@
       "entidade_pt": "Rijkswaterstaat",
       "entidade_en": "Rijkswaterstaat",
       "revisoes": [
-        { "data": "Jan 2022", "tipo": "aprovacao", "descricao_pt": "Marco aprovado no plano neerlandês. Inventário das estruturas prioritárias concluído.", "descricao_en": "Milestone approved in the Dutch plan. Inventory of priority structures completed." },
-        { "data": "Mai 2023", "tipo": "atualizacao", "descricao_pt": "30 pontes reforçadas. Atrasos devido a cadeias de abastecimento. Progresso: 8%.", "descricao_en": "30 bridges reinforced. Delays due to supply chains. Progress: 8%." },
-        { "data": "Out 2024", "tipo": "atraso", "descricao_pt": "Apenas 40 pontes concluídas. Prazo original (Dez 2024) não será cumprido. Nova calendarização a negociar com a CE.", "descricao_en": "Only 40 bridges completed. Original deadline (Dec 2024) will not be met. New schedule to be negotiated with the EC." }
+        {
+          "data": "Jan 2022",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano neerlandês. Inventário das estruturas prioritárias concluído.",
+          "descricao_en": "Milestone approved in the Dutch plan. Inventory of priority structures completed."
+        },
+        {
+          "data": "Mai 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "30 pontes reforçadas. Atrasos devido a cadeias de abastecimento. Progresso: 8%.",
+          "descricao_en": "30 bridges reinforced. Delays due to supply chains. Progress: 8%."
+        },
+        {
+          "data": "Out 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Apenas 40 pontes concluídas. Prazo original (Dez 2024) não será cumprido. Nova calendarização a negociar com a CE.",
+          "descricao_en": "Only 40 bridges completed. Original deadline (Dec 2024) will not be met. New schedule to be negotiated with the EC."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "pais": "Espanha",
+      "paisCode": "ES",
+      "titulo_pt": "Reforma do Mercado de Trabalho",
+      "titulo_en": "Labour Market Reform",
+      "descricao_pt": "Modernização da legislação laboral espanhola para reduzir a precariedade e aumentar a estabilidade no emprego.",
+      "descricao_en": "Modernization of Spanish labour legislation to reduce precariousness and increase employment stability.",
+      "setor": "coesao",
+      "setorLabel_pt": "👥 Coesão",
+      "setorLabel_en": "👥 Cohesion",
+      "estado": "concluido",
+      "prazo": "Dez 2022",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600",
+      "investimento_pt": "€2,0 Mil Milhões",
+      "investimento_en": "€2.0 Billion",
+      "beneficiarios_pt": "20 milhões de trabalhadores",
+      "beneficiarios_en": "20 million workers",
+      "indicadorSucesso_pt": "Redução da taxa de contratos temporários de 25% para 15%",
+      "indicadorSucesso_en": "Reduction of temporary contract rate from 25% to 15%",
+      "entidade_pt": "Ministerio de Trabajo y Economía Social",
+      "entidade_en": "Ministry of Labour and Social Economy",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no PRTR espanhol.",
+          "descricao_en": "Milestone approved in the Spanish RRP."
+        },
+        {
+          "data": "Mar 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "Lei aprovada no Parlamento com amplo consenso.",
+          "descricao_en": "Law approved in Parliament with broad consensus."
+        },
+        {
+          "data": "Dez 2022",
+          "tipo": "conclusao",
+          "descricao_pt": "Taxa de precariedade reduzida para 15%. Marco concluído.",
+          "descricao_en": "Precariousness rate reduced to 15%. Milestone completed."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "pais": "Espanha",
+      "paisCode": "ES",
+      "titulo_pt": "Habitação Social e Acessível",
+      "titulo_en": "Social and Affordable Housing",
+      "descricao_pt": "Construção de 20.000 habitações sociais e reabilitação de 30.000 edifícios em zonas urbanas degradadas.",
+      "descricao_en": "Construction of 20,000 social homes and rehabilitation of 30,000 buildings in degraded urban areas.",
+      "setor": "coesao",
+      "setorLabel_pt": "👥 Coesão",
+      "setorLabel_en": "👥 Cohesion",
+      "estado": "em_atraso",
+      "prazo": "Jun 2024",
+      "progresso": 35,
+      "imagem": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600",
+      "investimento_pt": "€4,0 Mil Milhões",
+      "investimento_en": "€4.0 Billion",
+      "beneficiarios_pt": "50.000 famílias em situação de vulnerabilidade",
+      "beneficiarios_en": "50,000 families in vulnerable situations",
+      "indicadorSucesso_pt": "20.000 habitações entregues com renda acessível",
+      "indicadorSucesso_en": "20,000 homes delivered with affordable rent",
+      "entidade_pt": "Ministerio de Transportes, Movilidad y Agenda Urbana",
+      "entidade_en": "Ministry of Transport, Mobility and Urban Agenda",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Início dos procedimentos de licenciamento.",
+          "descricao_en": "Milestone approved. Licensing procedures started."
+        },
+        {
+          "data": "Jan 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "5.000 habitações concluídas. Atrasos em licenciamentos municipais.",
+          "descricao_en": "5,000 homes completed. Delays in municipal licensing."
+        },
+        {
+          "data": "Ago 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Apenas 35% da meta alcançada. Revisão do prazo solicitada à CE.",
+          "descricao_en": "Only 35% of target achieved. Deadline revision requested from the EC."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "pais": "França",
+      "paisCode": "FR",
+      "titulo_pt": "Renovação Energética de Edifícios",
+      "titulo_en": "Building Energy Renovation",
+      "descricao_pt": "Renovação energética de 700.000 habitações com isolamento térmico e instalação de energias renováveis.",
+      "descricao_en": "Energy renovation of 700,000 homes with thermal insulation and installation of renewable energies.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 55,
+      "imagem": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600",
+      "investimento_pt": "€5,0 Mil Milhões",
+      "investimento_en": "€5.0 Billion",
+      "beneficiarios_pt": "700.000 famílias com menor fatura energética",
+      "beneficiarios_en": "700,000 families with lower energy bills",
+      "indicadorSucesso_pt": "Redução de 40% no consumo energético das habitações intervencionadas",
+      "indicadorSucesso_en": "40% reduction in energy consumption of renovated homes",
+      "entidade_pt": "Agence Nationale de l'Habitat",
+      "entidade_en": "National Housing Agency",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no âmbito do France Relance.",
+          "descricao_en": "Milestone approved under France Relance."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "350.000 habitações renovadas. Progresso: 50%.",
+          "descricao_en": "350,000 homes renovated. Progress: 50%."
+        },
+        {
+          "data": "Jan 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "385.000 habitações renovadas. Progresso revisto para 55%.",
+          "descricao_en": "385,000 homes renovated. Progress revised to 55%."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "pais": "Itália",
+      "paisCode": "IT",
+      "titulo_pt": "Superbonus para Eficiência Energética",
+      "titulo_en": "Superbonus for Energy Efficiency",
+      "descricao_pt": "Incentivo fiscal de 110% para a reabilitação energética de edifícios residenciais em todo o território italiano.",
+      "descricao_en": "110% tax incentive for energy rehabilitation of residential buildings across Italian territory.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "concluido",
+      "prazo": "Jun 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600",
+      "investimento_pt": "€33,0 Mil Milhões",
+      "investimento_en": "€33.0 Billion",
+      "beneficiarios_pt": "350.000 edifícios renovados",
+      "beneficiarios_en": "350,000 renovated buildings",
+      "indicadorSucesso_pt": "350.000 edifícios com certificação energética melhorada em pelo menos 2 classes",
+      "indicadorSucesso_en": "350,000 buildings with energy certification improved by at least 2 classes",
+      "entidade_pt": "Ministero dell'Economia e delle Finanze",
+      "entidade_en": "Ministry of Economy and Finance",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no PNRR italiano.",
+          "descricao_en": "Milestone approved in the Italian NRRP."
+        },
+        {
+          "data": "Dez 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "200.000 edifícios já com obras concluídas. Progresso: 57%.",
+          "descricao_en": "200,000 buildings with completed works. Progress: 57%."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "350.000 edifícios renovados. Marco concluído dentro do prazo.",
+          "descricao_en": "350,000 buildings renovated. Milestone completed on time."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "pais": "Itália",
+      "paisCode": "IT",
+      "titulo_pt": "Banda Larga para Todos",
+      "titulo_en": "Broadband for All",
+      "descricao_pt": "Expansão da rede de banda larga ultrarrápida (1 Gbps) a todas as zonas brancas e cinzentas de Itália.",
+      "descricao_en": "Expansion of ultra-fast broadband (1 Gbps) to all white and grey areas of Italy.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 42,
+      "imagem": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600",
+      "investimento_pt": "€6,7 Mil Milhões",
+      "investimento_en": "€6.7 Billion",
+      "beneficiarios_pt": "7 milhões de habitações e empresas",
+      "beneficiarios_en": "7 million homes and businesses",
+      "indicadorSucesso_pt": "100% do território com acesso a internet de pelo menos 30 Mbps",
+      "indicadorSucesso_en": "100% of territory with access to at least 30 Mbps internet",
+      "entidade_pt": "Ministero delle Imprese e del Made in Italy",
+      "entidade_en": "Ministry of Enterprises and Made in Italy",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Concursos públicos para instalação lançados.",
+          "descricao_en": "Milestone approved. Public tenders for installation launched."
+        },
+        {
+          "data": "Mar 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "2,9 milhões de habitações conectadas. Progresso: 42%.",
+          "descricao_en": "2.9 million homes connected. Progress: 42%."
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "pais": "Itália",
+      "paisCode": "IT",
+      "titulo_pt": "Cidades Metropolitanas Sustentáveis",
+      "titulo_en": "Sustainable Metropolitan Cities",
+      "descricao_pt": "Plano de mobilidade sustentável para 14 cidades metropolitanas italianas com expansão do transporte público e ciclovias.",
+      "descricao_en": "Sustainable mobility plan for 14 Italian metropolitan cities with expansion of public transport and cycle lanes.",
+      "setor": "infraestrutura",
+      "setorLabel_pt": "🏢 Infraestrutura",
+      "setorLabel_en": "🏢 Infrastructure",
+      "estado": "em_curso",
+      "prazo": "Jun 2026",
+      "progresso": 28,
+      "imagem": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600",
+      "investimento_pt": "€2,2 Mil Milhões",
+      "investimento_en": "€2.2 Billion",
+      "beneficiarios_pt": "20 milhões de cidadãos urbanos",
+      "beneficiarios_en": "20 million urban citizens",
+      "indicadorSucesso_pt": "500 km de novas ciclovias e 2.000 novos autocarros elétricos",
+      "indicadorSucesso_en": "500 km of new cycle lanes and 2,000 new electric buses",
+      "entidade_pt": "Ministero delle Infrastrutture e dei Trasporti",
+      "entidade_en": "Ministry of Infrastructure and Transport",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Planos de mobilidade urbana em desenvolvimento.",
+          "descricao_en": "Milestone approved. Urban mobility plans in development."
+        },
+        {
+          "data": "Nov 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "140 km de ciclovias concluídas e 560 autocarros elétricos entregues. Progresso: 28%.",
+          "descricao_en": "140 km of cycle lanes completed and 560 electric buses delivered. Progress: 28%."
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "pais": "Itália",
+      "paisCode": "IT",
+      "titulo_pt": "Digitalização da Justiça",
+      "titulo_en": "Justice Digitalization",
+      "descricao_pt": "Modernização do sistema judicial italiano com digitalização integral dos processos e redução dos prazos judiciais.",
+      "descricao_en": "Modernization of the Italian judicial system with full digitalization of proceedings and reduction of judicial timelines.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_atraso",
+      "prazo": "Mar 2024",
+      "progresso": 25,
+      "imagem": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600",
+      "investimento_pt": "€2,3 Mil Milhões",
+      "investimento_en": "€2.3 Billion",
+      "beneficiarios_pt": "60 milhões de cidadãos italianos",
+      "beneficiarios_en": "60 million Italian citizens",
+      "indicadorSucesso_pt": "Redução de 40% na duração média dos processos civis",
+      "indicadorSucesso_en": "40% reduction in average duration of civil proceedings",
+      "entidade_pt": "Ministero della Giustizia",
+      "entidade_en": "Ministry of Justice",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Projeto de modernização dos tribunais lançado.",
+          "descricao_en": "Milestone approved. Court modernization project launched."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "50% dos tribunais com sistemas digitais. Atrasos na formação do pessoal.",
+          "descricao_en": "50% of courts with digital systems. Delays in staff training."
+        },
+        {
+          "data": "Mai 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Prazo não cumprido. Apenas 25% de redução alcançada. Revisão em negociação.",
+          "descricao_en": "Deadline not met. Only 25% reduction achieved. Revision under negotiation."
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "pais": "Alemanha",
+      "paisCode": "DE",
+      "titulo_pt": "Renovação Energética Residencial",
+      "titulo_en": "Residential Energy Renovation",
+      "descricao_pt": "Programa de subsídios para renovação energética de 1 milhão de habitações alemãs com foco em isolamento e bombas de calor.",
+      "descricao_en": "Subsidy program for energy renovation of 1 million German homes focusing on insulation and heat pumps.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 38,
+      "imagem": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600",
+      "investimento_pt": "€5,5 Mil Milhões",
+      "investimento_en": "€5.5 Billion",
+      "beneficiarios_pt": "1 milhão de famílias alemãs",
+      "beneficiarios_en": "1 million German families",
+      "indicadorSucesso_pt": "1 milhão de habitações com classe energética A ou B",
+      "indicadorSucesso_en": "1 million homes with energy class A or B",
+      "entidade_pt": "Bundesministerium für Wirtschaft und Klimaschutz",
+      "entidade_en": "Federal Ministry for Economic Affairs and Climate Action",
+      "revisoes": [
+        {
+          "data": "Nov 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano alemão. Abertura do programa de candidaturas.",
+          "descricao_en": "Milestone approved in the German plan. Applications program opened."
+        },
+        {
+          "data": "Abr 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "380.000 habitações renovadas. Procura acima do esperado. Progresso: 38%.",
+          "descricao_en": "380,000 homes renovated. Demand above expectations. Progress: 38%."
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "pais": "Alemanha",
+      "paisCode": "DE",
+      "titulo_pt": "Digitalização das Escolas",
+      "titulo_en": "School Digitalization",
+      "descricao_pt": "Equipamento de 40.000 escolas alemãs com infraestrutura digital, dispositivos e formação de professores.",
+      "descricao_en": "Equipping 40,000 German schools with digital infrastructure, devices and teacher training.",
+      "setor": "educacao",
+      "setorLabel_pt": "🎓 Educação",
+      "setorLabel_en": "🎓 Education",
+      "estado": "em_curso",
+      "prazo": "Set 2025",
+      "progresso": 61,
+      "imagem": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600",
+      "investimento_pt": "€5,0 Mil Milhões",
+      "investimento_en": "€5.0 Billion",
+      "beneficiarios_pt": "11 milhões de alunos e 800.000 professores",
+      "beneficiarios_en": "11 million students and 800,000 teachers",
+      "indicadorSucesso_pt": "100% das escolas com rede Wi-Fi e dispositivos digitais por aluno",
+      "indicadorSucesso_en": "100% of schools with Wi-Fi network and digital devices per student",
+      "entidade_pt": "Bundesministerium für Bildung und Forschung",
+      "entidade_en": "Federal Ministry of Education and Research",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. DigitalPakt Schule lançado em todos os Länder.",
+          "descricao_en": "Milestone approved. DigitalPakt Schule launched in all Länder."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "24.000 escolas equipadas. 500.000 professores formados. Progresso: 61%.",
+          "descricao_en": "24,000 schools equipped. 500,000 teachers trained. Progress: 61%."
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "pais": "Grécia",
+      "paisCode": "GR",
+      "titulo_pt": "Modernização do Sistema Judicial",
+      "titulo_en": "Judicial System Modernization",
+      "descricao_pt": "Digitalização integral dos tribunais gregos e redução dos prazos judiciais em 30%.",
+      "descricao_en": "Full digitalization of Greek courts and 30% reduction in judicial timelines.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "concluido",
+      "prazo": "Set 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600",
+      "investimento_pt": "€400 Milhões",
+      "investimento_en": "€400 Million",
+      "beneficiarios_pt": "10 milhões de cidadãos gregos",
+      "beneficiarios_en": "10 million Greek citizens",
+      "indicadorSucesso_pt": "100% dos tribunais com gestão eletrónica de processos",
+      "indicadorSucesso_en": "100% of courts with electronic case management",
+      "entidade_pt": "Υπουργείο Δικαιοσύνης",
+      "entidade_en": "Ministry of Justice",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano grego Grécia 2.0.",
+          "descricao_en": "Milestone approved in the Greek plan Greece 2.0."
+        },
+        {
+          "data": "Mar 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "70% dos tribunais digitalizados. Redução de 20% nos prazos.",
+          "descricao_en": "70% of courts digitalized. 20% reduction in timelines."
+        },
+        {
+          "data": "Set 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "Todos os tribunais digitalizados. Meta de redução de 30% alcançada.",
+          "descricao_en": "All courts digitalized. 30% reduction target achieved."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "pais": "Grécia",
+      "paisCode": "GR",
+      "titulo_pt": "Modernização de Infraestruturas de Transporte",
+      "titulo_en": "Transport Infrastructure Modernization",
+      "descricao_pt": "Renovação de 800 km de estradas nacionais e expansão das redes de metro em Atenas e Salónica.",
+      "descricao_en": "Renovation of 800 km of national roads and expansion of metro networks in Athens and Thessaloniki.",
+      "setor": "infraestrutura",
+      "setorLabel_pt": "🏢 Infraestrutura",
+      "setorLabel_en": "🏢 Infrastructure",
+      "estado": "em_atraso",
+      "prazo": "Jun 2024",
+      "progresso": 20,
+      "imagem": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600",
+      "investimento_pt": "€3,5 Mil Milhões",
+      "investimento_en": "€3.5 Billion",
+      "beneficiarios_pt": "4 milhões de utentes diários de transportes",
+      "beneficiarios_en": "4 million daily transport users",
+      "indicadorSucesso_pt": "800 km de estradas renovadas e 15 km de novas linhas de metro",
+      "indicadorSucesso_en": "800 km of renovated roads and 15 km of new metro lines",
+      "entidade_pt": "Υπουργείο Υποδομών και Μεταφορών",
+      "entidade_en": "Ministry of Infrastructure and Transport",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Concursos públicos para obras de empreitada lançados.",
+          "descricao_en": "Milestone approved. Public tenders for construction contracts launched."
+        },
+        {
+          "data": "Ago 2024",
+          "tipo": "atraso",
+          "descricao_pt": "160 km de estradas renovadas. Obras de metro com atrasos estruturais. Progresso: 20%.",
+          "descricao_en": "160 km of roads renovated. Metro works with structural delays. Progress: 20%."
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "pais": "Croácia",
+      "paisCode": "HR",
+      "titulo_pt": "Reconstrução Sísmica de Zagreb",
+      "titulo_en": "Seismic Reconstruction of Zagreb",
+      "descricao_pt": "Reabilitação sísmica de 5.000 edifícios danificados pelo sismo de 2020 em Zagreb e regiões circundantes.",
+      "descricao_en": "Seismic rehabilitation of 5,000 buildings damaged by the 2020 earthquake in Zagreb and surrounding regions.",
+      "setor": "infraestrutura",
+      "setorLabel_pt": "🏢 Infraestrutura",
+      "setorLabel_en": "🏢 Infrastructure",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 45,
+      "imagem": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=600",
+      "investimento_pt": "€1,8 Mil Milhões",
+      "investimento_en": "€1.8 Billion",
+      "beneficiarios_pt": "150.000 residentes afetados pelo sismo",
+      "beneficiarios_en": "150,000 residents affected by the earthquake",
+      "indicadorSucesso_pt": "5.000 edifícios reabilitados com certificação sísmica",
+      "indicadorSucesso_en": "5,000 buildings rehabilitated with seismic certification",
+      "entidade_pt": "Fond za obnovu",
+      "entidade_en": "Reconstruction Fund",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano croata. Fundo de reconstrução criado.",
+          "descricao_en": "Milestone approved in the Croatian plan. Reconstruction fund created."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "1.800 edifícios reabilitados. Progresso: 36%.",
+          "descricao_en": "1,800 buildings rehabilitated. Progress: 36%."
+        },
+        {
+          "data": "Jan 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "2.250 edifícios concluídos. Progresso revisto para 45%.",
+          "descricao_en": "2,250 buildings completed. Progress revised to 45%."
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "pais": "Croácia",
+      "paisCode": "HR",
+      "titulo_pt": "Digitalização do Sistema de Saúde",
+      "titulo_en": "Health System Digitalization",
+      "descricao_pt": "Implementação de registos eletrónicos de saúde em todos os hospitais e centros de saúde da Croácia.",
+      "descricao_en": "Implementation of electronic health records in all hospitals and health centers in Croatia.",
+      "setor": "saude",
+      "setorLabel_pt": "❤️ Saúde",
+      "setorLabel_en": "❤️ Health",
+      "estado": "em_curso",
+      "prazo": "Set 2025",
+      "progresso": 55,
+      "imagem": "https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=600",
+      "investimento_pt": "€350 Milhões",
+      "investimento_en": "€350 Million",
+      "beneficiarios_pt": "3,9 milhões de cidadãos croatas",
+      "beneficiarios_en": "3.9 million Croatian citizens",
+      "indicadorSucesso_pt": "100% dos prestadores de saúde com sistema de registo eletrónico integrado",
+      "indicadorSucesso_en": "100% of healthcare providers with integrated electronic record system",
+      "entidade_pt": "Ministarstvo zdravstva",
+      "entidade_en": "Ministry of Health",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Plataforma nacional de saúde digital em desenvolvimento.",
+          "descricao_en": "Milestone approved. National digital health platform in development."
+        },
+        {
+          "data": "Out 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "55% dos hospitais com sistema integrado. Progresso: 55%.",
+          "descricao_en": "55% of hospitals with integrated system. Progress: 55%."
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "pais": "Roménia",
+      "paisCode": "RO",
+      "titulo_pt": "Modernização Ferroviária Nacional",
+      "titulo_en": "National Railway Modernization",
+      "descricao_pt": "Modernização de 1.500 km de linhas ferroviárias para aumentar a velocidade máxima para 160 km/h.",
+      "descricao_en": "Modernization of 1,500 km of railway lines to increase maximum speed to 160 km/h.",
+      "setor": "infraestrutura",
+      "setorLabel_pt": "🏢 Infraestrutura",
+      "setorLabel_en": "🏢 Infrastructure",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 18,
+      "imagem": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600",
+      "investimento_pt": "€5,2 Mil Milhões",
+      "investimento_en": "€5.2 Billion",
+      "beneficiarios_pt": "8 milhões de passageiros/ano",
+      "beneficiarios_en": "8 million passengers/year",
+      "indicadorSucesso_pt": "1.500 km de linhas renovadas com tempo de viagem reduzido em 30%",
+      "indicadorSucesso_en": "1,500 km of lines renovated with travel time reduced by 30%",
+      "entidade_pt": "Compania Națională de Căi Ferate CFR",
+      "entidade_en": "National Railway Company CFR",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano romeno. Concursos internacionais lançados.",
+          "descricao_en": "Milestone approved in the Romanian plan. International tenders launched."
+        },
+        {
+          "data": "Dez 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "270 km de linhas modernizadas. Atrasos na adjudicação de contratos. Progresso: 18%.",
+          "descricao_en": "270 km of lines modernized. Delays in contract awards. Progress: 18%."
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "pais": "Roménia",
+      "paisCode": "RO",
+      "titulo_pt": "Reforma do Sistema Educativo",
+      "titulo_en": "Education System Reform",
+      "descricao_pt": "Modernização de 3.000 escolas romenas e formação de 50.000 professores em competências digitais e pedagógicas.",
+      "descricao_en": "Modernization of 3,000 Romanian schools and training of 50,000 teachers in digital and pedagogical skills.",
+      "setor": "educacao",
+      "setorLabel_pt": "🎓 Educação",
+      "setorLabel_en": "🎓 Education",
+      "estado": "em_atraso",
+      "prazo": "Jun 2024",
+      "progresso": 22,
+      "imagem": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600",
+      "investimento_pt": "€1,5 Mil Milhões",
+      "investimento_en": "€1.5 Billion",
+      "beneficiarios_pt": "1,2 milhões de alunos e 150.000 professores",
+      "beneficiarios_en": "1.2 million students and 150,000 teachers",
+      "indicadorSucesso_pt": "3.000 escolas modernizadas e 50.000 professores certificados digitalmente",
+      "indicadorSucesso_en": "3,000 modernized schools and 50,000 digitally certified teachers",
+      "entidade_pt": "Ministerul Educației",
+      "entidade_en": "Ministry of Education",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Programa de modernização escolar lançado.",
+          "descricao_en": "Milestone approved. School modernization program launched."
+        },
+        {
+          "data": "Set 2024",
+          "tipo": "atraso",
+          "descricao_pt": "660 escolas renovadas. Apenas 22% da meta. Prazo de conclusão em renegociação.",
+          "descricao_en": "660 schools renovated. Only 22% of target. Completion deadline under renegotiation."
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "pais": "Áustria",
+      "paisCode": "AT",
+      "titulo_pt": "Mobilidade Verde Urbana",
+      "titulo_en": "Urban Green Mobility",
+      "descricao_pt": "Expansão da rede de transporte público de baixas emissões e criação de 2.000 km de ciclovias em cidades austríacas.",
+      "descricao_en": "Expansion of low-emission public transport and creation of 2,000 km of cycle lanes in Austrian cities.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 48,
+      "imagem": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600",
+      "investimento_pt": "€1,2 Mil Milhões",
+      "investimento_en": "€1.2 Billion",
+      "beneficiarios_pt": "4 milhões de habitantes urbanos",
+      "beneficiarios_en": "4 million urban inhabitants",
+      "indicadorSucesso_pt": "2.000 km de ciclovias e redução de 25% nas emissões urbanas de CO2",
+      "indicadorSucesso_en": "2,000 km of cycle lanes and 25% reduction in urban CO2 emissions",
+      "entidade_pt": "Bundesministerium für Klimaschutz",
+      "entidade_en": "Federal Ministry for Climate Protection",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano austríaco.",
+          "descricao_en": "Milestone approved in the Austrian plan."
+        },
+        {
+          "data": "Jun 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "960 km de ciclovias concluídas. Progresso: 48%.",
+          "descricao_en": "960 km of cycle lanes completed. Progress: 48%."
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "pais": "Bélgica",
+      "paisCode": "BE",
+      "titulo_pt": "Digitalização da Administração Pública",
+      "titulo_en": "Public Administration Digitalization",
+      "descricao_pt": "Migração de 100% dos serviços públicos belgas para plataformas digitais com autenticação segura.",
+      "descricao_en": "Migration of 100% of Belgian public services to digital platforms with secure authentication.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "concluido",
+      "prazo": "Dez 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento_pt": "€1,8 Mil Milhões",
+      "investimento_en": "€1.8 Billion",
+      "beneficiarios_pt": "11,6 milhões de cidadãos belgas",
+      "beneficiarios_en": "11.6 million Belgian citizens",
+      "indicadorSucesso_pt": "100% dos serviços públicos disponíveis online via eID belga",
+      "indicadorSucesso_en": "100% of public services available online via Belgian eID",
+      "entidade_pt": "Service Public Fédéral Stratégie et Appui",
+      "entidade_en": "Federal Public Service Strategy and Support",
+      "revisoes": [
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano belga. Programa de digitalização lançado.",
+          "descricao_en": "Milestone approved in the Belgian plan. Digitalization program launched."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "75% dos serviços migrados para plataformas digitais.",
+          "descricao_en": "75% of services migrated to digital platforms."
+        },
+        {
+          "data": "Dez 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "100% dos serviços públicos disponíveis online. Marco concluído.",
+          "descricao_en": "100% of public services available online. Milestone completed."
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "pais": "Bulgária",
+      "paisCode": "BG",
+      "titulo_pt": "Energia Renovável na Bulgária",
+      "titulo_en": "Renewable Energy in Bulgaria",
+      "descricao_pt": "Instalação de 2.000 MW de capacidade solar e eólica para atingir 27% de energias renováveis na mistura energética.",
+      "descricao_en": "Installation of 2,000 MW of solar and wind capacity to reach 27% renewables in the energy mix.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 42,
+      "imagem": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+      "investimento_pt": "€1,4 Mil Milhões",
+      "investimento_en": "€1.4 Billion",
+      "beneficiarios_pt": "6,9 milhões de consumidores de energia",
+      "beneficiarios_en": "6.9 million energy consumers",
+      "indicadorSucesso_pt": "2.000 MW de nova capacidade renovável instalada",
+      "indicadorSucesso_en": "2,000 MW of new renewable capacity installed",
+      "entidade_pt": "Министерство на енергетиката",
+      "entidade_en": "Ministry of Energy",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano búlgaro.",
+          "descricao_en": "Milestone approved in the Bulgarian plan."
+        },
+        {
+          "data": "Mar 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "840 MW instalados. Progresso: 42%.",
+          "descricao_en": "840 MW installed. Progress: 42%."
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "pais": "Bulgária",
+      "paisCode": "BG",
+      "titulo_pt": "Reforma da Administração Pública",
+      "titulo_en": "Public Administration Reform",
+      "descricao_pt": "Modernização e desburocratização da administração pública búlgara com digitalização de 80% dos serviços.",
+      "descricao_en": "Modernization and debureaucratization of the Bulgarian public administration with digitalization of 80% of services.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_atraso",
+      "prazo": "Mar 2024",
+      "progresso": 30,
+      "imagem": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600",
+      "investimento_pt": "€850 Milhões",
+      "investimento_en": "€850 Million",
+      "beneficiarios_pt": "6,9 milhões de cidadãos búlgaros",
+      "beneficiarios_en": "6.9 million Bulgarian citizens",
+      "indicadorSucesso_pt": "80% dos serviços públicos disponíveis online",
+      "indicadorSucesso_en": "80% of public services available online",
+      "entidade_pt": "Министерство на електронното управление",
+      "entidade_en": "Ministry of e-Government",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Plataforma digital nacional em desenvolvimento.",
+          "descricao_en": "Milestone approved. National digital platform in development."
+        },
+        {
+          "data": "Jun 2024",
+          "tipo": "atraso",
+          "descricao_pt": "30% dos serviços digitalizados. Prazo não cumprido.",
+          "descricao_en": "30% of services digitalized. Deadline not met."
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "pais": "Chipre",
+      "paisCode": "CY",
+      "titulo_pt": "Transição para Energia Solar",
+      "titulo_en": "Transition to Solar Energy",
+      "descricao_pt": "Instalação de painéis fotovoltaicos em todos os edifícios públicos de Chipre e promoção do autoconsumo residencial.",
+      "descricao_en": "Installation of photovoltaic panels in all public buildings in Cyprus and promotion of residential self-consumption.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Jun 2026",
+      "progresso": 52,
+      "imagem": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+      "investimento_pt": "€380 Milhões",
+      "investimento_en": "€380 Million",
+      "beneficiarios_pt": "1,2 milhões de residentes",
+      "beneficiarios_en": "1.2 million residents",
+      "indicadorSucesso_pt": "300 MW de capacidade solar instalada em edifícios públicos",
+      "indicadorSucesso_en": "300 MW of solar capacity installed in public buildings",
+      "entidade_pt": "Υπουργείο Ενέργειας, Εμπορίου και Βιομηχανίας",
+      "entidade_en": "Ministry of Energy, Commerce and Industry",
+      "revisoes": [
+        {
+          "data": "Mai 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano cipriota.",
+          "descricao_en": "Milestone approved in the Cypriot plan."
+        },
+        {
+          "data": "Nov 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "156 MW instalados. Progresso: 52%.",
+          "descricao_en": "156 MW installed. Progress: 52%."
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "pais": "Chéquia",
+      "paisCode": "CZ",
+      "titulo_pt": "Modernização Digital do Estado",
+      "titulo_en": "Digital Modernization of the State",
+      "descricao_pt": "Digitalização completa dos serviços públicos checos com identidade digital e interoperabilidade entre agências.",
+      "descricao_en": "Complete digitalization of Czech public services with digital identity and interoperability between agencies.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "concluido",
+      "prazo": "Dez 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento_pt": "€1,2 Mil Milhões",
+      "investimento_en": "€1.2 Billion",
+      "beneficiarios_pt": "10,7 milhões de cidadãos checos",
+      "beneficiarios_en": "10.7 million Czech citizens",
+      "indicadorSucesso_pt": "100% dos serviços públicos acessíveis via identidade digital BankID",
+      "indicadorSucesso_en": "100% of public services accessible via BankID digital identity",
+      "entidade_pt": "Ministerstvo pro místní rozvoj",
+      "entidade_en": "Ministry for Regional Development",
+      "revisoes": [
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano checo.",
+          "descricao_en": "Milestone approved in the Czech plan."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "70% dos serviços digitalizados. BankID com 5 milhões de utilizadores.",
+          "descricao_en": "70% of services digitalized. BankID with 5 million users."
+        },
+        {
+          "data": "Dez 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "100% dos serviços acessíveis online. Marco concluído.",
+          "descricao_en": "100% of services accessible online. Milestone completed."
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "pais": "Chéquia",
+      "paisCode": "CZ",
+      "titulo_pt": "Transição Energética Industrial",
+      "titulo_en": "Industrial Energy Transition",
+      "descricao_pt": "Descarbonização das indústrias cheques intensivas em energia com substituição do carvão por fontes renováveis.",
+      "descricao_en": "Decarbonization of energy-intensive Czech industries with replacement of coal by renewable sources.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 33,
+      "imagem": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600",
+      "investimento_pt": "€2,0 Mil Milhões",
+      "investimento_en": "€2.0 Billion",
+      "beneficiarios_pt": "500 empresas industriais e 200.000 trabalhadores",
+      "beneficiarios_en": "500 industrial companies and 200,000 workers",
+      "indicadorSucesso_pt": "Redução de 50% nas emissões do setor industrial face a 2019",
+      "indicadorSucesso_en": "50% reduction in industrial sector emissions compared to 2019",
+      "entidade_pt": "Ministerstvo průmyslu a obchodu",
+      "entidade_en": "Ministry of Industry and Trade",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Fundos para reconversão industrial disponibilizados.",
+          "descricao_en": "Milestone approved. Funds for industrial reconversion made available."
+        },
+        {
+          "data": "Mar 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "165 empresas em transição energética ativa. Progresso: 33%.",
+          "descricao_en": "165 companies in active energy transition. Progress: 33%."
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "pais": "Estónia",
+      "paisCode": "EE",
+      "titulo_pt": "Expansão dos Serviços Digitais Públicos",
+      "titulo_en": "Expansion of Digital Public Services",
+      "descricao_pt": "Desenvolvimento de 50 novos serviços digitais de alto impacto na plataforma e-Estonia, incluindo saúde e educação.",
+      "descricao_en": "Development of 50 new high-impact digital services on the e-Estonia platform, including health and education.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_curso",
+      "prazo": "Jun 2025",
+      "progresso": 68,
+      "imagem": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600",
+      "investimento_pt": "€320 Milhões",
+      "investimento_en": "€320 Million",
+      "beneficiarios_pt": "1,3 milhões de cidadãos estónios",
+      "beneficiarios_en": "1.3 million Estonian citizens",
+      "indicadorSucesso_pt": "50 novos serviços digitais lançados na plataforma e-Estonia",
+      "indicadorSucesso_en": "50 new digital services launched on the e-Estonia platform",
+      "entidade_pt": "Majandus- ja Kommunikatsiooniministeerium",
+      "entidade_en": "Ministry of Economic Affairs and Communications",
+      "revisoes": [
+        {
+          "data": "Mai 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Estónia reforça liderança em governo digital.",
+          "descricao_en": "Milestone approved. Estonia reinforces leadership in digital government."
+        },
+        {
+          "data": "Jan 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "34 novos serviços lançados. Progresso: 68%.",
+          "descricao_en": "34 new services launched. Progress: 68%."
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "pais": "Hungria",
+      "paisCode": "HU",
+      "titulo_pt": "Energia Solar Residencial",
+      "titulo_en": "Residential Solar Energy",
+      "descricao_pt": "Programa de subsídios para instalação de painéis solares em 200.000 residências húngaras.",
+      "descricao_en": "Subsidy program for installation of solar panels in 200,000 Hungarian residences.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Set 2025",
+      "progresso": 55,
+      "imagem": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+      "investimento_pt": "€900 Milhões",
+      "investimento_en": "€900 Million",
+      "beneficiarios_pt": "200.000 famílias húngaras",
+      "beneficiarios_en": "200,000 Hungarian families",
+      "indicadorSucesso_pt": "200.000 instalações solares residenciais concluídas",
+      "indicadorSucesso_en": "200,000 residential solar installations completed",
+      "entidade_pt": "Magyar Energetikai és Közmű-szabályozási Hivatal",
+      "entidade_en": "Hungarian Energy and Public Utility Regulatory Authority",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano húngaro.",
+          "descricao_en": "Milestone approved in the Hungarian plan."
+        },
+        {
+          "data": "Apr 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "110.000 instalações concluídas. Progresso: 55%.",
+          "descricao_en": "110,000 installations completed. Progress: 55%."
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "pais": "Hungria",
+      "paisCode": "HU",
+      "titulo_pt": "Modernização do Sistema Judicial",
+      "titulo_en": "Judicial System Modernization",
+      "descricao_pt": "Digitalização dos tribunais húngaros e implementação de medidas para garantir a independência judicial.",
+      "descricao_en": "Digitalization of Hungarian courts and implementation of measures to ensure judicial independence.",
+      "setor": "coesao",
+      "setorLabel_pt": "👥 Coesão",
+      "setorLabel_en": "👥 Cohesion",
+      "estado": "em_atraso",
+      "prazo": "Jun 2024",
+      "progresso": 15,
+      "imagem": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600",
+      "investimento_pt": "€700 Milhões",
+      "investimento_en": "€700 Million",
+      "beneficiarios_pt": "9,7 milhões de cidadãos húngaros",
+      "beneficiarios_en": "9.7 million Hungarian citizens",
+      "indicadorSucesso_pt": "100% dos tribunais digitalizados com garantias de independência",
+      "indicadorSucesso_en": "100% of courts digitalized with independence guarantees",
+      "entidade_pt": "Igazságügyi Minisztérium",
+      "entidade_en": "Ministry of Justice",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Condicionado a reformas estruturais do sistema judicial.",
+          "descricao_en": "Milestone approved. Conditional on structural reforms of the judicial system."
+        },
+        {
+          "data": "Out 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Progresso limitado devido a disputas sobre independência judicial. Fundos parcialmente suspensos pela CE.",
+          "descricao_en": "Limited progress due to disputes over judicial independence. Funds partially suspended by the EC."
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "pais": "Irlanda",
+      "paisCode": "IE",
+      "titulo_pt": "Habitação Acessível nas Cidades",
+      "titulo_en": "Affordable Housing in Cities",
+      "descricao_pt": "Construção de 5.000 habitações acessíveis em Dublin e outras cidades irlandesas para combater a crise habitacional.",
+      "descricao_en": "Construction of 5,000 affordable homes in Dublin and other Irish cities to combat the housing crisis.",
+      "setor": "coesao",
+      "setorLabel_pt": "👥 Coesão",
+      "setorLabel_en": "👥 Cohesion",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 35,
+      "imagem": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600",
+      "investimento_pt": "€500 Milhões",
+      "investimento_en": "€500 Million",
+      "beneficiarios_pt": "5.000 famílias irlandesas",
+      "beneficiarios_en": "5,000 Irish families",
+      "indicadorSucesso_pt": "5.000 habitações acessíveis entregues com rendas controladas",
+      "indicadorSucesso_en": "5,000 affordable homes delivered with controlled rents",
+      "entidade_pt": "Department of Housing, Local Government and Heritage",
+      "entidade_en": "Department of Housing, Local Government and Heritage",
+      "revisoes": [
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano irlandês.",
+          "descricao_en": "Milestone approved in the Irish plan."
+        },
+        {
+          "data": "Nov 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "1.750 habitações entregues. Progresso: 35%.",
+          "descricao_en": "1,750 homes delivered. Progress: 35%."
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "pais": "Letónia",
+      "paisCode": "LV",
+      "titulo_pt": "Transição para Energia Verde",
+      "titulo_en": "Transition to Green Energy",
+      "descricao_pt": "Instalação de 600 MW de energia eólica offshore e solar para reduzir a dependência energética da Rússia.",
+      "descricao_en": "Installation of 600 MW of offshore wind and solar energy to reduce energy dependence on Russia.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 45,
+      "imagem": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+      "investimento_pt": "€650 Milhões",
+      "investimento_en": "€650 Million",
+      "beneficiarios_pt": "1,9 milhões de consumidores letões",
+      "beneficiarios_en": "1.9 million Latvian consumers",
+      "indicadorSucesso_pt": "600 MW de nova capacidade renovável instalada",
+      "indicadorSucesso_en": "600 MW of new renewable capacity installed",
+      "entidade_pt": "Ekonomikas ministrija",
+      "entidade_en": "Ministry of Economics",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano letão.",
+          "descricao_en": "Milestone approved in the Latvian plan."
+        },
+        {
+          "data": "Abr 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "270 MW instalados. Progresso: 45%.",
+          "descricao_en": "270 MW installed. Progress: 45%."
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "pais": "Lituânia",
+      "paisCode": "LT",
+      "titulo_pt": "Digitalização dos Serviços Públicos",
+      "titulo_en": "Public Services Digitalization",
+      "descricao_pt": "Transformação digital de 200 serviços públicos lituanos com interoperabilidade e autenticação eletrónica segura.",
+      "descricao_en": "Digital transformation of 200 Lithuanian public services with interoperability and secure electronic authentication.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_curso",
+      "prazo": "Jun 2025",
+      "progresso": 60,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento_pt": "€420 Milhões",
+      "investimento_en": "€420 Million",
+      "beneficiarios_pt": "2,8 milhões de cidadãos lituanos",
+      "beneficiarios_en": "2.8 million Lithuanian citizens",
+      "indicadorSucesso_pt": "200 serviços públicos totalmente digitais e integrados",
+      "indicadorSucesso_en": "200 fully digital and integrated public services",
+      "entidade_pt": "Informacinės visuomenės plėtros komitetas",
+      "entidade_en": "Information Society Development Committee",
+      "revisoes": [
+        {
+          "data": "Jun 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano lituano.",
+          "descricao_en": "Milestone approved in the Lithuanian plan."
+        },
+        {
+          "data": "Jan 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "120 serviços digitalizados. Progresso: 60%.",
+          "descricao_en": "120 services digitalized. Progress: 60%."
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "pais": "Malta",
+      "paisCode": "MT",
+      "titulo_pt": "Energia Renovável em Malta",
+      "titulo_en": "Renewable Energy in Malta",
+      "descricao_pt": "Instalação de painéis solares em 30.000 habitações maltesas e criação de uma central flutuante de energia solar.",
+      "descricao_en": "Installation of solar panels in 30,000 Maltese homes and creation of a floating solar energy plant.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 48,
+      "imagem": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+      "investimento_pt": "€180 Milhões",
+      "investimento_en": "€180 Million",
+      "beneficiarios_pt": "500.000 residentes malteses",
+      "beneficiarios_en": "500,000 Maltese residents",
+      "indicadorSucesso_pt": "30.000 instalações solares e 50 MW de capacidade flutuante",
+      "indicadorSucesso_en": "30,000 solar installations and 50 MW of floating capacity",
+      "entidade_pt": "Malta Resources Authority",
+      "entidade_en": "Malta Resources Authority",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano maltês.",
+          "descricao_en": "Milestone approved in the Maltese plan."
+        },
+        {
+          "data": "Mai 2024",
+          "tipo": "atualizacao",
+          "descricao_pt": "14.400 instalações concluídas e central flutuante em construção. Progresso: 48%.",
+          "descricao_en": "14,400 installations completed and floating plant under construction. Progress: 48%."
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "pais": "Países Baixos",
+      "paisCode": "NL",
+      "titulo_pt": "Digitalização do Setor Público",
+      "titulo_en": "Public Sector Digitalization",
+      "descricao_pt": "Implementação de uma plataforma digital unificada para todos os serviços governamentais neerlandeses.",
+      "descricao_en": "Implementation of a unified digital platform for all Dutch government services.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "concluido",
+      "prazo": "Jun 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600",
+      "investimento_pt": "€1,1 Mil Milhões",
+      "investimento_en": "€1.1 Billion",
+      "beneficiarios_pt": "17,4 milhões de cidadãos neerlandeses",
+      "beneficiarios_en": "17.4 million Dutch citizens",
+      "indicadorSucesso_pt": "Plataforma MijnOverheid com 100% dos serviços integrados",
+      "indicadorSucesso_en": "MijnOverheid platform with 100% of services integrated",
+      "entidade_pt": "Ministerie van Binnenlandse Zaken",
+      "entidade_en": "Ministry of the Interior and Kingdom Relations",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano neerlandês.",
+          "descricao_en": "Milestone approved in the Dutch plan."
+        },
+        {
+          "data": "Dez 2022",
+          "tipo": "atualizacao",
+          "descricao_pt": "75% dos serviços integrados na plataforma MijnOverheid.",
+          "descricao_en": "75% of services integrated on the MijnOverheid platform."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "100% dos serviços integrados. Marco concluído dentro do prazo.",
+          "descricao_en": "100% of services integrated. Milestone completed on time."
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "pais": "Polónia",
+      "paisCode": "PL",
+      "titulo_pt": "Energia Renovável na Polónia",
+      "titulo_en": "Renewable Energy in Poland",
+      "descricao_pt": "Instalação de 5.000 MW de energia eólica e solar para reduzir a dependência do carvão.",
+      "descricao_en": "Installation of 5,000 MW of wind and solar energy to reduce coal dependence.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "concluido",
+      "prazo": "Dez 2023",
+      "progresso": 100,
+      "imagem": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+      "investimento_pt": "€4,5 Mil Milhões",
+      "investimento_en": "€4.5 Billion",
+      "beneficiarios_pt": "37,8 milhões de polacos",
+      "beneficiarios_en": "37.8 million Poles",
+      "indicadorSucesso_pt": "5.000 MW de nova capacidade renovável instalada",
+      "indicadorSucesso_en": "5,000 MW of new renewable capacity installed",
+      "entidade_pt": "Ministerstwo Klimatu i Środowiska",
+      "entidade_en": "Ministry of Climate and Environment",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano polaco.",
+          "descricao_en": "Milestone approved in the Polish plan."
+        },
+        {
+          "data": "Jun 2023",
+          "tipo": "atualizacao",
+          "descricao_pt": "3.500 MW instalados. Progresso: 70%.",
+          "descricao_en": "3,500 MW installed. Progress: 70%."
+        },
+        {
+          "data": "Dez 2023",
+          "tipo": "conclusao",
+          "descricao_pt": "5.000 MW instalados. Marco concluído dentro do prazo.",
+          "descricao_en": "5,000 MW installed. Milestone completed on time."
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "pais": "Polónia",
+      "paisCode": "PL",
+      "titulo_pt": "Modernização Ferroviária",
+      "titulo_en": "Railway Modernization",
+      "descricao_pt": "Modernização de 2.000 km de linhas ferroviárias polacas para velocidades de até 200 km/h.",
+      "descricao_en": "Modernization of 2,000 km of Polish railway lines for speeds up to 200 km/h.",
+      "setor": "infraestrutura",
+      "setorLabel_pt": "🏢 Infraestrutura",
+      "setorLabel_en": "🏢 Infrastructure",
+      "estado": "em_curso",
+      "prazo": "Dez 2026",
+      "progresso": 25,
+      "imagem": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600",
+      "investimento_pt": "€6,0 Mil Milhões",
+      "investimento_en": "€6.0 Billion",
+      "beneficiarios_pt": "15 milhões de passageiros/ano",
+      "beneficiarios_en": "15 million passengers/year",
+      "indicadorSucesso_pt": "2.000 km de linhas modernizadas com redução de 30% nos tempos de viagem",
+      "indicadorSucesso_en": "2,000 km of lines modernized with 30% reduction in travel times",
+      "entidade_pt": "PKP Polskie Linie Kolejowe",
+      "entidade_en": "PKP Polish Railway Lines",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Contratos de empreitada adjudicados.",
+          "descricao_en": "Milestone approved. Construction contracts awarded."
+        },
+        {
+          "data": "Mar 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "500 km de linhas modernizadas. Progresso: 25%.",
+          "descricao_en": "500 km of lines modernized. Progress: 25%."
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "pais": "Polónia",
+      "paisCode": "PL",
+      "titulo_pt": "Digitalização da Administração",
+      "titulo_en": "Administration Digitalization",
+      "descricao_pt": "Implementação de um sistema de governo eletrónico integrado com identidade digital para todos os cidadãos polacos.",
+      "descricao_en": "Implementation of an integrated e-government system with digital identity for all Polish citizens.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_curso",
+      "prazo": "Jun 2025",
+      "progresso": 55,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento_pt": "€2,2 Mil Milhões",
+      "investimento_en": "€2.2 Billion",
+      "beneficiarios_pt": "37,8 milhões de cidadãos polacos",
+      "beneficiarios_en": "37.8 million Polish citizens",
+      "indicadorSucesso_pt": "App mObywatel com 100% dos serviços públicos disponíveis",
+      "indicadorSucesso_en": "mObywatel app with 100% of public services available",
+      "entidade_pt": "Ministerstwo Cyfryzacji",
+      "entidade_en": "Ministry of Digitalization",
+      "revisoes": [
+        {
+          "data": "Jul 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. App mObywatel em expansão.",
+          "descricao_en": "Milestone approved. mObywatel app in expansion."
+        },
+        {
+          "data": "Fev 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "App com 12 milhões de utilizadores e 110 serviços. Progresso: 55%.",
+          "descricao_en": "App with 12 million users and 110 services. Progress: 55%."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "pais": "Polónia",
+      "paisCode": "PL",
+      "titulo_pt": "Reforma do Estado de Direito",
+      "titulo_en": "Rule of Law Reform",
+      "descricao_pt": "Reformas do sistema judicial polaco para garantir independência dos tribunais conforme os padrões europeus.",
+      "descricao_en": "Reforms of the Polish judicial system to ensure court independence according to European standards.",
+      "setor": "coesao",
+      "setorLabel_pt": "👥 Coesão",
+      "setorLabel_en": "👥 Cohesion",
+      "estado": "em_atraso",
+      "prazo": "Mar 2024",
+      "progresso": 40,
+      "imagem": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600",
+      "investimento_pt": "€500 Milhões",
+      "investimento_en": "€500 Million",
+      "beneficiarios_pt": "37,8 milhões de cidadãos polacos",
+      "beneficiarios_en": "37.8 million Polish citizens",
+      "indicadorSucesso_pt": "Sistema judicial independente conforme padrões europeus",
+      "indicadorSucesso_en": "Independent judicial system according to European standards",
+      "entidade_pt": "Ministerstwo Sprawiedliwości",
+      "entidade_en": "Ministry of Justice",
+      "revisoes": [
+        {
+          "data": "Jun 2022",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado após negociações com a CE sobre estado de direito.",
+          "descricao_en": "Milestone approved after negotiations with the EC on the rule of law."
+        },
+        {
+          "data": "Ago 2024",
+          "tipo": "atraso",
+          "descricao_pt": "Progressos insuficientes. CE mantém parte dos fundos retidos.",
+          "descricao_en": "Insufficient progress. EC maintains part of the funds withheld."
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "pais": "Suécia",
+      "paisCode": "SE",
+      "titulo_pt": "Transição Verde Industrial",
+      "titulo_en": "Industrial Green Transition",
+      "descricao_pt": "Descarbonização da indústria sueca do aço e cimento com tecnologias de captura de CO2 e hidrogénio verde.",
+      "descricao_en": "Decarbonization of the Swedish steel and cement industry with CO2 capture technologies and green hydrogen.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 50,
+      "imagem": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600",
+      "investimento_pt": "€1,5 Mil Milhões",
+      "investimento_en": "€1.5 Billion",
+      "beneficiarios_pt": "Setor industrial e 10 milhões de suecos",
+      "beneficiarios_en": "Industrial sector and 10 million Swedes",
+      "indicadorSucesso_pt": "Redução de 40% nas emissões industriais face a 2020",
+      "indicadorSucesso_en": "40% reduction in industrial emissions compared to 2020",
+      "entidade_pt": "Energimyndigheten",
+      "entidade_en": "Swedish Energy Agency",
+      "revisoes": [
+        {
+          "data": "Ago 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado. Projeto HYBRIT de aço verde iniciado.",
+          "descricao_en": "Milestone approved. HYBRIT green steel project initiated."
+        },
+        {
+          "data": "Mar 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "Primeira linha de produção de aço verde operacional. Progresso: 50%.",
+          "descricao_en": "First green steel production line operational. Progress: 50%."
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "pais": "Eslováquia",
+      "paisCode": "SK",
+      "titulo_pt": "Modernização Digital",
+      "titulo_en": "Digital Modernization",
+      "descricao_pt": "Implementação de uma plataforma de serviços digitais integrada e digitalização de 150 serviços públicos eslovacos.",
+      "descricao_en": "Implementation of an integrated digital services platform and digitalization of 150 Slovak public services.",
+      "setor": "digital",
+      "setorLabel_pt": "💻 Digital",
+      "setorLabel_en": "💻 Digital",
+      "estado": "em_curso",
+      "prazo": "Jun 2025",
+      "progresso": 45,
+      "imagem": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600",
+      "investimento_pt": "€800 Milhões",
+      "investimento_en": "€800 Million",
+      "beneficiarios_pt": "5,5 milhões de cidadãos eslovacos",
+      "beneficiarios_en": "5.5 million Slovak citizens",
+      "indicadorSucesso_pt": "150 serviços públicos totalmente digitais disponíveis online",
+      "indicadorSucesso_en": "150 fully digital public services available online",
+      "entidade_pt": "Úrad podpredsedu vlády SR pre investície a informatizáciu",
+      "entidade_en": "Office of the Deputy PM for Investments and Informatization",
+      "revisoes": [
+        {
+          "data": "Set 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano eslovaco.",
+          "descricao_en": "Milestone approved in the Slovak plan."
+        },
+        {
+          "data": "Fev 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "68 serviços digitalizados. Progresso: 45%.",
+          "descricao_en": "68 services digitalized. Progress: 45%."
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "pais": "Eslováquia",
+      "paisCode": "SK",
+      "titulo_pt": "Energia Renovável e Eficiência",
+      "titulo_en": "Renewable Energy and Efficiency",
+      "descricao_pt": "Instalação de 1.000 MW de energia solar e renovação energética de 50.000 edifícios eslovacos.",
+      "descricao_en": "Installation of 1,000 MW of solar energy and energy renovation of 50,000 Slovak buildings.",
+      "setor": "clima",
+      "setorLabel_pt": "🌿 Clima",
+      "setorLabel_en": "🌿 Climate",
+      "estado": "em_curso",
+      "prazo": "Dez 2025",
+      "progresso": 38,
+      "imagem": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600",
+      "investimento_pt": "€1,3 Mil Milhões",
+      "investimento_en": "€1.3 Billion",
+      "beneficiarios_pt": "50.000 edifícios e 1 milhão de famílias",
+      "beneficiarios_en": "50,000 buildings and 1 million families",
+      "indicadorSucesso_pt": "1.000 MW de solar instalado e 50.000 edifícios renovados",
+      "indicadorSucesso_en": "1,000 MW of solar installed and 50,000 buildings renovated",
+      "entidade_pt": "Ministerstvo hospodárstva Slovenskej republiky",
+      "entidade_en": "Ministry of Economy of the Slovak Republic",
+      "revisoes": [
+        {
+          "data": "Out 2021",
+          "tipo": "aprovacao",
+          "descricao_pt": "Marco aprovado no plano eslovaco.",
+          "descricao_en": "Milestone approved in the Slovak plan."
+        },
+        {
+          "data": "Abr 2025",
+          "tipo": "atualizacao",
+          "descricao_pt": "380 MW instalados e 19.000 edifícios renovados. Progresso: 38%.",
+          "descricao_en": "380 MW installed and 19,000 buildings renovated. Progress: 38%."
+        }
       ]
     }
   ],
-"paises": [
+  "paises": [
     {
       "id": 1,
       "code": "PT",
@@ -900,301 +2612,359 @@
       "imagem": "https://images.unsplash.com/photo-1620283110809-3ff3adfe057b?q=80&w=1632"
     }
   ],
-
-"desembolsos": [
+  "desembolsos": [
     {
-        "id": 1,
-        "pais": "Portugal",
-        "paisCode": "PT",
-        "data": "2026-08-15",
-        "montante": 2200000000,
-        "tipologia": "Empréstimo",
-        "titulo_pt": "1.º Pré-financiamento do PRR",
-        "titulo_en": "1st RRP Pre-financing",
-        "estado": "Em Avaliação",
-        "descricaoCurta_pt": "Adiantamento de 13% para instalação de painéis solares",
-        "descricaoCurta_en": "13% advance for solar panel installation",
-        "descricaoLonga_pt": "Portugal recebeu o primeiro adiantamento de 2,2 mil milhões de euros do Mecanismo de Recuperação e Resiliência, correspondente a 13% do montante total solicitado. Este financiamento inicial será canalizado prioritariamente para projetos de energia solar fotovoltaica, com o objetivo de instalar 1.000 MW de capacidade renovável até 2025, reduzindo a dependência energética e criando cerca de 15.000 postos de trabalho no setor das energias limpas.",
-        "descricaoLonga_en": "Portugal received the first advance of €2.2 billion from the Recovery and Resilience Mechanism, corresponding to 13% of the total amount requested. This initial funding will be channelled primarily to photovoltaic solar energy projects, aiming to install 1,000 MW of renewable capacity by 2025, reducing energy dependence and creating about 15,000 jobs in the clean energy sector.",
-        "setor": "Clima",
-        "imagem": "https://images.pexels.com/photos/33813856/pexels-photo-33813856.jpeg",
-        "beneficiario_pt": "Administração Pública",
-        "beneficiario_en": "Public Administration"
+      "id": 1,
+      "pais": "Portugal",
+      "paisCode": "PT",
+      "data": "2026-08-15",
+      "montante": 2200000000,
+      "tipologia": "Empréstimo",
+      "titulo_pt": "1.º Pré-financiamento do PRR",
+      "titulo_en": "1st RRP Pre-financing",
+      "estado": "Em Avaliação",
+      "descricaoCurta_pt": "Adiantamento de 13% para instalação de painéis solares",
+      "descricaoCurta_en": "13% advance for solar panel installation",
+      "descricaoLonga_pt": "Portugal recebeu o primeiro adiantamento de 2,2 mil milhões de euros do Mecanismo de Recuperação e Resiliência, correspondente a 13% do montante total solicitado. Este financiamento inicial será canalizado prioritariamente para projetos de energia solar fotovoltaica, com o objetivo de instalar 1.000 MW de capacidade renovável até 2025, reduzindo a dependência energética e criando cerca de 15.000 postos de trabalho no setor das energias limpas.",
+      "descricaoLonga_en": "Portugal received the first advance of €2.2 billion from the Recovery and Resilience Mechanism, corresponding to 13% of the total amount requested. This initial funding will be channelled primarily to photovoltaic solar energy projects, aiming to install 1,000 MW of renewable capacity by 2025, reducing energy dependence and creating about 15,000 jobs in the clean energy sector.",
+      "setor": "Clima",
+      "imagem": "https://images.pexels.com/photos/33813856/pexels-photo-33813856.jpeg",
+      "beneficiario_pt": "Administração Pública",
+      "beneficiario_en": "Public Administration"
     },
     {
-        "id": 2,
-        "pais": "Portugal",
-        "paisCode": "PT",
-        "data": "2022-07-04",
-        "montante": 1161000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "1.º Pedido de pagamento aprovado",
-        "titulo_en": "1st Approved Payment Request",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Reforço do SNS para apoio a idosos",
-        "descricaoCurta_en": "NHS reinforcement for elderly support",
-        "descricaoLonga_pt": "A Comissão Europeia aprovou o primeiro pedido de pagamento de Portugal, no valor de 1,16 mil milhões de euros, após a verificação do cumprimento de 25 marcos e metas. O montante será aplicado no reforço do Serviço Nacional de Saúde, com especial enfoque na melhoria dos cuidados continuados integrados para a população idosa, incluindo a criação de 500 novas vagas em unidades de cuidados paliativos e a contratação de 3.000 profissionais de saúde.",
-        "descricaoLonga_en": "The European Commission approved Portugal's first payment request of €1.16 billion, after verifying the fulfillment of 25 milestones and targets. The amount will be used to reinforce the National Health Service, with a special focus on improving integrated continuing care for the elderly, including the creation of 500 new places in palliative care units and the recruitment of 3,000 health professionals.",
-        "setor": "Saúde",
-        "imagem": "https://images.pexels.com/photos/34328480/pexels-photo-34328480.jpeg",
-        "beneficiario_pt": "Serviço Nacional de Saúde",
-        "beneficiario_en": "National Health Service"
+      "id": 2,
+      "pais": "Portugal",
+      "paisCode": "PT",
+      "data": "2022-07-04",
+      "montante": 1161000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "1.º Pedido de pagamento aprovado",
+      "titulo_en": "1st Approved Payment Request",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Reforço do SNS para apoio a idosos",
+      "descricaoCurta_en": "NHS reinforcement for elderly support",
+      "descricaoLonga_pt": "A Comissão Europeia aprovou o primeiro pedido de pagamento de Portugal, no valor de 1,16 mil milhões de euros, após a verificação do cumprimento de 25 marcos e metas. O montante será aplicado no reforço do Serviço Nacional de Saúde, com especial enfoque na melhoria dos cuidados continuados integrados para a população idosa, incluindo a criação de 500 novas vagas em unidades de cuidados paliativos e a contratação de 3.000 profissionais de saúde.",
+      "descricaoLonga_en": "The European Commission approved Portugal's first payment request of €1.16 billion, after verifying the fulfillment of 25 milestones and targets. The amount will be used to reinforce the National Health Service, with a special focus on improving integrated continuing care for the elderly, including the creation of 500 new places in palliative care units and the recruitment of 3,000 health professionals.",
+      "setor": "Saúde",
+      "imagem": "https://images.pexels.com/photos/34328480/pexels-photo-34328480.jpeg",
+      "beneficiario_pt": "Serviço Nacional de Saúde",
+      "beneficiario_en": "National Health Service"
     },
     {
-        "id": 3,
-        "pais": "Portugal",
-        "paisCode": "PT",
-        "data": "2024-03-21",
-        "montante": 1453000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "2.º Pedido de pagamento aprovado",
-        "titulo_en": "2nd Approved Payment Request",
-        "estado": "Em Avaliação",
-        "descricaoCurta_pt": "Digitalização da administração pública",
-        "descricaoCurta_en": "Digitalization of public administration",
-        "descricaoLonga_pt": "O segundo pedido de pagamento de Portugal, de 1,45 mil milhões de euros, está atualmente em avaliação pela Comissão Europeia. O financiamento destina-se a acelerar a transformação digital da administração pública, com metas ambiciosas como a implementação do Cartão de Cidadão em formato digital, a interoperabilidade de bases de dados entre serviços públicos e a criação de uma plataforma única de atendimento ao cidadão (gov.pt). Espera-se reduzir o tempo de resposta dos serviços públicos em 40% até 2025.",
-        "descricaoLonga_en": "Portugal's second payment request of €1.45 billion is currently under evaluation by the European Commission. The funding aims to accelerate the digital transformation of public administration, with ambitious goals such as the implementation of the Citizen Card in digital format, interoperability of databases between public services, and the creation of a single citizen service platform (gov.pt). It is expected to reduce public service response times by 40% by 2025.",
-        "setor": "Digital",
-        "imagem": "https://images.pexels.com/photos/6919744/pexels-photo-6919744.jpeg",
-        "beneficiario_pt": "Agência para a Modernização Administrativa",
-        "beneficiario_en": "Agency for Administrative Modernization"
+      "id": 3,
+      "pais": "Portugal",
+      "paisCode": "PT",
+      "data": "2024-03-21",
+      "montante": 1453000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "2.º Pedido de pagamento aprovado",
+      "titulo_en": "2nd Approved Payment Request",
+      "estado": "Em Avaliação",
+      "descricaoCurta_pt": "Digitalização da administração pública",
+      "descricaoCurta_en": "Digitalization of public administration",
+      "descricaoLonga_pt": "O segundo pedido de pagamento de Portugal, de 1,45 mil milhões de euros, está atualmente em avaliação pela Comissão Europeia. O financiamento destina-se a acelerar a transformação digital da administração pública, com metas ambiciosas como a implementação do Cartão de Cidadão em formato digital, a interoperabilidade de bases de dados entre serviços públicos e a criação de uma plataforma única de atendimento ao cidadão (gov.pt). Espera-se reduzir o tempo de resposta dos serviços públicos em 40% até 2025.",
+      "descricaoLonga_en": "Portugal's second payment request of €1.45 billion is currently under evaluation by the European Commission. The funding aims to accelerate the digital transformation of public administration, with ambitious goals such as the implementation of the Citizen Card in digital format, interoperability of databases between public services, and the creation of a single citizen service platform (gov.pt). It is expected to reduce public service response times by 40% by 2025.",
+      "setor": "Digital",
+      "imagem": "https://images.pexels.com/photos/6919744/pexels-photo-6919744.jpeg",
+      "beneficiario_pt": "Agência para a Modernização Administrativa",
+      "beneficiario_en": "Agency for Administrative Modernization"
     },
     {
-        "id": 4,
-        "pais": "Espanha",
-        "paisCode": "ES",
-        "data": "2023-08-15",
-        "montante": 9000000000,
-        "tipologia": "Empréstimo",
-        "titulo_pt": "1.º Pré-financiamento do PRTR espanhol",
-        "titulo_en": "1st Spanish RRP Pre-financing",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Adiantamento para reformas estruturais",
-        "descricaoCurta_en": "Advance for structural reforms",
-        "descricaoLonga_pt": "Espanha recebeu um pré-financiamento de 9 mil milhões de euros para arrancar com o Plano de Recuperação, Transformação e Resiliência. Este montante, correspondente a 13% do total atribuído, será aplicado em reformas estruturais prioritárias, incluindo a modernização do sistema de pensões, a formação profissional dual e a criação do imposto sobre transações financeiras. O governo espanhol prevê que estas reformas aumentem o PIB potencial em 1,5% até 2026.",
-        "descricaoLonga_en": "Spain received a pre-financing of €9 billion to start its Recovery, Transformation and Resilience Plan. This amount, corresponding to 13% of the total allocated, will be applied to priority structural reforms, including the modernization of the pension system, dual vocational training, and the creation of a tax on financial transactions. The Spanish government expects these reforms to increase potential GDP by 1.5% by 2026.",
-        "setor": "Infraestrutura",
-        "imagem": "https://images.pexels.com/photos/2371924/pexels-photo-2371924.jpeg",
-        "beneficiario_pt": "Ministerio de Hacienda",
-        "beneficiario_en": "Ministry of Finance"
+      "id": 4,
+      "pais": "Espanha",
+      "paisCode": "ES",
+      "data": "2023-08-15",
+      "montante": 9000000000,
+      "tipologia": "Empréstimo",
+      "titulo_pt": "1.º Pré-financiamento do PRTR espanhol",
+      "titulo_en": "1st Spanish RRP Pre-financing",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Adiantamento para reformas estruturais",
+      "descricaoCurta_en": "Advance for structural reforms",
+      "descricaoLonga_pt": "Espanha recebeu um pré-financiamento de 9 mil milhões de euros para arrancar com o Plano de Recuperação, Transformação e Resiliência. Este montante, correspondente a 13% do total atribuído, será aplicado em reformas estruturais prioritárias, incluindo a modernização do sistema de pensões, a formação profissional dual e a criação do imposto sobre transações financeiras. O governo espanhol prevê que estas reformas aumentem o PIB potencial em 1,5% até 2026.",
+      "descricaoLonga_en": "Spain received a pre-financing of €9 billion to start its Recovery, Transformation and Resilience Plan. This amount, corresponding to 13% of the total allocated, will be applied to priority structural reforms, including the modernization of the pension system, dual vocational training, and the creation of a tax on financial transactions. The Spanish government expects these reforms to increase potential GDP by 1.5% by 2026.",
+      "setor": "Infraestrutura",
+      "imagem": "https://images.pexels.com/photos/2371924/pexels-photo-2371924.jpeg",
+      "beneficiario_pt": "Ministerio de Hacienda",
+      "beneficiario_en": "Ministry of Finance"
     },
     {
-        "id": 5,
-        "pais": "Itália",
-        "paisCode": "IT",
-        "data": "2027-08-13",
-        "montante": 24900000000,
-        "tipologia": "Empréstimo",
-        "titulo_pt": "1.º Pré-financiamento do PNRR italiano",
-        "titulo_en": "1st Italian NRRP Pre-financing",
-        "estado": "Planeado",
-        "descricaoCurta_pt": "Maior recolha de lixo marítimo da UE",
-        "descricaoCurta_en": "EU's largest marine litter collection",
-        "descricaoLonga_pt": "A Itália, maior beneficiária do PRR, recebeu um pré-financiamento de 24,9 mil milhões de euros para iniciar o seu Plano Nacional de Recuperação e Resiliência. Uma das iniciativas mais emblemáticas é o projeto 'SeaClean', que visa remover 80% dos resíduos plásticos do Mar Mediterrâneo até 2026, com a instalação de barreiras flutuantes inteligentes e a criação de uma frota de navios de recolha autónomos. O projeto deverá criar 12.000 empregos no setor da economia azul.",
-        "descricaoLonga_en": "Italy, the largest RRP beneficiary, received a pre-financing of €24.9 billion to start its National Recovery and Resilience Plan. One of the most emblematic initiatives is the 'SeaClean' project, which aims to remove 80% of plastic waste from the Mediterranean Sea by 2026, with the installation of smart floating barriers and the creation of a fleet of autonomous collection ships. The project is expected to create 12,000 jobs in the blue economy sector.",
-        "setor": "Clima",
-        "imagem": "https://images.pexels.com/photos/4328208/pexels-photo-4328208.jpeg",
-        "beneficiario_pt": "Presidenza del Consiglio dei Ministri",
-        "beneficiario_en": "Presidency of the Council of Ministers"
+      "id": 5,
+      "pais": "Itália",
+      "paisCode": "IT",
+      "data": "2027-08-13",
+      "montante": 24900000000,
+      "tipologia": "Empréstimo",
+      "titulo_pt": "1.º Pré-financiamento do PNRR italiano",
+      "titulo_en": "1st Italian NRRP Pre-financing",
+      "estado": "Planeado",
+      "descricaoCurta_pt": "Maior recolha de lixo marítimo da UE",
+      "descricaoCurta_en": "EU's largest marine litter collection",
+      "descricaoLonga_pt": "A Itália, maior beneficiária do PRR, recebeu um pré-financiamento de 24,9 mil milhões de euros para iniciar o seu Plano Nacional de Recuperação e Resiliência. Uma das iniciativas mais emblemáticas é o projeto 'SeaClean', que visa remover 80% dos resíduos plásticos do Mar Mediterrâneo até 2026, com a instalação de barreiras flutuantes inteligentes e a criação de uma frota de navios de recolha autónomos. O projeto deverá criar 12.000 empregos no setor da economia azul.",
+      "descricaoLonga_en": "Italy, the largest RRP beneficiary, received a pre-financing of €24.9 billion to start its National Recovery and Resilience Plan. One of the most emblematic initiatives is the 'SeaClean' project, which aims to remove 80% of plastic waste from the Mediterranean Sea by 2026, with the installation of smart floating barriers and the creation of a fleet of autonomous collection ships. The project is expected to create 12,000 jobs in the blue economy sector.",
+      "setor": "Clima",
+      "imagem": "https://images.pexels.com/photos/4328208/pexels-photo-4328208.jpeg",
+      "beneficiario_pt": "Presidenza del Consiglio dei Ministri",
+      "beneficiario_en": "Presidency of the Council of Ministers"
     },
     {
-        "id": 6,
-        "pais": "França",
-        "paisCode": "FR",
-        "data": "2025-08-16",
-        "montante": 7500000000,
-        "tipologia": "Empréstimo",
-        "titulo_pt": "1.º Pré-financiamento do PRR francês",
-        "titulo_en": "1st French RRP Pre-financing",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Reforço da resiliência económica",
-        "descricaoCurta_en": "Strengthening economic resilience",
-        "descricaoLonga_pt": "A França recebeu 7,5 mil milhões de euros de pré-financiamento para implementar o seu plano 'France Relance'. O investimento prioritário é o 'Fundo de Resiliência Económica', que concede subsídios e empréstimos bonificados a pequenas e médias empresas dos setores mais afetados pela pandemia, como turismo, restauração e eventos. Até ao momento, mais de 50.000 empresas foram apoiadas, evitando a perda de 120.000 postos de trabalho.",
-        "descricaoLonga_en": "France received €7.5 billion in pre-financing to implement its 'France Relance' plan. The priority investment is the 'Economic Resilience Fund', which provides grants and subsidized loans to small and medium-sized enterprises in the sectors most affected by the pandemic, such as tourism, catering and events. To date, more than 50,000 companies have been supported, preventing the loss of 120,000 jobs.",
-        "setor": "Coesão",
-        "imagem": "https://images.pexels.com/photos/6591166/pexels-photo-6591166.jpeg",
-        "beneficiario_pt": "Ministère de l'Économie",
-        "beneficiario_en": "Ministry of Economy"
+      "id": 6,
+      "pais": "França",
+      "paisCode": "FR",
+      "data": "2025-08-16",
+      "montante": 7500000000,
+      "tipologia": "Empréstimo",
+      "titulo_pt": "1.º Pré-financiamento do PRR francês",
+      "titulo_en": "1st French RRP Pre-financing",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Reforço da resiliência económica",
+      "descricaoCurta_en": "Strengthening economic resilience",
+      "descricaoLonga_pt": "A França recebeu 7,5 mil milhões de euros de pré-financiamento para implementar o seu plano 'France Relance'. O investimento prioritário é o 'Fundo de Resiliência Económica', que concede subsídios e empréstimos bonificados a pequenas e médias empresas dos setores mais afetados pela pandemia, como turismo, restauração e eventos. Até ao momento, mais de 50.000 empresas foram apoiadas, evitando a perda de 120.000 postos de trabalho.",
+      "descricaoLonga_en": "France received €7.5 billion in pre-financing to implement its 'France Relance' plan. The priority investment is the 'Economic Resilience Fund', which provides grants and subsidized loans to small and medium-sized enterprises in the sectors most affected by the pandemic, such as tourism, catering and events. To date, more than 50,000 companies have been supported, preventing the loss of 120,000 jobs.",
+      "setor": "Coesão",
+      "imagem": "https://images.pexels.com/photos/6591166/pexels-photo-6591166.jpeg",
+      "beneficiario_pt": "Ministère de l'Économie",
+      "beneficiario_en": "Ministry of Economy"
     },
     {
-        "id": 7,
-        "pais": "Grécia",
-        "paisCode": "GR",
-        "data": "2021-08-17",
-        "montante": 6000000000,
-        "tipologia": "Misto",
-        "titulo_pt": "1.º Pré-financiamento do PRR grego",
-        "titulo_en": "1st Greek RRP Pre-financing",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Modernização das infraestruturas digitais",
-        "descricaoCurta_en": "Digital infrastructure modernization",
-        "descricaoLonga_pt": "A Grécia recebeu 6 mil milhões de euros de pré-financiamento para o seu plano 'Grécia 2.0'. O principal investimento é a 'Digital Greece', um programa de fibra ótica que levará internet de alta velocidade (1 Gbps) a 95% da população até 2025, com especial foco nas ilhas remotas. O projeto inclui ainda a digitalização de serviços públicos, como a emissão de certidões online em tempo real, e a formação de 200.000 cidadãos em competências digitais.",
-        "descricaoLonga_en": "Greece received €6 billion in pre-financing for its 'Greece 2.0' plan. The main investment is 'Digital Greece', a fiber optic program that will bring high-speed internet (1 Gbps) to 95% of the population by 2025, with a special focus on remote islands. The project also includes the digitalization of public services, such as real‑time online issuance of certificates, and the training of 200,000 citizens in digital skills.",
-        "setor": "Clima",
-        "imagem": "https://images.pexels.com/photos/27081810/pexels-photo-27081810.jpeg",
-        "beneficiario_pt": "Ministry of Digital Governance",
-        "beneficiario_en": "Ministry of Digital Governance"
+      "id": 7,
+      "pais": "Grécia",
+      "paisCode": "GR",
+      "data": "2021-08-17",
+      "montante": 6000000000,
+      "tipologia": "Misto",
+      "titulo_pt": "1.º Pré-financiamento do PRR grego",
+      "titulo_en": "1st Greek RRP Pre-financing",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Modernização das infraestruturas digitais",
+      "descricaoCurta_en": "Digital infrastructure modernization",
+      "descricaoLonga_pt": "A Grécia recebeu 6 mil milhões de euros de pré-financiamento para o seu plano 'Grécia 2.0'. O principal investimento é a 'Digital Greece', um programa de fibra ótica que levará internet de alta velocidade (1 Gbps) a 95% da população até 2025, com especial foco nas ilhas remotas. O projeto inclui ainda a digitalização de serviços públicos, como a emissão de certidões online em tempo real, e a formação de 200.000 cidadãos em competências digitais.",
+      "descricaoLonga_en": "Greece received €6 billion in pre-financing for its 'Greece 2.0' plan. The main investment is 'Digital Greece', a fiber optic program that will bring high-speed internet (1 Gbps) to 95% of the population by 2025, with a special focus on remote islands. The project also includes the digitalization of public services, such as real‑time online issuance of certificates, and the training of 200,000 citizens in digital skills.",
+      "setor": "Clima",
+      "imagem": "https://images.pexels.com/photos/27081810/pexels-photo-27081810.jpeg",
+      "beneficiario_pt": "Ministry of Digital Governance",
+      "beneficiario_en": "Ministry of Digital Governance"
     },
     {
-        "id": 8,
-        "pais": "Alemanha",
-        "paisCode": "DE",
-        "data": "2023-06-01",
-        "montante": 2800000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "1.º Pedido de pagamento alemão",
-        "titulo_en": "1st German Payment Request",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Investimento em hidrogénio verde para transportes públicos",
-        "descricaoCurta_en": "Investment in green hydrogen for public transport",
-        "descricaoLonga_pt": "A Alemanha recebeu o seu primeiro pagamento do PRR, no valor de 2,8 mil milhões de euros, após cumprir todas as metas definidas para a primeira fase. O financiamento será aplicado no programa 'H2-Public', que visa substituir 5.000 autocarros municipais a diesel por veículos movidos a hidrogénio verde em 20 cidades alemãs. Estão previstos 500 novos postos de abastecimento de hidrogénio e a criação de uma fábrica de eletrolisadores de 1 GW, gerando cerca de 8.000 empregos na indústria do hidrogénio.",
-        "descricaoLonga_en": "Germany received its first RRP payment of €2.8 billion after meeting all targets set for the first phase. The funding will be used in the 'H2-Public' program, which aims to replace 5,000 municipal diesel buses with green hydrogen-powered vehicles in 20 German cities. Plans include 500 new hydrogen refueling stations and the construction of a 1 GW electrolyzer plant, creating around 8,000 jobs in the hydrogen industry.",
-        "setor": "Clima",
-        "imagem": "https://images.pexels.com/photos/13315396/pexels-photo-13315396.jpeg",
-        "beneficiario_pt": "Bundesministerium für Verkehr und digitale Infrastruktur",
-        "beneficiario_en": "Federal Ministry of Transport and Digital Infrastructure"
+      "id": 8,
+      "pais": "Alemanha",
+      "paisCode": "DE",
+      "data": "2023-06-01",
+      "montante": 2800000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "1.º Pedido de pagamento alemão",
+      "titulo_en": "1st German Payment Request",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Investimento em hidrogénio verde para transportes públicos",
+      "descricaoCurta_en": "Investment in green hydrogen for public transport",
+      "descricaoLonga_pt": "A Alemanha recebeu o seu primeiro pagamento do PRR, no valor de 2,8 mil milhões de euros, após cumprir todas as metas definidas para a primeira fase. O financiamento será aplicado no programa 'H2-Public', que visa substituir 5.000 autocarros municipais a diesel por veículos movidos a hidrogénio verde em 20 cidades alemãs. Estão previstos 500 novos postos de abastecimento de hidrogénio e a criação de uma fábrica de eletrolisadores de 1 GW, gerando cerca de 8.000 empregos na indústria do hidrogénio.",
+      "descricaoLonga_en": "Germany received its first RRP payment of €2.8 billion after meeting all targets set for the first phase. The funding will be used in the 'H2-Public' program, which aims to replace 5,000 municipal diesel buses with green hydrogen-powered vehicles in 20 German cities. Plans include 500 new hydrogen refueling stations and the construction of a 1 GW electrolyzer plant, creating around 8,000 jobs in the hydrogen industry.",
+      "setor": "Clima",
+      "imagem": "https://images.pexels.com/photos/13315396/pexels-photo-13315396.jpeg",
+      "beneficiario_pt": "Bundesministerium für Verkehr und digitale Infrastruktur",
+      "beneficiario_en": "Federal Ministry of Transport and Digital Infrastructure"
     },
     {
-        "id": 9,
-        "pais": "Croácia",
-        "paisCode": "HR",
-        "data": "2021-09-28",
-        "montante": 818000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "Pré-financiamento do PRR croata",
-        "titulo_en": "Croatian RRP Pre-financing",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Adiantamento para reforço sísmico",
-        "descricaoCurta_en": "Advance for seismic reinforcement",
-        "descricaoLonga_pt": "A Croácia recebeu 818 milhões de euros de pré-financiamento, essenciais para iniciar o plano de reconstrução após os devastadores sismos de 2020 em Zagreb e Petrinja. O investimento prioritário é o 'Programa de Reconstrução Resiliente', que irá reforçar sismicamente 10.000 edifícios públicos e privados, incluindo hospitais, escolas e monumentos históricos. Estão também previstas a construção de 2.000 novas habitações sociais resistentes a sismos e a criação de um centro de investigação sismológica avançado.",
-        "descricaoLonga_en": "Croatia received €818 million in pre-financing, essential to start the reconstruction plan after the devastating 2020 earthquakes in Zagreb and Petrinja. The priority investment is the 'Resilient Reconstruction Program', which will seismically reinforce 10,000 public and private buildings, including hospitals, schools and historical monuments. Also planned are the construction of 2,000 new earthquake‑resistant social housing units and the creation of an advanced seismological research centre.",
-        "setor": "Infraestrutura",
-        "imagem": "https://images.pexels.com/photos/20181332/pexels-photo-20181332.jpeg",
-        "beneficiario_pt": "Ministarstvo graditeljstva i prostornoga uređenja",
-        "beneficiario_en": "Ministry of Construction and Physical Planning"
+      "id": 9,
+      "pais": "Croácia",
+      "paisCode": "HR",
+      "data": "2021-09-28",
+      "montante": 818000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "Pré-financiamento do PRR croata",
+      "titulo_en": "Croatian RRP Pre-financing",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Adiantamento para reforço sísmico",
+      "descricaoCurta_en": "Advance for seismic reinforcement",
+      "descricaoLonga_pt": "A Croácia recebeu 818 milhões de euros de pré-financiamento, essenciais para iniciar o plano de reconstrução após os devastadores sismos de 2020 em Zagreb e Petrinja. O investimento prioritário é o 'Programa de Reconstrução Resiliente', que irá reforçar sismicamente 10.000 edifícios públicos e privados, incluindo hospitais, escolas e monumentos históricos. Estão também previstas a construção de 2.000 novas habitações sociais resistentes a sismos e a criação de um centro de investigação sismológica avançado.",
+      "descricaoLonga_en": "Croatia received €818 million in pre-financing, essential to start the reconstruction plan after the devastating 2020 earthquakes in Zagreb and Petrinja. The priority investment is the 'Resilient Reconstruction Program', which will seismically reinforce 10,000 public and private buildings, including hospitals, schools and historical monuments. Also planned are the construction of 2,000 new earthquake‑resistant social housing units and the creation of an advanced seismological research centre.",
+      "setor": "Infraestrutura",
+      "imagem": "https://images.pexels.com/photos/20181332/pexels-photo-20181332.jpeg",
+      "beneficiario_pt": "Ministarstvo graditeljstva i prostornoga uređenja",
+      "beneficiario_en": "Ministry of Construction and Physical Planning"
     },
     {
-        "id": 10,
-        "pais": "Roménia",
-        "paisCode": "RO",
-        "data": "2026-12-15",
-        "montante": 1500000000,
-        "tipologia": "Empréstimo",
-        "titulo_pt": "1.º Pedido de pagamento romeno",
-        "titulo_en": "1st Romanian Payment Request",
-        "estado": "Planeado",
-        "descricaoCurta_pt": "Modernização de infraestruturas de transportes e saúde",
-        "descricaoCurta_en": "Modernization of transport and health infrastructure",
-        "descricaoLonga_pt": "A Roménia recebeu o seu primeiro pagamento de 1,5 mil milhões de euros, após a aprovação da Comissão Europeia. Os fundos serão utilizados para modernizar 500 km de estradas nacionais e 300 km de ferrovias, melhorando a conectividade entre regiões menos desenvolvidas. Na área da saúde, serão construídos 20 novos centros de oncologia pediátrica e adquiridos 150 equipamentos de ressonância magnética e tomografia computadorizada para hospitais regionais, reduzindo as listas de espera em 40%.",
-        "descricaoLonga_en": "Romania received its first payment of €1.5 billion after approval by the European Commission. The funds will be used to modernize 500 km of national roads and 300 km of railways, improving connectivity between less developed regions. In the health sector, 20 new paediatric oncology centres will be built and 150 MRI and CT scanners will be acquired for regional hospitals, reducing waiting lists by 40%.",
-        "setor": "Infraestrutura",
-        "imagem": "https://images.pexels.com/photos/13315396/pexels-photo-13315396.jpeg",
-        "beneficiario_pt": "Ministerul Transporturilor și Infrastructurii",
-        "beneficiario_en": "Ministry of Transport and Infrastructure"
+      "id": 10,
+      "pais": "Roménia",
+      "paisCode": "RO",
+      "data": "2026-12-15",
+      "montante": 1500000000,
+      "tipologia": "Empréstimo",
+      "titulo_pt": "1.º Pedido de pagamento romeno",
+      "titulo_en": "1st Romanian Payment Request",
+      "estado": "Planeado",
+      "descricaoCurta_pt": "Modernização de infraestruturas de transportes e saúde",
+      "descricaoCurta_en": "Modernization of transport and health infrastructure",
+      "descricaoLonga_pt": "A Roménia recebeu o seu primeiro pagamento de 1,5 mil milhões de euros, após a aprovação da Comissão Europeia. Os fundos serão utilizados para modernizar 500 km de estradas nacionais e 300 km de ferrovias, melhorando a conectividade entre regiões menos desenvolvidas. Na área da saúde, serão construídos 20 novos centros de oncologia pediátrica e adquiridos 150 equipamentos de ressonância magnética e tomografia computadorizada para hospitais regionais, reduzindo as listas de espera em 40%.",
+      "descricaoLonga_en": "Romania received its first payment of €1.5 billion after approval by the European Commission. The funds will be used to modernize 500 km of national roads and 300 km of railways, improving connectivity between less developed regions. In the health sector, 20 new paediatric oncology centres will be built and 150 MRI and CT scanners will be acquired for regional hospitals, reducing waiting lists by 40%.",
+      "setor": "Infraestrutura",
+      "imagem": "https://images.pexels.com/photos/13315396/pexels-photo-13315396.jpeg",
+      "beneficiario_pt": "Ministerul Transporturilor și Infrastructurii",
+      "beneficiario_en": "Ministry of Transport and Infrastructure"
     },
     {
-        "id": 11,
-        "pais": "Portugal",
-        "paisCode": "PT",
-        "data": "2027-01-10",
-        "montante": 2100000000,
-        "tipologia": "Misto",
-        "titulo_pt": "3.º Pedido de pagamento português",
-        "titulo_en": "3rd Portuguese Payment Request",
-        "estado": "Planeado",
-        "descricaoCurta_pt": "Habitação acessível e transição digital",
-        "descricaoCurta_en": "Affordable housing and digital transition",
-        "descricaoLonga_pt": "O terceiro pedido de pagamento de Portugal, no valor de 2,1 mil milhões de euros, será submetido à Comissão Europeia no primeiro trimestre de 2024. O financiamento está associado a 40 marcos e metas, incluindo a construção de 10.000 fogos de habitação acessível (programa 1.º Direito), a implementação do teletrabalho em 30% da administração pública, e a conclusão da rede nacional de fibra ótica que abrangerá 95% do território. Prevê-se a criação de 25.000 empregos diretos e indiretos.",
-        "descricaoLonga_en": "Portugal's third payment request of €2.1 billion will be submitted to the European Commission in the first quarter of 2024. The funding is associated with 40 milestones and targets, including the construction of 10,000 affordable housing units (1st Right program), the implementation of teleworking in 30% of the public administration, and the completion of the national fibre‑optic network covering 95% of the territory. It is expected to create 25,000 direct and indirect jobs.",
-        "setor": "Coesão",
-        "imagem": "https://images.pexels.com/photos/6591166/pexels-photo-6591166.jpeg",
-        "beneficiario_pt": "Instituto da Habitação e Reabilitação Urbana (IHRU)",
-        "beneficiario_en": "Institute for Housing and Urban Rehabilitation (IHRU)"
+      "id": 11,
+      "pais": "Portugal",
+      "paisCode": "PT",
+      "data": "2027-01-10",
+      "montante": 2100000000,
+      "tipologia": "Misto",
+      "titulo_pt": "3.º Pedido de pagamento português",
+      "titulo_en": "3rd Portuguese Payment Request",
+      "estado": "Planeado",
+      "descricaoCurta_pt": "Habitação acessível e transição digital",
+      "descricaoCurta_en": "Affordable housing and digital transition",
+      "descricaoLonga_pt": "O terceiro pedido de pagamento de Portugal, no valor de 2,1 mil milhões de euros, será submetido à Comissão Europeia no primeiro trimestre de 2024. O financiamento está associado a 40 marcos e metas, incluindo a construção de 10.000 fogos de habitação acessível (programa 1.º Direito), a implementação do teletrabalho em 30% da administração pública, e a conclusão da rede nacional de fibra ótica que abrangerá 95% do território. Prevê-se a criação de 25.000 empregos diretos e indiretos.",
+      "descricaoLonga_en": "Portugal's third payment request of €2.1 billion will be submitted to the European Commission in the first quarter of 2024. The funding is associated with 40 milestones and targets, including the construction of 10,000 affordable housing units (1st Right program), the implementation of teleworking in 30% of the public administration, and the completion of the national fibre‑optic network covering 95% of the territory. It is expected to create 25,000 direct and indirect jobs.",
+      "setor": "Coesão",
+      "imagem": "https://images.pexels.com/photos/6591166/pexels-photo-6591166.jpeg",
+      "beneficiario_pt": "Instituto da Habitação e Reabilitação Urbana (IHRU)",
+      "beneficiario_en": "Institute for Housing and Urban Rehabilitation (IHRU)"
     },
     {
-        "id": 12,
-        "pais": "Espanha",
-        "paisCode": "ES",
-        "data": "2022-03-22",
-        "montante": 10000000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "1.º Pedido de pagamento espanhol",
-        "titulo_en": "1st Spanish Payment Request",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Reforma laboral e modernização da administração pública",
-        "descricaoCurta_en": "Labour reform and public administration modernization",
-        "descricaoLonga_pt": "A Espanha recebeu 10 mil milhões de euros no seu primeiro pedido de pagamento, após verificar o cumprimento de 52 marcos e metas. O montante está a ser aplicado na reforma laboral que reduz a precariedade (com a limitação de contratos temporários) e na modernização da administração pública, com a digitalização de 500 serviços públicos e a criação do 'Centro de Competências Digitais' para formar 100.000 funcionários públicos. Estima-se que estas medidas aumentem a produtividade em 2% até 2025.",
-        "descricaoLonga_en": "Spain received €10 billion in its first payment request, after verifying the fulfillment of 52 milestones and targets. The amount is being used for labour reform that reduces precariousness (by limiting temporary contracts) and for the modernization of public administration, with the digitalization of 500 public services and the creation of a 'Digital Competence Centre' to train 100,000 civil servants. These measures are estimated to increase productivity by 2% by 2025.",
-        "setor": "Digital",
-        "imagem": "https://images.pexels.com/photos/6919744/pexels-photo-6919744.jpeg",
-        "beneficiario_pt": "Ministerio de Trabajo y Economía Social",
-        "beneficiario_en": "Ministry of Labour and Social Economy"
+      "id": 12,
+      "pais": "Espanha",
+      "paisCode": "ES",
+      "data": "2022-03-22",
+      "montante": 10000000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "1.º Pedido de pagamento espanhol",
+      "titulo_en": "1st Spanish Payment Request",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Reforma laboral e modernização da administração pública",
+      "descricaoCurta_en": "Labour reform and public administration modernization",
+      "descricaoLonga_pt": "A Espanha recebeu 10 mil milhões de euros no seu primeiro pedido de pagamento, após verificar o cumprimento de 52 marcos e metas. O montante está a ser aplicado na reforma laboral que reduz a precariedade (com a limitação de contratos temporários) e na modernização da administração pública, com a digitalização de 500 serviços públicos e a criação do 'Centro de Competências Digitais' para formar 100.000 funcionários públicos. Estima-se que estas medidas aumentem a produtividade em 2% até 2025.",
+      "descricaoLonga_en": "Spain received €10 billion in its first payment request, after verifying the fulfillment of 52 milestones and targets. The amount is being used for labour reform that reduces precariousness (by limiting temporary contracts) and for the modernization of public administration, with the digitalization of 500 public services and the creation of a 'Digital Competence Centre' to train 100,000 civil servants. These measures are estimated to increase productivity by 2% by 2025.",
+      "setor": "Digital",
+      "imagem": "https://images.pexels.com/photos/6919744/pexels-photo-6919744.jpeg",
+      "beneficiario_pt": "Ministerio de Trabajo y Economía Social",
+      "beneficiario_en": "Ministry of Labour and Social Economy"
     },
     {
-        "id": 13,
-        "pais": "Eslováquia",
-        "paisCode": "SK",
-        "data": "2023-09-12",
-        "montante": 2100000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "1.º Pedido de pagamento eslovaco",
-        "titulo_en": "1st Slovak Payment Request",
-        "estado": "Pago",
-        "descricaoCurta_pt": "Digitalização da educação e formação profissional",
-        "descricaoCurta_en": "Digitalization of education and vocational training",
-        "descricaoLonga_pt": "A Eslováquia recebeu o seu primeiro pagamento do PRR, no valor de 2,1 mil milhões de euros, após cumprir 28 marcos e metas. O investimento prioritário é o plano 'EduDigital', que visa dotar 2.000 escolas com laboratórios de informática e tecnologia (robótica, programação e impressão 3D), formar 25.000 professores em competências digitais e criar 10 centros de excelência profissional nas regiões menos desenvolvidas. O governo espera reduzir a taxa de abandono escolar precoce de 9% para 5% até 2026 e aumentar em 40% o número de alunos a seguir cursos nas áreas STEM (Ciência, Tecnologia, Engenharia e Matemática).",
-        "descricaoLonga_en": "Slovakia received its first RRP payment of €2.1 billion after fulfilling 28 milestones and targets. The priority investment is the 'EduDigital' plan, which aims to equip 2,000 schools with computer and technology labs (robotics, programming and 3D printing), train 25,000 teachers in digital skills and create 10 professional centres of excellence in the least developed regions. The government hopes to reduce the early school leaving rate from 9% to 5% by 2026 and increase by 40% the number of students taking STEM (Science, Technology, Engineering and Mathematics) courses.",
-        "setor": "Educação",
-        "imagem": "https://images.unsplash.com/photo-1720048171315-b76d4d7269f4?q=80&w=2070",
-        "beneficiario_pt": "Ministerstvo školstva, vedy, výskumu a športu SR",
-        "beneficiario_en": "Ministry of Education, Science, Research and Sport of the Slovak Republic"
+      "id": 13,
+      "pais": "Eslováquia",
+      "paisCode": "SK",
+      "data": "2023-09-12",
+      "montante": 2100000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "1.º Pedido de pagamento eslovaco",
+      "titulo_en": "1st Slovak Payment Request",
+      "estado": "Pago",
+      "descricaoCurta_pt": "Digitalização da educação e formação profissional",
+      "descricaoCurta_en": "Digitalization of education and vocational training",
+      "descricaoLonga_pt": "A Eslováquia recebeu o seu primeiro pagamento do PRR, no valor de 2,1 mil milhões de euros, após cumprir 28 marcos e metas. O investimento prioritário é o plano 'EduDigital', que visa dotar 2.000 escolas com laboratórios de informática e tecnologia (robótica, programação e impressão 3D), formar 25.000 professores em competências digitais e criar 10 centros de excelência profissional nas regiões menos desenvolvidas. O governo espera reduzir a taxa de abandono escolar precoce de 9% para 5% até 2026 e aumentar em 40% o número de alunos a seguir cursos nas áreas STEM (Ciência, Tecnologia, Engenharia e Matemática).",
+      "descricaoLonga_en": "Slovakia received its first RRP payment of €2.1 billion after fulfilling 28 milestones and targets. The priority investment is the 'EduDigital' plan, which aims to equip 2,000 schools with computer and technology labs (robotics, programming and 3D printing), train 25,000 teachers in digital skills and create 10 professional centres of excellence in the least developed regions. The government hopes to reduce the early school leaving rate from 9% to 5% by 2026 and increase by 40% the number of students taking STEM (Science, Technology, Engineering and Mathematics) courses.",
+      "setor": "Educação",
+      "imagem": "https://images.unsplash.com/photo-1720048171315-b76d4d7269f4?q=80&w=2070",
+      "beneficiario_pt": "Ministerstvo školstva, vedy, výskumu a športu SR",
+      "beneficiario_en": "Ministry of Education, Science, Research and Sport of the Slovak Republic"
     },
     {
-        "id": 14,
-        "pais": "Chipre",
-        "paisCode": "CY",
-        "data": "2026-07-25",
-        "montante": 850000000,
-        "tipologia": "Subvenção",
-        "titulo_pt": "1.º Pedido de pagamento cipriota",
-        "titulo_en": "1st Cypriot Payment Request",
-        "estado": "Em Avaliação",
-        "descricaoCurta_pt": "Eficiência hídrica e proteção costeira",
-        "descricaoCurta_en": "Water efficiency and coastal protection",
-        "descricaoLonga_pt": "O primeiro pedido de pagamento de Chipre, no valor de 850 milhões de euros, encontra-se em avaliação pela Comissão Europeia. Os fundos destinam-se a combater a escassez de água através da construção de 5 dessalinizadores alimentados por energia solar, da modernização de 1.500 km de redes de distribuição de água (reduzindo perdas atuais de 25% para 12%) e da implementação de um plano de proteção da erosão costeira que inclui a criação de recifes artificiais e a recuperação de 50 km de dunas. Prevê-se a criação de 4.000 empregos no setor da economia azul e a redução do stress hídrico em 30% até 2027.",
-        "descricaoLonga_en": "Cyprus's first payment request of €850 million is currently under evaluation by the European Commission. The funds are intended to combat water scarcity through the construction of 5 solar‑powered desalination plants, the modernization of 1,500 km of water distribution networks (reducing current losses from 25% to 12%), and the implementation of a coastal erosion protection plan that includes the creation of artificial reefs and the restoration of 50 km of dunes. It is expected to create 4,000 jobs in the blue economy sector and reduce water stress by 30% by 2027.",
-        "setor": "Clima",
-        "imagem": "https://images.unsplash.com/photo-1606050309588-741702cceb9b?q=80&w=1074",
-        "beneficiario_pt": "Ministry of Agriculture, Rural Development and Environment",
-        "beneficiario_en": "Ministry of Agriculture, Rural Development and Environment"
+      "id": 14,
+      "pais": "Chipre",
+      "paisCode": "CY",
+      "data": "2026-07-25",
+      "montante": 850000000,
+      "tipologia": "Subvenção",
+      "titulo_pt": "1.º Pedido de pagamento cipriota",
+      "titulo_en": "1st Cypriot Payment Request",
+      "estado": "Em Avaliação",
+      "descricaoCurta_pt": "Eficiência hídrica e proteção costeira",
+      "descricaoCurta_en": "Water efficiency and coastal protection",
+      "descricaoLonga_pt": "O primeiro pedido de pagamento de Chipre, no valor de 850 milhões de euros, encontra-se em avaliação pela Comissão Europeia. Os fundos destinam-se a combater a escassez de água através da construção de 5 dessalinizadores alimentados por energia solar, da modernização de 1.500 km de redes de distribuição de água (reduzindo perdas atuais de 25% para 12%) e da implementação de um plano de proteção da erosão costeira que inclui a criação de recifes artificiais e a recuperação de 50 km de dunas. Prevê-se a criação de 4.000 empregos no setor da economia azul e a redução do stress hídrico em 30% até 2027.",
+      "descricaoLonga_en": "Cyprus's first payment request of €850 million is currently under evaluation by the European Commission. The funds are intended to combat water scarcity through the construction of 5 solar‑powered desalination plants, the modernization of 1,500 km of water distribution networks (reducing current losses from 25% to 12%), and the implementation of a coastal erosion protection plan that includes the creation of artificial reefs and the restoration of 50 km of dunes. It is expected to create 4,000 jobs in the blue economy sector and reduce water stress by 30% by 2027.",
+      "setor": "Clima",
+      "imagem": "https://images.unsplash.com/photo-1606050309588-741702cceb9b?q=80&w=1074",
+      "beneficiario_pt": "Ministry of Agriculture, Rural Development and Environment",
+      "beneficiario_en": "Ministry of Agriculture, Rural Development and Environment"
     },
     {
-        "id": 15,
-        "pais": "Roménia",
-        "paisCode": "RO",
-        "data": "2027-06-30",
-        "montante": 3800000000,
-        "tipologia": "Misto",
-        "titulo_pt": "2.º Pedido de pagamento romeno",
-        "titulo_en": "2nd Romanian Payment Request",
-        "estado": "Planeado",
-        "descricaoCurta_pt": "Reforma da justiça e luta contra a corrupção",
-        "descricaoCurta_en": "Justice reform and fight against corruption",
-        "descricaoLonga_pt": "A Roménia prepara o seu segundo pedido de pagamento, no valor de 3,8 mil milhões de euros, focado na consolidação do Estado de Direito. O financiamento está condicionado a 32 marcos e metas que incluem a digitalização integral dos tribunais (com arquivamento eletrónico e julgamentos à distância), a criação de uma agência nacional de recuperação de ativos desviados e a implementação de um sistema de justiça preditiva baseado em IA para reduzir a duração média dos processos judiciais de 450 para 180 dias. O plano romeno prevê ainda a formação de 10.000 magistrados e agentes da polícia judiciária em combate à corrupção e a criação de 5 gabinetes especializados em crimes económicos de elevada complexidade.",
-        "descricaoLonga_en": "Romania is preparing its second payment request, worth €3.8 billion, focused on strengthening the rule of law. The funding is conditional on 32 milestones and targets including the full digitalization of courts (with electronic filing and remote hearings), the creation of a national agency for the recovery of misappropriated assets, and the implementation of an AI‑based predictive justice system to reduce the average duration of court proceedings from 450 to 180 days. The Romanian plan also includes the training of 10,000 magistrates and judicial police officers in anti‑corruption, and the creation of 5 specialized units for high‑complexity economic crimes.",
-        "setor": "Coesão",
-        "imagem": "https://plus.unsplash.com/premium_photo-1694088516834-6fa55faab454?q=80&w=715",
-        "beneficiario_pt": "Ministerul Justiției",
-        "beneficiario_en": "Ministry of Justice"
+      "id": 15,
+      "pais": "Roménia",
+      "paisCode": "RO",
+      "data": "2027-06-30",
+      "montante": 3800000000,
+      "tipologia": "Misto",
+      "titulo_pt": "2.º Pedido de pagamento romeno",
+      "titulo_en": "2nd Romanian Payment Request",
+      "estado": "Planeado",
+      "descricaoCurta_pt": "Reforma da justiça e luta contra a corrupção",
+      "descricaoCurta_en": "Justice reform and fight against corruption",
+      "descricaoLonga_pt": "A Roménia prepara o seu segundo pedido de pagamento, no valor de 3,8 mil milhões de euros, focado na consolidação do Estado de Direito. O financiamento está condicionado a 32 marcos e metas que incluem a digitalização integral dos tribunais (com arquivamento eletrónico e julgamentos à distância), a criação de uma agência nacional de recuperação de ativos desviados e a implementação de um sistema de justiça preditiva baseado em IA para reduzir a duração média dos processos judiciais de 450 para 180 dias. O plano romeno prevê ainda a formação de 10.000 magistrados e agentes da polícia judiciária em combate à corrupção e a criação de 5 gabinetes especializados em crimes económicos de elevada complexidade.",
+      "descricaoLonga_en": "Romania is preparing its second payment request, worth €3.8 billion, focused on strengthening the rule of law. The funding is conditional on 32 milestones and targets including the full digitalization of courts (with electronic filing and remote hearings), the creation of a national agency for the recovery of misappropriated assets, and the implementation of an AI‑based predictive justice system to reduce the average duration of court proceedings from 450 to 180 days. The Romanian plan also includes the training of 10,000 magistrates and judicial police officers in anti‑corruption, and the creation of 5 specialized units for high‑complexity economic crimes.",
+      "setor": "Coesão",
+      "imagem": "https://plus.unsplash.com/premium_photo-1694088516834-6fa55faab454?q=80&w=715",
+      "beneficiario_pt": "Ministerul Justiției",
+      "beneficiario_en": "Ministry of Justice"
     }
-],
-  
+  ],
   "indicadores": [
-    { "id": 1, "codigo": "CI-01", "nome": "Utilizadores de internet", "descricao": "Número de utilizadores de internet nos últimos 3 meses", "unidade": "%", "pilar": "digital", "valorPT": 82, "valorEU": 78, "tendencia": "up" },
-    { "id": 2, "codigo": "CI-02", "nome": "Empresas com acesso à banda larga", "descricao": "Percentagem de empresas com ligação à internet de banda larga", "unidade": "%", "pilar": "digital", "valorPT": 91, "valorEU": 88, "tendencia": "up" },
-    { "id": 3, "codigo": "CI-03", "nome": "Energia renovável", "descricao": "Quota de energia renovável no consumo final bruto de energia", "unidade": "%", "pilar": "clima", "valorPT": 34, "valorEU": 23, "tendencia": "up" },
-    { "id": 4, "codigo": "CI-04", "nome": "Emissões de gases de efeito estufa", "descricao": "Emissões de GEE em relação ao nível de 1990", "unidade": "%", "pilar": "clima", "valorPT": -28, "valorEU": -31, "tendencia": "down" },
-    { "id": 5, "codigo": "CI-05", "nome": "Taxa de emprego", "descricao": "Percentagem de população empregada entre 20 e 64 anos", "unidade": "%", "pilar": "social", "valorPT": 76, "valorEU": 75, "tendencia": "up" },
-    { "id": 6, "codigo": "CI-06", "nome": "Abandono escolar precoce", "descricao": "Percentagem de jovens entre 18 e 24 anos que abandonaram o sistema educativo", "unidade": "%", "pilar": "educacao", "valorPT": 8, "valorEU": 10, "tendencia": "down" }
+    {
+      "id": 1,
+      "codigo": "CI-01",
+      "nome": "Utilizadores de internet",
+      "descricao": "Número de utilizadores de internet nos últimos 3 meses",
+      "unidade": "%",
+      "pilar": "digital",
+      "valorPT": 82,
+      "valorEU": 78,
+      "tendencia": "up"
+    },
+    {
+      "id": 2,
+      "codigo": "CI-02",
+      "nome": "Empresas com acesso à banda larga",
+      "descricao": "Percentagem de empresas com ligação à internet de banda larga",
+      "unidade": "%",
+      "pilar": "digital",
+      "valorPT": 91,
+      "valorEU": 88,
+      "tendencia": "up"
+    },
+    {
+      "id": 3,
+      "codigo": "CI-03",
+      "nome": "Energia renovável",
+      "descricao": "Quota de energia renovável no consumo final bruto de energia",
+      "unidade": "%",
+      "pilar": "clima",
+      "valorPT": 34,
+      "valorEU": 23,
+      "tendencia": "up"
+    },
+    {
+      "id": 4,
+      "codigo": "CI-04",
+      "nome": "Emissões de gases de efeito estufa",
+      "descricao": "Emissões de GEE em relação ao nível de 1990",
+      "unidade": "%",
+      "pilar": "clima",
+      "valorPT": -28,
+      "valorEU": -31,
+      "tendencia": "down"
+    },
+    {
+      "id": 5,
+      "codigo": "CI-05",
+      "nome": "Taxa de emprego",
+      "descricao": "Percentagem de população empregada entre 20 e 64 anos",
+      "unidade": "%",
+      "pilar": "social",
+      "valorPT": 76,
+      "valorEU": 75,
+      "tendencia": "up"
+    },
+    {
+      "id": 6,
+      "codigo": "CI-06",
+      "nome": "Abandono escolar precoce",
+      "descricao": "Percentagem de jovens entre 18 e 24 anos que abandonaram o sistema educativo",
+      "unidade": "%",
+      "pilar": "educacao",
+      "valorPT": 8,
+      "valorEU": 10,
+      "tendencia": "down"
+    }
   ]
 }
