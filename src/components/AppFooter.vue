@@ -5,12 +5,10 @@
       <div class="footer-brand">
         <RouterLink to="/" class="footer-logo-link">
           <span>🏛️</span>
-          <span class="footer-logo-text">PORTAL <span class="footer-logo-accent">PRR</span></span>
+          <span class="footer-logo-text">{{ appStore.navbar_logo_prefix }} <span class="footer-logo-accent">{{ appStore.navbar_logo_suffix }}</span></span>
         </RouterLink>
         <p class="footer-desc">
-          {{ appStore.idioma === 'pt'
-            ? 'Monitorização do Plano de Recuperação e Resiliência no âmbito do Mecanismo de Recuperação e Resiliência da União Europeia.'
-            : 'Monitoring the Recovery and Resilience Plan under the EU Recovery and Resilience Mechanism.' }}
+          {{ appStore.t.footer_desc}}
         </p>
         <p class="footer-academic">{{ appStore.t.footer_academic }}</p>
       </div>
@@ -32,22 +30,22 @@
         <ul>
           <li>
             <a href="https://commission.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">
-              {{ appStore.idioma === 'pt' ? 'Comissão Europeia' : 'European Commission' }}
+              {{ appStore.t.footer_comissao}}
             </a>
           </li>
           <li>
             <a href="https://recuperarportugal.gov.pt/" target="_blank" rel="noopener noreferrer">
-              PRR Portugal
+              {{ appStore.t.faq_contact_btn_prr }}
             </a>
           </li>
           <li>
             <a href="https://next-generation-eu.europa.eu/index_pt" target="_blank" rel="noopener noreferrer">
-              Next Generation EU
+              {{ appStore.t.footer_ng_UE }}
             </a>
           </li>
           <li>
             <a href="https://ec.europa.eu/economy_finance/recovery-and-resilience-scoreboard/" target="_blank" rel="noopener noreferrer">
-              EU Scoreboard
+              {{ appStore.t.faq_contact_btn_scoreboard }}
             </a>
           </li>
         </ul>

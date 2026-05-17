@@ -26,12 +26,21 @@ export const useAppStore = defineStore('app', () => {
   const t = computed(() => {
     const pt = {
       // ================= EXISTENTES (outras rotas) =================
+      navbar_idioma:'🇬🇧 EN',
       // Navbar e spalash screen
       navbar_logo_prefix: 'PORTAL',
       navbar_logo_suffix: 'PRR',
 
+      //Footer
+      footer_comissao: 'Comissão Europeia',
+      footer_ng_UE: 'Próxima Geração da UE',
+      footer_desc: 'Monitorização do Plano de Recuperação e Resiliência no âmbito do Mecanismo de Recuperação e Resiliência da União Europeia.',
+
       //splash screen
       splash_sub: 'Do dinheiro à decisão',
+
+      mapa_erro_carregar: 'Erro ao carregar o mapa. Verifique a sua ligação à internet.',
+      mapa_tentar_novamente: 'Tentar novamente',
 
       //navbar
       nav_pais_label: 'Todos os países',
@@ -39,6 +48,9 @@ export const useAppStore = defineStore('app', () => {
       nav_dark_off: 'Mudar para modo escuro',
       nav_idioma: 'Mudar idioma',
       // Sidebar
+
+      nav_tooltip_expandir:'Expandir menu',
+      nav_tooltip_recolher:'Recolher menu',
       nav_dashboard: 'Início',
       nav_marcos: 'Marcos e Metas',
       nav_desembolsos: 'Desembolsos',
@@ -581,15 +593,27 @@ export const useAppStore = defineStore('app', () => {
 
     const en = {
       // ================= EXISTENTES (EN) =================
+
+      navbar_idioma: '🇵🇹 PT',
       navbar_logo_prefix: 'RRP',
       navbar_logo_suffix: 'PORTAL',
 
       splash_sub: 'From funding to decision',
+      mapa_erro_carregar: 'Error loading the map. Please check your internet connection.',
+      mapa_tentar_novamente: 'Try again',
+      footer_comissao: 'European Commission',
+      footer_ng_UE: 'Next Generation EU',
+      footer_desc: 'Monitoring the Recovery and Resilience Plan under the EU Recovery and Resilience Mechanism.' ,
       
       nav_pais_label: 'All countries',
       nav_dark_on: 'Switch to light mode',
       nav_dark_off: 'Switch to dark mode',
       nav_idioma: 'Change language',
+
+
+      nav_tooltip_expandir: 'Expand menu',
+      nav_tooltip_recolher: 'Collapse menu',
+
       nav_dashboard: 'Dashboard',
       nav_marcos: 'Milestones & Targets',
       nav_desembolsos: 'Disbursements',
@@ -1101,7 +1125,7 @@ export const useAppStore = defineStore('app', () => {
       // FAQ - contact
       faq_contact_titulo: 'Didn\'t find what you were looking for?',
       faq_contact_desc: 'This portal is an academic project developed for the HCI course at the University of Minho. For questions about real RRP data, please refer to the official resources below.',
-      faq_contact_btn_prr: 'PRR Portugal',
+      faq_contact_btn_prr: 'RRP Portugal',
       faq_contact_btn_scoreboard: 'EU Scoreboard',
 
       // FAQ - empty

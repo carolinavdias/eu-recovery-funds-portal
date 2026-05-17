@@ -3,8 +3,8 @@
     <button
       class="toggle-btn"
       @click="collapsed = !collapsed"
-      :title="collapsed ? 'Expandir menu' : 'Recolher menu'"
-      :aria-label="collapsed ? 'Expandir menu' : 'Recolher menu'"
+      :title="collapsed ? appStore.t.nav_tooltip_expandir : appStore.t.nav_tooltip_recolher"
+      :aria-label="collapsed ? appStore.t.nav_tooltip_expandir : appStore.t.nav_tooltip_recolher"
     >
       <span>{{ collapsed ? '☰' : '‹' }}</span>
     </button>

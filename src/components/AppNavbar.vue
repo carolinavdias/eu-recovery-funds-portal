@@ -14,7 +14,7 @@
         :title="appStore.t.nav_pais_label"
         :aria-label="appStore.t.nav_pais_label"
       >
-        <option value="todos">{{ textoTodosPaises }}</option>
+        <option value="todos">{{ appStore.t.nav_pais_label }}</option>
         <option v-for="pais in paisesLista" :key="pais.code" :value="pais.code">
           {{ pais.bandeira }} {{ nomePais(pais) }}
         </option>
@@ -35,7 +35,7 @@
         :title="appStore.t.nav_idioma"
         :aria-label="appStore.t.nav_idioma"
       >
-        {{ appStore.idioma === 'pt' ? '🇵🇹 PT' : '🇬🇧 EN' }}
+        {{ appStore.t.navbar_idioma}}
       </button>
     </div>
   </header>
@@ -55,11 +55,6 @@ const paisesLista = ref([])
 const paisAtual = computed({
   get: () => appStore.paisSelecionado,
   set: (val) => appStore.setPais(val)
-})
-
-// Texto "Todos os países" traduzido
-const textoTodosPaises = computed(() => {
-  return appStore.idioma === 'pt' ? 'Todos os países' : 'All countries'
 })
 
 // Retorna o nome do país no idioma atual
