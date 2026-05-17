@@ -111,14 +111,20 @@ onMounted(() => {
   line-height: 1;
   animation: number-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
-.num-4.left { animation-delay: 0.2s; }
-.num-4.right { animation-delay: 0.4s; transform: scaleX(-1); }
+
+.num-4.left { 
+  animation-delay: 0.2s; 
+}
+
 @keyframes number-pop {
   from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
   to { opacity: 1; transform: scale(1); }
 }
-.num-4.right { transform: scaleX(-1); }
-.num-4.right { animation: number-pop-right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
+.num-4.right { 
+  transform: scaleX(-1); 
+  animation: number-pop-right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; 
+}
+
 @keyframes number-pop-right {
   from { opacity: 0; transform: scale(0.5) rotate(10deg); }
   to { opacity: 1; transform: scale(1); }

@@ -372,7 +372,7 @@ const perguntasDataEn = [
   },
 ]
 
-// Perguntas consoante idioma actual
+// Perguntas consoante idioma atual
 const perguntas = computed(() => {
   return appStore.idioma === 'pt' ? perguntasDataPt : perguntasDataEn
 })
@@ -400,7 +400,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Mantém o teu CSS original – não mexemos */
 .faq-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* HERO */
