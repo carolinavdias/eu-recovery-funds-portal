@@ -26,6 +26,7 @@ export const useAppStore = defineStore('app', () => {
   const t = computed(() => {
     const pt = {
       // ================= EXISTENTES (outras rotas) =================
+      filtro_label: 'Filtrar',
       navbar_idioma:'🇬🇧 EN',
       // Navbar e spalash screen
       navbar_logo_prefix: 'PORTAL',
@@ -47,6 +48,15 @@ export const useAppStore = defineStore('app', () => {
       nav_dark_on: 'Mudar para modo claro',
       nav_dark_off: 'Mudar para modo escuro',
       nav_idioma: 'Mudar idioma',
+
+      // Página 404
+      nf_badge: '⚠️ Página não encontrada',
+      nf_titulo: 'Ups! Esta página perdeu-se no mapa.',
+      nf_descricao: 'A página que está à procura pode ter sido movida, removida ou simplesmente nunca existiu. Vamos ajudá-lo a voltar ao caminho certo.',
+      nf_btn_dashboard: 'Voltar ao Dashboard',
+      nf_btn_paises: 'Explorar Países',
+      nf_sugestoes_titulo: 'Talvez procures por:',
+      nf_sugestao_comparar: 'Comparar Países',
       // Sidebar
 
       nav_tooltip_expandir:'Expandir menu',
@@ -594,6 +604,8 @@ export const useAppStore = defineStore('app', () => {
     const en = {
       // ================= EXISTENTES (EN) =================
 
+      filtro_label: 'Filter',
+
       navbar_idioma: '🇵🇹 PT',
       navbar_logo_prefix: 'RRP',
       navbar_logo_suffix: 'PORTAL',
@@ -609,6 +621,14 @@ export const useAppStore = defineStore('app', () => {
       nav_dark_on: 'Switch to light mode',
       nav_dark_off: 'Switch to dark mode',
       nav_idioma: 'Change language',
+
+    nf_badge: '⚠️ Page not found',
+    nf_titulo: 'Oops! This page got lost on the map.',
+    nf_descricao: 'The page you are looking for may have been moved, removed, or simply never existed. Let’s get you back on track.',
+    nf_btn_dashboard: 'Back to Dashboard',
+    nf_btn_paises: 'Explore Countries',
+    nf_sugestoes_titulo: 'You might be looking for:',
+    nf_sugestao_comparar: 'Compare Countries',
 
 
       nav_tooltip_expandir: 'Expand menu',
