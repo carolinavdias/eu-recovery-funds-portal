@@ -1,6 +1,21 @@
 <template>
   <div class="portal-container">
 
+    <!-- ================= ESTADOS DE LOADING E ERRO ================= -->
+    <div v-if="loading" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>{{ t.loading_text }}</p>
+    </div>
+
+    <div v-if="erro" class="erro-overlay" @click.self="erro = null">
+      <div class="erro-card">
+        <span class="erro-icon">⚠️</span>
+        <h3>{{ t.erro_titulo }}</h3>
+        <p>{{ erro }}</p>
+        <button class="btn-erro-fechar" @click="erro = null">{{ t.erro_fechar }}</button>
+      </div>
+    </div>
+
     <!-- ================= MODAL CARDS SUPERIORES ================= -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
@@ -145,12 +160,12 @@
     <section class="impacto">
       <div class="impacto-imagens">
         <div class="img-card img-topo">
-          <img src="https://ctrlplay.com.br/wp-content/uploads/2020/04/ctrlplay_ctrlplay_image_223.jpeg" alt="Educação Digital" />
-          <span class="img-label">Educação Digital</span>
+          <img src="https://ctrlplay.com.br/wp-content/uploads/2020/04/ctrlplay_ctrlplay_image_223.jpeg" :alt="t.impacto_img_educacao_alt" @error="$event.target.src = fallbackImg" />
+          <span class="img-label">{{ t.impacto_img_educacao_label }}</span>
         </div>
         <div class="img-card img-baixo">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexNOIYL7Ap9dVYQbKcrkmDCkP47AoPYYg6g&s" alt="Saúde Moderna" />
-          <span class="img-label">Saúde Moderna</span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexNOIYL7Ap9dVYQbKcrkmDCkP47AoPYYg6g&s" :alt="t.impacto_img_saude_alt" @error="$event.target.src = fallbackImg" />
+          <span class="img-label">{{ t.impacto_img_saude_label }}</span>
         </div>
       </div>
       <div class="impacto-conteudo">
@@ -189,7 +204,7 @@
         <!-- Clima -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" alt="Clima">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600" :alt="t.pilar_climatica" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">🌿</div>
           </div>
           <div class="pilar-info">
@@ -210,7 +225,7 @@
         <!-- Digital -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="Digital">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" :alt="t.pilar_digital" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">💻</div>
           </div>
           <div class="pilar-info">
@@ -231,7 +246,7 @@
         <!-- Infraestruturas -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" alt="Infra">
+            <img src="https://cdn1-www.bureauveritas.pt/sites/g/files/zypfnx751/files/styles/teaser_landing_1_desktop/public/2020-02/Infraestru.Transporte.jpg?h=29234840&itok=BU5mUpyM" :alt="t.pilar_infra" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">🏢</div>
           </div>
           <div class="pilar-info">
@@ -252,7 +267,7 @@
         <!-- Educação -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" alt="Educação">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5h3ACvYClsskA2hBgn1uNB03KXjqElVjkLZ7fl6x6buSGyjl6xaWrWUE6df9NZe_XchUw51oL2kx7nN82rAsFGlbVoHP9C05p1DVY6buhXzdIy7vp1lFETthEY6LiWl5jJ9apjkqF7SwI/s1600/043012-national-black-male-teacher.jpg" :alt="t.pilar_educacao" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">🎓</div>
           </div>
           <div class="pilar-info">
@@ -273,7 +288,7 @@
         <!-- Coesão -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Coesão">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" :alt="t.pilar_coesao" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">👥</div>
           </div>
           <div class="pilar-info">
@@ -294,7 +309,7 @@
         <!-- Saúde -->
         <div class="pilar-card">
           <div class="pilar-image">
-            <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" alt="Saúde">
+            <img src="https://www.betha.com.br/blog/wp-content/uploads/2021/07/blog-25.jpg" :alt="t.pilar_saude" @error="$event.target.src = fallbackImg">
             <div class="pilar-icon-float">❤️</div>
           </div>
           <div class="pilar-info">
@@ -354,99 +369,128 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 const store = useAppStore()
 
-// ---- ESTADOS DOS MODAIS ----
+// ---- ESTADOS ----
+const loading = ref(false)
+const erro = ref(null)
 const showExportModal = ref(false)
 const showPilarModal = ref(false)
 const showStatsModal = ref(false)
 
-// ---- DADOS DOS CARDS SUPERIORES ----
+// ---- DADOS DOS MODAIS ----
 const cardSelecionado = ref({ titulo: '', descricao: '', valor: '' })
 const pilarSelecionado = ref({ titulo: '', meta: '', investimento: '', impacto: '' })
 
-// ---- DADOS REATIVOS DAS BARRAS E STATS (ACEDEM DIRETAMENTE A store.t) ----
+// ---- IMAGEM FALLBACK ----
+const fallbackImg = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbSBpbmRpcG9uaWJsZTwvdGV4dD48L3N2Zz4='
+
+// ---- DADOS REATIVOS (usam store.t) ----
 const dadosBarras = computed(() => [
-  { nome: store.t.barra_climatica, percentagem: 37, valor: '€277,5 Mil milhões' },
-  { nome: store.t.barra_educacao, percentagem: 12, valor: '€90 Mil milhões' },
-  { nome: store.t.barra_digital, percentagem: 20, valor: '€150 Mil milhões' },
-  { nome: store.t.barra_saude, percentagem: 8, valor: '€60 Mil milhões' },
-  { nome: store.t.barra_infra, percentagem: 18, valor: '€135 Mil milhões' },
-  { nome: store.t.barra_coesao, percentagem: 5, valor: '€37,5 Mil milhões' }
+  { nome: store.t.barra_climatica, percentagem: 37, valor: store.t.barra_climatica_valor },
+  { nome: store.t.barra_educacao, percentagem: 12, valor: store.t.barra_educacao_valor },
+  { nome: store.t.barra_digital, percentagem: 20, valor: store.t.barra_digital_valor },
+  { nome: store.t.barra_saude, percentagem: 8, valor: store.t.barra_saude_valor },
+  { nome: store.t.barra_infra, percentagem: 18, valor: store.t.barra_infra_valor },
+  { nome: store.t.barra_coesao, percentagem: 5, valor: store.t.barra_coesao_valor }
 ])
 
 const dadosStats = computed(() => [
-  { icone: '📈', valor: '€750', label: store.t.stat_investimento_label, desc: store.t.stat_investimento_desc },
-  { icone: '👥', valor: '27', label: store.t.stat_paises_label, desc: store.t.stat_paises_desc },
-  { icone: '🌿', valor: '37%', label: store.t.stat_verde_label, desc: store.t.stat_verde_desc },
-  { icone: '⚡', valor: '20%', label: store.t.stat_digital_label, desc: store.t.stat_digital_desc }
+  { icone: '📈', valor: store.t.stat_investimento_valor, label: store.t.stat_investimento_label, desc: store.t.stat_investimento_desc },
+  { icone: '👥', valor: store.t.stat_paises_valor, label: store.t.stat_paises_label, desc: store.t.stat_paises_desc },
+  { icone: '🌿', valor: store.t.stat_verde_valor, label: store.t.stat_verde_label, desc: store.t.stat_verde_desc },
+  { icone: '⚡', valor: store.t.stat_digital_valor, label: store.t.stat_digital_label, desc: store.t.stat_digital_desc }
 ])
 
-const t = computed(() => store.t)   // ← isto sim mantém a reatividade
+const t = computed(() => store.t)
 
-// ---- FUNÇÕES DOS MODAIS (usam t e o idioma da store para as datas) ----
+// ---- HELPERS ----
+function getDataGeracao() {
+  return new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
+}
+
+function sanitizarNomeFicheiro(nome) {
+  return nome.replace(/[^a-zA-Z0-9_\-\s]/g, '').replace(/\s+/g, '_').substring(0, 50)
+}
+
+function downloadBlob(conteudo, mimeType, nomeFicheiro) {
+  try {
+    const blob = new Blob([conteudo], { type: mimeType })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = nomeFicheiro
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+    return true
+  } catch (e) {
+    console.error('Erro no download:', e)
+    erro.value = store.t.erro_download
+    return false
+  }
+}
+
+function verificarPopup(win) {
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    erro.value = store.t.erro_popup_blocker
+    return false
+  }
+  return true
+}
+
+// ---- MODAIS ----
 function abrirModalExportacao(titulo, descricao, valor) {
   cardSelecionado.value = { titulo, descricao, valor }
   showExportModal.value = true
 }
 
 function executarDownload(formato) {
-  const { titulo, descricao, valor } = cardSelecionado.value
-  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
-  let conteudo = ''
-  let mimeType = ''
+  loading.value = true
+  try {
+    const { titulo, descricao, valor } = cardSelecionado.value
+    const dataGeracao = getDataGeracao()
+    const nomeBase = sanitizarNomeFicheiro(titulo)
 
-  if (formato === 'csv') {
-    conteudo = `Indicador;Descricao;Valor;Data\n${titulo};"${descricao}";"${valor}";${dataGeracao}`
-    mimeType = 'text/csv;charset=utf-8'
-  } else if (formato === 'json') {
-    conteudo = JSON.stringify({ ...cardSelecionado.value, data: dataGeracao }, null, 2)
-    mimeType = 'application/json'
-  } else if (formato === 'pdf') {
-    gerarPDF(
-        titulo,
-        descricao,
-        valor,
-        dataGeracao,
-        store.t.modal_export_pdf_title,
-        store.t.modal_export_pdf_description,
-        store.t.modal_export_pdf_value,
-        store.t.modal_export_pdf_generated
-    )
+    if (formato === 'csv') {
+      const conteudo = `${store.t.csv_indicador};${store.t.csv_descricao};${store.t.csv_valor};${store.t.csv_data}
+"${titulo}";"${descricao}";"${valor}";${dataGeracao}`
+      downloadBlob(conteudo, 'text/csv;charset=utf-8', `PRR_${nomeBase}.csv`)
+    } else if (formato === 'json') {
+      const conteudo = JSON.stringify({ titulo, descricao, valor, data: dataGeracao }, null, 2)
+      downloadBlob(conteudo, 'application/json', `PRR_${nomeBase}.json`)
+    } else if (formato === 'pdf') {
+      const win = window.open('', '_blank')
+      if (!verificarPopup(win)) {
+        loading.value = false
+        return
+      }
+      win.document.write(`
+        <html>
+          <head><title>${store.t.modal_export_pdf_title}</title></head>
+          <body style="font-family:sans-serif; padding:40px;">
+            <h1 style="color:#931b18;">${store.t.modal_export_pdf_title}: ${titulo}</h1>
+            <p><strong>${store.t.modal_export_pdf_description}:</strong> ${descricao}</p>
+            <p><strong>${store.t.modal_export_pdf_value}:</strong> ${valor}</p>
+            <hr>
+            <p>${store.t.modal_export_pdf_generated} ${dataGeracao}</p>
+          </body>
+        </html>
+      `)
+      win.document.close()
+      win.print()
+    }
     showExportModal.value = false
-    return
+  } catch (e) {
+    console.error('Erro ao exportar card:', e)
+    erro.value = store.t.erro_exportar
+  } finally {
+    loading.value = false
   }
-
-  const blob = new Blob([conteudo], { type: mimeType })
-  const url = window.URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `PRR_${titulo.replace(/\s+/g, '_')}.${formato}`
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-  window.URL.revokeObjectURL(url)
-  showExportModal.value = false
-}
-
-function gerarPDF(titulo, descricao, valor, data, labelRelatorio, labelDescricao, labelValor, labelGeradoEm) {
-  const win = window.open('', '_blank')
-  win.document.write(`
-    <html>
-      <body style="font-family:sans-serif; padding:40px;">
-        <h1 style="color:#931b18;">${labelRelatorio}: ${titulo}</h1>
-        <p><strong>${labelDescricao}:</strong> ${descricao}</p>
-        <p><strong>${labelValor}:</strong> ${valor}</p>
-        <hr>
-        <p>${labelGeradoEm} ${data}</p>
-      </body>
-    </html>
-  `)
-  win.document.close()
-  win.print()
 }
 
 function abrirModalPilar(titulo, meta, investimento, impacto) {
@@ -455,50 +499,49 @@ function abrirModalPilar(titulo, meta, investimento, impacto) {
 }
 
 function executarDownloadPilar(formato) {
-  const { titulo, meta, investimento, impacto } = pilarSelecionado.value
-  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
+  loading.value = true
+  try {
+    const { titulo, meta, investimento, impacto } = pilarSelecionado.value
+    const dataGeracao = getDataGeracao()
+    const nomeBase = sanitizarNomeFicheiro(titulo)
 
-  if (formato === 'csv') {
-    const conteudo = `Pilar;Meta;Investimento;Impacto;Data\n${titulo};"${meta}";"${investimento}";"${impacto}";${dataGeracao}`
-    const blob = new Blob([conteudo], { type: 'text/csv;charset=utf-8' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.csv`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-  } else if (formato === 'json') {
-    const dados = { titulo, meta, investimento, impacto, data: dataGeracao }
-    const conteudo = JSON.stringify(dados, null, 2)
-    const blob = new Blob([conteudo], { type: 'application/json' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `Pilar_${titulo.replace(/\s+/g, '_')}.json`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-  } else if (formato === 'pdf') {
-    const win = window.open('', '_blank')
-    win.document.write(`
-      <html>
-        <body style="font-family:sans-serif; padding:40px;">
-          <h1 style="color:#931b18;">${store.t.modal_export_pdf_title}: ${titulo}</h1>
-          <p><strong>${store.t.modal_pilar_meta_label}</strong> ${meta}</p>
-          <p><strong>${store.t.modal_pilar_investimento_label}</strong> ${investimento}</p>
-          <p><strong>${store.t.modal_pilar_impacto_label}</strong> ${impacto}</p>
-          <hr>
-          <p>${store.t.modal_export_pdf_generated} ${dataGeracao}</p>
-        </body>
-      </html>
-    `)
-    win.document.close()
-    win.print()
+    if (formato === 'csv') {
+      const conteudo = `${store.t.csv_pilar};${store.t.csv_meta};${store.t.csv_investimento};${store.t.csv_impacto};${store.t.csv_data}
+"${titulo}";"${meta}";"${investimento}";"${impacto}";${dataGeracao}`
+      downloadBlob(conteudo, 'text/csv;charset=utf-8', `Pilar_${nomeBase}.csv`)
+    } else if (formato === 'json') {
+      const dados = { titulo, meta, investimento, impacto, data: dataGeracao }
+      const conteudo = JSON.stringify(dados, null, 2)
+      downloadBlob(conteudo, 'application/json', `Pilar_${nomeBase}.json`)
+    } else if (formato === 'pdf') {
+      const win = window.open('', '_blank')
+      if (!verificarPopup(win)) {
+        loading.value = false
+        return
+      }
+      win.document.write(`
+        <html>
+          <head><title>${store.t.modal_export_pdf_title}: ${titulo}</title></head>
+          <body style="font-family:sans-serif; padding:40px;">
+            <h1 style="color:#931b18;">${store.t.modal_export_pdf_title}: ${titulo}</h1>
+            <p><strong>${store.t.modal_pilar_meta_label}</strong> ${meta}</p>
+            <p><strong>${store.t.modal_pilar_investimento_label}</strong> ${investimento}</p>
+            <p><strong>${store.t.modal_pilar_impacto_label}</strong> ${impacto}</p>
+            <hr>
+            <p>${store.t.modal_export_pdf_generated} ${dataGeracao}</p>
+          </body>
+        </html>
+      `)
+      win.document.close()
+      win.print()
+    }
+    showPilarModal.value = false
+  } catch (e) {
+    console.error('Erro ao exportar pilar:', e)
+    erro.value = store.t.erro_exportar
+  } finally {
+    loading.value = false
   }
-  showPilarModal.value = false
 }
 
 function abrirModalEstatisticas() {
@@ -506,57 +549,45 @@ function abrirModalEstatisticas() {
 }
 
 function exportarEstatisticas(formato) {
-  const dataGeracao = new Date().toLocaleDateString(store.idioma === 'pt' ? 'pt-PT' : 'en-GB')
-  const areas = dadosBarras.value.map(b => ({
-    nome: b.nome,
-    percentagem: b.percentagem,
-    valor: b.valor
-  }))
-  const stats = dadosStats.value.map(s => ({
-    label: s.label,
-    valor: s.valor,
-    desc: s.desc
-  }))
-  const dadosCompletos = {
-    dataGeracao,
-    areasInvestimento: areas,
-    indicadoresChave: stats
-  }
+  loading.value = true
+  try {
+    const dataGeracao = getDataGeracao()
+    const areas = dadosBarras.value.map(b => ({
+      nome: b.nome,
+      percentagem: b.percentagem,
+      valor: b.valor
+    }))
+    const stats = dadosStats.value.map(s => ({
+      label: s.label,
+      valor: s.valor,
+      desc: s.desc
+    }))
+    const dadosCompletos = {
+      dataGeracao,
+      areasInvestimento: areas,
+      indicadoresChave: stats
+    }
 
-  if (formato === 'csv') {
-    let linhas = []
-    linhas.push('Seção;Nome;Percentagem;Valor;Descrição')
-    areas.forEach(b => {
-      linhas.push(`Área de Investimento;${b.nome};${b.percentagem};${b.valor};-`)
-    })
-    stats.forEach(s => {
-      linhas.push(`Indicador-Chave;${s.label};-;${s.valor};${s.desc}`)
-    })
-    const conteudo = linhas.join('\n')
-    const blob = new Blob([conteudo], { type: 'text/csv;charset=utf-8' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.csv`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-  } 
-  else if (formato === 'json') {
-    const conteudo = JSON.stringify(dadosCompletos, null, 2)
-    const blob = new Blob([conteudo], { type: 'application/json' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.json`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-  }
-  else if (formato === 'pdf') {
+    if (formato === 'csv') {
+      let linhas = []
+      linhas.push(`${store.t.csv_secao};${store.t.csv_nome};${store.t.csv_percentagem};${store.t.csv_valor};${store.t.csv_descricao}`)
+      areas.forEach(b => {
+        linhas.push(`${store.t.csv_area_investimento};${b.nome};${b.percentagem};${b.valor};-`)
+      })
+      stats.forEach(s => {
+        linhas.push(`${store.t.csv_indicador_chave};${s.label};-;${s.valor};${s.desc}`)
+      })
+      const conteudo = linhas.join('\n')
+      downloadBlob(conteudo, 'text/csv;charset=utf-8', `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.csv`)
+    } else if (formato === 'json') {
+      const conteudo = JSON.stringify(dadosCompletos, null, 2)
+      downloadBlob(conteudo, 'application/json', `Estatisticas_PRR_${dataGeracao.replace(/\//g, '-')}.json`)
+    } else if (formato === 'pdf') {
       const win = window.open('', '_blank')
+      if (!verificarPopup(win)) {
+        loading.value = false
+        return
+      }
       win.document.write(`
         <html>
           <head><title>${store.t.modal_stats_titulo}</title></head>
@@ -566,14 +597,14 @@ function exportarEstatisticas(formato) {
             <h2>${store.t.dados_areas_titulo}</h2>
             <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
               <tr style="background:#931b18; color:white">
-                <th>Área</th><th>Percentagem</th><th>Valor</th>
+                <th>${store.t.csv_nome}</th><th>${store.t.csv_percentagem}</th><th>${store.t.csv_valor}</th>
               </tr>
               ${areas.map(b => `<tr><td>${b.nome}</td><td>${b.percentagem}%</td><td>${b.valor}</td>`).join('')}
             </table>
-            <h2>Indicadores‑Chave</h2>
+            <h2>${store.t.csv_indicador_chave}</h2>
             <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%">
               <tr style="background:#931b18; color:white">
-                <th>Indicador</th><th>Valor</th><th>Descrição</th>
+                <th>${store.t.csv_indicador_chave}</th><th>${store.t.csv_valor}</th><th>${store.t.csv_descricao}</th>
               </tr>
               ${stats.map(s => `<tr><td>${s.label}</td><td>${s.valor}</td><td>${s.desc}</td></tr>`).join('')}
             </table>
@@ -582,8 +613,28 @@ function exportarEstatisticas(formato) {
       `)
       win.document.close()
       win.print()
+    }
+    showStatsModal.value = false
+  } catch (e) {
+    console.error('Erro ao exportar estatísticas:', e)
+    erro.value = store.t.erro_exportar
+  } finally {
+    loading.value = false
   }
 }
+
+// ---- CICLO DE VIDA ----
+onMounted(() => {
+  // Pré-carregar imagens para detectar falhas
+  const imgs = document.querySelectorAll('.pilar-image img, .img-card img')
+  imgs.forEach(img => {
+    const testImg = new Image()
+    testImg.onerror = () => {
+      console.warn('Imagem falhou:', img.src)
+    }
+    testImg.src = img.src
+  })
+})
 </script>
 
 <style scoped>
@@ -594,6 +645,66 @@ html { scroll-behavior: smooth; }
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
+
+/* ================= LOADING E ERRO ================= */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+  gap: 16px;
+}
+.loading-spinner {
+  width: 40px; height: 40px;
+  border: 4px solid #f0f0f0;
+  border-top-color: #931b18;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-overlay p {
+  color: #931b18;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.erro-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+.erro-card {
+  background: white;
+  padding: 32px 40px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.erro-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+.erro-card h3 { color: #931b18; font-size: 1.3rem; margin-bottom: 8px; }
+.erro-card p { color: #666; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+.btn-erro-fechar {
+  background: #931b18;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-erro-fechar:hover { background: #6b1210; }
 
 .hero-ue {
   background-image: url('https://www.shutterstock.com/shutterstock/videos/3981582317/thumb/1.jpg?ip=x480');
