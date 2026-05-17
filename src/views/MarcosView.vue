@@ -43,7 +43,7 @@
       <div class="detalhe-card">
         <button class="close-btn-detalhe" @click="marcoDetalhe = null">✕</button>
         <div class="detalhe-img-wrap">
-          <img :src="marcoDetalhe.imagem" :alt="marcoDetalhe.titulo" class="detalhe-img" />
+          <img :src="marcoDetalhe.imagem" :alt="marcoDetalhe.titulo" class="detalhe-img" @error="imagemErro(marcoDetalhe)" />
           <div class="detalhe-img-overlay" :style="{ background: overlayGradiente(marcoDetalhe.setor) }"></div>
           <div class="detalhe-img-content">
             <span class="marco-setor-pill">{{ marcoDetalhe.setorLabel }}</span>
@@ -171,10 +171,10 @@
     <section class="filtros-section" id="filtros">
       <div class="filtros-inner">
         <div class="filtros-left">
-          <span class="filtros-titulo">🔍 {{ appStore.idioma === 'pt' ? 'Filtrar' : 'Filter' }}</span>
+          <span class="filtros-titulo">🔍 {{ appStore.t.filtro_label || (appStore.idioma === 'pt' ? 'Filtrar' : 'Filter') }}</span>
           <div v-if="filtrosActivos > 0" class="filtros-activos-badge">
-            {{ filtrosActivos }} {{ textoFiltrosActivos() }}
-            · {{ marcosExibidos.length }} {{ textoResultados() }}
+            {{ filtrosActivos }} {{ filtrosActivos === 1 ? (appStore.idioma === 'pt' ? 'filtro ativo' : 'active filter') : (appStore.idioma === 'pt' ? 'filtros ativos' : 'active filters') }}
+            · {{ marcosExibidos.length }} {{ pluralResultados(marcosExibidos.length) }}
           </div>
         </div>
         <div class="filtros-grid">
@@ -182,7 +182,7 @@
             <label>{{ appStore.t.pais_label }}</label>
             <select v-model="filtroPais">
               <option value="todos">{{ appStore.t.todos_paises }}</option>
-              <option v-for="p in paisesStore" :key="p.code" :value="p.code">{{ getNomePais(p.code) }}</option>
+              <option v-for="p in paisesStore" :key="p.code" :value="p.code">{{ p.bandeira }} {{ getNomePais(p.code) }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': filtroSetor !== 'todos' }">
@@ -257,8 +257,8 @@
         <div>
           <h2>{{ appStore.t.marcos_lista_titulo }} <span class="pais-indicador-tabela">{{ bandeiraPais }} {{ nomePaisAtual }}</span></h2>
           <p class="lista-sub">
-            {{ marcosExibidos.length }} resultado{{ marcosExibidos.length !== 1 ? 's' : '' }} encontrado{{ marcosExibidos.length !== 1 ? 's' : '' }}
-            <span v-if="filtrosActivos > 0" class="lista-filtro-info"> com {{ filtrosActivos }} filtro{{ filtrosActivos > 1 ? 's' : '' }} aplicado{{ filtrosActivos > 1 ? 's' : '' }}</span>
+            {{ marcosExibidos.length }} {{ pluralResultados(marcosExibidos.length, true) }}
+            <span v-if="filtrosActivos > 0" class="lista-filtro-info"> {{ appStore.idioma === 'pt' ? 'com' : 'with' }} {{ filtrosActivos }} {{ filtrosActivos === 1 ? (appStore.idioma === 'pt' ? 'filtro' : 'filter') : (appStore.idioma === 'pt' ? 'filtros' : 'filters') }} {{ appStore.idioma === 'pt' ? 'aplicado' : 'applied' }}{{ filtrosActivos > 1 ? (appStore.idioma === 'pt' ? 's' : '') : '' }}</span>
           </p>
         </div>
         <div class="lista-header-actions">
@@ -277,7 +277,7 @@
       <div v-else class="marcos-grid">
         <div v-for="(marco, index) in marcosExibidos" :key="marco.id" class="marco-card" :style="{ animationDelay: (index * 0.08) + 's' }">
           <div class="marco-img-wrap">
-            <img :src="marco.imagem" :alt="marco.titulo" class="marco-img" />
+            <img :src="marco.imagem" :alt="marco.titulo" class="marco-img" @error="imagemErro(marco)" />
             <div class="marco-img-overlay" :style="{ background: overlayGradiente(marco.setor) }"></div>
             <div class="marco-img-content">
               <span class="marco-setor-pill">{{ marco.setorLabel }}</span>
@@ -376,13 +376,15 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useAppStore } from '@/stores/app'
-import { getMarcos, getPaises} from '@/services/api.js'
+import { getMarcos, getPaises } from '@/services/api.js'
 
 Chart.register(...registerables)
 const appStore = useAppStore()
 const paisesStore = ref([])
 
+// Estados
 const showExportModal = ref(false)
+const showExportModalIndividual = ref(false)
 const marcoDetalhe = ref(null)
 const toastMsg = ref(null)
 const filtroSetor = ref('todos')
@@ -391,7 +393,6 @@ const heroVisible = ref(false)
 const sortCol = ref('id')
 const sortDir = ref('asc')
 const marcoParaExportar = ref(null)
-const showExportModalIndividual = ref(false)
 
 const contadorTotal = ref(0)
 const contadorConcluidos = ref(0)
@@ -403,6 +404,7 @@ const linhasVisiveis = ref(10)
 let chartBarras = null
 let chartDonut = null
 
+// Filtros
 const filtroPais = computed({
   get: () => appStore.paisSelecionado,
   set: (val) => appStore.setPais(val)
@@ -410,7 +412,7 @@ const filtroPais = computed({
 
 const nomePaisAtual = computed(() => {
   const pais = appStore.paises.find(p => p.code === filtroPais.value)
-  return pais ? pais.nome : 'Todos os países'
+  return pais ? pais.nome : appStore.t.todos_paises
 })
 
 const bandeiraPais = computed(() => getBandeira(filtroPais.value === 'todos' ? null : filtroPais.value))
@@ -423,24 +425,11 @@ const filtrosActivos = computed(() => {
   return n
 })
 
-const labelsGraficoBarras = computed(() => {
-  const isPt = appStore.idioma === 'pt'
-  return [
-    isPt ? '💻 Digital' : '💻 Digital',
-    isPt ? '🌿 Clima' : '🌿 Climate',
-    isPt ? '❤️ Saúde' : '❤️ Health',
-    isPt ? '🎓 Educação' : '🎓 Education',
-    isPt ? '👥 Coesão' : '👥 Cohesion',
-    isPt ? '🏢 Infraestrutura' : '🏢 Infrastructure'
-  ]
-})
-
-// Dados brutos da API (com campos _pt, _en)
+// Dados
 const marcos = ref([])
 const loading = ref(true)
 const erro = ref(null)
 
-// Dados filtrados (a partir dos brutos, usando os valores originais para filtragem)
 const marcosFiltradosRaw = computed(() => {
   return marcos.value.filter(m => {
     const paisMatch = filtroPais.value === 'todos' || m.paisCode === filtroPais.value
@@ -450,7 +439,6 @@ const marcosFiltradosRaw = computed(() => {
   })
 })
 
-// Tradução dos dados filtrados conforme o idioma atual
 const marcosExibidos = computed(() => {
   const isPt = appStore.idioma === 'pt'
   return marcosFiltradosRaw.value.map(m => ({
@@ -462,14 +450,21 @@ const marcosExibidos = computed(() => {
     beneficiarios: isPt ? m.beneficiarios_pt : m.beneficiarios_en,
     indicadorSucesso: isPt ? m.indicadorSucesso_pt : m.indicadorSucesso_en,
     entidade: isPt ? m.entidade_pt : m.entidade_en,
-    revisoes: m.revisoes.map(rev => ({
+    revisoes: m.revisoes?.map(rev => ({
       ...rev,
       descricao: isPt ? rev.descricao_pt : rev.descricao_en
-    }))
+    })) || []
   }))
 })
 
-// Ordenação aplicada sobre os dados já traduzidos
+// Atualizar contadores dinamicamente
+watch(marcosExibidos, (novos) => {
+  contadorTotal.value = novos.length
+  contadorConcluidos.value = novos.filter(m => m.estado === 'concluido').length
+  contadorEmCurso.value = novos.filter(m => m.estado === 'em_curso').length
+  contadorEmAtraso.value = novos.filter(m => m.estado === 'em_atraso').length
+}, { immediate: true })
+
 const marcosOrdenados = computed(() => {
   return [...marcosExibidos.value].sort((a, b) => {
     let valA = a[sortCol.value]
@@ -509,7 +504,6 @@ const marcosOrdenados = computed(() => {
         return sortDir.value === 'asc' ? dA - dB : dB - dA
     }
 
-    // Para campos de texto (título, país)
     const sA = String(valA ?? '').toLowerCase()
     const sB = String(valB ?? '').toLowerCase()
     if (sA < sB) return sortDir.value === 'asc' ? -1 : 1
@@ -518,71 +512,15 @@ const marcosOrdenados = computed(() => {
   })
 })
 
-const marcosPaginados = computed(() => {
-  return marcosOrdenados.value.slice(0, linhasVisiveis.value)
-})
+const marcosPaginados = computed(() => marcosOrdenados.value.slice(0, linhasVisiveis.value))
 
-function handleScroll() {
-  const hero = document.querySelector('.hero')
-  if (hero) {
-    const heroBottom = hero.getBoundingClientRect().bottom
-    showStickyBar.value = heroBottom < 0
+// Funções auxiliares
+function pluralResultados(count, extended = false) {
+  const isPt = appStore.idioma === 'pt'
+  if (extended) {
+    return count === 1 ? (isPt ? 'resultado encontrado' : 'result found') : (isPt ? 'resultados encontrados' : 'results found')
   }
-}
-
-function ordenarPor(col) {
-  if (sortCol.value === col) {
-    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
-  } else {
-    sortCol.value = col
-    sortDir.value = 'asc'
-  }
-}
-
-function animarContador(ref, target, duration = 1500) {
-  const start = performance.now()
-  const update = (now) => {
-    const elapsed = now - start
-    const progress = Math.min(elapsed / duration, 1)
-    const eased = 1 - Math.pow(1 - progress, 3)
-    ref.value = Math.round(eased * target)
-    if (progress < 1) requestAnimationFrame(update)
-  }
-  requestAnimationFrame(update)
-}
-
-function tipoLabel(tipo) {
-  const map = {
-    aprovacao: appStore.t.revisao_aprovacao,
-    atualizacao: appStore.t.revisao_atualizacao,
-    atraso: appStore.t.revisao_atraso,
-    conclusao: appStore.t.revisao_conclusao
-  }
-  return map[tipo] || tipo
-}
-
-function textoFiltrosActivos() {
-  const count = filtrosActivos.value
-  if (appStore.idioma === 'pt') {
-    return count === 1 ? 'filtro ativo' : 'filtros ativos'
-  } else {
-    return count === 1 ? 'active filter' : 'active filters'
-  }
-}
-
-function exportarMarcoUnico(marco) {
-  marcoParaExportar.value = marco
-  marcoDetalhe.value = null
-  showExportModalIndividual.value = true
-}
-
-function textoResultados() {
-  const count = marcosExibidos.value.length
-  if (appStore.idioma === 'pt') {
-    return count === 1 ? 'resultado' : 'resultados'
-  } else {
-    return count === 1 ? 'result' : 'results'
-  }
+  return count === 1 ? (isPt ? 'resultado' : 'result') : (isPt ? 'resultados' : 'results')
 }
 
 function estadoLabel(e) {
@@ -605,6 +543,55 @@ function overlayGradiente(s) {
     infraestrutura: 'linear-gradient(to top, rgba(42,42,42,0.85) 0%, rgba(42,42,42,0.1) 60%)',
   }
   return cores[s] || 'linear-gradient(to top, rgba(147,27,24,0.85) 0%, rgba(147,27,24,0.1) 60%)'
+}
+
+function getNomePais(paisCode) {
+  if (!paisCode || paisCode === 'todos') return appStore.t.todos_paises
+  const isPt = appStore.idioma === 'pt'
+  const pais = paisesStore.value.find(p => p.code === paisCode)
+  if (!pais) return paisCode
+  return isPt ? pais.nome_pt : pais.nome_en
+}
+
+function getBandeira(paisCode) {
+  if (!paisCode) return '🌍'
+  const pais = paisesStore.value.find(p => p.code === paisCode)
+  return pais?.bandeira || '🌍'
+}
+
+function traduzirData(dataStr) {
+  if (!dataStr) return ''
+  if (appStore.idioma !== 'en') return dataStr
+  const mesesPt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  const mesesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  let resultado = dataStr
+  for (let i = 0; i < mesesPt.length; i++) {
+    resultado = resultado.replace(mesesPt[i], mesesEn[i])
+  }
+  return resultado
+}
+
+function tipoLabel(tipo) {
+  const map = {
+    aprovacao: appStore.t.revisao_aprovacao,
+    atualizacao: appStore.t.revisao_atualizacao,
+    atraso: appStore.t.revisao_atraso,
+    conclusao: appStore.t.revisao_conclusao
+  }
+  return map[tipo] || tipo
+}
+
+function imagemErro(item) {
+  if (item) item.imagem = 'https://via.placeholder.com/400x200?text=Imagem+indisponível'
+}
+
+function ordenarPor(col) {
+  if (sortCol.value === col) {
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortCol.value = col
+    sortDir.value = 'asc'
+  }
 }
 
 function limparFiltros() {
@@ -632,30 +619,31 @@ function textoNotaTabela() {
     .replace('{{total}}', marcosExibidos.value.length)
 }
 
-function getNomePais(paisCode) {
-  if (!paisCode || paisCode === 'todos') return appStore.t.todos_paises
-  const isPt = appStore.idioma === 'pt'
-  const pais = paisesStore.value.find(p => p.code === paisCode)
-  if (!pais) return paisCode  // fallback: mostra o código se não encontrar
-  return isPt ? pais.nome_pt : pais.nome_en
-}
-
-function traduzirData(dataStr) {
-  if (!dataStr) return ''
-  if (appStore.idioma !== 'en') return dataStr
-  const mesesPt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
-  const mesesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  let resultado = dataStr
-  for (let i = 0; i < mesesPt.length; i++) {
-    resultado = resultado.replace(mesesPt[i], mesesEn[i])
+// Função para alternar filtro de setor ao clicar na barra do gráfico
+function toggleFiltroSetor(setor) {
+  if (filtroSetor.value === setor) {
+    filtroSetor.value = 'todos'
+  } else {
+    filtroSetor.value = setor
   }
-  return resultado
 }
 
+// Gráficos
 function criarGraficos() {
   try {
     const setores = ['digital', 'clima', 'saude', 'educacao', 'coesao', 'infraestrutura']
-    const labels = labelsGraficoBarras.value
+    const labels = setores.map(s => {
+      const isPt = appStore.idioma === 'pt'
+      const mapa = {
+        digital: isPt ? '💻 Digital' : '💻 Digital',
+        clima: isPt ? '🌿 Clima' : '🌿 Climate',
+        saude: isPt ? '❤️ Saúde' : '❤️ Health',
+        educacao: isPt ? '🎓 Educação' : '🎓 Education',
+        coesao: isPt ? '👥 Coesão' : '👥 Cohesion',
+        infraestrutura: isPt ? '🏢 Infraestrutura' : '🏢 Infrastructure'
+      }
+      return mapa[s]
+    })
     const progresso = setores.map(s => {
       const lst = marcosExibidos.value.filter(m => m.setor === s)
       if (!lst.length) return 0
@@ -683,7 +671,7 @@ function criarGraficos() {
         data: {
           labels,
           datasets: [{
-            label: 'Progresso médio (%)',
+            label: appStore.idioma === 'pt' ? 'Progresso médio (%)' : 'Average progress (%)',
             data: progresso,
             backgroundColor: ['rgba(46,107,191,0.85)', 'rgba(46,158,82,0.85)', 'rgba(192,57,43,0.85)', 'rgba(191,126,46,0.85)', 'rgba(123,82,192,0.85)', 'rgba(85,85,85,0.85)'],
             borderRadius: 10,
@@ -694,9 +682,22 @@ function criarGraficos() {
           responsive: true,
           maintainAspectRatio: false,
           animation: { duration: 1500, easing: 'easeOutQuart' },
+          onClick: (event, activeElements) => {
+            if (activeElements.length > 0) {
+              const index = activeElements[0].index
+              const setor = setores[index]
+              toggleFiltroSetor(setor)
+            }
+          },
           plugins: {
             legend: { display: false },
-            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.parsed.y}% de progresso médio neste pilar` } }
+            tooltip: {
+              backgroundColor: '#1a1a2e',
+              padding: 12,
+              callbacks: {
+                label: (ctx) => `${ctx.parsed.y}% ${appStore.idioma === 'pt' ? 'de progresso médio neste pilar' : 'average progress in this pillar'}`
+              }
+            }
           },
           scales: {
             y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
@@ -729,7 +730,13 @@ function criarGraficos() {
           animation: { duration: 1500, easing: 'easeOutQuart' },
           plugins: {
             legend: { display: false },
-            tooltip: { backgroundColor: '#1a1a2e', padding: 12, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} marcos (${Math.round(ctx.parsed / marcosExibidos.value.length * 100)}%)` } }
+            tooltip: {
+              backgroundColor: '#1a1a2e',
+              padding: 12,
+              callbacks: {
+                label: (ctx) => `${ctx.label}: ${ctx.parsed} ${appStore.idioma === 'pt' ? 'marcos' : 'milestones'} (${Math.round(ctx.parsed / marcosExibidos.value.length * 100)}%)`
+              }
+            }
           }
         }
       })
@@ -787,25 +794,30 @@ function exportarDados(tipo, marcoUnico = null) {
     const isIndividual = !!marcoUnico
 
     if (tipo === 'csv') {
-      let csv = isIndividual ? `Marco - ${marcoUnico.titulo}\n` : `Marcos e Metas - ${pais}\n`
+      let csv = isIndividual ? `Marco - ${marcoUnico.titulo}\n` : `${appStore.t.nav_marcos} - ${pais}\n`
       csv += 'ID,Título,País,Setor,Estado,Prazo,Progresso,Investimento,Beneficiários,Indicador de Sucesso,Entidade Responsável\n'
       dados.forEach(m => {
         csv += `${m.id},"${m.titulo.replace(/"/g, '""')}",${getNomePais(m.paisCode)},${m.setorLabel},${estadoLabel(m.estado)},${m.prazo},${m.progresso}%,"${m.investimento}","${m.beneficiarios}","${m.indicadorSucesso || ''}","${m.entidade || ''}"\n`
       })
       if (downloadBlob(csv, 'text/csv', isIndividual ? `marco_${marcoUnico.id}.csv` : `marcos_${filtroPais.value}.csv`)) {
-        toastMsg.value = '✓ Ficheiro CSV exportado com sucesso!'
+        toastMsg.value = appStore.idioma === 'pt' ? '✓ Ficheiro CSV exportado com sucesso!' : '✓ CSV file exported successfully!'
       }
     } 
     else if (tipo === 'json') {
       const json = JSON.stringify(dados, null, 2)
       if (downloadBlob(json, 'application/json', isIndividual ? `marco_${marcoUnico.id}.json` : `marcos_${filtroPais.value}.json`)) {
-        toastMsg.value = '✓ Ficheiro JSON exportado com sucesso!'
+        toastMsg.value = appStore.idioma === 'pt' ? '✓ Ficheiro JSON exportado com sucesso!' : '✓ JSON file exported successfully!'
       }
     } 
     else if (tipo === 'pdf') {
-      const win = window.open('', '_blank')
-      if (!win || win.closed || typeof win.closed === 'undefined') {
-        toastMsg.value = '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
+      let win = null
+      try {
+        win = window.open('', '_blank')
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+          throw new Error('Popup blocked')
+        }
+      } catch (e) {
+        toastMsg.value = appStore.idioma === 'pt' ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : '❌ The browser blocked the print window. Please allow pop-ups for this site.'
         setTimeout(() => { toastMsg.value = null }, 4000)
         return
       }
@@ -857,7 +869,7 @@ function exportarDados(tipo, marcoUnico = null) {
         win.document.write(`
           <html>
             <head>
-              <title>Marcos e Metas - ${pais}</title>
+              <title>${appStore.idioma === 'pt' ? 'Marcos e Metas' : 'Milestones & Targets'} - ${pais}</title>
               <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
                 h1 { color: #931b18; }
@@ -869,7 +881,7 @@ function exportarDados(tipo, marcoUnico = null) {
               </style>
             </head>
             <body>
-              <h1>📊 Marcos e Metas - ${pais}</h1>
+              <h1>📊 ${appStore.idioma === 'pt' ? 'Marcos e Metas' : 'Milestones & Targets'} - ${pais}</h1>
               <p>${appStore.t.marcos_sub}</p>
               <table>
                 <thead>
@@ -908,24 +920,33 @@ function exportarDados(tipo, marcoUnico = null) {
       }
       win.document.close()
       win.print()
-      toastMsg.value = '✓ Relatório PDF gerado com sucesso!'
+      toastMsg.value = appStore.idioma === 'pt' ? '✓ Relatório PDF gerado com sucesso!' : '✓ PDF Report generated successfully!'
     }
     if (!marcoUnico) showExportModal.value = false
     else showExportModalIndividual.value = false
     setTimeout(() => { toastMsg.value = null }, 3000)
   } catch (err) {
     console.error('Erro ao exportar dados:', err)
-    toastMsg.value = '❌ Erro ao exportar. Tente novamente.'
+    toastMsg.value = appStore.idioma === 'pt' ? '❌ Erro ao exportar. Tente novamente.' : '❌ Export error. Please try again.'
     setTimeout(() => { toastMsg.value = null }, 4000)
   }
 }
 
-function getBandeira(paisCode) {
-  if (!paisCode) return '🌍'
-  const pais = paisesStore.value.find(p => p.code === paisCode)
-  return pais?.bandeira || '🌍'
+function exportarMarcoUnico(marco) {
+  marcoParaExportar.value = marco
+  marcoDetalhe.value = null
+  showExportModalIndividual.value = true
 }
 
+function handleScroll() {
+  const hero = document.querySelector('.hero')
+  if (hero) {
+    const heroBottom = hero.getBoundingClientRect().bottom
+    showStickyBar.value = heroBottom < 0
+  }
+}
+
+// Lifecycle
 onMounted(async () => {
   try {
     const [marcosData, paisesData] = await Promise.all([getMarcos(), getPaises()])
@@ -945,13 +966,9 @@ onMounted(async () => {
   setTimeout(() => {
     try {
       heroVisible.value = true
-      animarContador(contadorTotal, marcosExibidos.value.length)
-      animarContador(contadorConcluidos, marcosExibidos.value.filter(m => m.estado === 'concluido').length)
-      animarContador(contadorEmCurso, marcosExibidos.value.filter(m => m.estado === 'em_curso').length)
-      animarContador(contadorEmAtraso, marcosExibidos.value.filter(m => m.estado === 'em_atraso').length)
       criarGraficos()
     } catch (err) {
-      console.error('Erro na inicialização dos contadores/gráficos:', err)
+      console.error('Erro na inicialização dos gráficos:', err)
       toastMsg.value = appStore.t.marcos_erro_grafico
       setTimeout(() => { toastMsg.value = null }, 5000)
     }
@@ -960,6 +977,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  if (chartBarras) chartBarras.destroy()
+  if (chartDonut) chartDonut.destroy()
 })
 
 watch([marcosExibidos, () => appStore.idioma], () => {
@@ -968,7 +987,7 @@ watch([marcosExibidos, () => appStore.idioma], () => {
 </script>
 
 <style scoped>
-/* (todo o CSS original permanece exactamente igual) */
+
 .marcos-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* TOAST */
@@ -1180,7 +1199,7 @@ watch([marcosExibidos, () => appStore.idioma], () => {
 .close-btn-detalhe { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.4); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
 .close-btn-detalhe:hover { background: rgba(0,0,0,0.7); }
 .detalhe-img-wrap { position: relative; height: 220px; flex-shrink: 0; }
-.detalhe-img { width: 100%; height: 100%; object-fit: cover; }
+.detalhe-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
 .detalhe-img-overlay { position: absolute; inset: 0; }
 .detalhe-img-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 18px; display: flex; justify-content: space-between; align-items: flex-end; }
 .detalhe-body { padding: 28px; }

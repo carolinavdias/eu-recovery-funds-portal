@@ -15,37 +15,37 @@
         <span class="num-4 right">4</span>
       </div>
 
-      <div class="nf-badge">⚠️ Página não encontrada</div>
+      <div class="nf-badge">{{ appStore.t.nf_badge }}</div>
 
-      <h1>Ups! Esta página perdeu-se no mapa.</h1>
-      <p>A página que está à procura pode ter sido movida, removida ou simplesmente nunca existiu. Vamos ajudá-lo a voltar ao caminho certo.</p>
+      <h1>{{ appStore.t.nf_titulo }}</h1>
+      <p>{{ appStore.t.nf_descricao }}</p>
 
       <div class="nf-actions">
-        <RouterLink to="/" class="btn-primario">🏠 Voltar ao Dashboard</RouterLink>
-        <RouterLink to="/paises" class="btn-outline">🌍 Explorar Países</RouterLink>
+        <RouterLink to="/" class="btn-primario">🏠 {{ appStore.t.nf_btn_dashboard }}</RouterLink>
+        <RouterLink to="/paises" class="btn-outline">🌍 {{ appStore.t.nf_btn_paises }}</RouterLink>
       </div>
 
       <div class="nf-sugestoes">
-        <div class="sug-titulo">Talvez procures por:</div>
+        <div class="sug-titulo">{{ appStore.t.nf_sugestoes_titulo }}</div>
         <div class="sug-grid">
           <RouterLink to="/marcos" class="sug-card">
             <span class="sug-icon">🎯</span>
-            <span class="sug-nome">Marcos e Metas</span>
+            <span class="sug-nome">{{ appStore.t.nav_marcos }}</span>
             <span class="sug-arrow">→</span>
           </RouterLink>
           <RouterLink to="/indicadores" class="sug-card">
             <span class="sug-icon">📊</span>
-            <span class="sug-nome">Indicadores Comuns</span>
+            <span class="sug-nome">{{ appStore.t.nav_indicadores }}</span>
             <span class="sug-arrow">→</span>
           </RouterLink>
           <RouterLink to="/desembolsos" class="sug-card">
             <span class="sug-icon">💶</span>
-            <span class="sug-nome">Desembolsos</span>
+            <span class="sug-nome">{{ appStore.t.nav_desembolsos }}</span>
             <span class="sug-arrow">→</span>
           </RouterLink>
           <RouterLink to="/paises/comparar" class="sug-card">
             <span class="sug-icon">⚖️</span>
-            <span class="sug-nome">Comparar Países</span>
+            <span class="sug-nome">{{ appStore.t.nf_sugestao_comparar }}</span>
             <span class="sug-arrow">→</span>
           </RouterLink>
         </div>
@@ -56,7 +56,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useAppStore } from '@/stores/app'
 
+const appStore = useAppStore()
 const visible = ref(false)
 
 onMounted(() => {
@@ -121,13 +123,12 @@ onMounted(() => {
   to { opacity: 1; transform: scale(1); }
 }
 .num-4.right { 
-  transform: scaleX(-1); 
   animation: number-pop-right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; 
 }
 
 @keyframes number-pop-right {
-  from { opacity: 0; transform: scale(0.5) rotate(10deg); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.5) rotate(10deg) scaleX(-1); }
+  to { opacity: 1; transform: scale(1) scaleX(-1); }
 }
 
 .num-0 {

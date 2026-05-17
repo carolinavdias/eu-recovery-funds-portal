@@ -2,7 +2,6 @@
   <div class="mapa-wrapper">
     <div class="mapa-inner">
 
-      <!-- CABEÇALHO -->
       <div class="mapa-header" :class="{ 'animate-in': tituloVisible }">
         <div>
           <h2>{{ appStore.t.mapa_titulo }}</h2>
@@ -16,18 +15,15 @@
         </div>
       </div>
 
-      <!-- MAPA -->
       <div class="mapa-svg-wrap">
-        <!-- Estado de carregamento -->
         <div v-if="carregando" class="mapa-loading">
           <div class="spinner"></div>
           <span>{{ appStore.t.mapa_loading }}</span>
         </div>
 
-        <!-- Estado de erro -->
         <div v-else-if="erroGeoJson" class="mapa-loading">
           <span>⚠️</span>
-          <span>{{ appStore.t.mapa_erro_carregar || 'Erro ao carregar o mapa.' }}</span>
+          <span>{{ appStore.t.mapa_erro_carregar}}</span>
           <button class="btn-retry" @click="carregarGeoJson">{{ appStore.t.mapa_tentar_novamente || 'Tentar novamente' }}</button>
         </div>
 
@@ -47,7 +43,6 @@
           <g ref="labelsRef"></g>
         </svg>
 
-        <!-- TOOLTIP -->
         <transition name="tt-anim">
           <div v-if="tooltip.visivel" class="tooltip" :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }">
             <div class="tt-top" :style="{ background: corPais(tooltip.pais?.code) }">
@@ -91,7 +86,6 @@
         </transition>
       </div>
 
-      <!-- LEGENDA -->
       <div class="legenda">
         <div
           class="leg-item"
@@ -113,7 +107,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import * as d3 from 'd3'
 import { useAppStore } from '@/stores/app'
@@ -136,6 +130,9 @@ const pulsesRef = ref(null)
 const carregando = ref(true)
 const erroGeoJson = ref(false)
 const tituloVisible = ref(false)
+const TOOLTIP_W = 260
+const TOOLTIP_H = 200
+const TOOLTIP_MARGIN = 18
 const tooltip = ref({ visivel: false, x: 0, y: 0, pais: null })
 
 let geoData = null, projection = null, pathGen = null
@@ -149,13 +146,11 @@ const palette = [
   '#eb4d4b', '#686de0', '#f0932b', '#badc58'
 ]
 
-// Locale dinâmico baseado no idioma
 const currentLocale = computed(() => appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')
 
 function corPais(code) {
   if (coresMap.has(code)) return coresMap.get(code)
-  const index = coresMap.size % palette.length
-  const cor = palette[index]
+  const cor = palette[coresMap.size % palette.length]
   coresMap.set(code, cor)
   return cor
 }
@@ -180,6 +175,34 @@ function getCode(d) {
   return ''
 }
 
+function posicionarTooltip(cursorX, cursorY, rect) {
+  let tx = cursorX + TOOLTIP_MARGIN
+  let ty = cursorY - TOOLTIP_H - TOOLTIP_MARGIN
+
+  if (tx + TOOLTIP_W > rect.width) {
+    tx = cursorX - TOOLTIP_W - TOOLTIP_MARGIN
+  }
+  if (tx < 0) tx = 8
+  if (tx + TOOLTIP_W > rect.width) {
+    tx = rect.width - TOOLTIP_W - 8
+  }
+  if (tx < 0) tx = 0
+
+  if (ty < 0) {
+    ty = cursorY + TOOLTIP_MARGIN
+  }
+  if (ty + TOOLTIP_H > rect.height) {
+    ty = cursorY - TOOLTIP_H - TOOLTIP_MARGIN
+  }
+  if (ty < 0) ty = 8
+  if (ty + TOOLTIP_H > rect.height) {
+    ty = rect.height - TOOLTIP_H - 8
+  }
+  if (ty < 0) ty = 0
+
+  return { x: tx, y: ty }
+}
+
 function formatMoneyReduzido(val) {
   if (typeof val !== 'number' || isNaN(val)) return '€ 0'
   if (val >= 1e9) return `€ ${(val / 1e9).toFixed(1)}B`
@@ -192,7 +215,6 @@ function formatMoneyReduzido(val) {
   return `€ ${Math.round(val).toLocaleString(currentLocale.value)}`
 }
 
-// Percentagem de marcos concluídos
 const percentagemPorPais = computed(() => {
   const result = {}
   for (const [code, stats] of Object.entries(props.marcosStatsPorPais)) {
@@ -214,7 +236,6 @@ const totalConcluidosReal = computed(() => {
   return total
 })
 
-// Funções de destaque e tooltip
 function destacarPaisLegenda(code) {
   const pathEl = pathsMap.get(code)
   if (!pathEl) return
@@ -229,13 +250,7 @@ function destacarPaisLegenda(code) {
     const centroid = centroidsMap.get(code)
     if (centroid && svgRef.value) {
       const rect = svgRef.value.getBoundingClientRect()
-      const tooltipWidth = 260, tooltipHeight = 200
-      let tx = centroid[0] + rect.right + 10
-      let ty = centroid[1] + rect.top + 20
-      if (tx + tooltipWidth > rect.width) tx = centroid[0] + rect.left - tooltipWidth - 10
-      if (tx < 0) tx = 8
-      if (ty + tooltipHeight > rect.height) ty = rect.height - tooltipHeight - 10
-      if (ty < 0) ty = 8
+      const { x: tx, y: ty } = posicionarTooltip(centroid[0], centroid[1], rect)
       const pais = getPais(code)
       if (pais) tooltip.value = { visivel: true, x: tx, y: ty, pais: { ...pais, code } }
     }
@@ -258,7 +273,6 @@ function removerDestaqueLegenda(code) {
   }
 }
 
-// Carregamento do GeoJSON
 async function carregarGeoJson() {
   erroGeoJson.value = false
   carregando.value = true
@@ -295,7 +309,6 @@ function desenharMapa() {
     const neutros = featuresAll.filter(d => !codigosExistentes.has(getCode(d)))
     const participantes = featuresAll.filter(d => codigosExistentes.has(getCode(d)))
 
-    // Desenha países neutros (cinzentos)
     g.selectAll('path.neutro')
       .data(neutros)
       .enter().append('path')
@@ -307,7 +320,6 @@ function desenharMapa() {
       .transition().duration(500).delay((d, i) => i * 6)
       .attr('opacity', 1)
 
-    // Desenha países participantes (com cores)
     g.selectAll('path.participante')
       .data(participantes)
       .enter().append('path')
@@ -329,7 +341,6 @@ function desenharMapa() {
         }
       })
 
-    // Eventos do mouse (com try/catch)
     setTimeout(() => {
       g.selectAll('path.participante')
         .on('mouseover', function(event, d) {
@@ -344,28 +355,18 @@ function desenharMapa() {
               .style('filter', `drop-shadow(0 0 10px ${cor}cc) drop-shadow(0 0 4px ${cor})`)
 
             const rect = svgRef.value.getBoundingClientRect()
-            const tooltipWidth = 260, tooltipHeight = 200
-            let tx = event.clientX - rect.left + 18
-            let ty = event.clientY - rect.top - 120
-            if (tx + tooltipWidth > rect.width) tx = event.clientX - rect.left - tooltipWidth - 18
-            if (tx < 0) tx = 8
-            if (ty < 0) ty = event.clientY - rect.top + 20
-            if (ty + tooltipHeight > rect.height) ty = event.clientY - rect.top - tooltipHeight - 20
-            if (ty < 0) ty = 8
+            const cursorX = event.clientX - rect.left
+            const cursorY = event.clientY - rect.top
+            const { x: tx, y: ty } = posicionarTooltip(cursorX, cursorY, rect)
             tooltip.value = { visivel: true, x: tx, y: ty, pais: { ...pais, code } }
           } catch (err) { console.error('mouseover error:', err) }
         })
         .on('mousemove', function(event) {
           try {
             const rect = svgRef.value.getBoundingClientRect()
-            const tooltipWidth = 260, tooltipHeight = 200
-            let tx = event.clientX - rect.left + 18
-            let ty = event.clientY - rect.top - 120
-            if (tx + tooltipWidth > rect.width) tx = event.clientX - rect.left - tooltipWidth - 18
-            if (tx < 0) tx = 8
-            if (ty < 0) ty = event.clientY - rect.top + 20
-            if (ty + tooltipHeight > rect.height) ty = event.clientY - rect.top - tooltipHeight - 20
-            if (ty < 0) ty = 8
+            const cursorX = event.clientX - rect.left
+            const cursorY = event.clientY - rect.top
+            const { x: tx, y: ty } = posicionarTooltip(cursorX, cursorY, rect)
             tooltip.value.x = tx
             tooltip.value.y = ty
           } catch (err) { console.error('mousemove error:', err) }
@@ -381,7 +382,6 @@ function desenharMapa() {
         .on('click', function(event, d) { router.push('/paises/' + getCode(d)) })
     }, 1200)
 
-    // Animação de pulsos e bandeiras
     participantes.forEach((d, i) => {
       const code = getCode(d)
       const pais = getPais(code)
@@ -445,11 +445,19 @@ onMounted(() => {
   carregarGeoJson()
 })
 
-watch(() => props.paises, () => { if (geoData && !erroGeoJson.value) desenharMapa() }, { deep: true })
+watch(
+  [() => props.paises.length, () => geoData, () => erroGeoJson.value, () => carregando.value],
+  async ([paisesLen, hasGeoData, erro, loading]) => {
+    if (paisesLen > 0 && hasGeoData && !erro && !loading) {
+      await nextTick()
+      if (gRef.value) desenharMapa()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
-/* ESTILOS ORIGINAIS MANTIDOS EXACTAMENTE IGUAIS */
 .mapa-wrapper { background: #f5f5f7; padding: 0; }
 .mapa-inner { padding: 50px 10%; }
 .mapa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 20px; opacity: 0; transform: translateY(-16px); transition: all 0.7s ease; }
