@@ -46,7 +46,7 @@
             </a>
           </li>
           <li>
-            <a href="https://recovery-and-resilience-scoreboard.ec.europa.eu/" target="_blank" rel="noopener noreferrer">
+            <a href="https://ec.europa.eu/economy_finance/recovery-and-resilience-scoreboard/" target="_blank" rel="noopener noreferrer">
               EU Scoreboard
             </a>
           </li>
