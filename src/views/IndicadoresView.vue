@@ -703,103 +703,101 @@ const metaIndicador = computed(() => {
 
 // Funções de exportação
 function exportar(tipo) {
-  try {
-    const inds = [...indicadores.value]
-    const outros = [...outrosIndicadores.value]
-    const pais = nomePaisAtual.value
-    const periodo = nomePeriodoAtual.value
-    const dataGeracao = new Date().toLocaleDateString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')
-    const codigoPais = paisSelecionado.value
-    const codigoPeriodo = periodoSelecionado.value
+  const inds = [...indicadores.value]
+  const outros = [...outrosIndicadores.value]
+  const pais = nomePaisAtual.value
+  const periodo = nomePeriodoAtual.value
+  const dataGeracao = new Date().toLocaleDateString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')
+  const codigoPais = paisSelecionado.value
+  const codigoPeriodo = periodoSelecionado.value
+  const isPt = appStore.idioma === 'pt'
 
-    if (tipo === 'csv') {
-      let csv = `${appStore.idioma === 'pt' ? 'Relatório de Indicadores PRR' : 'PRR Indicators Report'}\n`
-      csv += `${appStore.idioma === 'pt' ? 'País' : 'Country'};${pais}\n`
-      csv += `${appStore.idioma === 'pt' ? 'Período' : 'Period'};${periodo}\n`
-      csv += `${appStore.idioma === 'pt' ? 'Data de geração' : 'Generation date'};${dataGeracao}\n\n`
-      csv += `${appStore.idioma === 'pt' ? 'INDICADORES DE PERFORMANCE' : 'PERFORMANCE INDICATORS'}\n`
-      csv += `${appStore.idioma === 'pt' ? 'Indicador;Valor;Progresso (%)' : 'Indicator;Value;Progress (%)'}\n`
-      inds.forEach(ind => {
-        csv += `${ind.nome};${ind.valor};${ind.progresso}\n`
-      })
-      csv += `\n${appStore.idioma === 'pt' ? 'OUTROS INDICADORES OBRIGATÓRIOS' : 'OTHER MANDATORY INDICATORS'}\n`
-      csv += `${appStore.idioma === 'pt' ? 'Indicador;Valor' : 'Indicator;Value'}\n`
-      outros.forEach(out => {
-        csv += `${out.nome};${out.valor}\n`
-      })
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `indicadores_prr_${codigoPais}_${codigoPeriodo}.csv`
-      a.click()
-      URL.revokeObjectURL(url)
-    } 
-    else if (tipo === 'json') {
-      const jsonData = {
-        pais,
-        periodo,
-        dataGeracao,
-        indicadores_performance: inds,
-        outros_indicadores: outros
-      }
-      const json = JSON.stringify(jsonData, null, 2)
-      const blob = new Blob([json], { type: 'application/json' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `indicadores_prr_${codigoPais}_${codigoPeriodo}.json`
-      a.click()
-      URL.revokeObjectURL(url)
+  const prefixo = isPt ? 'indicadores_prr' : 'prr_indicators'
+
+  if (tipo === 'csv') {
+    let csv = `${isPt ? 'Relatório de Indicadores PRR' : 'PRR Indicators Report'}\n`
+    csv += `${isPt ? 'País' : 'Country'};${pais}\n`
+    csv += `${isPt ? 'Período' : 'Period'};${periodo}\n`
+    csv += `${isPt ? 'Data de geração' : 'Generation date'};${dataGeracao}\n\n`
+    csv += `${isPt ? 'INDICADORES DE PERFORMANCE' : 'PERFORMANCE INDICATORS'}\n`
+    csv += `${isPt ? 'Indicador;Valor;Progresso (%)' : 'Indicator;Value;Progress (%)'}\n`
+    inds.forEach(ind => {
+      csv += `${ind.nome};${ind.valor};${ind.progresso}\n`
+    })
+    csv += `\n${isPt ? 'OUTROS INDICADORES OBRIGATÓRIOS' : 'OTHER MANDATORY INDICATORS'}\n`
+    csv += `${isPt ? 'Indicador;Valor' : 'Indicator;Value'}\n`
+    outros.forEach(out => {
+      csv += `${out.nome};${out.valor}\n`
+    })
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${prefixo}_${codigoPais}_${codigoPeriodo}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  } 
+  else if (tipo === 'json') {
+    const jsonData = {
+      pais,
+      periodo,
+      dataGeracao,
+      indicadores_performance: inds,
+      outros_indicadores: outros
     }
-    else if (tipo === 'pdf') {
-      const win = window.open('', '_blank')
-      if (!win || win.closed || typeof win.closed === 'undefined') {
-        alert(appStore.idioma === 'pt' ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : '❌ The browser blocked the print window. Please allow pop-ups for this site.')
-        return
-      }
-      const html = `
-        <html>
-          <head>
-            <title>${appStore.idioma === 'pt' ? 'Indicadores PRR' : 'PRR Indicators'} - ${pais}</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 40px; }
-              h1 { color: #931b18; }
-              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-              th { background-color: #931b18; color: white; }
-              .footer { margin-top: 30px; font-size: 12px; color: #666; }
-            </style>
-          </head>
-          <body>
-            <h1>${appStore.idioma === 'pt' ? 'Indicadores Comuns do PRR' : 'RRP Common Indicators'} - ${pais}</h1>
-            <p><strong>${appStore.idioma === 'pt' ? 'Período' : 'Period'}:</strong> ${periodo}</p>
-            <p><strong>${appStore.idioma === 'pt' ? 'Data' : 'Date'}:</strong> ${dataGeracao}</p>
-            <h2>${appStore.idioma === 'pt' ? 'Indicadores de Performance' : 'Performance Indicators'}</h2>
-            <table>
-              <thead><tr><th>${appStore.idioma === 'pt' ? 'Indicador' : 'Indicator'}</th><th>${appStore.idioma === 'pt' ? 'Valor' : 'Value'}</th><th>${appStore.idioma === 'pt' ? 'Progresso (%)' : 'Progress (%)'}</th></tr></thead>
-              <tbody>
-                ${inds.map(ind => `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>`).join('')}
-              </tbody>
-            </table>
-            <h2>${appStore.idioma === 'pt' ? 'Outros Indicadores Obrigatórios' : 'Other Mandatory Indicators'}</h2>
-            <table>
-              <thead><tr><th>${appStore.idioma === 'pt' ? 'Indicador' : 'Indicator'}</th><th>${appStore.idioma === 'pt' ? 'Valor' : 'Value'}</th></tr></thead>
-              <tbody>
-                ${outros.map(out => `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>`).join('')}
-              </tbody>
-            </table>
-            <div class="footer">${appStore.idioma === 'pt' ? 'Gerado pelo Sistema de Monitorização do PRR' : 'Generated by the PRR Monitoring System'} - ${dataGeracao}</div>
-          </body>
-        </html>
-      `
-      win.document.write(html)
-      win.document.close()
-      win.print()
+    const json = JSON.stringify(jsonData, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${prefixo}_${codigoPais}_${codigoPeriodo}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  } 
+  else if (tipo === 'pdf') {
+    const win = window.open('', '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      alert(isPt ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : '❌ The browser blocked the print window. Please allow pop-ups for this site.')
+      return
     }
-  } catch (err) {
-    console.error('Erro na exportação:', err)
-    alert(appStore.idioma === 'pt' ? '❌ Erro ao exportar dados. Tente novamente.' : '❌ Error exporting data. Please try again.')
+    const html = `
+      <html>
+        <head>
+          <title>${isPt ? 'Indicadores PRR' : 'PRR Indicators'} - ${pais}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; }
+            h1 { color: #931b18; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #931b18; color: white; }
+            .footer { margin-top: 30px; font-size: 12px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <h1>${isPt ? 'Indicadores Comuns do PRR' : 'RRP Common Indicators'} - ${pais}</h1>
+          <p><strong>${isPt ? 'Período' : 'Period'}:</strong> ${periodo}</p>
+          <p><strong>${isPt ? 'Data' : 'Date'}:</strong> ${dataGeracao}</p>
+          <h2>${isPt ? 'Indicadores de Performance' : 'Performance Indicators'}</h2>
+          <table>
+            <thead><tr><th>${isPt ? 'Indicador' : 'Indicator'}</th><th>${isPt ? 'Valor' : 'Value'}</th><th>${isPt ? 'Progresso (%)' : 'Progress (%)'}</th></tr></thead>
+            <tbody>
+              ${inds.map(ind => `<tr><td>${ind.nome}</td><td>${ind.valor}</td><td>${ind.progresso}%</td></tr>`).join('')}
+            </tbody>
+          </table>
+          <h2>${isPt ? 'Outros Indicadores Obrigatórios' : 'Other Mandatory Indicators'}</h2>
+          <table>
+            <thead><tr><th>${isPt ? 'Indicador' : 'Indicator'}</th><th>${isPt ? 'Valor' : 'Value'}</th></tr></thead>
+            <tbody>
+              ${outros.map(out => `<tr><td>${out.nome}</td><td>${out.valor}</td></tr>`).join('')}
+            </tbody>
+          </table>
+          <div class="footer">${isPt ? 'Gerado pelo Sistema de Monitorização do PRR' : 'Generated by the PRR Monitoring System'} - ${dataGeracao}</div>
+        </body>
+      </html>
+    `
+    win.document.write(html)
+    win.document.close()
+    win.print()
   }
 }
 

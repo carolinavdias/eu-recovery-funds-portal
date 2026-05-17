@@ -370,7 +370,10 @@ const revealScore = ref(false)
 const revealVencedor = ref(false)
 const revealMarcos = ref(false)
 const loadingMarcos = ref(false)
-const erroAPI = ref(null)
+const erroAPITexto = computed(() => {
+  if (!erroAPI.value) return ''
+  return appStore.t.comparar_erro_api
+})
 const showExportModal = ref(false)
 
 const paisesTraduzidos = computed(() => {

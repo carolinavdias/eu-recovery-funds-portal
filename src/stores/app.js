@@ -9,15 +9,15 @@ export const useAppStore = defineStore('app', () => {
   const paises = computed(() => {
     const pt = idioma.value === 'pt'
     return [
-      { code: 'todos', nome: pt ? 'Todos os países' : 'All countries' },
-      { code: 'PT', nome: 'Portugal' },
-      { code: 'ES', nome: pt ? 'Espanha' : 'Spain' },
-      { code: 'FR', nome: pt ? 'França' : 'France' },
-      { code: 'IT', nome: pt ? 'Itália' : 'Italy' },
-      { code: 'DE', nome: pt ? 'Alemanha' : 'Germany' },
-      { code: 'GR', nome: pt ? 'Grécia' : 'Greece' },
-      { code: 'HR', nome: pt ? 'Croácia' : 'Croatia' },
-      { code: 'RO', nome: pt ? 'Roménia' : 'Romania' },
+      { code: 'todos', nome_pt: 'Todos os países', nome_en: 'All countries', bandeira: '🌍' },
+      { code: 'PT', nome_pt: 'Portugal', nome_en: 'Portugal', bandeira: '🇵🇹' },
+      { code: 'ES', nome_pt: 'Espanha', nome_en: 'Spain', bandeira: '🇪🇸' },
+      { code: 'FR', nome_pt: 'França', nome_en: 'France', bandeira: '🇫🇷' },
+      { code: 'IT', nome_pt: 'Itália', nome_en: 'Italy', bandeira: '🇮🇹' },
+      { code: 'DE', nome_pt: 'Alemanha', nome_en: 'Germany', bandeira: '🇩🇪' },
+      { code: 'GR', nome_pt: 'Grécia', nome_en: 'Greece', bandeira: '🇬🇷' },
+      { code: 'HR', nome_pt: 'Croácia', nome_en: 'Croatia', bandeira: '🇭🇷' },
+      { code: 'RO', nome_pt: 'Roménia', nome_en: 'Romania', bandeira: '🇷🇴' },
     ]
   })
 

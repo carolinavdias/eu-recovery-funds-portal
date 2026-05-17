@@ -5,7 +5,7 @@
       <div class="footer-brand">
         <RouterLink to="/" class="footer-logo-link">
           <span>🏛️</span>
-          <span class="footer-logo-text">{{ appStore.navbar_logo_prefix }} <span class="footer-logo-accent">{{ appStore.navbar_logo_suffix }}</span></span>
+          <span class="footer-logo-text">{{ appStore.t.navbar_logo_prefix }} <span class="footer-logo-accent">{{ appStore.navbar_logo_suffix }}</span></span>
         </RouterLink>
         <p class="footer-desc">
           {{ appStore.t.footer_desc}}
