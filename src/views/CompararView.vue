@@ -364,7 +364,10 @@ const revealScore = ref(false)
 const revealVencedor = ref(false)
 const revealMarcos = ref(false)
 const loadingMarcos = ref(false)
-const erroAPI = ref(null)
+const erroAPITexto = computed(() => {
+  if (!erroAPI.value) return ''
+  return appStore.t.comparar_erro_api
+})
 const showExportModal = ref(false)
 
 // Tradução dos países com base no idioma atual
@@ -715,8 +718,6 @@ onMounted(async () => {
 .export-item:hover { background: rgba(255,255,255,0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
 
-/* O RESTO DO CSS ORIGINAL (HERO, SELETORES, PROGRESSO, SCORECARD, VENCEDOR, MARCOS, ACÇÕES) 
-   DEVE SER INCLUÍDO AQUI EXACTAMENTE COMO ESTAVA NO SEU FICHEIRO ORIGINAL */
 .hero { background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 50vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(80,10,8,0.97) 0%, rgba(147,27,24,0.9) 100%); min-height: 50vh; display: flex; align-items: center; justify-content: space-between; padding: 60px 10%; gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden; }
 .hero-content { flex: 1; min-width: 280px; opacity: 0; transform: translateX(-40px); transition: all 0.9s ease; }
@@ -909,7 +910,7 @@ onMounted(async () => {
 .btn-acao.outline { background: white; color: #333; border: 1.5px solid #e0e0e0; }
 .btn-acao.outline:hover { border-color: #931b18; color: #931b18; transform: translateY(-2px); }
 
-/* DESEMBOLSOS (nova secção) */
+/* DESEMBOLSOS */
 .desembolsos-section { padding: 0 10% 50px; background: white; }
 .section-sub { font-size: 0.88rem; color: #aaa; text-align: center; margin-top: 6px; }
 </style>

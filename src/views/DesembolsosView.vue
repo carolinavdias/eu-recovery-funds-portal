@@ -1323,8 +1323,15 @@ function exportarGrafico(id) {
 
 // -------------------- EXPORTAÇÃO GERAL --------------------
 function exportarDesembolsos(tipo) {
-  const pais = nomePaisAtual.value
-  const d = {
+  const isPt = appStore.idioma === 'pt'
+  const pais = nomePaisAtual.value  // já deve estar traduzido
+  const dataGeracao = new Date().toLocaleDateString(isPt ? 'pt-PT' : 'en-GB')
+  const codigoPais = filtroPais.value
+  const prefixo = isPt ? 'desembolsos_prr' : 'prr_disbursements'
+
+  // Dados filtrados (tranches)
+  const tranches = historicoTranches.value
+  const totais = {
     alocado: totalAlocadoReal.value,
     desembolsado: totalDesembolsadoReal.value,
     taxaExecucao: taxaExecucaoReal.value,
@@ -1332,101 +1339,106 @@ function exportarDesembolsos(tipo) {
   }
 
   if (tipo === 'csv') {
-    let csv = `${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'}\n${appStore.idioma === 'pt' ? 'País' : 'Country'};${pais}\n\n`
-    csv += `${appStore.idioma === 'pt' ? 'Indicador;Valor' : 'Indicator;Value'}\n`
-    csv += `${appStore.t.desembolsos_total_alocado};${formatMoney(d.alocado)}\n`
-    csv += `${appStore.t.desembolsos_total_desembolsado};${formatMoney(d.desembolsado)}\n`
-    csv += `${appStore.t.desembolsos_taxa_execucao};${d.taxaExecucao}%\n`
-    csv += `${appStore.t.desembolsos_proxima_tranche};${d.proximaTranche}\n`
-    csv += `\n${appStore.idioma === 'pt' ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}\n`
-    csv += `ID;${appStore.idioma === 'pt' ? 'País' : 'Country'};${appStore.idioma === 'pt' ? 'Código País' : 'Country Code'};Data;Montante;Tipologia;Título;Estado;Descrição;Setor;Imagem;Beneficiário\n`
-    historicoTranches.value.forEach(t => {
+    let csv = `${isPt ? 'Relatório Financeiro PRR' : 'PRR Financial Report'}\n`
+    csv += `${isPt ? 'País' : 'Country'};${pais}\n\n`
+    csv += `${isPt ? 'Indicador;Valor' : 'Indicator;Value'}\n`
+    csv += `${appStore.t.desembolsos_total_alocado};${formatMoney(totais.alocado)}\n`
+    csv += `${appStore.t.desembolsos_total_desembolsado};${formatMoney(totais.desembolsado)}\n`
+    csv += `${appStore.t.desembolsos_taxa_execucao};${totais.taxaExecucao}%\n`
+    csv += `${appStore.t.desembolsos_proxima_tranche};${totais.proximaTranche}\n\n`
+    csv += `${isPt ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}\n`
+    csv += `${isPt ? 'ID;País;Código;Data;Montante;Tipologia;Título;Estado;Descrição;Setor;Beneficiário' : 'ID;Country;Code;Date;Amount;Type;Title;Status;Description;Sector;Beneficiary'}\n`
+    tranches.forEach(t => {
       const raw = t.raw
-      csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${raw.tipologia};"${raw.titulo.replace(/"/g, '""')}";${raw.estado || t.estado};"${(raw.descricaoCurta || '').replace(/"/g, '""')}";${raw.setor};${raw.imagem};"${(raw.beneficiario || '').replace(/"/g, '""')}"\n`
+      const titulo = isPt ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)
+      const desc = isPt ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')
+      const beneficiario = isPt ? (raw.beneficiario_pt || raw.beneficiario || '') : (raw.beneficiario_en || raw.beneficiario || '')
+      const tipoTraduzido = traduzirTipologia(raw.tipologia) // já deve usar idioma
+      csv += `${raw.id};${raw.pais};${raw.paisCode};${raw.data};${raw.montante};${tipoTraduzido};"${titulo.replace(/"/g, '""')}";${estadoLabelTranche(raw.estado || t.estado)};"${desc.replace(/"/g, '""')}";${raw.setor};"${beneficiario.replace(/"/g, '""')}"\n`
     })
-    downloadBlob(csv, 'text/csv', `financas_prr_${filtroPais.value}.csv`)
+    downloadBlob(csv, 'text/csv', `${prefixo}_${codigoPais}.csv`)
   } 
   else if (tipo === 'json') {
-    const json = JSON.stringify({
+    const jsonData = {
       pais,
-      indicadores: { ...d },
-      tranches: historicoTranches.value.map(t => t.raw)
-    }, null, 2)
-    downloadBlob(json, 'application/json', `financas_prr_${filtroPais.value}.json`)
+      indicadores: totais,
+      tranches: tranches.map(t => t.raw)
+    }
+    const json = JSON.stringify(jsonData, null, 2)
+    downloadBlob(json, 'application/json', `${prefixo}_${codigoPais}.json`)
   } 
   else if (tipo === 'pdf') {
     const win = window.open('', '_blank')
     if (!win || win.closed || typeof win.closed === 'undefined') {
-      const msg = appStore.idioma === 'pt' 
-        ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.'
-        : '❌ The browser blocked the print window. Please allow pop-ups for this site.'
-      alert(msg)
-      showExportModal.value = false
+      alert(isPt ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : '❌ The browser blocked the print window. Please allow pop-ups for this site.')
       return
     }
     win.document.write(`
       <html>
         <head>
-          <title>${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'}</title>
+          <title>${isPt ? 'Relatório Financeiro PRR' : 'PRR Financial Report'} - ${pais}</title>
           <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
+            body { font-family: Arial, sans-serif; padding: 40px; }
             h1 { color: #931b18; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
-            th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 30px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
             th { background-color: #931b18; color: white; }
-            .footer { margin-top: 30px; font-size: 10px; color: #666; text-align: center; }
+            .footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }
           </style>
         </head>
         <body>
-          <h1>${appStore.idioma === 'pt' ? 'Relatório Financeiro PRR' : 'PRR Financial Report'} - ${pais}</h1>
-          <h2>${appStore.idioma === 'pt' ? 'Indicadores' : 'Indicators'}</h2>
+          <h1>${isPt ? 'Relatório Financeiro PRR' : 'PRR Financial Report'} - ${pais}</h1>
+          <h2>${isPt ? 'Indicadores' : 'Indicators'}</h2>
           <table>
-            <tr><th>${appStore.idioma === 'pt' ? 'Indicador' : 'Indicator'}</th><th>${appStore.idioma === 'pt' ? 'Valor' : 'Value'}</th></tr>
-            <tr><td>${appStore.t.desembolsos_total_alocado}</td><td>${formatMoney(d.alocado)}</td></tr>
-            <tr><td>${appStore.t.desembolsos_total_desembolsado}</td><td>${formatMoney(d.desembolsado)}</td></tr>
-            <tr><td>${appStore.t.desembolsos_taxa_execucao}</td><td>${d.taxaExecucao}%</td></tr>
-            <tr><td>${appStore.t.desembolsos_proxima_tranche}</td><td>${d.proximaTranche}</td></tr>
+            <tr><th>${isPt ? 'Indicador' : 'Indicator'}</th><th>${isPt ? 'Valor' : 'Value'}</th></tr>
+            <tr><td>${appStore.t.desembolsos_total_alocado}</td><td>${formatMoney(totais.alocado)}</td></tr>
+            <tr><td>${appStore.t.desembolsos_total_desembolsado}</td><td>${formatMoney(totais.desembolsado)}</td></tr>
+            <tr><td>${appStore.t.desembolsos_taxa_execucao}</td><td>${totais.taxaExecucao}%</td></tr>
+            <tr><td>${appStore.t.desembolsos_proxima_tranche}</td><td>${totais.proximaTranche}</td></tr>
           </table>
-          <h2>${appStore.idioma === 'pt' ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}</h2>
+          <h2>${isPt ? 'Tranches (detalhe completo)' : 'Tranches (full details)'}</h2>
           <table>
             <thead>
               <tr>
                 <th>${appStore.t.desembolsos_tabela_col_id}</th>
                 <th>${appStore.t.desembolsos_tabela_col_pais}</th>
-                <th>${appStore.idioma === 'pt' ? 'Código' : 'Code'}</th>
+                <th>${isPt ? 'Código' : 'Code'}</th>
                 <th>${appStore.t.desembolsos_tabela_col_data}</th>
                 <th>${appStore.t.desembolsos_tabela_col_montante}</th>
                 <th>${appStore.t.desembolsos_tabela_col_tipo}</th>
                 <th>${appStore.t.desembolsos_tabela_col_designacao}</th>
                 <th>${appStore.t.desembolsos_tabela_col_estado}</th>
-                <th>${appStore.idioma === 'pt' ? 'Descrição' : 'Description'}</th>
+                <th>${isPt ? 'Descrição' : 'Description'}</th>
                 <th>${appStore.t.setor_label}</th>
                 <th>${appStore.t.desembolsos_modal_detalhe_beneficiario}</th>
               </tr>
             </thead>
             <tbody>
-              ${historicoTranches.value.map(t => {
+              ${tranches.map(t => {
                 const raw = t.raw
-                const descCurta = appStore.idioma === 'pt' ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')
+                const titulo = isPt ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)
+                const desc = isPt ? (raw.descricaoCurta_pt || raw.descricaoCurta || '') : (raw.descricaoCurta_en || raw.descricaoCurta || '')
+                const beneficiario = isPt ? (raw.beneficiario_pt || raw.beneficiario || '') : (raw.beneficiario_en || raw.beneficiario || '')
+                const tipoTraduzido = traduzirTipologia(raw.tipologia)
                 return `
                   <tr>
-                    <td>T${raw.id}</td>
+                    <td>${raw.id}</td>
                     <td>${raw.pais}</td>
                     <td>${raw.paisCode}</td>
                     <td>${raw.data}</td>
                     <td>${formatMoney(raw.montante)}</td>
-                    <td>${raw.tipologia === 'Subvenção' ? appStore.t.tipo_subvencao : (raw.tipologia === 'Empréstimo' ? appStore.t.tipo_emprestimo : appStore.t.tipo_misto)}</td>
-                    <td>${appStore.idioma === 'pt' ? (raw.titulo_pt || raw.titulo) : (raw.titulo_en || raw.titulo)}</td>
+                    <td>${tipoTraduzido}</td>
+                    <td>${titulo}</td>
                     <td>${estadoLabelTranche(raw.estado || t.estado)}</td>
-                    <td>${descCurta}</td>
+                    <td>${desc}</td>
                     <td>${raw.setor}</td>
-                    <td>${appStore.idioma === 'pt' ? (raw.beneficiario_pt || raw.beneficiario || '') : (raw.beneficiario_en || raw.beneficiario || '')}</td>
+                    <td>${beneficiario}</td>
                   </tr>
                 `
               }).join('')}
             </tbody>
           </table>
-          <div class="footer">${appStore.t.marco_pdf_gerado_em} ${new Date().toLocaleString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB')}</div>
+          <div class="footer">${isPt ? 'Gerado em' : 'Generated on'} ${new Date().toLocaleString(isPt ? 'pt-PT' : 'en-GB')}</div>
         </body>
       </html>
     `)
