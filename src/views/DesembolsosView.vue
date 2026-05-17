@@ -184,7 +184,7 @@
             <label>{{ appStore.t.desembolsos_filtro_pais }}</label>
             <select v-model="filtroPais">
               <option value="todos">{{ appStore.t.todos_paises }}</option>
-              <option v-for="p in paisesLocal" :key="p.code" :value="p.code">{{ getNomePais(p.code) }}</option>
+              <option v-for="p in paisesLocal" :key="p.code" :value="p.code">{{ p.bandeira }} {{ getNomePais(p.code) }}</option>
             </select>
           </div>
           <div class="filtro-item" :class="{ 'filtro-activo': anoSelecionado !== 'todos' }">
