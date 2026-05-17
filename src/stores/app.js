@@ -25,7 +25,159 @@ export const useAppStore = defineStore('app', () => {
 
   const t = computed(() => {
     const pt = {
-      // ================= EXISTENTES (outras rotas) =================
+
+      // ================= FAQ - PERGUNTAS E RESPOSTAS (PT) =================
+      faq_perguntas: [
+        {
+          id: 'portal-prr',
+          categoria: 'geral',
+          pergunta: 'O que é o Portal PRR?',
+          resposta: [
+            'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard, o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
+            'Permite analisar e interpretar dados complexos sobre a execução de marcos e metas, os pagamentos efetuados e a alocação de fundos, facilitando a extração de informação objetiva sobre o progresso dos Planos Nacionais de Recuperação.',
+            'Este portal foi desenvolvido como trabalho académico na UC de Interface Pessoa-Máquina (IPM) da Universidade do Minho, 2025/26.',
+          ],
+        },
+        {
+          id: 'mrr',
+          categoria: 'geral',
+          pergunta: 'O que é o Mecanismo de Recuperação e Resiliência da UE?',
+          resposta: [
+            'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE, NextGenerationEU, com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
+            'Os fundos são distribuídos sob a forma de subvenções e empréstimos, condicionados ao cumprimento de marcos e metas acordados com a Comissão Europeia.',
+            'Portugal, através do PRR (Plano de Recuperação e Resiliência) tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
+          ],
+        },
+        {
+          id: 'dados-reais',
+          categoria: 'geral',
+          pergunta: 'Os dados apresentados são reais?',
+          resposta: [
+            'Os dados utilizados neste portal são dados de mockup (simulados) criados para fins académicos, inspirados na estrutura e tipologia dos dados reais disponíveis no EU Recovery and Resilience Scoreboard.',
+            'Para dados oficiais e actualizados, consulte o EU Recovery and Resilience Scoreboard em recovery-and-resilience-scoreboard.ec.europa.eu ou o site oficial do PRR Portugal em recuperarportugal.gov.pt.',
+          ],
+        },
+        {
+          id: 'marcos-metas',
+          categoria: 'dados',
+          pergunta: 'O que são Marcos e Metas?',
+          resposta: [
+            'Os Marcos e Metas ("Milestones and Targets") são os objetivos específicos que cada Estado-Membro se comprometeu a cumprir para receber os fundos do MRR.',
+            'Os Marcos são objetivos qualitativos (ex: aprovação de legislação, criação de entidades). As Metas são objetivos quantitativos mensuráveis (ex: número de edifícios renovados, % de serviços digitalizados).',
+            'Neste portal pode filtrar por país, setor e estado de execução, ver o progresso de cada objetivo e exportar os dados.',
+          ],
+          link: { rota: '/marcos', texto: 'Ver Marcos e Metas' },
+        },
+        {
+          id: 'indicadores-comuns',
+          categoria: 'dados',
+          pergunta: 'O que são os Indicadores Comuns?',
+          resposta: [
+            'Os Indicadores Comuns ("Common Indicators") são 14 indicadores de reporte obrigatório e semestral por todos os Estados-Membros, definidos pela Comissão Europeia.',
+            'Cobrem áreas como digitalização (utilizadores de internet, banda larga), clima (energia renovável, emissões de GEE), emprego e educação (taxa de emprego, abandono escolar).',
+            'Para cada indicador é possível ver o valor de Portugal face à média europeia e a tendência de evolução.',
+          ],
+          link: { rota: '/indicadores', texto: 'Ver Indicadores Comuns' },
+        },
+        {
+          id: 'desembolsos',
+          categoria: 'dados',
+          pergunta: 'O que são os Desembolsos?',
+          resposta: [
+            'Os Desembolsos ("Disbursements") são os pagamentos efectuados pela UE a cada Estado-Membro, à medida que os marcos e metas são cumpridos e validados pela Comissão Europeia.',
+            'Portugal recebeu o pré-financiamento de €2,2 mil milhões em 2021, seguido de pedidos de pagamento subsequentes à medida que os objetivos são verificados.',
+            'Esta secção inclui também a listagem dos 100 maiores beneficiários por país.',
+          ],
+          link: { rota: '/desembolsos', texto: 'Ver Desembolsos' },
+        },
+        {
+          id: 'organizacao-paises',
+          categoria: 'dados',
+          pergunta: 'Como estão organizados os dados por país?',
+          resposta: [
+            'A secção de Países permite explorar dados de execução individualizados para cada um dos 8 Estados-Membros disponíveis: Portugal, Espanha, França, Itália, Alemanha, Grécia, Croácia e Roménia.',
+            'Para cada país é apresentado o progresso geral, total de fundos alocados, marcos totais e concluídos, e desembolsos recebidos.',
+            'É também possível comparar dois países lado a lado para análise comparativa de desempenho.',
+          ],
+          link: { rota: '/paises', texto: 'Ver Países' },
+        },
+        {
+          id: 'filtro-pais',
+          categoria: 'funcionalidades',
+          pergunta: 'Como funciona o filtro de país na barra superior?',
+          resposta: [
+            'O selector de país na barra de navegação superior permite filtrar os dados de toda a aplicação para um país específico.',
+            'Ao seleccionar um país, as páginas de Marcos e Metas e outras secções actualizarão automaticamente os dados para mostrar apenas informação relativa ao país escolhido.',
+            'Para ver dados de todos os países, seleccione "Todos os países" (opção por defeito).',
+          ],
+        },
+        {
+          id: 'comparar-paises',
+          categoria: 'funcionalidades',
+          pergunta: 'Como comparar dois países?',
+          resposta: [
+            'Aceda à secção "Países" e clique em "Comparar Países", ou aceda directamente ao menu lateral.',
+            'Seleccione o País A e o País B a partir da grelha de países disponíveis.',
+            'O sistema calcula automaticamente um scorecard comparativo com 6 métricas (progresso, marcos totais, marcos concluídos, taxa de conclusão, fundos alocados e população) e determina o país com melhor desempenho geral.',
+          ],
+          link: { rota: '/paises/comparar', texto: 'Comparar Países' },
+        },
+        {
+          id: 'modo-escuro',
+          categoria: 'funcionalidades',
+          pergunta: 'Como ativar o modo escuro?',
+          resposta: [
+            'Clique no ícone da lua (🌙) na barra de navegação superior para ativar o modo escuro.',
+            'Clique no ícone do sol (☀️) para voltar ao modo claro.',
+            'A preferência é guardada automaticamente e mantém-se entre sessões.',
+          ],
+        },
+        {
+          id: 'graficos-filtros',
+          categoria: 'funcionalidades',
+          pergunta: 'Os gráficos actualizam com os filtros?',
+          resposta: [
+            'Sim. Na página de Marcos e Metas, os gráficos de "Progresso por Pilar" e "Distribuição por Estado" actualizam automaticamente sempre que aplica ou remove filtros de país, setor ou estado.',
+            'Desta forma consegue visualizar rapidamente o desempenho de um país específico ou de um setor em particular.',
+          ],
+          link: { rota: '/marcos', texto: 'Ver gráficos em Marcos e Metas' },
+        },
+        {
+          id: 'exportar-csv-json',
+          categoria: 'exportacao',
+          pergunta: 'Como exportar dados em CSV ou JSON?',
+          resposta: [
+            'Na página de Marcos e Metas, clique em "Exportar Dados" no hero ou nos botões "⬇ CSV" / "⬇ JSON" da tabela completa.',
+            'A exportação aplica os filtros ativos: se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
+            'O formato CSV é ideal para abrir no Excel ou Google Sheets. O formato JSON é adequado para análise programática ou integração com outras ferramentas.',
+          ],
+          link: { rota: '/marcos', texto: 'Ir para Marcos e Metas' },
+        },
+        {
+          id: 'exportar-grafico',
+          categoria: 'exportacao',
+          pergunta: 'Como exportar um gráfico como imagem?',
+          resposta: [
+            'Em cada gráfico da página de Marcos e Metas existe um botão "📥 PNG" no canto superior direito.',
+            'Ao clicar, o gráfico é exportado como imagem PNG com fundo branco, pronto para usar em apresentações ou relatórios.',
+            'A imagem exportada reflecte o estado actual do gráfico, incluindo os filtros aplicados.',
+          ],
+        },
+        {
+          id: 'formatos-dados',
+          categoria: 'exportacao',
+          pergunta: 'Em que formatos estão disponíveis os dados?',
+          resposta: [
+            'Os dados de Marcos e Metas estão disponíveis em CSV, JSON e PDF.',
+            'Os dados de Desembolsos estão disponíveis em CSV, JSON e PDF.',
+            'Os gráficos estão disponíveis em PNG (imagem de alta qualidade com fundo branco).',
+            'Os dados de Indicadores Comuns estão disponíveis com opção de exportação por indicador.',
+          ],
+        },
+      ],
+
+      // -------------------------------- TRADUÇÕES GERAIS (PT) --------------------------------
+
       filtro_label: 'Filtrar',
       navbar_idioma:'🇬🇧 EN',
       // Navbar e spalash screen
@@ -73,6 +225,32 @@ export const useAppStore = defineStore('app', () => {
       footer_academic: 'Trabalho académico desenvolvido para a UC de IPM · UMinho 2025/26',
       footer_copy: '© 2026 Portal PRR · Mecanismo de Recuperação e Resiliência da UE',
       footer_status: 'Dados actualizados · IPM 2025/26',
+
+      // Comparar - exportação
+      comparar_export_titulo_documento: 'Comparação',
+      comparar_export_secao_metricas: 'MÉTRICAS',
+      comparar_export_col_metrica: 'Métrica',
+      comparar_export_secao_marcos: 'MARCOS E METAS',
+      comparar_export_col_titulo: 'Título',
+      comparar_export_col_setor: 'Setor',
+      comparar_export_col_estado: 'Estado',
+      comparar_export_col_progresso: 'Progresso',
+      comparar_export_secao_desembolsos: 'DESEMBOLSOS',
+      comparar_export_col_pais: 'País',
+      comparar_export_col_tranche: 'Próxima Tranche',
+      comparar_export_col_taxa: 'Taxa Execução',
+      comparar_export_rodape: 'Documento gerado pelo Sistema de Monitorização do PRR em',
+
+      // Comparar - erros específicos
+      comparar_erro_marcos_a: 'Erro ao carregar marcos do país A.',
+      comparar_erro_marcos_b: 'Erro ao carregar marcos do país B.',
+      comparar_erro_desembolsos_a: 'Erro ao carregar desembolsos do país A.',
+      comparar_erro_desembolsos_b: 'Erro ao carregar desembolsos do país B.',
+
+      // Comparar - empate
+      comparar_empate_label: '🤝 Empate',
+      comparar_empate_mensagem: 'Ambos os países tiveram o mesmo desempenho',
+
       // Marcos hero
       marcos_badge: '🎯 Monitorização em Tempo Real',
       marcos_titulo: 'Marcos',
@@ -602,6 +780,156 @@ export const useAppStore = defineStore('app', () => {
     }
 
     const en = {
+
+// ================= FAQ - PERGUNTAS E RESPOSTAS (EN) =================
+      faq_perguntas: [
+        {
+          id: 'portal-prr',
+          categoria: 'geral',
+          pergunta: 'What is the PRR Portal?',
+          resposta: [
+            'The PRR Portal is a data visualization system inspired by the EU Recovery and Resilience Scoreboard, the European monitoring portal for the Recovery and Resilience Mechanism (RRM).',
+            'It allows you to analyze and interpret complex data on the implementation of milestones and targets, payments made, and fund allocation, facilitating the extraction of objective information on the progress of National Recovery Plans.',
+            'This portal was developed as an academic project for the Human-Computer Interaction (HCI) course at the University of Minho, 2025/26.',
+          ],
+        },
+        {
+          id: 'mrr',
+          categoria: 'geral',
+          pergunta: 'What is the EU Recovery and Resilience Mechanism?',
+          resposta: [
+            'The Recovery and Resilience Mechanism (RRM) is the main instrument of the EU recovery plan, NextGenerationEU, with a total of €750 billion available to support Member States.',
+            'Funds are distributed as grants and loans, conditional on the fulfillment of milestones and targets agreed with the European Commission.',
+            'Portugal, through the RRP (Recovery and Resilience Plan) has access to €16.6 billion for investments in climate transition, digitalization, housing, health, and education.',
+          ],
+        },
+        {
+          id: 'dados-reais',
+          categoria: 'geral',
+          pergunta: 'Are the data presented real?',
+          resposta: [
+            'The data used in this portal are mockup (simulated) data created for academic purposes, inspired by the structure and typology of real data available on the EU Recovery and Resilience Scoreboard.',
+            'For official and updated data, please consult the EU Recovery and Resilience Scoreboard at recovery-and-resilience-scoreboard.ec.europa.eu or the official Portuguese RRP website at recuperarportugal.gov.pt.',
+          ],
+        },
+        {
+          id: 'marcos-metas',
+          categoria: 'dados',
+          pergunta: 'What are Milestones and Targets?',
+          resposta: [
+            'Milestones and Targets are the specific objectives each Member State has committed to achieving in order to receive RRM funds.',
+            'Milestones are qualitative objectives (e.g., approval of legislation, creation of entities). Targets are measurable quantitative objectives (e.g., number of renovated buildings, percentage of digitalized services).',
+            'On this portal you can filter by country, sector and execution status, view the progress of each objective, and export the data.',
+          ],
+          link: { rota: '/marcos', texto: 'View Milestones & Targets' },
+        },
+        {
+          id: 'indicadores-comuns',
+          categoria: 'dados',
+          pergunta: 'What are Common Indicators?',
+          resposta: [
+            'Common Indicators are 14 mandatory semi-annual reporting indicators for all Member States, defined by the European Commission.',
+            'They cover areas such as digitalization (internet users, broadband), climate (renewable energy, GHG emissions), employment, and education (employment rate, school dropout rate).',
+            'For each indicator you can see Portugal’s value compared to the European average and the evolution trend.',
+          ],
+          link: { rota: '/indicadores', texto: 'View Common Indicators' },
+        },
+        {
+          id: 'desembolsos',
+          categoria: 'dados',
+          pergunta: 'What are Disbursements?',
+          resposta: [
+            'Disbursements are payments made by the EU to each Member State as milestones and targets are met and validated by the European Commission.',
+            'Portugal received a pre-financing of €2.2 billion in 2021, followed by subsequent payment requests as objectives are verified.',
+            'This section also includes a list of the top 100 beneficiaries by country.',
+          ],
+          link: { rota: '/desembolsos', texto: 'View Disbursements' },
+        },
+        {
+          id: 'organizacao-paises',
+          categoria: 'dados',
+          pergunta: 'How are country data organized?',
+          resposta: [
+            'The Countries section allows you to explore individualized execution data for each of the 8 available Member States: Portugal, Spain, France, Italy, Germany, Greece, Croatia, and Romania.',
+            'For each country, overall progress, total allocated funds, total and completed milestones, and received disbursements are displayed.',
+            'You can also compare two countries side by side for comparative performance analysis.',
+          ],
+          link: { rota: '/paises', texto: 'View Countries' },
+        },
+        {
+          id: 'filtro-pais',
+          categoria: 'funcionalidades',
+          pergunta: 'How does the country filter in the top bar work?',
+          resposta: [
+            'The country selector in the top navigation bar allows you to filter all application data for a specific country.',
+            'When you select a country, the Milestones & Targets page and other sections will automatically update to show only information related to the chosen country.',
+            'To view data for all countries, select "All countries" (default option).',
+          ],
+        },
+        {
+          id: 'comparar-paises',
+          categoria: 'funcionalidades',
+          pergunta: 'How to compare two countries?',
+          resposta: [
+            'Go to the "Countries" section and click "Compare Countries", or access directly from the side menu.',
+            'Select Country A and Country B from the available country grid.',
+            'The system automatically calculates a comparative scorecard with 6 metrics (progress, total milestones, completed milestones, completion rate, allocated funds, and population) and determines the country with the best overall performance.',
+          ],
+          link: { rota: '/paises/comparar', texto: 'Compare Countries' },
+        },
+        {
+          id: 'modo-escuro',
+          categoria: 'funcionalidades',
+          pergunta: 'How to enable dark mode?',
+          resposta: [
+            'Click the moon icon (🌙) in the top navigation bar to enable dark mode.',
+            'Click the sun icon (☀️) to return to light mode.',
+            'The preference is automatically saved and maintained between sessions.',
+          ],
+        },
+        {
+          id: 'graficos-filtros',
+          categoria: 'funcionalidades',
+          pergunta: 'Do charts update with filters?',
+          resposta: [
+            'Yes. On the Milestones & Targets page, the "Progress by Pillar" and "Distribution by Status" charts automatically update whenever you apply or remove country, sector, or status filters.',
+            'This allows you to quickly visualize the performance of a specific country or sector.',
+          ],
+          link: { rota: '/marcos', texto: 'View charts on Milestones & Targets' },
+        },
+        {
+          id: 'exportar-csv-json',
+          categoria: 'exportacao',
+          pergunta: 'How to export data as CSV or JSON?',
+          resposta: [
+            'On the Milestones & Targets page, click "Export Data" in the hero section or use the "⬇ CSV" / "⬇ JSON" buttons in the complete table.',
+            'The export applies the active filters: if you have filtered for Portugal, the exported CSV/JSON will contain only Portuguese milestones.',
+            'CSV format is ideal for opening in Excel or Google Sheets. JSON format is suitable for programmatic analysis or integration with other tools.',
+          ],
+          link: { rota: '/marcos', texto: 'Go to Milestones & Targets' },
+        },
+        {
+          id: 'exportar-grafico',
+          categoria: 'exportacao',
+          pergunta: 'How to export a chart as an image?',
+          resposta: [
+            'On each chart on the Milestones & Targets page, there is a "📥 PNG" button in the top right corner.',
+            'Clicking it exports the chart as a PNG image with a white background, ready to use in presentations or reports.',
+            'The exported image reflects the current state of the chart, including applied filters.',
+          ],
+        },
+        {
+          id: 'formatos-dados',
+          categoria: 'exportacao',
+          pergunta: 'What data formats are available?',
+          resposta: [
+            'Milestones & Targets data are available as CSV, JSON and PDF.',
+            'Disbursements data are available as CSV, JSON and PDF.',
+            'Charts are available as PNG (high-quality image with white background).',
+            'Common Indicators data are available with per‑indicator export options.',
+          ],
+        },
+      ],
       // ================= EXISTENTES (EN) =================
 
       filtro_label: 'Filter',
@@ -622,13 +950,13 @@ export const useAppStore = defineStore('app', () => {
       nav_dark_off: 'Switch to dark mode',
       nav_idioma: 'Change language',
 
-    nf_badge: '⚠️ Page not found',
-    nf_titulo: 'Oops! This page got lost on the map.',
-    nf_descricao: 'The page you are looking for may have been moved, removed, or simply never existed. Let’s get you back on track.',
-    nf_btn_dashboard: 'Back to Dashboard',
-    nf_btn_paises: 'Explore Countries',
-    nf_sugestoes_titulo: 'You might be looking for:',
-    nf_sugestao_comparar: 'Compare Countries',
+      nf_badge: '⚠️ Page not found',
+      nf_titulo: 'Oops! This page got lost on the map.',
+      nf_descricao: 'The page you are looking for may have been moved, removed, or simply never existed. Let’s get you back on track.',
+      nf_btn_dashboard: 'Back to Dashboard',
+      nf_btn_paises: 'Explore Countries',
+      nf_sugestoes_titulo: 'You might be looking for:',
+      nf_sugestao_comparar: 'Compare Countries',
 
 
       nav_tooltip_expandir: 'Expand menu',
@@ -645,6 +973,31 @@ export const useAppStore = defineStore('app', () => {
       footer_academic: 'Academic project developed for the HCI course · UMinho 2025/26',
       footer_copy: '© 2026 PRR Portal · EU Recovery and Resilience Mechanism',
       footer_status: 'Data updated · HCI 2025/26',
+
+      
+      comparar_export_titulo_documento: 'Comparison',
+      comparar_export_secao_metricas: 'METRICS',
+      comparar_export_col_metrica: 'Metric',
+      comparar_export_secao_marcos: 'MILESTONES & TARGETS',
+      comparar_export_col_titulo: 'Title',
+      comparar_export_col_setor: 'Sector',
+      comparar_export_col_estado: 'Status',
+      comparar_export_col_progresso: 'Progress',
+      comparar_export_secao_desembolsos: 'DISBURSEMENTS',
+      comparar_export_col_pais: 'Country',
+      comparar_export_col_tranche: 'Next Tranche',
+      comparar_export_col_taxa: 'Execution Rate',
+      comparar_export_rodape: 'Generated by the PRR Monitoring System on',
+
+      // Compare - specific errors
+      comparar_erro_marcos_a: 'Error loading milestones for country A.',
+      comparar_erro_marcos_b: 'Error loading milestones for country B.',
+      comparar_erro_desembolsos_a: 'Error loading disbursements for country A.',
+      comparar_erro_desembolsos_b: 'Error loading disbursements for country B.',
+
+      // Compare - tie
+      comparar_empate_label: '🤝 Tie',
+      comparar_empate_mensagem: 'Both countries had the same performance',
       marcos_badge: '🎯 Real-Time Monitoring',
       marcos_titulo: 'Milestones',
       marcos_accent: '& Targets',

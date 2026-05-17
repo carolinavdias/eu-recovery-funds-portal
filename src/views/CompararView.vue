@@ -1,6 +1,5 @@
 <template>
   <div class="comparar-container">
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-overlay">
         <div class="hero-content" :class="{ 'animate-in': heroVisible }">
@@ -18,13 +17,11 @@
       </div>
     </section>
 
-    <!-- ERRO API -->
     <div v-if="erroAPI" class="erro-state">
       <span>⚠️</span>
       <p>{{ erroAPI }}</p>
     </div>
 
-    <!-- SELETORES -->
     <section class="seletores-section">
       <div class="seletores-titulo">
         <h2>{{ appStore.t.comparar_seletores_titulo }}</h2>
@@ -78,7 +75,6 @@
         </div>
       </div>
 
-      <!-- LOADING MARCOS -->
       <div v-if="loadingMarcos" class="loading-marcos">
         <div class="loading-spinner"></div>
         <p>{{ appStore.t.comparar_loading_marcos }}</p>
@@ -109,7 +105,6 @@
     </section>
 
     <template v-if="paisA && paisB">
-      <!-- PROGRESSO -->
       <section class="progresso-section">
         <div class="prog-wrap" :class="{ reveal: revealProgresso }">
           <div class="prog-pais-a">
@@ -129,7 +124,6 @@
         </div>
       </section>
 
-      <!-- SCORECARD -->
       <section class="scorecard-section">
         <div class="sc-titulo" :class="{ reveal: revealScore }">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
@@ -203,10 +197,9 @@
         </div>
       </section>
 
-      <!-- VENCEDOR -->
       <section class="vencedor-section">
         <transition name="vencedor-pop">
-          <div v-if="revealVencedor && vencedor" class="vencedor-card" :class="vencedor.code === codigoA ? 'v-azul' : 'v-vermelho'">
+          <div v-if="revealVencedor && vencedor && !empateGeral" class="vencedor-card" :class="vencedor.code === codigoA ? 'v-azul' : 'v-vermelho'">
             <div class="v-trofeu">🏆</div>
             <div class="v-content">
               <div class="v-label">{{ appStore.t.comparar_vencedor_label }}</div>
@@ -223,10 +216,26 @@
               <span v-for="i in 5" :key="i" class="v-star" :style="{ animationDelay: (i * 0.1) + 's' }">⭐</span>
             </div>
           </div>
+
+          <div v-else-if="revealVencedor && empateGeral" class="vencedor-card v-empate">
+            <div class="v-trofeu-empate">
+              <span class="trof-left">🏆</span>
+              <span class="trof-vs">=</span>
+              <span class="trof-right">🏆</span>
+            </div>
+            <div class="v-content">
+              <div class="v-label">{{ appStore.t.comparar_empate_label }}</div>
+              <div class="v-nome">{{ appStore.t.comparar_empate_mensagem}}</div>
+              <div class="v-stats">
+                <span class="stat-azul">{{ paisA.bandeira }} {{ scoreA }} pts</span>
+                <span>·</span>
+                <span class="stat-vermelho">{{ paisB.bandeira }} {{ scoreB }} pts</span>
+              </div>
+            </div>
+          </div>
         </transition>
       </section>
 
-      <!-- MARCOS -->
       <section class="marcos-section">
         <div class="marcos-titulo" :class="{ reveal: revealMarcos }"><h2>{{ appStore.t.comparar_marcos_titulo }}</h2></div>
         <div class="marcos-dual" :class="{ reveal: revealMarcos }">
@@ -263,7 +272,6 @@
         </div>
       </section>
 
-      <!-- DESEMBOLSOS -->
       <section class="desembolsos-section">
         <div class="marcos-titulo" :class="{ reveal: revealMarcos }">
           <h2>{{ appStore.t.comparar_desembolsos_titulo }}</h2>
@@ -315,7 +323,6 @@
         </div>
       </section>
 
-      <!-- ACÇÕES -->
       <section class="acoes-section">
         <RouterLink :to="'/paises/' + paisA.code" class="btn-acao azul">{{ paisA.bandeira }} {{ appStore.t.comparar_explorar }} {{ paisA.nome }}</RouterLink>
         <RouterLink to="/paises" class="btn-acao outline">{{ appStore.t.comparar_todos_paises }}</RouterLink>
@@ -323,7 +330,6 @@
       </section>
     </template>
 
-    <!-- MODAL EXPORTAÇÃO -->
     <div v-if="showExportModal" class="modal-overlay" @click.self="showExportModal = false">
       <div class="export-card">
         <button class="close-btn" @click="showExportModal = false">✕</button>
@@ -367,7 +373,6 @@ const loadingMarcos = ref(false)
 const erroAPI = ref(null)
 const showExportModal = ref(false)
 
-// Tradução dos países com base no idioma atual
 const paisesTraduzidos = computed(() => {
   const isPt = appStore.idioma === 'pt'
   return paisesRaw.value.map(p => ({
@@ -382,7 +387,127 @@ const paisesTraduzidos = computed(() => {
 const paisA = computed(() => paisesTraduzidos.value.find(p => p.code === codigoA.value) || null)
 const paisB = computed(() => paisesTraduzidos.value.find(p => p.code === codigoB.value) || null)
 
-// Desembolsos - lógica
+function traduzirMarcos(rawMarcos) {
+  const isPt = appStore.idioma === 'pt'
+  return rawMarcos.map(m => ({
+    ...m,
+    titulo: isPt ? m.titulo_pt : m.titulo_en,
+    descricao: isPt ? m.descricao_pt : m.descricao_en,
+    setorLabel: isPt ? m.setorLabel_pt : m.setorLabel_en,
+    investimento: isPt ? m.investimento_pt : m.investimento_en,
+    beneficiarios: isPt ? m.beneficiarios_pt : m.beneficiarios_en,
+    indicadorSucesso: isPt ? m.indicadorSucesso_pt : m.indicadorSucesso_en,
+    entidade: isPt ? m.entidade_pt : m.entidade_en,
+    revisoes: m.revisoes?.map(rev => ({
+      ...rev,
+      descricao: isPt ? rev.descricao_pt : rev.descricao_en
+    })) || []
+  }))
+}
+
+function formatarData(dataStr) {
+  const data = new Date(dataStr)
+  const locale = appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB'
+  return data.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
+function extrairNumeroFundos(fundos) {
+  if (typeof fundos === 'number') return fundos
+  if (!fundos || typeof fundos !== 'string') return 0
+  const match = fundos.match(/[\d.,]+([BKM])/i)
+  if (!match) return 0
+  let num = parseFloat(match[0].replace(',', '.'))
+  const suffix = match[1].toUpperCase()
+  if (suffix === 'B') num *= 1e9
+  else if (suffix === 'M') num *= 1e6
+  else if (suffix === 'K') num *= 1e3
+  return num
+}
+
+function extrairNumeroPopulacao(popStr) {
+  if (typeof popStr === 'number') return popStr
+  if (!popStr) return 0
+  const num = parseFloat(String(popStr).replace(',', '.'))
+  return isNaN(num) ? 0 : num
+}
+
+const metricas = computed(() => {
+  if (!paisA.value || !paisB.value) return []
+  const a = paisA.value, b = paisB.value
+  const rows = [
+    { label: appStore.t.comparar_metrica_progresso, valA: a.progresso + '%', valB: b.progresso + '%', numA: a.progresso, numB: b.progresso },
+    { label: appStore.t.comparar_metrica_marcos_total, valA: a.marcosTotal, valB: b.marcosTotal, numA: a.marcosTotal, numB: b.marcosTotal },
+    { label: appStore.t.comparar_metrica_marcos_concluidos, valA: a.marcosConcluidos, valB: b.marcosConcluidos, numA: a.marcosConcluidos, numB: b.marcosConcluidos },
+    { label: appStore.t.comparar_metrica_taxa_conclusao, valA: taxaConclusao(a) + '%', valB: taxaConclusao(b) + '%', numA: taxaConclusao(a), numB: taxaConclusao(b) },
+    { label: appStore.t.comparar_metrica_fundos, valA: a.totalFundos, valB: b.totalFundos, numA: extrairNumeroFundos(a.totalFundos), numB: extrairNumeroFundos(b.totalFundos) },
+    { label: appStore.t.comparar_metrica_populacao, valA: a.populacao, valB: b.populacao, numA: extrairNumeroPopulacao(a.populacao), numB: extrairNumeroPopulacao(b.populacao) },
+  ]
+  return rows.map(r => ({ ...r, venceA: r.numA > r.numB ? true : r.numA < r.numB ? false : null, empate: r.numA === r.numB }))
+})
+
+const scoreA = computed(() => metricas.value.filter(m => m.venceA === true).length)
+const scoreB = computed(() => metricas.value.filter(m => m.venceA === false).length)
+const empateGeral = computed(() => scoreA.value === scoreB.value)
+
+const vencedor = computed(() => {
+  if (!paisA.value || !paisB.value) return null
+  if (scoreA.value === scoreB.value) return null
+  return scoreA.value > scoreB.value ? paisA.value : paisB.value
+})
+
+const scoreVencedor = computed(() => {
+  if (!vencedor.value) return 0
+  return vencedor.value.code === codigoA.value ? scoreA.value : scoreB.value
+})
+
+function taxaConclusao(pais) {
+  if (!pais || pais.marcosTotal === 0) return 0
+  return Math.round((pais.marcosConcluidos / pais.marcosTotal) * 100)
+}
+
+function estadoLabel(e) {
+  if (e === 'concluido') return appStore.t.estado_concluido
+  if (e === 'em_curso') return appStore.t.estado_em_curso
+  return appStore.t.estado_em_atraso
+}
+
+function estadoDesembolsoLabel(estado) {
+  if (!estado) return '—'
+  const estadoMap = {
+    'Pago': appStore.t.desembolso_estado_pago,
+    'Em Avaliação': appStore.t.desembolso_estado_avaliacao,
+    'Planeado': appStore.t.desembolso_estado_planeado
+  }
+  return estadoMap[estado] || estado
+}
+
+function estadoDesembolsoClass(estado) {
+  if (estado === 'Pago') return 'concluido'
+  if (estado === 'Em Avaliação') return 'em_curso'
+  if (estado === 'Planeado') return 'planeado'
+  return ''
+}
+
+function barWidth(val, other) {
+  const max = Math.max(Number(val) || 0, Number(other) || 0)
+  if (max === 0) return 0
+  return Math.round((Number(val) || 0) / max * 100)
+}
+
+function selecionarPais(code) {
+  if (codigoA.value === code) { codigoA.value = ''; return }
+  if (codigoB.value === code) { codigoB.value = ''; return }
+  if (!codigoA.value) { codigoA.value = code; return }
+  if (!codigoB.value) { codigoB.value = code; return }
+  codigoA.value = code
+}
+
+function trocarPaises() {
+  const tmp = codigoA.value
+  codigoA.value = codigoB.value
+  codigoB.value = tmp
+}
+
 const nextTrancheA = computed(() => {
   if (!desembolsosA.value.length) return { data: null, estado: null }
   const hoje = new Date(); hoje.setHours(0,0,0,0)
@@ -421,99 +546,6 @@ const taxaExecucaoB = computed(() => {
   return Math.round((totalPago / totalAlocado) * 100)
 })
 
-function formatarData(dataStr) {
-  const data = new Date(dataStr)
-  return data.toLocaleDateString(appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB', {
-    day: '2-digit', month: 'short', year: 'numeric'
-  })
-}
-
-function estadoDesembolsoLabel(estado) {
-  if (!estado) return '—'
-  const estadoMap = {
-    'Pago': appStore.t.desembolso_estado_pago,
-    'Em Avaliação': appStore.t.desembolso_estado_avaliacao,
-    'Planeado': appStore.t.desembolso_estado_planeado
-  }
-  return estadoMap[estado] || estado
-}
-
-function estadoDesembolsoClass(estado) {
-  if (estado === 'Pago') return 'concluido'
-  if (estado === 'Em Avaliação') return 'em_curso'
-  if (estado === 'Planeado') return 'planeado'
-  return ''
-}
-
-function selecionarPais(code) {
-  if (codigoA.value === code) { codigoA.value = ''; return }
-  if (codigoB.value === code) { codigoB.value = ''; return }
-  if (!codigoA.value) { codigoA.value = code; return }
-  if (!codigoB.value) { codigoB.value = code; return }
-  codigoA.value = code
-}
-
-function trocarPaises() {
-  const tmp = codigoA.value
-  codigoA.value = codigoB.value
-  codigoB.value = tmp
-}
-
-function taxaConclusao(pais) {
-  if (!pais || pais.marcosTotal === 0) return 0
-  return Math.round((pais.marcosConcluidos / pais.marcosTotal) * 100)
-}
-
-function estadoLabel(e) {
-  if (e === 'concluido') return appStore.t.estado_concluido
-  if (e === 'em_curso') return appStore.t.estado_em_curso
-  return appStore.t.estado_em_atraso
-}
-
-function barWidth(val, other) {
-  const max = Math.max(Number(val) || 0, Number(other) || 0)
-  if (max === 0) return 0
-  return Math.round((Number(val) || 0) / max * 100)
-}
-
-// Funções auxiliares para extrair números de strings como "€16,6B" ou "10,3M"
-function extrairNumeroFundos(fundosStr) {
-  if (!fundosStr) return 0
-  const match = fundosStr.match(/[\d.,]+([BKM])/i)
-  if (!match) return 0
-  let num = parseFloat(match[0].replace(',', '.'))
-  const suffix = match[1].toUpperCase()
-  if (suffix === 'B') num *= 1e9
-  else if (suffix === 'M') num *= 1e6
-  else if (suffix === 'K') num *= 1e3
-  return num
-}
-
-function extrairNumeroPopulacao(popStr) {
-  if (!popStr) return 0
-  const num = parseFloat(popStr.replace(',', '.'))
-  return isNaN(num) ? 0 : num
-}
-
-const metricas = computed(() => {
-  if (!paisA.value || !paisB.value) return []
-  const a = paisA.value, b = paisB.value
-  const rows = [
-    { label: appStore.t.comparar_metrica_progresso, valA: a.progresso + '%', valB: b.progresso + '%', numA: a.progresso, numB: b.progresso },
-    { label: appStore.t.comparar_metrica_marcos_total, valA: a.marcosTotal, valB: b.marcosTotal, numA: a.marcosTotal, numB: b.marcosTotal },
-    { label: appStore.t.comparar_metrica_marcos_concluidos, valA: a.marcosConcluidos, valB: b.marcosConcluidos, numA: a.marcosConcluidos, numB: b.marcosConcluidos },
-    { label: appStore.t.comparar_metrica_taxa_conclusao, valA: taxaConclusao(a) + '%', valB: taxaConclusao(b) + '%', numA: taxaConclusao(a), numB: taxaConclusao(b) },
-    { label: appStore.t.comparar_metrica_fundos, valA: a.totalFundos, valB: b.totalFundos, numA: extrairNumeroFundos(a.totalFundos), numB: extrairNumeroFundos(b.totalFundos) },
-    { label: appStore.t.comparar_metrica_populacao, valA: a.populacao, valB: b.populacao, numA: extrairNumeroPopulacao(a.populacao), numB: extrairNumeroPopulacao(b.populacao) },
-  ]
-  return rows.map(r => ({ ...r, venceA: r.numA > r.numB ? true : r.numA < r.numB ? false : null, empate: r.numA === r.numB }))
-})
-
-const scoreA = computed(() => metricas.value.filter(m => m.venceA === true).length)
-const scoreB = computed(() => metricas.value.filter(m => m.venceA === false).length)
-const vencedor = computed(() => { if (!paisA.value || !paisB.value) return null; return scoreA.value >= scoreB.value ? paisA.value : paisB.value })
-const scoreVencedor = computed(() => { if (!vencedor.value) return 0; return vencedor.value.code === codigoA.value ? scoreA.value : scoreB.value })
-
 watch([codigoA, codigoB], async ([newA, newB]) => {
   revealProgresso.value = false
   revealScore.value = false
@@ -523,34 +555,55 @@ watch([codigoA, codigoB], async ([newA, newB]) => {
 
   if (newA || newB) loadingMarcos.value = true
 
-  try {
-    if (newA) {
-      marcosA.value = await getMarcosByPais(newA)
+  if (newA) {
+    try {
+      const raw = await getMarcosByPais(newA)
+      marcosA.value = traduzirMarcos(raw)
       carregandoDesembolsosA.value = true
-      desembolsosA.value = await getDesembolsosByPais(newA)
-      carregandoDesembolsosA.value = false
-    } else {
+      try {
+        desembolsosA.value = await getDesembolsosByPais(newA)
+      } catch (err) {
+        erroAPI.value = appStore.t.comparar_erro_desembolsos_a || appStore.t.comparar_erro_api
+        desembolsosA.value = []
+      } finally {
+        carregandoDesembolsosA.value = false
+      }
+    } catch {
+      erroAPI.value = appStore.t.comparar_erro_marcos_a || appStore.t.comparar_erro_api
       marcosA.value = []
       desembolsosA.value = []
+      carregandoDesembolsosA.value = false
     }
-    if (newB) {
-      marcosB.value = await getMarcosByPais(newB)
+  } else {
+    marcosA.value = []
+    desembolsosA.value = []
+  }
+
+  if (newB) {
+    try {
+      const raw = await getMarcosByPais(newB)
+      marcosB.value = traduzirMarcos(raw)
       carregandoDesembolsosB.value = true
-      desembolsosB.value = await getDesembolsosByPais(newB)
-      carregandoDesembolsosB.value = false
-    } else {
+      try {
+        desembolsosB.value = await getDesembolsosByPais(newB)
+      } catch (err) {
+        erroAPI.value = appStore.t.comparar_erro_desembolsos_b || appStore.t.comparar_erro_api
+        desembolsosB.value = []
+      } finally {
+        carregandoDesembolsosB.value = false
+      }
+    } catch {
+      erroAPI.value = appStore.t.comparar_erro_marcos_b || appStore.t.comparar_erro_api
       marcosB.value = []
       desembolsosB.value = []
+      carregandoDesembolsosB.value = false
     }
-  } catch {
-    erroAPI.value = appStore.t.comparar_erro_api
-    marcosA.value = []
+  } else {
     marcosB.value = []
-    desembolsosA.value = []
     desembolsosB.value = []
-  } finally {
-    loadingMarcos.value = false
   }
+
+  loadingMarcos.value = false
 
   if (newA && newB) {
     await nextTick()
@@ -561,19 +614,26 @@ watch([codigoA, codigoB], async ([newA, newB]) => {
   }
 })
 
-// Exportação
 function downloadBlob(content, mime, filename) {
-  const blob = new Blob([content], { type: mime })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  a.click()
-  URL.revokeObjectURL(url)
+  try {
+    const blob = new Blob([content], { type: mime })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(url)
+    return true
+  } catch {
+    return false
+  }
 }
 
 function exportarDados(tipo) {
-  const isPt = appStore.idioma === 'pt'
+  if (!paisA.value || !paisB.value) {
+    alert(appStore.idioma === 'pt' ? 'Selecione dois países primeiro.' : 'Please select two countries first.')
+    return
+  }
   const dados = {
     paisA: paisA.value,
     paisB: paisB.value,
@@ -588,28 +648,29 @@ function exportarDados(tipo) {
     taxaExecucaoB: taxaExecucaoB.value,
     scoreA: scoreA.value,
     scoreB: scoreB.value,
-    vencedor: vencedor.value
+    vencedor: vencedor.value,
+    empate: empateGeral.value
   }
 
   if (tipo === 'csv') {
-    let csv = `${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}\n\n`
-    csv += `${isPt ? 'MÉTRICAS' : 'METRICS'}\n`
-    csv += `${isPt ? 'Métrica' : 'Metric'},${dados.paisA.nome},${dados.paisB.nome}\n`
+    let csv = `${appStore.t.comparar_export_titulo_documento || 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}\n\n`
+    csv += `${appStore.t.comparar_export_secao_metricas || 'METRICS'}\n`
+    csv += `${appStore.t.comparar_export_col_metrica || 'Metric'},${dados.paisA.nome},${dados.paisB.nome}\n`
     dados.metricas.forEach(m => {
       csv += `${m.label},${m.valA},${m.valB}\n`
     })
-    csv += `\n${isPt ? 'MARCOS' : 'MILESTONES'} - ${dados.paisA.nome}\n`
-    csv += `${isPt ? 'Título' : 'Title'},${isPt ? 'Setor' : 'Sector'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Progresso' : 'Progress'}\n`
+    csv += `\n${appStore.t.comparar_export_secao_marcos || 'MILESTONES'} - ${dados.paisA.nome}\n`
+    csv += `${appStore.t.comparar_export_col_titulo || 'Title'},${appStore.t.comparar_export_col_setor || 'Sector'},${appStore.t.comparar_export_col_estado || 'Status'},${appStore.t.comparar_export_col_progresso || 'Progress'}\n`
     dados.marcosA.forEach(m => {
       csv += `"${m.titulo}",${m.setorLabel},${estadoLabel(m.estado)},${m.progresso}%\n`
     })
-    csv += `\n${isPt ? 'MARCOS' : 'MILESTONES'} - ${dados.paisB.nome}\n`
-    csv += `${isPt ? 'Título' : 'Title'},${isPt ? 'Setor' : 'Sector'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Progresso' : 'Progress'}\n`
+    csv += `\n${appStore.t.comparar_export_secao_marcos || 'MILESTONES'} - ${dados.paisB.nome}\n`
+    csv += `${appStore.t.comparar_export_col_titulo || 'Title'},${appStore.t.comparar_export_col_setor || 'Sector'},${appStore.t.comparar_export_col_estado || 'Status'},${appStore.t.comparar_export_col_progresso || 'Progress'}\n`
     dados.marcosB.forEach(m => {
       csv += `"${m.titulo}",${m.setorLabel},${estadoLabel(m.estado)},${m.progresso}%\n`
     })
-    csv += `\n${isPt ? 'DESEMBOLSOS' : 'DISBURSEMENTS'}\n`
-    csv += `${isPt ? 'País' : 'Country'},${isPt ? 'Próxima Tranche' : 'Next Tranche'},${isPt ? 'Estado' : 'Status'},${isPt ? 'Taxa Execução' : 'Execution Rate'}\n`
+    csv += `\n${appStore.t.comparar_export_secao_desembolsos || 'DISBURSEMENTS'}\n`
+    csv += `${appStore.t.comparar_export_col_pais || 'Country'},${appStore.t.comparar_export_col_tranche || 'Next Tranche'},${appStore.t.comparar_export_col_estado || 'Status'},${appStore.t.comparar_export_col_taxa || 'Execution Rate'}\n`
     csv += `${dados.paisA.nome},${dados.proximaTrancheA.data || '—'},${estadoDesembolsoLabel(dados.proximaTrancheA.estado)},${dados.taxaExecucaoA}%\n`
     csv += `${dados.paisB.nome},${dados.proximaTrancheB.data || '—'},${estadoDesembolsoLabel(dados.proximaTrancheB.estado)},${dados.taxaExecucaoB}%\n`
     downloadBlob(csv, 'text/csv', `comparacao_${dados.paisA.code}_vs_${dados.paisB.code}.csv`)
@@ -621,43 +682,43 @@ function exportarDados(tipo) {
   else if (tipo === 'pdf') {
     const win = window.open('', '_blank')
     if (!win || win.closed || typeof win.closed === 'undefined') {
-      alert(isPt ? 'O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : 'The browser blocked the print window. Please allow pop-ups for this site.')
+      alert(appStore.idioma === 'pt' ? '❌ O navegador bloqueou a janela de impressão. Permita pop-ups para este site.' : '❌ The browser blocked the print window. Please allow pop-ups for this site.')
       return
     }
+    const locale = appStore.idioma === 'pt' ? 'pt-PT' : 'en-GB'
     win.document.write(`
       <html>
-        <head>
-          <title>${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 40px; }
-            h1 { color: #931b18; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 30px; }
-            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
-            th { background-color: #931b18; color: white; }
-            .section { margin-top: 40px; }
-          </style>
+        <head><title>${appStore.t.comparar_export_titulo_documento || 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; }
+          h1 { color: #931b18; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 30px; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+          th { background-color: #931b18; color: white; }
+          .section { margin-top: 40px; }
+        </style>
         </head>
         <body>
-          <h1>${isPt ? 'Comparação' : 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</h1>
-          <h2>${isPt ? 'Métricas' : 'Metrics'}</h2>
-          <table><thead><tr><th>${isPt ? 'Métrica' : 'Metric'}</th><th>${dados.paisA.nome}</th><th>${dados.paisB.nome}</th></tr></thead><tbody>
+          <h1>${appStore.t.comparar_export_titulo_documento || 'Comparison'} - ${dados.paisA.nome} vs ${dados.paisB.nome}</h1>
+          <h2>${appStore.t.comparar_export_secao_metricas || 'Metrics'}</h2>
+          <table><thead><tr><th>${appStore.t.comparar_export_col_metrica || 'Metric'}</th><th>${dados.paisA.nome}</th><th>${dados.paisB.nome}</th></tr></thead><tbody>
             ${dados.metricas.map(m => `<tr><td>${m.label}</td><td>${m.valA}</td><td>${m.valB}</td></tr>`).join('')}
           </tbody></table>
-          <h2>${isPt ? 'Marcos e Metas' : 'Milestones & Targets'}</h2>
+          <h2>${appStore.t.comparar_export_secao_marcos || 'Milestones & Targets'}</h2>
           <h3>${dados.paisA.nome}</h3>
-          <table><thead><tr><th>${isPt ? 'Título' : 'Title'}</th><th>${isPt ? 'Setor' : 'Sector'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Progresso' : 'Progress'}</th></tr></thead><tbody>
+          <table><thead><tr><th>${appStore.t.comparar_export_col_titulo || 'Title'}</th><th>${appStore.t.comparar_export_col_setor || 'Sector'}</th><th>${appStore.t.comparar_export_col_estado || 'Status'}</th><th>${appStore.t.comparar_export_col_progresso || 'Progress'}</th></tr></thead><tbody>
             ${dados.marcosA.map(m => `<tr><td>${m.titulo}</td><td>${m.setorLabel}</td><td>${estadoLabel(m.estado)}</td><td>${m.progresso}%</td></tr>`).join('')}
           </tbody></table>
           <h3>${dados.paisB.nome}</h3>
-          <table><thead><tr><th>${isPt ? 'Título' : 'Title'}</th><th>${isPt ? 'Setor' : 'Sector'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Progresso' : 'Progress'}</th></tr></thead><tbody>
+          <table><thead><tr><th>${appStore.t.comparar_export_col_titulo || 'Title'}</th><th>${appStore.t.comparar_export_col_setor || 'Sector'}</th><th>${appStore.t.comparar_export_col_estado || 'Status'}</th><th>${appStore.t.comparar_export_col_progresso || 'Progress'}</th></tr></thead><tbody>
             ${dados.marcosB.map(m => `<tr><td>${m.titulo}</td><td>${m.setorLabel}</td><td>${estadoLabel(m.estado)}</td><td>${m.progresso}%</td></tr>`).join('')}
           </tbody></table>
-          <h2>${isPt ? 'Desembolsos' : 'Disbursements'}</h2>
-          <table><thead><tr><th>${isPt ? 'País' : 'Country'}</th><th>${isPt ? 'Próxima Tranche' : 'Next Tranche'}</th><th>${isPt ? 'Estado' : 'Status'}</th><th>${isPt ? 'Taxa Execução' : 'Execution Rate'}</th></tr></thead><tbody>
+          <h2>${appStore.t.comparar_export_secao_desembolsos || 'Disbursements'}</h2>
+          <table><thead><tr><th>${appStore.t.comparar_export_col_pais || 'Country'}</th><th>${appStore.t.comparar_export_col_tranche || 'Next Tranche'}</th><th>${appStore.t.comparar_export_col_estado || 'Status'}</th><th>${appStore.t.comparar_export_col_taxa || 'Execution Rate'}</th></tr></thead><tbody>
             <tr><td>${dados.paisA.nome}</td><td>${dados.proximaTrancheA.data || '—'}</td><td>${estadoDesembolsoLabel(dados.proximaTrancheA.estado)}</td><td>${dados.taxaExecucaoA}%</td></tr>
             <tr><td>${dados.paisB.nome}</td><td>${dados.proximaTrancheB.data || '—'}</td><td>${estadoDesembolsoLabel(dados.proximaTrancheB.estado)}</td><td>${dados.taxaExecucaoB}%</td></tr>
           </tbody></table>
-          <div class="footer">${isPt ? 'Documento gerado pelo Sistema de Monitorização do PRR em' : 'Generated by the PRR Monitoring System on'} ${new Date().toLocaleString('pt-PT')}</div>
+          <div class="footer">${appStore.t.comparar_export_rodape || 'Generated by the PRR Monitoring System on'} ${new Date().toLocaleString(locale)}</div>
         </body>
       </html>
     `)
@@ -678,10 +739,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* ===== TODO O CSS ORIGINAL É MANTIDO EXACTAMENTE IGUAL ===== */
+/* TODO O CSS ORIGINAL É MANTIDO EXACTAMENTE IGUAL (não mexa) */
 .comparar-container { margin: -2rem; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
 
-/* LOADING E ERRO */
 .loading-marcos { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 24px; color: #888; font-size: 0.9rem; }
 .loading-spinner { width: 28px; height: 28px; border: 3px solid #f0f0f0; border-top-color: #931b18; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -702,7 +762,6 @@ onMounted(async () => {
 .btn-export-score { background: #f5f5f7; color: #931b18; border: 1px solid #ddd; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-export-score:hover { background: #931b18; color: white; transform: translateY(-2px); }
 
-/* MODAL EXPORTAÇÃO */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 3000; }
 .export-card { background-color: #931b18; width: 90%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.6rem; cursor: pointer; opacity: 0.8; }
@@ -715,8 +774,6 @@ onMounted(async () => {
 .export-item:hover { background: rgba(255,255,255,0.2); }
 .export-item .ext { opacity: 0.5; font-family: monospace; font-size: 0.85rem; }
 
-/* O RESTO DO CSS ORIGINAL (HERO, SELETORES, PROGRESSO, SCORECARD, VENCEDOR, MARCOS, ACÇÕES) 
-   DEVE SER INCLUÍDO AQUI EXACTAMENTE COMO ESTAVA NO SEU FICHEIRO ORIGINAL */
 .hero { background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 50vh; }
 .hero-overlay { background: linear-gradient(135deg, rgba(80,10,8,0.97) 0%, rgba(147,27,24,0.9) 100%); min-height: 50vh; display: flex; align-items: center; justify-content: space-between; padding: 60px 10%; gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden; }
 .hero-content { flex: 1; min-width: 280px; opacity: 0; transform: translateX(-40px); transition: all 0.9s ease; }
@@ -737,7 +794,6 @@ onMounted(async () => {
 .btn-voltar { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: color 0.2s; }
 .btn-voltar:hover { color: white; }
 
-/* SELETORES */
 .seletores-section { padding: 50px 10%; background: #f5f5f7; }
 .seletores-titulo { text-align: center; margin-bottom: 32px; }
 .seletores-titulo h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
@@ -791,7 +847,6 @@ onMounted(async () => {
 .pp-fill { height: 100%; background: white; border-radius: 99px; }
 .pp-val { font-size: 0.7rem; font-weight: 800; color: white; }
 
-/* PROGRESSO */
 .progresso-section { padding: 36px 10%; background: white; border-bottom: 1px solid #f0f0f0; }
 .prog-wrap { display: flex; align-items: center; gap: 20px; opacity: 0; transform: translateY(20px); transition: all 0.7s ease; }
 .prog-wrap.reveal { opacity: 1; transform: translateY(0); }
@@ -806,7 +861,6 @@ onMounted(async () => {
 .prog-bar-a { background: linear-gradient(90deg, #1a3a6b, #2e6bbf); }
 .prog-bar-b { background: linear-gradient(90deg, #6b1210, #931b18); }
 
-/* SCORECARD */
 .scorecard-section { padding: 50px 10%; background: #f5f5f7; }
 .sc-titulo { text-align: center; margin-bottom: 20px; opacity: 0; transform: translateY(20px); transition: all 0.6s; }
 .sc-titulo.reveal { opacity: 1; transform: translateY(0); }
@@ -854,11 +908,40 @@ onMounted(async () => {
 .vermelho-dot { background: #931b18; box-shadow: 0 0 0 3px rgba(147,27,24,0.2); }
 .status-empate { color: #aaa; font-weight: 800; font-size: 0.95rem; }
 
-/* VENCEDOR */
 .vencedor-section { padding: 0 10% 50px; background: #f5f5f7; }
 .vencedor-card { display: flex; align-items: center; gap: 24px; padding: 28px 32px; border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
 .v-azul { background: linear-gradient(135deg, #0e2151, #1a3a6b, #2e6bbf); }
 .v-vermelho { background: linear-gradient(135deg, #3d0a08, #6b1210, #931b18); }
+/*.v-empate { background: linear-gradient(135deg, #2c3e50, #34495e); }*/
+
+.v-empate {
+  background: linear-gradient(
+    135deg,
+    #1a3a6b 0%,
+    #2e6bbf 25%,
+    #6b3b7d 50%,    /* roxo de transição = azul + vermelho misturados */
+    #931b18 75%,
+    #6b1210 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de "luz" no centro para simular fusão */
+.v-empate::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
 .v-trofeu { font-size: 3rem; animation: bounce-trophy 1s ease infinite alternate; flex-shrink: 0; }
 @keyframes bounce-trophy { from { transform: translateY(0) rotate(-5deg); } to { transform: translateY(-10px) rotate(5deg); } }
 .v-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
@@ -870,7 +953,6 @@ onMounted(async () => {
 .vencedor-pop-enter-active { transition: all 0.7s cubic-bezier(0.34,1.4,0.64,1); }
 .vencedor-pop-enter-from { opacity: 0; transform: scale(0.85) translateY(30px); }
 
-/* MARCOS */
 .marcos-section { padding: 50px 10%; background: white; }
 .marcos-titulo { text-align: center; margin-bottom: 24px; opacity: 0; transform: translateY(16px); transition: all 0.5s; }
 .marcos-titulo.reveal { opacity: 1; transform: translateY(0); }
@@ -899,7 +981,6 @@ onMounted(async () => {
 .vermelho-fill { background: linear-gradient(90deg, #6b1210, #931b18); }
 .mi-prog span { font-size: 0.72rem; font-weight: 700; color: #666; width: 30px; text-align: right; }
 
-/* ACÇÕES */
 .acoes-section { padding: 40px 10%; background: #f5f5f7; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .btn-acao { text-decoration: none; padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; transition: all 0.25s; }
 .btn-acao.azul { background: linear-gradient(135deg, #1a3a6b, #2e6bbf); color: white; }
@@ -909,7 +990,6 @@ onMounted(async () => {
 .btn-acao.outline { background: white; color: #333; border: 1.5px solid #e0e0e0; }
 .btn-acao.outline:hover { border-color: #931b18; color: #931b18; transform: translateY(-2px); }
 
-/* DESEMBOLSOS (nova secção) */
 .desembolsos-section { padding: 0 10% 50px; background: white; }
 .section-sub { font-size: 0.88rem; color: #aaa; text-align: center; margin-top: 6px; }
 </style>

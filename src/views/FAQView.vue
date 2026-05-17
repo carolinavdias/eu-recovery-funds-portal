@@ -35,19 +35,19 @@
           </button>
         </div>
 
-        <!-- PERGUNTAS (conforme idioma) -->
+        <!-- PERGUNTAS (vindas da store) -->
         <div class="faq-lista">
           <div
-            v-for="(item, i) in perguntasFiltradas"
-            :key="i"
+            v-for="item in perguntasFiltradas"
+            :key="item.id"
             class="faq-item"
-            :class="{ aberto: abertos.includes(i) }"
+            :class="{ aberto: abertos.includes(item.id) }"
           >
-            <button class="faq-pergunta" @click="toggle(i)">
+            <button class="faq-pergunta" @click="toggle(item.id)">
               <span class="faq-q-texto">{{ item.pergunta }}</span>
-              <span class="faq-chevron">{{ abertos.includes(i) ? '▲' : '▼' }}</span>
+              <span class="faq-chevron">{{ abertos.includes(item.id) ? '▲' : '▼' }}</span>
             </button>
-            <div class="faq-resposta" v-show="abertos.includes(i)">
+            <div class="faq-resposta" v-show="abertos.includes(item.id)">
               <p v-for="(linha, j) in item.resposta" :key="j">{{ linha }}</p>
               <RouterLink v-if="item.link" :to="item.link.rota" class="faq-link">
                 {{ item.link.texto }} →
@@ -82,17 +82,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
 
 const heroVisible = ref(false)
 const categoriaActiva = ref('geral')
-const abertos = ref([0]) // primeira pergunta aberta por defeito
+const abertos = ref([])
 
-// Categorias (usando traduções da store)
 const categorias = computed(() => [
   { id: 'geral', icone: '🌍', label: appStore.t.faq_cat_geral },
   { id: 'dados', icone: '📊', label: appStore.t.faq_cat_dados },
@@ -100,298 +98,21 @@ const categorias = computed(() => [
   { id: 'exportacao', icone: '📥', label: appStore.t.faq_cat_exportacao },
 ])
 
-// Dados das perguntas em português
-const perguntasDataPt = [
-  {
-    categoria: 'geral',
-    pergunta: 'O que é o Portal PRR?',
-    resposta: [
-      'O Portal PRR é um sistema de visualização de dados inspirado no EU Recovery and Resilience Scoreboard, o portal europeu de monitorização do Mecanismo de Recuperação e Resiliência (MRR).',
-      'Permite analisar e interpretar dados complexos sobre a execução de marcos e metas, os pagamentos efetuados e a alocação de fundos, facilitando a extração de informação objetiva sobre o progresso dos Planos Nacionais de Recuperação.',
-      'Este portal foi desenvolvido como trabalho académico na UC de Interface Pessoa-Máquina (IPM) da Universidade do Minho, 2025/26.',
-    ],
-  },
-  {
-    categoria: 'geral',
-    pergunta: 'O que é o Mecanismo de Recuperação e Resiliência da UE?',
-    resposta: [
-      'O Mecanismo de Recuperação e Resiliência (MRR) é o principal instrumento do plano de recuperação da UE, NextGenerationEU, com um total de €750 mil milhões disponíveis para apoiar os Estados-Membros.',
-      'Os fundos são distribuídos sob a forma de subvenções e empréstimos, condicionados ao cumprimento de marcos e metas acordados com a Comissão Europeia.',
-      'Portugal, através do PRR (Plano de Recuperação e Resiliência) tem acesso a €16,6 mil milhões para investimentos nas áreas da transição climática, digitalização, habitação, saúde e educação.',
-    ],
-  },
-  {
-    categoria: 'geral',
-    pergunta: 'Os dados apresentados são reais?',
-    resposta: [
-      'Os dados utilizados neste portal são dados de mockup (simulados) criados para fins académicos, inspirados na estrutura e tipologia dos dados reais disponíveis no EU Recovery and Resilience Scoreboard.',
-      'Para dados oficiais e actualizados, consulte o EU Recovery and Resilience Scoreboard em recovery-and-resilience-scoreboard.ec.europa.eu ou o site oficial do PRR Portugal em recuperarportugal.gov.pt.',
-    ],
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'O que são Marcos e Metas?',
-    resposta: [
-      'Os Marcos e Metas ("Milestones and Targets") são os objetivos específicos que cada Estado-Membro se comprometeu a cumprir para receber os fundos do MRR.',
-      'Os Marcos são objetivos qualitativos (ex: aprovação de legislação, criação de entidades). As Metas são objetivos quantitativos mensuráveis (ex: número de edifícios renovados, % de serviços digitalizados).',
-      'Neste portal pode filtrar por país, setor e estado de execução, ver o progresso de cada objetivo e exportar os dados.',
-    ],
-    link: { rota: '/marcos', texto: 'Ver Marcos e Metas' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'O que são os Indicadores Comuns?',
-    resposta: [
-      'Os Indicadores Comuns ("Common Indicators") são 14 indicadores de reporte obrigatório e semestral por todos os Estados-Membros, definidos pela Comissão Europeia.',
-      'Cobrem áreas como digitalização (utilizadores de internet, banda larga), clima (energia renovável, emissões de GEE), emprego e educação (taxa de emprego, abandono escolar).',
-      'Para cada indicador é possível ver o valor de Portugal face à média europeia e a tendência de evolução.',
-    ],
-    link: { rota: '/indicadores', texto: 'Ver Indicadores Comuns' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'O que são os Desembolsos?',
-    resposta: [
-      'Os Desembolsos ("Disbursements") são os pagamentos efectuados pela UE a cada Estado-Membro, à medida que os marcos e metas são cumpridos e validados pela Comissão Europeia.',
-      'Portugal recebeu o pré-financiamento de €2,2 mil milhões em 2021, seguido de pedidos de pagamento subsequentes à medida que os objetivos são verificados.',
-      'Esta secção inclui também a listagem dos 100 maiores beneficiários por país.',
-    ],
-    link: { rota: '/desembolsos', texto: 'Ver Desembolsos' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'Como estão organizados os dados por país?',
-    resposta: [
-      'A secção de Países permite explorar dados de execução individualizados para cada um dos 8 Estados-Membros disponíveis: Portugal, Espanha, França, Itália, Alemanha, Grécia, Croácia e Roménia.',
-      'Para cada país é apresentado o progresso geral, total de fundos alocados, marcos totais e concluídos, e desembolsos recebidos.',
-      'É também possível comparar dois países lado a lado para análise comparativa de desempenho.',
-    ],
-    link: { rota: '/paises', texto: 'Ver Países' },
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'Como funciona o filtro de país na barra superior?',
-    resposta: [
-      'O selector de país na barra de navegação superior permite filtrar os dados de toda a aplicação para um país específico.',
-      'Ao seleccionar um país, as páginas de Marcos e Metas e outras secções actualizarão automaticamente os dados para mostrar apenas informação relativa ao país escolhido.',
-      'Para ver dados de todos os países, seleccione "Todos os países" (opção por defeito).',
-    ],
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'Como comparar dois países?',
-    resposta: [
-      'Aceda à secção "Países" e clique em "Comparar Países", ou aceda directamente ao menu lateral.',
-      'Seleccione o País A e o País B a partir da grelha de países disponíveis.',
-      'O sistema calcula automaticamente um scorecard comparativo com 6 métricas (progresso, marcos totais, marcos concluídos, taxa de conclusão, fundos alocados e população) e determina o país com melhor desempenho geral.',
-    ],
-    link: { rota: '/paises/comparar', texto: 'Comparar Países' },
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'Como ativar o modo escuro?',
-    resposta: [
-      'Clique no ícone da lua (🌙) na barra de navegação superior para ativar o modo escuro.',
-      'Clique no ícone do sol (☀️) para voltar ao modo claro.',
-      'A preferência é guardada automaticamente e mantém-se entre sessões.',
-    ],
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'Os gráficos actualizam com os filtros?',
-    resposta: [
-      'Sim. Na página de Marcos e Metas, os gráficos de "Progresso por Pilar" e "Distribuição por Estado" actualizam automaticamente sempre que aplica ou remove filtros de país, setor ou estado.',
-      'Desta forma consegue visualizar rapidamente o desempenho de um país específico ou de um setor em particular.',
-    ],
-    link: { rota: '/marcos', texto: 'Ver gráficos em Marcos e Metas' },
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'Como exportar dados em CSV ou JSON?',
-    resposta: [
-      'Na página de Marcos e Metas, clique em "Exportar Dados" no hero ou nos botões "⬇ CSV" / "⬇ JSON" da tabela completa.',
-      'A exportação aplica os filtros ativos: se tiver filtrado por Portugal, o CSV/JSON exportado conterá apenas os marcos de Portugal.',
-      'O formato CSV é ideal para abrir no Excel ou Google Sheets. O formato JSON é adequado para análise programática ou integração com outras ferramentas.',
-    ],
-    link: { rota: '/marcos', texto: 'Ir para Marcos e Metas' },
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'Como exportar um gráfico como imagem?',
-    resposta: [
-      'Em cada gráfico da página de Marcos e Metas existe um botão "📥 PNG" no canto superior direito.',
-      'Ao clicar, o gráfico é exportado como imagem PNG com fundo branco, pronto para usar em apresentações ou relatórios.',
-      'A imagem exportada reflecte o estado actual do gráfico, incluindo os filtros aplicados.',
-    ],
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'Em que formatos estão disponíveis os dados?',
-    resposta: [
-      'Os dados de Marcos e Metas estão disponíveis em CSV, JSON e PDF.',
-      'Os dados de Desembolsos estão disponíveis em CSV, JSON e PDF.',
-      'Os gráficos estão disponíveis em PNG (imagem de alta qualidade com fundo branco).',
-      'Os dados de Indicadores Comuns estão disponíveis com opção de exportação por indicador.',
-    ],
-  },
-]
-
-// Dados das perguntas em inglês
-const perguntasDataEn = [
-  {
-    categoria: 'geral',
-    pergunta: 'What is the PRR Portal?',
-    resposta: [
-      'The PRR Portal is a data visualization system inspired by the EU Recovery and Resilience Scoreboard, the European monitoring portal for the Recovery and Resilience Mechanism (RRM).',
-      'It allows you to analyze and interpret complex data on the implementation of milestones and targets, payments made, and fund allocation, facilitating the extraction of objective information on the progress of National Recovery Plans.',
-      'This portal was developed as an academic project for the Human-Computer Interaction (HCI) course at the University of Minho, 2025/26.',
-    ],
-  },
-  {
-    categoria: 'geral',
-    pergunta: 'What is the EU Recovery and Resilience Mechanism?',
-    resposta: [
-      'The Recovery and Resilience Mechanism (RRM) is the main instrument of the EU recovery plan, NextGenerationEU, with a total of €750 billion available to support Member States.',
-      'Funds are distributed as grants and loans, conditional on the fulfillment of milestones and targets agreed with the European Commission.',
-      'Portugal, through the RRP (Recovery and Resilience Plan) has access to €16.6 billion for investments in climate transition, digitalization, housing, health, and education.',
-    ],
-  },
-  {
-    categoria: 'geral',
-    pergunta: 'Are the data presented real?',
-    resposta: [
-      'The data used in this portal are mockup (simulated) data created for academic purposes, inspired by the structure and typology of real data available on the EU Recovery and Resilience Scoreboard.',
-      'For official and updated data, please consult the EU Recovery and Resilience Scoreboard at recovery-and-resilience-scoreboard.ec.europa.eu or the official Portuguese RRP website at recuperarportugal.gov.pt.',
-    ],
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'What are Milestones and Targets?',
-    resposta: [
-      'Milestones and Targets are the specific objectives each Member State has committed to achieving in order to receive RRM funds.',
-      'Milestones are qualitative objectives (e.g., approval of legislation, creation of entities). Targets are measurable quantitative objectives (e.g., number of renovated buildings, percentage of digitalized services).',
-      'On this portal you can filter by country, sector and execution status, view the progress of each objective, and export the data.',
-    ],
-    link: { rota: '/marcos', texto: 'View Milestones & Targets' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'What are Common Indicators?',
-    resposta: [
-      'Common Indicators are 14 mandatory semi-annual reporting indicators for all Member States, defined by the European Commission.',
-      'They cover areas such as digitalization (internet users, broadband), climate (renewable energy, GHG emissions), employment, and education (employment rate, school dropout rate).',
-      'For each indicator you can see Portugal’s value compared to the European average and the evolution trend.',
-    ],
-    link: { rota: '/indicadores', texto: 'View Common Indicators' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'What are Disbursements?',
-    resposta: [
-      'Disbursements are payments made by the EU to each Member State as milestones and targets are met and validated by the European Commission.',
-      'Portugal received a pre-financing of €2.2 billion in 2021, followed by subsequent payment requests as objectives are verified.',
-      'This section also includes a list of the top 100 beneficiaries by country.',
-    ],
-    link: { rota: '/desembolsos', texto: 'View Disbursements' },
-  },
-  {
-    categoria: 'dados',
-    pergunta: 'How are country data organized?',
-    resposta: [
-      'The Countries section allows you to explore individualized execution data for each of the 8 available Member States: Portugal, Spain, France, Italy, Germany, Greece, Croatia, and Romania.',
-      'For each country, overall progress, total allocated funds, total and completed milestones, and received disbursements are displayed.',
-      'You can also compare two countries side by side for comparative performance analysis.',
-    ],
-    link: { rota: '/paises', texto: 'View Countries' },
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'How does the country filter in the top bar work?',
-    resposta: [
-      'The country selector in the top navigation bar allows you to filter all application data for a specific country.',
-      'When you select a country, the Milestones & Targets page and other sections will automatically update to show only information related to the chosen country.',
-      'To view data for all countries, select "All countries" (default option).',
-    ],
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'How to compare two countries?',
-    resposta: [
-      'Go to the "Countries" section and click "Compare Countries", or access directly from the side menu.',
-      'Select Country A and Country B from the available country grid.',
-      'The system automatically calculates a comparative scorecard with 6 metrics (progress, total milestones, completed milestones, completion rate, allocated funds, and population) and determines the country with the best overall performance.',
-    ],
-    link: { rota: '/paises/comparar', texto: 'Compare Countries' },
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'How to enable dark mode?',
-    resposta: [
-      'Click the moon icon (🌙) in the top navigation bar to enable dark mode.',
-      'Click the sun icon (☀️) to return to light mode.',
-      'The preference is automatically saved and maintained between sessions.',
-    ],
-  },
-  {
-    categoria: 'funcionalidades',
-    pergunta: 'Do charts update with filters?',
-    resposta: [
-      'Yes. On the Milestones & Targets page, the "Progress by Pillar" and "Distribution by Status" charts automatically update whenever you apply or remove country, sector, or status filters.',
-      'This allows you to quickly visualize the performance of a specific country or sector.',
-    ],
-    link: { rota: '/marcos', texto: 'View charts on Milestones & Targets' },
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'How to export data as CSV or JSON?',
-    resposta: [
-      'On the Milestones & Targets page, click "Export Data" in the hero section or use the "⬇ CSV" / "⬇ JSON" buttons in the complete table.',
-      'The export applies the active filters: if you have filtered for Portugal, the exported CSV/JSON will contain only Portuguese milestones.',
-      'CSV format is ideal for opening in Excel or Google Sheets. JSON format is suitable for programmatic analysis or integration with other tools.',
-    ],
-    link: { rota: '/marcos', texto: 'Go to Milestones & Targets' },
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'How to export a chart as an image?',
-    resposta: [
-      'On each chart on the Milestones & Targets page, there is a "📥 PNG" button in the top right corner.',
-      'Clicking it exports the chart as a PNG image with a white background, ready to use in presentations or reports.',
-      'The exported image reflects the current state of the chart, including applied filters.',
-    ],
-  },
-  {
-    categoria: 'exportacao',
-    pergunta: 'What data formats are available?',
-    resposta: [
-      'Milestones & Targets data are available as CSV, JSON and PDF.',
-      'Disbursements data are available as CSV, JSON and PDF.',
-      'Charts are available as PNG (high-quality image with white background).',
-      'Common Indicators data are available with per‑indicator export options.',
-    ],
-  },
-]
-
-// Perguntas consoante idioma atual
-const perguntas = computed(() => {
-  return appStore.idioma === 'pt' ? perguntasDataPt : perguntasDataEn
-})
-
+const perguntas = computed(() => appStore.t.faq_perguntas || [])
 const perguntasFiltradas = computed(() =>
   perguntas.value.filter(p => p.categoria === categoriaActiva.value)
 )
 
-function toggle(i) {
-  if (abertos.value.includes(i)) {
-    abertos.value = abertos.value.filter(x => x !== i)
+function toggle(id) {
+  if (abertos.value.includes(id)) {
+    abertos.value = abertos.value.filter(x => x !== id)
   } else {
-    abertos.value = [...abertos.value, i]
+    abertos.value = [...abertos.value, id]
   }
 }
 
-// Reset abertos quando muda categoria
 watch(categoriaActiva, () => {
-  abertos.value = [0]
+  abertos.value = []
 })
 
 onMounted(() => {
@@ -400,6 +121,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* ESTILOS ORIGINAIS – NÃO MEXIDOS */
 .faq-container { margin: -2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
 
 /* HERO */
