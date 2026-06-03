@@ -370,6 +370,7 @@ const revealScore = ref(false)
 const revealVencedor = ref(false)
 const revealMarcos = ref(false)
 const loadingMarcos = ref(false)
+const erroAPI = ref(null)
 const erroAPITexto = computed(() => {
   if (!erroAPI.value) return ''
   return appStore.t.comparar_erro_api
@@ -380,7 +381,7 @@ const paisesTraduzidos = computed(() => {
   const isPt = appStore.idioma === 'pt'
   return paisesRaw.value.map(p => ({
     ...p,
-    nome: isPt ? p.nome_pt : p.nome_en,
+    nome: isPt ? (p.nome_pt || p.nome) : (p.nome_en || p.nome),
     capital: isPt ? p.capital_pt : p.capital_en,
     populacao: isPt ? p.populacao_pt : p.populacao_en,
     totalFundos: isPt ? p.totalFundos_pt : p.totalFundos_en,
